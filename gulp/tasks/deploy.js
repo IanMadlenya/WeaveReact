@@ -5,6 +5,6 @@ var path = require("path");
 gulp.task('deploy', function () {
     var webpackConfig = require("../../webpack.config.js");
     var config = Object.create(webpackConfig);
-    return gulp.src(path.join(config.context, '/build/**/*'))
+    return gulp.src(path.join(config.context, '/demo/**/*'))
         .pipe(ghPages());
 });
