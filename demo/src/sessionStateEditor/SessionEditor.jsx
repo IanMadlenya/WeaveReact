@@ -1,5 +1,5 @@
 import React from "react";
-import reactweave from "reactweave";
+import weavereact from "weavereact";
 import weavejs from "weavejs";
 import SessionEditorConfig from "./SessionEditorConfig";
 
@@ -51,7 +51,7 @@ class SessionEditor extends React.Component {
 
     var treeUI = "";
     if(this.tree){
-        treeUI = <reactweave.Tree data={this.tree} label="label" nodes="children"  clickCallback={this.nodeClick} settings={this.settings.treeConfig}/>
+        treeUI = <weavereact.Tree data={this.tree} label="label" nodes="children"  clickCallback={this.nodeClick} settings={this.settings.treeConfig}/>
     }
 
     var treeContainerStyle = {
@@ -79,7 +79,7 @@ class SessionEditor extends React.Component {
          padding:"4px"
     }
 
-    return ( <reactweave.Modal settings={this.settings.modalConfig}>
+    return ( <weavereact.Modal settings={this.settings.modalConfig}>
                 <div style={{display:"inline-block",width:"100%"}}>
                     <div style={treeContainerStyle}>
                         {treeUI}
@@ -89,7 +89,7 @@ class SessionEditor extends React.Component {
                     </span>
                 </div>
 
-            </reactweave.Modal>
+            </weavereact.Modal>
             );
     }
 

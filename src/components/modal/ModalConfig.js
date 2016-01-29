@@ -22,7 +22,7 @@ import ModalPanelConfig from "./ModalPanelConfig";
 
 
     //This Function makes this class as SessionClass
-    Weave.registerClass('admindesk.ModalConfig', ModalConfig);
+    Weave.registerClass('weavereact.ModalConfig', ModalConfig);
 
     module.exports = ModalConfig;
 

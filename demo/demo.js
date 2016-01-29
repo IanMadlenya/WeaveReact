@@ -1,12 +1,12 @@
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
-		module.exports = factory(require("ReactDOM"), require("Weave"), require("weavejs"), require("reactweave"), require("React"));
+		module.exports = factory(require("ReactDOM"), require("Weave"), require("weavejs"), require("weavereact"), require("React"));
 	else if(typeof define === 'function' && define.amd)
-		define(["ReactDOM", "Weave", "weavejs", "reactweave", "React"], factory);
+		define(["ReactDOM", "Weave", "weavejs", "weavereact", "React"], factory);
 	else if(typeof exports === 'object')
-		exports["reactweavedemo"] = factory(require("ReactDOM"), require("Weave"), require("weavejs"), require("reactweave"), require("React"));
+		exports["weavereactdemo"] = factory(require("ReactDOM"), require("Weave"), require("weavejs"), require("weavereact"), require("React"));
 	else
-		root["reactweavedemo"] = factory(root["ReactDOM"], root["Weave"], root["weavejs"], root["reactweave"], root["React"]);
+		root["weavereactdemo"] = factory(root["ReactDOM"], root["Weave"], root["weavejs"], root["weavereact"], root["React"]);
 })(this, function(__WEBPACK_EXTERNAL_MODULE_1__, __WEBPACK_EXTERNAL_MODULE_2__, __WEBPACK_EXTERNAL_MODULE_3__, __WEBPACK_EXTERNAL_MODULE_4__, __WEBPACK_EXTERNAL_MODULE_6__) {
 return /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
@@ -68,9 +68,9 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _weavejs2 = _interopRequireDefault(_weavejs);
 
-	var _reactweave = __webpack_require__(4);
+	var _weavereact = __webpack_require__(4);
 
-	var _reactweave2 = _interopRequireDefault(_reactweave);
+	var _weavereact2 = _interopRequireDefault(_weavereact);
 
 	var _App = __webpack_require__(5);
 
@@ -175,7 +175,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	                var sessionName = sessionChildren[i];
 	                var sessionObj = this.props.root.getObject(sessionName);
 	                var configClassName = Weave.getPath(sessionObj).getType();
-	                var ToolClass = reactweave.getToolForConfigName(configClassName);
+	                var ToolClass = weavereact.getToolForConfigName(configClassName);
 	                var ui;
 	                if (ToolClass) {
 	                    ui = _react2.default.createElement(ToolClass, { settings: sessionObj, index: i, key: i });
@@ -222,9 +222,9 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _reactweave = __webpack_require__(4);
+	var _weavereact = __webpack_require__(4);
 
-	var _reactweave2 = _interopRequireDefault(_reactweave);
+	var _weavereact2 = _interopRequireDefault(_weavereact);
 
 	var _weavejs = __webpack_require__(3);
 
@@ -296,7 +296,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	            var treeUI = "";
 	            if (this.tree) {
-	                treeUI = _react2.default.createElement(_reactweave2.default.Tree, { data: this.tree, label: "label", nodes: "children", clickCallback: this.nodeClick, settings: this.settings.treeConfig });
+	                treeUI = _react2.default.createElement(_weavereact2.default.Tree, { data: this.tree, label: "label", nodes: "children", clickCallback: this.nodeClick, settings: this.settings.treeConfig });
 	            }
 
 	            var treeContainerStyle = {
@@ -325,7 +325,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	            };
 
 	            return _react2.default.createElement(
-	                _reactweave2.default.Modal,
+	                _weavereact2.default.Modal,
 	                { settings: this.settings.modalConfig },
 	                _react2.default.createElement(
 	                    "div",
@@ -360,9 +360,9 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _weavejs2 = _interopRequireDefault(_weavejs);
 
-	var _reactweave = __webpack_require__(4);
+	var _weavereact = __webpack_require__(4);
 
-	var _reactweave2 = _interopRequireDefault(_reactweave);
+	var _weavereact2 = _interopRequireDefault(_weavereact);
 
 	var _Weave = __webpack_require__(2);
 
@@ -377,7 +377,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        Object.defineProperties(this, {
 
 	            "treeConfig": {
-	                value: _Weave2.default.linkableChild(this, new _reactweave2.default.TreeConfig())
+	                value: _Weave2.default.linkableChild(this, new _weavereact2.default.TreeConfig())
 	            },
 	            showTree: {
 	                value: new _weavejs2.default.core.LinkableBoolean(false)
@@ -389,7 +389,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        });
 	    }
 
-	    _Weave2.default.registerClass('reactweavedemo.SessionEditorConfig', SessionEditorConfig);
+	    _Weave2.default.registerClass('weavereactdemo.SessionEditorConfig', SessionEditorConfig);
 
 	    module.exports = SessionEditorConfig;
 	})(module);

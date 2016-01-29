@@ -1,7 +1,7 @@
 import ReactDOM from "react-dom";
 import Weave from "Weave";
 import weavejs from "weavejs";
-import reactweave from "reactweave";
+import weavereact from "weavereact";
 import App from "./App";
 
 

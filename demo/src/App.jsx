@@ -27,7 +27,7 @@ class App extends React.Component {
             var sessionName = sessionChildren[i];
             var sessionObj = this.props.root.getObject(sessionName);
             var configClassName = Weave.getPath(sessionObj).getType();
-            var ToolClass = reactweave.getToolForConfigName(configClassName);
+            var ToolClass = weavereact.getToolForConfigName(configClassName);
              var ui;
             if(ToolClass){
                 ui = <ToolClass settings={sessionObj} index={i}  key={i}/>

@@ -43,7 +43,7 @@ import App from "../utils/App";
         return App.getStateFor(this, properties);
     }
 
-    Weave.registerClass('admindesk.PositionConfig', PositionConfig);
+    Weave.registerClass('weavereact.PositionConfig', PositionConfig);
 
     module.exports = PositionConfig;
 

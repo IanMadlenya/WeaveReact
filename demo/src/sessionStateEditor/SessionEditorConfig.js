@@ -1,5 +1,5 @@
 import weavejs from "weavejs";
-import reactweave from "reactweave";
+import weavereact from "weavereact";
 import Weave from "Weave";
 
 
@@ -12,7 +12,7 @@ import Weave from "Weave";
         Object.defineProperties(this, {
 
             "treeConfig": {
-                value: Weave.linkableChild(this, new reactweave.TreeConfig())
+                value: Weave.linkableChild(this, new weavereact.TreeConfig())
             },
             showTree: {
                 value: new weavejs.core.LinkableBoolean(false)
@@ -28,7 +28,7 @@ import Weave from "Weave";
 
 
 
-    Weave.registerClass('reactweavedemo.SessionEditorConfig', SessionEditorConfig);
+    Weave.registerClass('weavereactdemo.SessionEditorConfig', SessionEditorConfig);
 
     module.exports = SessionEditorConfig;
 

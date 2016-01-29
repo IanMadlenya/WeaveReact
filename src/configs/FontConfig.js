@@ -34,7 +34,7 @@ import App from "../utils/App";
         return App.getStateFor(this, properties);
     }
 
-    Weave.registerClass('admindesk.FontConfig', FontConfig);
+    Weave.registerClass('weavereact.FontConfig', FontConfig);
 
     module.exports = FontConfig;
 

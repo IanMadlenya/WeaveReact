@@ -4,9 +4,9 @@
 	else if(typeof define === 'function' && define.amd)
 		define(["ReactDOM", "Weave", "weavejs", "React"], factory);
 	else if(typeof exports === 'object')
-		exports["reactweave"] = factory(require("ReactDOM"), require("Weave"), require("weavejs"), require("React"));
+		exports["weavereact"] = factory(require("ReactDOM"), require("Weave"), require("weavejs"), require("React"));
 	else
-		root["reactweave"] = factory(root["ReactDOM"], root["Weave"], root["weavejs"], root["React"]);
+		root["weavereact"] = factory(root["ReactDOM"], root["Weave"], root["weavejs"], root["React"]);
 })(this, function(__WEBPACK_EXTERNAL_MODULE_1__, __WEBPACK_EXTERNAL_MODULE_2__, __WEBPACK_EXTERNAL_MODULE_3__, __WEBPACK_EXTERNAL_MODULE_11__) {
 return /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
@@ -237,7 +237,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    };
 
 	    //This Function makes this class as SessionClass
-	    _Weave2.default.registerClass('reactweave.TreeConfig', TreeConfig);
+	    _Weave2.default.registerClass('weavereact.TreeConfig', TreeConfig);
 
 	    module.exports = TreeConfig;
 	})(module);
@@ -282,7 +282,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }
 
 	    //This Function makes this class as SessionClass
-	    _Weave2.default.registerClass('admindesk.ModalConfig', ModalConfig);
+	    _Weave2.default.registerClass('weavereact.ModalConfig', ModalConfig);
 
 	    module.exports = ModalConfig;
 	})(module);
@@ -359,7 +359,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    };
 
 	    //This Function makes this class as SessionClass
-	    _Weave2.default.registerClass('admindesk.ModalPanelConfig', ModalPanelConfig);
+	    _Weave2.default.registerClass('weavereact.ModalPanelConfig', ModalPanelConfig);
 
 	    module.exports = ModalPanelConfig;
 	})(module);
@@ -412,7 +412,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        return _App2.default.getStateFor(this, properties);
 	    };
 
-	    _Weave2.default.registerClass('admindesk.BorderConfig', BorderConfig);
+	    _Weave2.default.registerClass('weavereact.BorderConfig', BorderConfig);
 
 	    module.exports = BorderConfig;
 	})(module);
@@ -983,4 +983,4 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/ ])
 });
 ;
-//# sourceMappingURL=reactweave.js.map
+//# sourceMappingURL=weavereact.js.map

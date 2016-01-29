@@ -8,9 +8,9 @@ module.exports = {
     },
     output: {
         path: path.join(__dirname, "build/"),
-        filename: "reactweave.js",
+        filename: "weavereact.js",
         publicPath: "js/",
-        library: "reactweave",
+        library: "weavereact",
         libraryTarget: "umd",
     },
     module: {

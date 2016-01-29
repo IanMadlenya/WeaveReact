@@ -31,7 +31,7 @@ import App from "../utils/App";
         return App.getStateFor(this, properties);
     }
 
-    Weave.registerClass('admindesk.BorderConfig', BorderConfig);
+    Weave.registerClass('weavereact.BorderConfig', BorderConfig);
 
     module.exports = BorderConfig;
 

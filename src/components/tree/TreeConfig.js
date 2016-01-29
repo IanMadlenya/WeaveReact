@@ -66,7 +66,7 @@ import Weave from "Weave";
     }
 
     //This Function makes this class as SessionClass
-    Weave.registerClass('reactweave.TreeConfig', TreeConfig);
+    Weave.registerClass('weavereact.TreeConfig', TreeConfig);
 
     module.exports = TreeConfig;
 

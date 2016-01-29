@@ -55,7 +55,7 @@ import BorderConfig from "../../configs/BorderConfig";
     }
 
     //This Function makes this class as SessionClass
-    Weave.registerClass('admindesk.ModalPanelConfig', ModalPanelConfig);
+    Weave.registerClass('weavereact.ModalPanelConfig', ModalPanelConfig);
 
     module.exports = ModalPanelConfig;
 

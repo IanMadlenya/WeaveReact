@@ -10,7 +10,7 @@ module.exports = {
         path: path.join(__dirname, "demo/"),
         filename: "demo.js",
         publicPath: "js/",
-        library: "reactweavedemo",
+        library: "weavereactdemo",
         libraryTarget: "umd",
     },
     module: {
@@ -34,7 +34,7 @@ module.exports = {
         "react-dom": "ReactDOM",
         "weavejs": "weavejs",
         "Weave": "Weave",
-        "reactweave": "reactweave"
+        "weavereact": "weavereact"
     },
     resolve: {
         extensions: ["", ".js", ".jsx", ".scss", ".md"]
