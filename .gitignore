@@ -1,7 +1,15 @@
-# https://git-scm.com/docs/gitignore
-# https://help.github.com/articles/ignoring-files
-# Example .gitignore files: https://github.com/github/gitignore
-.idea
-node_modules/
-/.publish/
-/.DS_Store
+*~
+.DS_Store
+npm-debug.log*
+node_modules
+amd/
+!tools/amd/
+lib/
+!tools/lib/
+dist/
+!tools/dist/
+docs-built/
+tmp-bower-repo/
+tmp-docs-repo/
+.babel-cache/
+.coverage/
