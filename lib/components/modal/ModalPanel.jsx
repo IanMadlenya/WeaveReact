@@ -8,6 +8,10 @@ var _interopRequireDefault = require("babel-runtime/helpers/interop-require-defa
 
 exports.__esModule = true;
 
+var _react = require("react");
+
+var _react2 = _interopRequireDefault(_react);
+
 var _ModalPanelConfig = require("./ModalPanelConfig");
 
 var _ModalPanelConfig2 = _interopRequireDefault(_ModalPanelConfig);
@@ -61,27 +65,27 @@ var ModalPanel = (function (_React$Component) {
         layoutStyle["position"] = 'absolute';
         this.sessionOpen.value ? layoutStyle["display"] = 'block' : layoutStyle["display"] = 'none';
 
-        return React.createElement(
+        return _react2["default"].createElement(
             "div",
             { style: layoutStyle },
-            React.createElement(
+            _react2["default"].createElement(
                 "div",
                 { className: "modal-content" },
-                React.createElement(
+                _react2["default"].createElement(
                     "div",
                     { className: "modal-header" },
-                    React.createElement(
+                    _react2["default"].createElement(
                         "button",
                         { type: "button", className: "close", onClick: this.closeModal },
                         "×"
                     ),
-                    React.createElement(
+                    _react2["default"].createElement(
                         "h4",
                         { className: "modal-title" },
                         "Title"
                     )
                 ),
-                React.createElement(
+                _react2["default"].createElement(
                     "div",
                     { className: "modal-body", style: bodyStyle },
                     this.props.children
@@ -91,7 +95,7 @@ var ModalPanel = (function (_React$Component) {
     };
 
     return ModalPanel;
-})(React.Component);
+})(_react2["default"].Component);
 
 exports["default"] = ModalPanel;
 module.exports = exports["default"];

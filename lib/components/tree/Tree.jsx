@@ -8,6 +8,10 @@ var _interopRequireDefault = require("babel-runtime/helpers/interop-require-defa
 
 exports.__esModule = true;
 
+var _react = require("react");
+
+var _react2 = _interopRequireDefault(_react);
+
 var _utilsApp = require("../../utils/App");
 
 var _utilsApp2 = _interopRequireDefault(_utilsApp);
@@ -98,7 +102,7 @@ var Tree = (function (_React$Component) {
                 for (var i = 0; i < nodes.length; i++) {
                     var treeItem = treeNodes[i];
                     var treeConfig = this.settings.children.getObject(nodes[i]);
-                    nodesUI.push(React.createElement(Tree, { key: i, data: treeItem, label: this.props.label, nodes: this.props.nodes, settings: treeConfig, clickCallback: this.props.clickCallback }));
+                    nodesUI.push(_react2["default"].createElement(Tree, { key: i, data: treeItem, label: this.props.label, nodes: this.props.nodes, settings: treeConfig, clickCallback: this.props.clickCallback }));
                 }
             }
         }
@@ -108,17 +112,17 @@ var Tree = (function (_React$Component) {
         if (nodes.length > 0) {
             //folder
 
-            nodeUI = React.createElement(
+            nodeUI = _react2["default"].createElement(
                 "span",
                 null,
-                React.createElement(
+                _react2["default"].createElement(
                     "span",
                     { onClick: this.toggle },
-                    React.createElement("i", { className: folderIcon, style: nodeIconStyleObject }),
+                    _react2["default"].createElement("i", { className: folderIcon, style: nodeIconStyleObject }),
                     " ",
                     this.settings.label.value
                 ),
-                React.createElement(
+                _react2["default"].createElement(
                     "ul",
                     { style: { listStyleType: "none" } },
                     nodesUI
@@ -128,10 +132,10 @@ var Tree = (function (_React$Component) {
             //leaf
             var leaf = this.settings.label.value;
             var fileIcon = this.settings.getFileIcon(this.props.data.data.value);
-            nodeUI = React.createElement(
+            nodeUI = _react2["default"].createElement(
                 "li",
                 { onClick: this.toggle },
-                React.createElement("i", { className: fileIcon }),
+                _react2["default"].createElement("i", { className: fileIcon }),
                 " ",
                 leaf
             );
@@ -141,7 +145,7 @@ var Tree = (function (_React$Component) {
     };
 
     return Tree;
-})(React.Component);
+})(_react2["default"].Component);
 
 _utilsApp2["default"].registerToolImplementation("reactweave.TreeConfig", Tree);
 exports["default"] = Tree;
