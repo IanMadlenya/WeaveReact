@@ -2,7 +2,7 @@
     "name": "weavereact",
     "version": "1.0.0",
     "description": "components built with react",
-    "main": "src/index.js",
+    "main": "dist/weavereact.js",
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1"
     },

@@ -7,11 +7,11 @@ module.exports = {
         app: "./src/index.js"
     },
     output: {
-        path: path.join(__dirname, "build/"),
+        path: path.join(__dirname, "dist/"),
         filename: "weavereact.js",
         publicPath: "js/",
         library: "weavereact",
-        libraryTarget: "umd",
+        libraryTarget: "umd"
     },
     module: {
         loaders: [
