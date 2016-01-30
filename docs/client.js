@@ -6,8 +6,8 @@ import './assets/javascript';
 import createBrowserHistory from 'history/lib/createBrowserHistory';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Weave from 'Weave';
-import weavejs from 'weavejs';
+//import Weave from 'Weave'; //libraries part of NPM Comes here weave is still not part of NPM in nodemodules
+//import weavejs from 'weavejs';
 import {
     Router
 }
