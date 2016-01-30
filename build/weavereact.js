@@ -1,13 +1,13 @@
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
-		module.exports = factory(require("ReactDOM"), require("Weave"), require("weavejs"), require("React"));
+		module.exports = factory(require("weavejs"), require("Weave"), require("React"));
 	else if(typeof define === 'function' && define.amd)
-		define(["ReactDOM", "Weave", "weavejs", "React"], factory);
+		define(["weavejs", "Weave", "React"], factory);
 	else if(typeof exports === 'object')
-		exports["weavereact"] = factory(require("ReactDOM"), require("Weave"), require("weavejs"), require("React"));
+		exports["weavereact"] = factory(require("weavejs"), require("Weave"), require("React"));
 	else
-		root["weavereact"] = factory(root["ReactDOM"], root["Weave"], root["weavejs"], root["React"]);
-})(this, function(__WEBPACK_EXTERNAL_MODULE_1__, __WEBPACK_EXTERNAL_MODULE_2__, __WEBPACK_EXTERNAL_MODULE_3__, __WEBPACK_EXTERNAL_MODULE_11__) {
+		root["weavereact"] = factory(root["weavejs"], root["Weave"], root["React"]);
+})(this, function(__WEBPACK_EXTERNAL_MODULE_3__, __WEBPACK_EXTERNAL_MODULE_4__, __WEBPACK_EXTERNAL_MODULE_10__) {
 return /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
@@ -56,37 +56,25 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	"use strict";
 
-	var _reactDom = __webpack_require__(1);
-
-	var _reactDom2 = _interopRequireDefault(_reactDom);
-
-	var _Weave = __webpack_require__(2);
-
-	var _Weave2 = _interopRequireDefault(_Weave);
-
-	var _weavejs = __webpack_require__(3);
-
-	var _weavejs2 = _interopRequireDefault(_weavejs);
-
-	var _App = __webpack_require__(4);
-
-	var _App2 = _interopRequireDefault(_App);
-
-	var _TreeConfig = __webpack_require__(6);
+	var _TreeConfig = __webpack_require__(1);
 
 	var _TreeConfig2 = _interopRequireDefault(_TreeConfig);
 
-	var _ModalConfig = __webpack_require__(7);
+	var _ModalConfig = __webpack_require__(5);
 
 	var _ModalConfig2 = _interopRequireDefault(_ModalConfig);
 
-	var _Tree = __webpack_require__(10);
+	var _Tree = __webpack_require__(9);
 
 	var _Tree2 = _interopRequireDefault(_Tree);
 
-	var _Modal = __webpack_require__(15);
+	var _Modal = __webpack_require__(14);
 
 	var _Modal2 = _interopRequireDefault(_Modal);
+
+	var _App = __webpack_require__(8);
+
+	var _App2 = _interopRequireDefault(_App);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -105,64 +93,6 @@ return /******/ (function(modules) { // webpackBootstrap
 
 /***/ },
 /* 1 */
-/***/ function(module, exports) {
-
-	module.exports = __WEBPACK_EXTERNAL_MODULE_1__;
-
-/***/ },
-/* 2 */
-/***/ function(module, exports) {
-
-	module.exports = __WEBPACK_EXTERNAL_MODULE_2__;
-
-/***/ },
-/* 3 */
-/***/ function(module, exports) {
-
-	module.exports = __WEBPACK_EXTERNAL_MODULE_3__;
-
-/***/ },
-/* 4 */
-/***/ function(module, exports, __webpack_require__) {
-
-	/* WEBPACK VAR INJECTION */(function(module) {"use strict";
-
-	(function (module) {
-
-	    function App() {}
-
-	    var toolRegistry = {};
-
-	    App.registerToolImplementation = function (asClassName, jsClass) {
-	        if (!toolRegistry[asClassName]) toolRegistry[asClassName] = jsClass;
-	    };
-
-	    App.getToolImplementation = function (asClassName) {
-	        return toolRegistry[asClassName];
-	    };
-
-	    module.exports = App;
-	})(module);
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(5)(module)))
-
-/***/ },
-/* 5 */
-/***/ function(module, exports) {
-
-	module.exports = function(module) {
-		if(!module.webpackPolyfill) {
-			module.deprecate = function() {};
-			module.paths = [];
-			// module.parent = undefined by default
-			module.children = [];
-			module.webpackPolyfill = 1;
-		}
-		return module;
-	}
-
-
-/***/ },
-/* 6 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(module) {"use strict";
@@ -171,7 +101,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _weavejs2 = _interopRequireDefault(_weavejs);
 
-	var _Weave = __webpack_require__(2);
+	var _Weave = __webpack_require__(4);
 
 	var _Weave2 = _interopRequireDefault(_Weave);
 
@@ -241,10 +171,38 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	    module.exports = TreeConfig;
 	})(module);
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(5)(module)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(2)(module)))
 
 /***/ },
-/* 7 */
+/* 2 */
+/***/ function(module, exports) {
+
+	module.exports = function(module) {
+		if(!module.webpackPolyfill) {
+			module.deprecate = function() {};
+			module.paths = [];
+			// module.parent = undefined by default
+			module.children = [];
+			module.webpackPolyfill = 1;
+		}
+		return module;
+	}
+
+
+/***/ },
+/* 3 */
+/***/ function(module, exports) {
+
+	module.exports = __WEBPACK_EXTERNAL_MODULE_3__;
+
+/***/ },
+/* 4 */
+/***/ function(module, exports) {
+
+	module.exports = __WEBPACK_EXTERNAL_MODULE_4__;
+
+/***/ },
+/* 5 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(module) {"use strict";
@@ -253,11 +211,11 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _weavejs2 = _interopRequireDefault(_weavejs);
 
-	var _Weave = __webpack_require__(2);
+	var _Weave = __webpack_require__(4);
 
 	var _Weave2 = _interopRequireDefault(_Weave);
 
-	var _ModalPanelConfig = __webpack_require__(8);
+	var _ModalPanelConfig = __webpack_require__(6);
 
 	var _ModalPanelConfig2 = _interopRequireDefault(_ModalPanelConfig);
 
@@ -286,10 +244,10 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	    module.exports = ModalConfig;
 	})(module);
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(5)(module)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(2)(module)))
 
 /***/ },
-/* 8 */
+/* 6 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(module) {"use strict";
@@ -298,11 +256,11 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _weavejs2 = _interopRequireDefault(_weavejs);
 
-	var _Weave = __webpack_require__(2);
+	var _Weave = __webpack_require__(4);
 
 	var _Weave2 = _interopRequireDefault(_Weave);
 
-	var _BorderConfig = __webpack_require__(9);
+	var _BorderConfig = __webpack_require__(7);
 
 	var _BorderConfig2 = _interopRequireDefault(_BorderConfig);
 
@@ -363,10 +321,10 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	    module.exports = ModalPanelConfig;
 	})(module);
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(5)(module)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(2)(module)))
 
 /***/ },
-/* 9 */
+/* 7 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(module) {"use strict";
@@ -375,11 +333,11 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _weavejs2 = _interopRequireDefault(_weavejs);
 
-	var _Weave = __webpack_require__(2);
+	var _Weave = __webpack_require__(4);
 
 	var _Weave2 = _interopRequireDefault(_Weave);
 
-	var _App = __webpack_require__(4);
+	var _App = __webpack_require__(8);
 
 	var _App2 = _interopRequireDefault(_App);
 
@@ -416,10 +374,34 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	    module.exports = BorderConfig;
 	})(module);
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(5)(module)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(2)(module)))
 
 /***/ },
-/* 10 */
+/* 8 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/* WEBPACK VAR INJECTION */(function(module) {"use strict";
+
+	(function (module) {
+
+	    function App() {}
+
+	    var toolRegistry = {};
+
+	    App.registerToolImplementation = function (asClassName, jsClass) {
+	        if (!toolRegistry[asClassName]) toolRegistry[asClassName] = jsClass;
+	    };
+
+	    App.getToolImplementation = function (asClassName) {
+	        return toolRegistry[asClassName];
+	    };
+
+	    module.exports = App;
+	})(module);
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(2)(module)))
+
+/***/ },
+/* 9 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -430,7 +412,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    value: true
 	});
 
-	var _react = __webpack_require__(11);
+	var _react = __webpack_require__(10);
 
 	var _react2 = _interopRequireDefault(_react);
 
@@ -438,15 +420,15 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _weavejs2 = _interopRequireDefault(_weavejs);
 
-	var _App = __webpack_require__(4);
+	var _App = __webpack_require__(8);
 
 	var _App2 = _interopRequireDefault(_App);
 
-	var _Style = __webpack_require__(12);
+	var _Style = __webpack_require__(11);
 
 	var _Style2 = _interopRequireDefault(_Style);
 
-	var _TreeConfig = __webpack_require__(6);
+	var _TreeConfig = __webpack_require__(1);
 
 	var _TreeConfig2 = _interopRequireDefault(_TreeConfig);
 
@@ -597,18 +579,18 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.default = Tree;
 
 /***/ },
-/* 11 */
+/* 10 */
 /***/ function(module, exports) {
 
-	module.exports = __WEBPACK_EXTERNAL_MODULE_11__;
+	module.exports = __WEBPACK_EXTERNAL_MODULE_10__;
 
 /***/ },
-/* 12 */
+/* 11 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(module) {'use strict';
 
-	var _appendVendorPrefix = __webpack_require__(13);
+	var _appendVendorPrefix = __webpack_require__(12);
 
 	var _appendVendorPrefix2 = _interopRequireDefault(_appendVendorPrefix);
 
@@ -671,15 +653,15 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	    module.exports = Style;
 	})(module);
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(5)(module)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(2)(module)))
 
 /***/ },
-/* 13 */
+/* 12 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var getVendorPropertyName = __webpack_require__(14);
+	var getVendorPropertyName = __webpack_require__(13);
 
 	module.exports = function (target, sources) {
 	    var to = Object(target);
@@ -709,7 +691,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	};
 
 /***/ },
-/* 14 */
+/* 13 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -738,7 +720,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	};
 
 /***/ },
-/* 15 */
+/* 14 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -749,7 +731,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    value: true
 	});
 
-	var _react = __webpack_require__(11);
+	var _react = __webpack_require__(10);
 
 	var _react2 = _interopRequireDefault(_react);
 
@@ -757,15 +739,15 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _weavejs2 = _interopRequireDefault(_weavejs);
 
-	var _Style = __webpack_require__(12);
+	var _Style = __webpack_require__(11);
 
 	var _Style2 = _interopRequireDefault(_Style);
 
-	var _ModalConfig = __webpack_require__(7);
+	var _ModalConfig = __webpack_require__(5);
 
 	var _ModalConfig2 = _interopRequireDefault(_ModalConfig);
 
-	var _ModalPanel = __webpack_require__(16);
+	var _ModalPanel = __webpack_require__(15);
 
 	var _ModalPanel2 = _interopRequireDefault(_ModalPanel);
 
@@ -856,7 +838,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.default = Modal;
 
 /***/ },
-/* 16 */
+/* 15 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -867,7 +849,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    value: true
 	});
 
-	var _react = __webpack_require__(11);
+	var _react = __webpack_require__(10);
 
 	var _react2 = _interopRequireDefault(_react);
 
@@ -875,7 +857,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _weavejs2 = _interopRequireDefault(_weavejs);
 
-	var _ModalPanelConfig = __webpack_require__(8);
+	var _ModalPanelConfig = __webpack_require__(6);
 
 	var _ModalPanelConfig2 = _interopRequireDefault(_ModalPanelConfig);
 
