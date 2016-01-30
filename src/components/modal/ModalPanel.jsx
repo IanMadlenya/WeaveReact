@@ -1,5 +1,4 @@
-import React from "react";
-import weavejs from "weavejs";
+
 
 import ModalPanelConfig from "./ModalPanelConfig";
 

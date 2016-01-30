@@ -1,5 +1,4 @@
 import React from "react";
-import weavejs from "weavejs";
 
 import Style from "../../utils/Style";
 import ModalConfig from "./ModalConfig";

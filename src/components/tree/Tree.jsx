@@ -1,5 +1,4 @@
-import React from "react";
-import weavejs from "weavejs";
+
 import App from "../../utils/App";
 import Styles from "../../utils/Style";
 import TreeConfig from "./TreeConfig";

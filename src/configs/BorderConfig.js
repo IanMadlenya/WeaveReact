@@ -1,5 +1,3 @@
-import weavejs from "weavejs";
-import Weave from "Weave";
 import App from "../utils/App";
 
 (function (module) {
