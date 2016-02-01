@@ -15,11 +15,23 @@ class Tree extends React.Component {
     }
 
     componentDidMount(){
-        Weave.getCallbacks(this.settings.open).addGroupedCallback(this, this.forceUpdate);
+        this.settings.open.addImmediateCallback(this, this.forceUpdate);
+        this.settings.children.childListCallbacks.addImmediateCallback(this, this.forceUpdate);
+        this.settings.folderIcon.addImmediateCallback(this, this.forceUpdate);
+        this.settings.folderOpenIcon.addImmediateCallback(this, this.forceUpdate);
+        this.settings.fileIcon.addImmediateCallback(this, this.forceUpdate);
+        this.settings.fileOpenIcon.addImmediateCallback(this, this.forceUpdate);
+         this.settings.label.addImmediateCallback(this, this.forceUpdate);
     }
 
     componentWillUnmount () {
-        Weave.getCallbacks(this.settings.open).removeCallback(this, this.forceUpdate);
+        this.settings.open.removeCallback(this, this.forceUpdate);
+        this.settings.children.childListCallbacks.removeCallback(this, this.forceUpdate);
+        this.settings.folderIcon.removeCallback(this, this.forceUpdate);
+        this.settings.folderOpenIcon.removeCallback(this, this.forceUpdate);
+        this.settings.fileIcon.removeCallback(this, this.forceUpdate);
+        this.settings.fileOpenIcon.removeCallback(this, this.forceUpdate);
+        this.settings.label.removeCallback(this, this.forceUpdate);
     }
 
     toggle(){
@@ -29,7 +41,7 @@ class Tree extends React.Component {
     }
 
 
-setSessionStateFromTree() {
+    setSessionStateFromTree() {
         this.settings.label.value = this.getTreeLabel();
         var treeNodes = this.getTreeNodes();
         if (treeNodes && treeNodes.length !== this.settings.children.getNames().length) {
@@ -102,7 +114,10 @@ setSessionStateFromTree() {
         else{ //leaf
             var leaf = this.settings.label.value;
             var fileIcon = this.settings.getFileIcon(this.props.data.data.value);
-            nodeUI = <li onClick={this.toggle}><i className={fileIcon}></i>&#160;{leaf}</li>
+            if(fileIcon.indexOf("fa fa-") > 0)
+                nodeUI = <li onClick={this.toggle}><i className={fileIcon}></i>&#160;{leaf}</li>
+            else
+                nodeUI = <li onClick={this.toggle}>{fileIcon}<i ></i>&#160;{leaf}</li>
         }
 
     return ( nodeUI);

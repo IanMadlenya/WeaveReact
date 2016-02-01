@@ -42,12 +42,12 @@
     p.getFileIcon = function (data) {
         if (this.enableTypeIcon.value) {
             if (typeof (data) === "string") {
-                return "fa fa-info";
+                return "S";
             } else if (typeof (data) === "number") {
-                return "fa fa-hashtag";
+                return "N";
 
             } else if (typeof (data) === "boolean") {
-                return "fa fa-flag";
+                return "B";
 
             }
 

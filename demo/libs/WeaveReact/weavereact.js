@@ -7,7 +7,7 @@
 		exports["weavereact"] = factory(require("react"));
 	else
 		root["weavereact"] = factory(root["React"]);
-})(this, function(__WEBPACK_EXTERNAL_MODULE_31__) {
+})(this, function(__WEBPACK_EXTERNAL_MODULE_27__) {
 return /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
@@ -70,7 +70,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _componentsTreeTree2 = _interopRequireDefault(_componentsTreeTree);
 
-	var _componentsModalModal = __webpack_require__(30);
+	var _componentsModalModal = __webpack_require__(31);
 
 	var _componentsModalModal2 = _interopRequireDefault(_componentsModalModal);
 
@@ -156,11 +156,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	    p.getFileIcon = function (data) {
 	        if (this.enableTypeIcon.value) {
 	            if (typeof data === "string") {
-	                return "fa fa-info";
+	                return "S";
 	            } else if (typeof data === "number") {
-	                return "fa fa-hashtag";
+	                return "N";
 	            } else if (typeof data === "boolean") {
-	                return "fa fa-flag";
+	                return "B";
 	            }
 	        }
 	        return this.fileIcon.value;
@@ -423,11 +423,15 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	exports.__esModule = true;
 
+	var _react = __webpack_require__(27);
+
+	var _react2 = _interopRequireDefault(_react);
+
 	var _utilsApp = __webpack_require__(10);
 
 	var _utilsApp2 = _interopRequireDefault(_utilsApp);
 
-	var _utilsStyle = __webpack_require__(27);
+	var _utilsStyle = __webpack_require__(28);
 
 	var _utilsStyle2 = _interopRequireDefault(_utilsStyle);
 
@@ -450,11 +454,23 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }
 
 	    Tree.prototype.componentDidMount = function componentDidMount() {
-	        Weave.getCallbacks(this.settings.open).addGroupedCallback(this, this.forceUpdate);
+	        this.settings.open.addImmediateCallback(this, this.forceUpdate);
+	        this.settings.children.childListCallbacks.addImmediateCallback(this, this.forceUpdate);
+	        this.settings.folderIcon.addImmediateCallback(this, this.forceUpdate);
+	        this.settings.folderOpenIcon.addImmediateCallback(this, this.forceUpdate);
+	        this.settings.fileIcon.addImmediateCallback(this, this.forceUpdate);
+	        this.settings.fileOpenIcon.addImmediateCallback(this, this.forceUpdate);
+	        this.settings.label.addImmediateCallback(this, this.forceUpdate);
 	    };
 
 	    Tree.prototype.componentWillUnmount = function componentWillUnmount() {
-	        Weave.getCallbacks(this.settings.open).removeCallback(this, this.forceUpdate);
+	        this.settings.open.removeCallback(this, this.forceUpdate);
+	        this.settings.children.childListCallbacks.removeCallback(this, this.forceUpdate);
+	        this.settings.folderIcon.removeCallback(this, this.forceUpdate);
+	        this.settings.folderOpenIcon.removeCallback(this, this.forceUpdate);
+	        this.settings.fileIcon.removeCallback(this, this.forceUpdate);
+	        this.settings.fileOpenIcon.removeCallback(this, this.forceUpdate);
+	        this.settings.label.removeCallback(this, this.forceUpdate);
 	    };
 
 	    Tree.prototype.toggle = function toggle() {
@@ -513,7 +529,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	                for (var i = 0; i < nodes.length; i++) {
 	                    var treeItem = treeNodes[i];
 	                    var treeConfig = this.settings.children.getObject(nodes[i]);
-	                    nodesUI.push(React.createElement(Tree, { key: i, data: treeItem, label: this.props.label, nodes: this.props.nodes, settings: treeConfig, clickCallback: this.props.clickCallback }));
+	                    nodesUI.push(_react2["default"].createElement(Tree, { key: i, data: treeItem, label: this.props.label, nodes: this.props.nodes, settings: treeConfig, clickCallback: this.props.clickCallback }));
 	                }
 	            }
 	        }
@@ -523,17 +539,17 @@ return /******/ (function(modules) { // webpackBootstrap
 	        if (nodes.length > 0) {
 	            //folder
 
-	            nodeUI = React.createElement(
+	            nodeUI = _react2["default"].createElement(
 	                "span",
 	                null,
-	                React.createElement(
+	                _react2["default"].createElement(
 	                    "span",
 	                    { onClick: this.toggle },
-	                    React.createElement("i", { className: folderIcon, style: nodeIconStyleObject }),
+	                    _react2["default"].createElement("i", { className: folderIcon, style: nodeIconStyleObject }),
 	                    " ",
 	                    this.settings.label.value
 	                ),
-	                React.createElement(
+	                _react2["default"].createElement(
 	                    "ul",
 	                    { style: { listStyleType: "none" } },
 	                    nodesUI
@@ -543,10 +559,17 @@ return /******/ (function(modules) { // webpackBootstrap
 	            //leaf
 	            var leaf = this.settings.label.value;
 	            var fileIcon = this.settings.getFileIcon(this.props.data.data.value);
-	            nodeUI = React.createElement(
+	            if (fileIcon.indexOf("fa fa-") > 0) nodeUI = _react2["default"].createElement(
 	                "li",
 	                { onClick: this.toggle },
-	                React.createElement("i", { className: fileIcon }),
+	                _react2["default"].createElement("i", { className: fileIcon }),
+	                " ",
+	                leaf
+	            );else nodeUI = _react2["default"].createElement(
+	                "li",
+	                { onClick: this.toggle },
+	                fileIcon,
+	                _react2["default"].createElement("i", null),
 	                " ",
 	                leaf
 	            );
@@ -556,7 +579,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    };
 
 	    return Tree;
-	})(React.Component);
+	})(_react2["default"].Component);
 
 	_utilsApp2["default"].registerToolImplementation("reactweave.TreeConfig", Tree);
 	exports["default"] = Tree;
@@ -792,13 +815,19 @@ return /******/ (function(modules) { // webpackBootstrap
 
 /***/ },
 /* 27 */
+/***/ function(module, exports) {
+
+	module.exports = __WEBPACK_EXTERNAL_MODULE_27__;
+
+/***/ },
+/* 28 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(module) {'use strict';
 
 	var _interopRequireDefault = __webpack_require__(1)['default'];
 
-	var _appendVendorPrefix = __webpack_require__(28);
+	var _appendVendorPrefix = __webpack_require__(29);
 
 	var _appendVendorPrefix2 = _interopRequireDefault(_appendVendorPrefix);
 
@@ -862,12 +891,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)(module)))
 
 /***/ },
-/* 28 */
+/* 29 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var getVendorPropertyName = __webpack_require__(29);
+	var getVendorPropertyName = __webpack_require__(30);
 
 	module.exports = function (target, sources) {
 	    var to = Object(target);
@@ -897,7 +926,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	};
 
 /***/ },
-/* 29 */
+/* 30 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -926,7 +955,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	};
 
 /***/ },
-/* 30 */
+/* 31 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -939,11 +968,11 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	exports.__esModule = true;
 
-	var _react = __webpack_require__(31);
+	var _react = __webpack_require__(27);
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _utilsStyle = __webpack_require__(27);
+	var _utilsStyle = __webpack_require__(28);
 
 	var _utilsStyle2 = _interopRequireDefault(_utilsStyle);
 
@@ -1025,12 +1054,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = exports["default"];
 
 /***/ },
-/* 31 */
-/***/ function(module, exports) {
-
-	module.exports = __WEBPACK_EXTERNAL_MODULE_31__;
-
-/***/ },
 /* 32 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -1043,6 +1066,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	var _interopRequireDefault = __webpack_require__(1)["default"];
 
 	exports.__esModule = true;
+
+	var _react = __webpack_require__(27);
+
+	var _react2 = _interopRequireDefault(_react);
 
 	var _ModalPanelConfig = __webpack_require__(8);
 
@@ -1097,27 +1124,27 @@ return /******/ (function(modules) { // webpackBootstrap
 	        layoutStyle["position"] = 'absolute';
 	        this.sessionOpen.value ? layoutStyle["display"] = 'block' : layoutStyle["display"] = 'none';
 
-	        return React.createElement(
+	        return _react2["default"].createElement(
 	            "div",
 	            { style: layoutStyle },
-	            React.createElement(
+	            _react2["default"].createElement(
 	                "div",
 	                { className: "modal-content" },
-	                React.createElement(
+	                _react2["default"].createElement(
 	                    "div",
 	                    { className: "modal-header" },
-	                    React.createElement(
+	                    _react2["default"].createElement(
 	                        "button",
 	                        { type: "button", className: "close", onClick: this.closeModal },
 	                        "×"
 	                    ),
-	                    React.createElement(
+	                    _react2["default"].createElement(
 	                        "h4",
 	                        { className: "modal-title" },
 	                        "Title"
 	                    )
 	                ),
-	                React.createElement(
+	                _react2["default"].createElement(
 	                    "div",
 	                    { className: "modal-body", style: bodyStyle },
 	                    this.props.children
@@ -1127,7 +1154,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    };
 
 	    return ModalPanel;
-	})(React.Component);
+	})(_react2["default"].Component);
 
 	exports["default"] = ModalPanel;
 	module.exports = exports["default"];

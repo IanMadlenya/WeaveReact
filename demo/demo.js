@@ -501,7 +501,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }
 
 	    SessionEditor.prototype.componentDidMount = function componentDidMount() {
-	        Weave.getCallbacks(this.settings).addGroupedCallback(this, this.forceUpdate);
+	        this.settings.showTree.addImmediateCallback(this, this.forceUpdate);
 	        this.settings.activeNodeValue.addImmediateCallback(this, this.forceUpdate);
 	        this.tree = _weavejs2["default"].WeaveAPI.SessionManager.getSessionStateTree(this.props.sessionState);
 	        this.tree.label = "Weave";
@@ -509,7 +509,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    };
 
 	    SessionEditor.prototype.componentWillUnmount = function componentWillUnmount() {
-	        Weave.getCallbacks(this.settings).removeCallback(this, this.forceUpdate);
+	        this.settings.showTree.removeCallback(this, this.forceUpdate);
 	        this.settings.activeNodeValue.removeCallback(this, this.forceUpdate);
 
 	        Weave.getCallbacks(this.tree).removeCallback(this, this.forceUpdate);
@@ -536,7 +536,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        }
 
 	        var treeContainerStyle = {
-	            width: "48%",
+	            width: "72%",
 	            height: "100%",
 	            borderStyle: "solid",
 	            borderRadius: "2px",
@@ -548,7 +548,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	            padding: "4px"
 	        };
 	        var resultContainerStyle = {
-	            width: "48%",
+	            width: "24%",
 	            height: "100%",
 	            borderStyle: "solid",
 	            borderRadius: "2px",

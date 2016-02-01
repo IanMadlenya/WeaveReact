@@ -156,11 +156,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	    p.getFileIcon = function (data) {
 	        if (this.enableTypeIcon.value) {
 	            if (typeof data === "string") {
-	                return "fa fa-info";
+	                return "S";
 	            } else if (typeof data === "number") {
-	                return "fa fa-hashtag";
+	                return "N";
 	            } else if (typeof data === "boolean") {
-	                return "fa fa-flag";
+	                return "B";
 	            }
 	        }
 	        return this.fileIcon.value;
@@ -454,11 +454,23 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }
 
 	    Tree.prototype.componentDidMount = function componentDidMount() {
-	        Weave.getCallbacks(this.settings.open).addGroupedCallback(this, this.forceUpdate);
+	        this.settings.open.addImmediateCallback(this, this.forceUpdate);
+	        this.settings.children.childListCallbacks.addImmediateCallback(this, this.forceUpdate);
+	        this.settings.folderIcon.addImmediateCallback(this, this.forceUpdate);
+	        this.settings.folderOpenIcon.addImmediateCallback(this, this.forceUpdate);
+	        this.settings.fileIcon.addImmediateCallback(this, this.forceUpdate);
+	        this.settings.fileOpenIcon.addImmediateCallback(this, this.forceUpdate);
+	        this.settings.label.addImmediateCallback(this, this.forceUpdate);
 	    };
 
 	    Tree.prototype.componentWillUnmount = function componentWillUnmount() {
-	        Weave.getCallbacks(this.settings.open).removeCallback(this, this.forceUpdate);
+	        this.settings.open.removeCallback(this, this.forceUpdate);
+	        this.settings.children.childListCallbacks.removeCallback(this, this.forceUpdate);
+	        this.settings.folderIcon.removeCallback(this, this.forceUpdate);
+	        this.settings.folderOpenIcon.removeCallback(this, this.forceUpdate);
+	        this.settings.fileIcon.removeCallback(this, this.forceUpdate);
+	        this.settings.fileOpenIcon.removeCallback(this, this.forceUpdate);
+	        this.settings.label.removeCallback(this, this.forceUpdate);
 	    };
 
 	    Tree.prototype.toggle = function toggle() {
@@ -547,10 +559,17 @@ return /******/ (function(modules) { // webpackBootstrap
 	            //leaf
 	            var leaf = this.settings.label.value;
 	            var fileIcon = this.settings.getFileIcon(this.props.data.data.value);
-	            nodeUI = _react2["default"].createElement(
+	            if (fileIcon.indexOf("fa fa-") > 0) nodeUI = _react2["default"].createElement(
 	                "li",
 	                { onClick: this.toggle },
 	                _react2["default"].createElement("i", { className: fileIcon }),
+	                " ",
+	                leaf
+	            );else nodeUI = _react2["default"].createElement(
+	                "li",
+	                { onClick: this.toggle },
+	                fileIcon,
+	                _react2["default"].createElement("i", null),
 	                " ",
 	                leaf
 	            );

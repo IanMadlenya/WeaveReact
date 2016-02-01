@@ -17,7 +17,7 @@ class SessionEditor extends React.Component {
   }
 
   componentDidMount(){
-    Weave.getCallbacks(this.settings).addGroupedCallback(this, this.forceUpdate);
+    this.settings.showTree.addImmediateCallback(this, this.forceUpdate);
     this.settings.activeNodeValue.addImmediateCallback(this, this.forceUpdate);
     this.tree =  weavejs.WeaveAPI.SessionManager.getSessionStateTree(this.props.sessionState);
     this.tree.label = "Weave";
@@ -25,7 +25,7 @@ class SessionEditor extends React.Component {
   }
 
   componentWillUnmount () {
-    Weave.getCallbacks(this.settings).removeCallback(this, this.forceUpdate);
+    this.settings.showTree.removeCallback(this, this.forceUpdate);
     this.settings.activeNodeValue.removeCallback(this, this.forceUpdate);
 
     Weave.getCallbacks(this.tree).removeCallback(this, this.forceUpdate);
@@ -55,7 +55,7 @@ class SessionEditor extends React.Component {
     }
 
     var treeContainerStyle = {
-        width:"48%",
+        width:"72%",
         height:"100%",
         borderStyle:"solid",
         borderRadius:"2px",
@@ -67,8 +67,8 @@ class SessionEditor extends React.Component {
         padding:"4px"
     }
     var resultContainerStyle = {
-        width:"48%",
-         height:"100%",
+        width:"24%",
+        height:"100%",
         borderStyle:"solid",
         borderRadius:"2px",
         borderWidth:"1px",
