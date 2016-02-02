@@ -886,11 +886,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	            return React.createElement(
 	                "span",
 	                null,
-	                React.createElement(
-	                    "span",
-	                    { type: "button", className: "btn btn-primary", onClick: this.openModal },
-	                    "Open"
-	                ),
+	                modalButtonUI,
 	                React.createElement("div", { style: overlay }),
 	                React.createElement(
 	                    "div",

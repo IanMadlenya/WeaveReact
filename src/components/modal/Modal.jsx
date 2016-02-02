@@ -49,7 +49,7 @@ class Modal extends React.Component {
 
     }
     return (<span >
-                    <span type="button" className="btn btn-primary" onClick={this.openModal}>Open</span>
+                    {modalButtonUI}
 
                     <div style={overlay}/>
                     <div style={modal}>
