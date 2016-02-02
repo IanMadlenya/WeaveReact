@@ -36,8 +36,7 @@ module.exports = {
         "c3": "c3",
         "_": "lodash",
         "weavejs": "weavejs",
-        "Weave": "Weave",
-        "WeaveUI": "WeaveUI"
+        "Weave": "Weave"
     },
     resolve: {
         extensions: ["", ".js", ".jsx", ".scss", ".md"]
