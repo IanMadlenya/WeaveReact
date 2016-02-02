@@ -516,7 +516,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	    };
 
 	    SessionEditor.prototype.nodeClick = function nodeClick(node) {
-	        if (node.children) {} else {
+	        if (node.children) {
+	            this.selectedData = node.data;
+	            this.settings.activeNodeValue.state = Weave.getState(node.data);
+	        } else {
 	            this.selectedData = node.data;
 	            this.settings.activeNodeValue.state = node.data.value;
 	        }
@@ -532,7 +535,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	        var treeUI = "";
 	        if (this.tree) {
-	            treeUI = _react2["default"].createElement(_weavereact2["default"].Tree, { data: this.tree, label: "label", nodes: "children", clickCallback: this.nodeClick, settings: this.settings.treeConfig });
+	            treeUI = _react2["default"].createElement(_weavereact2["default"].Tree, { data: this.tree, label: "label", nodes: "children", clickCallback: this.nodeClick, settings: this.settings.treeConfig, dataTypesMap: this.settings.dataTypesMap, getDataType: this.settings.getDataType });
 	        }
 
 	        var treeContainerStyle = {
@@ -625,7 +628,17 @@ return /******/ (function(modules) { // webpackBootstrap
 	            }
 
 	        });
+
+	        this.dataTypesMap = {
+	            "weavejs.core.LinkableString": "S",
+	            "weavejs.core.LinkableNumber": "N",
+	            "weavejs.core.LinkableBoolean": "B"
+	        };
 	    }
+
+	    SessionEditorConfig.prototype.getDataType = function (treeItem) {
+	        return treeItem.data.FLEXJS_CLASS_INFO.names[0].qName;
+	    };
 
 	    _Weave2["default"].registerClass('weavereactdemo.SessionEditorConfig', SessionEditorConfig);
 

@@ -33,25 +33,17 @@ var Modal = (function (_React$Component) {
         _React$Component.call(this, props);
         this.settings = this.props.settings ? this.props.settings : new _ModalConfig2["default"]();
 
-        this.state = {
-            open: this.settings.open.value
-        };
-        this.updateState = this.updateState.bind(this);
         this.openModal = this.openModal.bind(this);
     }
 
     Modal.prototype.componentDidMount = function componentDidMount() {
-        this.settings.open.addImmediateCallback(this, this.updateState);
+        this.settings.open.addImmediateCallback(this, this.forceUpdate);
+        this.settings.buttonIcon.addImmediateCallback(this, this.forceUpdate);
     };
 
     Modal.prototype.componentWillUnmount = function componentWillUnmount() {
-        this.settings.open.removeCallback(this, this.updateState);
-    };
-
-    Modal.prototype.updateState = function updateState() {
-        this.setState({
-            open: this.settings.open.value
-        });
+        this.settings.open.removeCallback(this, this.forceUpdate);
+        this.settings.buttonIcon.removeCallback(this, this.forceUpdate);
     };
 
     Modal.prototype.openModal = function openModal() {
@@ -59,13 +51,26 @@ var Modal = (function (_React$Component) {
     };
 
     Modal.prototype.render = function render() {
+        var isOpen = this.settings.open.value;
+        var overlay = _utilsStyle2["default"].overlayContainer(isOpen);
+        var modal = _utilsStyle2["default"].modal(isOpen);
+        var modalButtonUI = "";
 
-        var overlay = _utilsStyle2["default"].overlayContainer(this.state.open);
-        var modal = _utilsStyle2["default"].modal(this.state.open);
-        //if(this.state.open)modal['width'] = this.state.width;
-
-        // important to put modalpanel in wrapper in style, as style is not applied to custom react component, react takes the style of outer contianer in
-        // react Component render function
+        if (!this.props.keyPress) {
+            if (this.settings.buttonIcon.value) {
+                modalButtonUI = _react2["default"].createElement(
+                    "span",
+                    { style: { cursor: "pointer" }, onClick: this.openModal },
+                    _react2["default"].createElement("i", { className: this.settings.buttonIcon.value })
+                );
+            } else {
+                modalButtonUI = _react2["default"].createElement(
+                    "span",
+                    { type: "button", className: "btn btn-primary", onClick: this.openModal },
+                    "Open"
+                );
+            }
+        }
         return _react2["default"].createElement(
             "span",
             null,

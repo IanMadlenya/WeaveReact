@@ -14,6 +14,7 @@ class SessionEditor extends React.Component {
     this.changeSessionValue = this.changeSessionValue.bind(this);
     this.nodeValue = "";
     this.selectedData;
+
   }
 
   componentDidMount(){
@@ -34,7 +35,8 @@ class SessionEditor extends React.Component {
 
   nodeClick(node){
     if(node.children){
-
+        this.selectedData =  node.data;
+        //this.settings.activeNodeValue.state = Weave.getState(node.data);
     }else{
         this.selectedData =  node.data;
         this.settings.activeNodeValue.state =  node.data.value;
@@ -51,7 +53,7 @@ class SessionEditor extends React.Component {
 
     var treeUI = "";
     if(this.tree){
-        treeUI = <weavereact.Tree data={this.tree} label="label" nodes="children"  clickCallback={this.nodeClick} settings={this.settings.treeConfig}/>
+        treeUI = <weavereact.Tree data={this.tree} label="label" nodes="children"  clickCallback={this.nodeClick} settings={this.settings.treeConfig} dataTypesMap={this.settings.dataTypesMap} getDataType={this.settings.getDataType}/>
     }
 
     var treeContainerStyle = {

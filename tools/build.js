@@ -27,12 +27,11 @@ function forkAndBuildDocs({
 }
 
 export default function Build(options) {
-    console.log(options);
     return Promise.all([
     lib(),
     bower(),
     dist(),
-    forkAndBuildDocs(options)
+    //forkAndBuildDocs(options)
   ])
         .then(() => copy(distRoot, bowerRoot));
 }

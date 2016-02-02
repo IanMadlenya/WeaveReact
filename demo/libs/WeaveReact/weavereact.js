@@ -70,7 +70,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _componentsTreeTree2 = _interopRequireDefault(_componentsTreeTree);
 
-	var _componentsModalModal = __webpack_require__(31);
+	var _componentsModalModal = __webpack_require__(33);
 
 	var _componentsModalModal2 = _interopRequireDefault(_componentsModalModal);
 
@@ -118,15 +118,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	    function TreeConfig() {
 
 	        _Object$defineProperties(this, {
-	            "label": {
-	                value: Weave.linkableChild(this, new weavejs.core.LinkableString(""))
-	            },
-	            "children": {
-	                value: Weave.linkableChild(this, new weavejs.core.LinkableHashMap()) // important to be prototype as type restriction is compared with prototype
-	            },
-	            "open": {
-	                value: Weave.linkableChild(this, new weavejs.core.LinkableBoolean(false))
-	            },
 	            "folderIcon": {
 	                value: Weave.linkableChild(this, new weavejs.core.LinkableString("fa fa-folder"))
 	            },
@@ -139,37 +130,50 @@ return /******/ (function(modules) { // webpackBootstrap
 	            "fileOpenIcon": {
 	                value: Weave.linkableChild(this, new weavejs.core.LinkableString("fa fa-file-text-o"))
 	            },
-	            "enableTypeIcon": {
+	            "enableDataTypeIcon": {
 	                value: Weave.linkableChild(this, new weavejs.core.LinkableBoolean(false))
 	            }
 	        });
 
-	        this.activeLeaf = null;
+	        this.activeNode = null;
+	        this.dataTypesMap = null;
+	        this.getDataType = null;
 	    }
 
 	    var p = TreeConfig.prototype;
 
-	    p.getNodes = function () {
-	        return this.children.getNames();
+	    p.changeActiveNode = function (nodeConfig) {
+	        if (this.activeNode) {
+	            this.activeNode.active.value = false;
+	        }
+	        this.activeNode = nodeConfig;
+	        this.activeNode.active.value = true;
 	    };
 
 	    p.getFileIcon = function (data) {
-	        if (this.enableTypeIcon.value) {
-	            if (typeof data === "string") {
-	                return "S";
-	            } else if (typeof data === "number") {
-	                return "N";
-	            } else if (typeof data === "boolean") {
-	                return "B";
-	            }
-	        }
-	        return this.fileIcon.value;
+	        var datType = this.getDataType ? this.getDataType(data) : data.constructor.name;
+	        if (this.dataTypesMap[datType]) return this.dataTypesMap[datType];
+	        return this.fileOpenIcon.value;
 	    };
 
-	    p.reset = function () {
-	        this.label.value = "";
-	        this.open.value = false;
-	        this.children.removeAllObjects();
+	    p.getFileIconStyle = function () {
+	        return {
+	            fontStyle: "bold",
+	            borderStyle: "solid",
+	            borderColor: "#7fd6f9",
+	            borderWidth: "1px",
+	            borderRadius: "4px",
+	            paddingLeft: "3px",
+	            paddingRight: "3px",
+	            fontSize: "11px"
+	        };
+	    };
+
+	    p.getNodeIconStyle = function () {
+	        return {
+	            color: "#7fd6f9",
+	            textShadow: "-1px 0 black, 0 1px black, 1px 0 black, 0 -1px black"
+	        };
 	    };
 
 	    //This Function makes this class as SessionClass
@@ -435,9 +439,9 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _utilsStyle2 = _interopRequireDefault(_utilsStyle);
 
-	var _TreeConfig = __webpack_require__(2);
+	var _Node = __webpack_require__(31);
 
-	var _TreeConfig2 = _interopRequireDefault(_TreeConfig);
+	var _Node2 = _interopRequireDefault(_Node);
 
 	var Tree = (function (_React$Component) {
 	    _inherits(Tree, _React$Component);
@@ -446,136 +450,18 @@ return /******/ (function(modules) { // webpackBootstrap
 	        _classCallCheck(this, Tree);
 
 	        _React$Component.call(this, props);
-	        this.settings = this.props.settings ? this.props.settings : new _TreeConfig2["default"]();
-	        this.toggle = this.toggle.bind(this);
-	        this.getTreeNodes = this.getTreeNodes.bind(this);
-	        this.getTreeLabel = this.getTreeLabel.bind(this);
-	        this.settings.enableTypeIcon.value = true; //temp to check
+	        this.settings = this.props.settings ? this.props.settings : new TreeConfig();
+	        this.settings.dataTypesMap = this.props.dataTypesMap;
+	        this.settings.getDataType = this.props.getDataType;
 	    }
 
-	    Tree.prototype.componentDidMount = function componentDidMount() {
-	        this.settings.open.addImmediateCallback(this, this.forceUpdate);
-	        this.settings.children.childListCallbacks.addImmediateCallback(this, this.forceUpdate);
-	        this.settings.folderIcon.addImmediateCallback(this, this.forceUpdate);
-	        this.settings.folderOpenIcon.addImmediateCallback(this, this.forceUpdate);
-	        this.settings.fileIcon.addImmediateCallback(this, this.forceUpdate);
-	        this.settings.fileOpenIcon.addImmediateCallback(this, this.forceUpdate);
-	        this.settings.label.addImmediateCallback(this, this.forceUpdate);
-	    };
+	    Tree.prototype.componentDidMount = function componentDidMount() {};
 
-	    Tree.prototype.componentWillUnmount = function componentWillUnmount() {
-	        this.settings.open.removeCallback(this, this.forceUpdate);
-	        this.settings.children.childListCallbacks.removeCallback(this, this.forceUpdate);
-	        this.settings.folderIcon.removeCallback(this, this.forceUpdate);
-	        this.settings.folderOpenIcon.removeCallback(this, this.forceUpdate);
-	        this.settings.fileIcon.removeCallback(this, this.forceUpdate);
-	        this.settings.fileOpenIcon.removeCallback(this, this.forceUpdate);
-	        this.settings.label.removeCallback(this, this.forceUpdate);
-	    };
-
-	    Tree.prototype.toggle = function toggle() {
-	        this.settings.open.value = !this.settings.open.value;
-	        if (this.props.clickCallback) this.props.clickCallback.call(this, this.props.data);
-	    };
-
-	    Tree.prototype.setSessionStateFromTree = function setSessionStateFromTree() {
-	        this.settings.label.value = this.getTreeLabel();
-	        var treeNodes = this.getTreeNodes();
-	        if (treeNodes && treeNodes.length !== this.settings.children.getNames().length) {
-	            this.settings.children.delayCallbacks();
-	            for (var i = 0; i < treeNodes.length; i++) {
-	                var objectName = "node" + i;
-	                this.settings.children.requestObject(objectName, _TreeConfig2["default"]);
-	            }
-	            this.settings.children.resumeCallbacks();
-	        }
-	    };
-
-	    Tree.prototype.getTreeNodes = function getTreeNodes() {
-	        if (this.props.data[this.props.nodes] instanceof Function) {
-	            return this.props.data[this.props.nodes]();
-	        } else {
-	            return this.props.data[this.props.nodes];
-	        }
-	    };
-
-	    Tree.prototype.getTreeLabel = function getTreeLabel() {
-	        if (this.props.data[this.props.label] instanceof Function) {
-	            return this.props.data[this.props.label]();
-	        } else {
-	            return this.props.data[this.props.label];
-	        }
-	    };
-
-	    Tree.prototype.componentWillReceiveProps = function componentWillReceiveProps(nextProps) {
-	        // to-do:
-	        // has to be done here for asynchrnous data
-	        // else need to call in constructor
-	        this.setSessionStateFromTree();
-	    };
+	    Tree.prototype.componentWillUnmount = function componentWillUnmount() {};
 
 	    Tree.prototype.render = function render() {
-	        var nodesUI = [];
-	        var folderIcon = this.settings.folderIcon.value;
 
-	        var nodeUI = "";
-	        var nodes = this.settings.getNodes();
-	        if (this.settings.open.value) {
-	            folderIcon = this.settings.folderOpenIcon.value;
-	            //fileIcon = this.settings.fileOpenIcon.value;
-
-	            if (nodes.length > 0) {
-	                var treeNodes = this.getTreeNodes();
-	                for (var i = 0; i < nodes.length; i++) {
-	                    var treeItem = treeNodes[i];
-	                    var treeConfig = this.settings.children.getObject(nodes[i]);
-	                    nodesUI.push(_react2["default"].createElement(Tree, { key: i, data: treeItem, label: this.props.label, nodes: this.props.nodes, settings: treeConfig, clickCallback: this.props.clickCallback }));
-	                }
-	            }
-	        }
-
-	        var nodeIconStyleObject = _utilsStyle2["default"].appendVendorPrefix({ color: "#7fd6f9", textShadow: "-1px 0 black, 0 1px black, 1px 0 black, 0 -1px black" });
-
-	        if (nodes.length > 0) {
-	            //folder
-
-	            nodeUI = _react2["default"].createElement(
-	                "span",
-	                null,
-	                _react2["default"].createElement(
-	                    "span",
-	                    { onClick: this.toggle },
-	                    _react2["default"].createElement("i", { className: folderIcon, style: nodeIconStyleObject }),
-	                    " ",
-	                    this.settings.label.value
-	                ),
-	                _react2["default"].createElement(
-	                    "ul",
-	                    { style: { listStyleType: "none" } },
-	                    nodesUI
-	                )
-	            );
-	        } else {
-	            //leaf
-	            var leaf = this.settings.label.value;
-	            var fileIcon = this.settings.getFileIcon(this.props.data.data.value);
-	            if (fileIcon.indexOf("fa fa-") > 0) nodeUI = _react2["default"].createElement(
-	                "li",
-	                { onClick: this.toggle },
-	                _react2["default"].createElement("i", { className: fileIcon }),
-	                " ",
-	                leaf
-	            );else nodeUI = _react2["default"].createElement(
-	                "li",
-	                { onClick: this.toggle },
-	                fileIcon,
-	                _react2["default"].createElement("i", null),
-	                " ",
-	                leaf
-	            );
-	        }
-
-	        return nodeUI;
+	        return _react2["default"].createElement(_Node2["default"], { data: this.props.data, label: this.props.label, nodes: this.props.nodes, treeConfig: this.settings, clickCallback: this.props.clickCallback });
 	    };
 
 	    return Tree;
@@ -972,6 +858,225 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _react2 = _interopRequireDefault(_react);
 
+	var _utilsApp = __webpack_require__(10);
+
+	var _utilsApp2 = _interopRequireDefault(_utilsApp);
+
+	var _utilsStyle = __webpack_require__(28);
+
+	var _utilsStyle2 = _interopRequireDefault(_utilsStyle);
+
+	var _NodeConfig = __webpack_require__(32);
+
+	var _NodeConfig2 = _interopRequireDefault(_NodeConfig);
+
+	var Node = (function (_React$Component) {
+	    _inherits(Node, _React$Component);
+
+	    function Node(props) {
+	        _classCallCheck(this, Node);
+
+	        _React$Component.call(this, props);
+	        this.settings = this.props.settings ? this.props.settings : new _NodeConfig2["default"]();
+	        this.toggle = this.toggle.bind(this);
+	        this.getTreeNodes = this.getTreeNodes.bind(this);
+	        this.getTreeLabel = this.getTreeLabel.bind(this);
+	        this.setSessionStateFromTree();
+	    }
+
+	    Node.prototype.componentDidMount = function componentDidMount() {
+	        this.settings.open.addImmediateCallback(this, this.forceUpdate);
+	        this.settings.children.childListCallbacks.addImmediateCallback(this, this.forceUpdate);
+	        this.settings.label.addImmediateCallback(this, this.forceUpdate);
+	        this.settings.active.addImmediateCallback(this, this.forceUpdate);
+	    };
+
+	    Node.prototype.componentWillUnmount = function componentWillUnmount() {
+	        this.settings.open.removeCallback(this, this.forceUpdate);
+	        this.settings.children.childListCallbacks.removeCallback(this, this.forceUpdate);
+	        this.settings.label.removeCallback(this, this.forceUpdate);
+	        this.settings.active.removeCallback(this, this.forceUpdate);
+	    };
+
+	    Node.prototype.toggle = function toggle() {
+	        this.settings.open.value = !this.settings.open.value;
+	        if (this.props.clickCallback) this.props.clickCallback.call(this, this.props.data);
+	        this.props.treeConfig.changeActiveNode(this.settings);
+	    };
+
+	    Node.prototype.setSessionStateFromTree = function setSessionStateFromTree() {
+	        this.settings.label.value = this.getTreeLabel();
+	        var treeNodes = this.getTreeNodes();
+	        if (treeNodes && treeNodes.length !== this.settings.children.getNames().length) {
+	            this.settings.children.delayCallbacks();
+	            for (var i = 0; i < treeNodes.length; i++) {
+	                var objectName = "node" + i;
+	                this.settings.children.requestObject(objectName, _NodeConfig2["default"]);
+	            }
+	            this.settings.children.resumeCallbacks();
+	        }
+	    };
+
+	    Node.prototype.getTreeNodes = function getTreeNodes() {
+	        if (this.props.data[this.props.nodes] instanceof Function) {
+	            return this.props.data[this.props.nodes]();
+	        } else {
+	            return this.props.data[this.props.nodes];
+	        }
+	    };
+
+	    Node.prototype.getTreeLabel = function getTreeLabel() {
+	        if (this.props.data[this.props.label] instanceof Function) {
+	            return this.props.data[this.props.label]();
+	        } else {
+	            return this.props.data[this.props.label];
+	        }
+	    };
+
+	    Node.prototype.componentWillReceiveProps = function componentWillReceiveProps(nextProps) {
+	        this.setSessionStateFromTree();
+	    };
+
+	    Node.prototype.render = function render() {
+	        var nodesUI = [];
+	        var folderIcon = this.props.treeConfig.folderIcon.value;
+	        //var activeLeafColor = "black";
+
+	        var nodeUI = "";
+	        var nodes = this.settings.getNodes();
+	        if (this.settings.open.value) {
+	            folderIcon = this.props.treeConfig.folderOpenIcon.value;
+
+	            if (nodes.length > 0) {
+	                var treeNodes = this.getTreeNodes();
+	                for (var i = 0; i < nodes.length; i++) {
+	                    var treeItem = treeNodes[i];
+	                    var nodeConfig = this.settings.children.getObject(nodes[i]);
+	                    var active = false;
+	                    nodesUI.push(_react2["default"].createElement(Node, { key: i, data: treeItem, label: this.props.label, nodes: this.props.nodes, treeConfig: this.props.treeConfig, settings: nodeConfig, clickCallback: this.props.clickCallback }));
+	                }
+	            }
+	        }
+
+	        if (nodes.length > 0) {
+	            //folder
+	            var nodeIconStyleObject = _utilsStyle2["default"].appendVendorPrefix(this.props.treeConfig.getNodeIconStyle());
+	            nodeUI = _react2["default"].createElement(
+	                "span",
+	                null,
+	                _react2["default"].createElement(
+	                    "span",
+	                    { onClick: this.toggle },
+	                    _react2["default"].createElement("i", { className: folderIcon, style: nodeIconStyleObject }),
+	                    " ",
+	                    this.settings.label.value
+	                ),
+	                _react2["default"].createElement(
+	                    "ul",
+	                    { style: { listStyleType: "none", paddingLeft: "20px" } },
+	                    nodesUI
+	                )
+	            );
+	        } else {
+	            //leaf
+	            var leaf = this.settings.label.value;
+	            var fileIcon = this.props.treeConfig.getFileIcon(this.props.data);
+	            var fileIconStyle = this.props.treeConfig.getFileIconStyle();
+	            var activeLeafColor = this.settings.active.value ? "#8e8d8d" : "black";
+	            if (fileIcon.indexOf("fa fa-") > -1) nodeUI = _react2["default"].createElement(
+	                "li",
+	                { style: { color: activeLeafColor }, onClick: this.toggle },
+	                _react2["default"].createElement("i", { className: fileIcon }),
+	                " ",
+	                leaf
+	            );else nodeUI = _react2["default"].createElement(
+	                "li",
+	                { style: { color: activeLeafColor }, onClick: this.toggle },
+	                _react2["default"].createElement(
+	                    "span",
+	                    { style: fileIconStyle },
+	                    fileIcon
+	                ),
+	                " ",
+	                leaf
+	            );
+	        }
+
+	        return nodeUI;
+	    };
+
+	    return Node;
+	})(_react2["default"].Component);
+
+	_utilsApp2["default"].registerToolImplementation("weavereact.NodeConfig", Node);
+	exports["default"] = Node;
+	module.exports = exports["default"];
+
+/***/ },
+/* 32 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/* WEBPACK VAR INJECTION */(function(module) {"use strict";
+
+	var _Object$defineProperties = __webpack_require__(4)["default"];
+
+	(function (module) {
+
+	    function NodeConfig() {
+
+	        _Object$defineProperties(this, {
+	            "label": {
+	                value: Weave.linkableChild(this, new weavejs.core.LinkableString(""))
+	            },
+	            "children": {
+	                value: Weave.linkableChild(this, new weavejs.core.LinkableHashMap()) // important to be prototype as type restriction is compared with prototype
+	            },
+	            "open": {
+	                value: Weave.linkableChild(this, new weavejs.core.LinkableBoolean(false))
+	            },
+	            "active": {
+	                value: Weave.linkableChild(this, new weavejs.core.LinkableBoolean(false))
+	            }
+	        });
+	    }
+
+	    var p = NodeConfig.prototype;
+
+	    p.getNodes = function () {
+	        return this.children.getNames();
+	    };
+
+	    p.reset = function () {
+	        this.label.value = "";
+	        this.open.value = false;
+	        this.children.removeAllObjects();
+	    };
+
+	    //This Function makes this class as SessionClass
+	    Weave.registerClass('weavereact.NodeConfig', NodeConfig);
+
+	    module.exports = NodeConfig;
+	})(module);
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)(module)))
+
+/***/ },
+/* 33 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	var _inherits = __webpack_require__(12)["default"];
+
+	var _classCallCheck = __webpack_require__(26)["default"];
+
+	var _interopRequireDefault = __webpack_require__(1)["default"];
+
+	exports.__esModule = true;
+
+	var _react = __webpack_require__(27);
+
+	var _react2 = _interopRequireDefault(_react);
+
 	var _utilsStyle = __webpack_require__(28);
 
 	var _utilsStyle2 = _interopRequireDefault(_utilsStyle);
@@ -980,7 +1085,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _ModalConfig2 = _interopRequireDefault(_ModalConfig);
 
-	var _ModalPanel = __webpack_require__(32);
+	var _ModalPanel = __webpack_require__(34);
 
 	var _ModalPanel2 = _interopRequireDefault(_ModalPanel);
 
@@ -993,25 +1098,17 @@ return /******/ (function(modules) { // webpackBootstrap
 	        _React$Component.call(this, props);
 	        this.settings = this.props.settings ? this.props.settings : new _ModalConfig2["default"]();
 
-	        this.state = {
-	            open: this.settings.open.value
-	        };
-	        this.updateState = this.updateState.bind(this);
 	        this.openModal = this.openModal.bind(this);
 	    }
 
 	    Modal.prototype.componentDidMount = function componentDidMount() {
-	        this.settings.open.addImmediateCallback(this, this.updateState);
+	        this.settings.open.addImmediateCallback(this, this.forceUpdate);
+	        this.settings.buttonIcon.addImmediateCallback(this, this.forceUpdate);
 	    };
 
 	    Modal.prototype.componentWillUnmount = function componentWillUnmount() {
-	        this.settings.open.removeCallback(this, this.updateState);
-	    };
-
-	    Modal.prototype.updateState = function updateState() {
-	        this.setState({
-	            open: this.settings.open.value
-	        });
+	        this.settings.open.removeCallback(this, this.forceUpdate);
+	        this.settings.buttonIcon.removeCallback(this, this.forceUpdate);
 	    };
 
 	    Modal.prototype.openModal = function openModal() {
@@ -1019,13 +1116,26 @@ return /******/ (function(modules) { // webpackBootstrap
 	    };
 
 	    Modal.prototype.render = function render() {
+	        var isOpen = this.settings.open.value;
+	        var overlay = _utilsStyle2["default"].overlayContainer(isOpen);
+	        var modal = _utilsStyle2["default"].modal(isOpen);
+	        var modalButtonUI = "";
 
-	        var overlay = _utilsStyle2["default"].overlayContainer(this.state.open);
-	        var modal = _utilsStyle2["default"].modal(this.state.open);
-	        //if(this.state.open)modal['width'] = this.state.width;
-
-	        // important to put modalpanel in wrapper in style, as style is not applied to custom react component, react takes the style of outer contianer in
-	        // react Component render function
+	        if (!this.props.keyPress) {
+	            if (this.settings.buttonIcon.value) {
+	                modalButtonUI = _react2["default"].createElement(
+	                    "span",
+	                    { style: { cursor: "pointer" }, onClick: this.openModal },
+	                    _react2["default"].createElement("i", { className: this.settings.buttonIcon.value })
+	                );
+	            } else {
+	                modalButtonUI = _react2["default"].createElement(
+	                    "span",
+	                    { type: "button", className: "btn btn-primary", onClick: this.openModal },
+	                    "Open"
+	                );
+	            }
+	        }
 	        return _react2["default"].createElement(
 	            "span",
 	            null,
@@ -1054,7 +1164,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = exports["default"];
 
 /***/ },
-/* 32 */
+/* 34 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";

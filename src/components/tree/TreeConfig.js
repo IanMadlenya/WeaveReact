@@ -3,15 +3,6 @@
     function TreeConfig() {
 
         Object.defineProperties(this, {
-            "label": {
-                value: Weave.linkableChild(this, new weavejs.core.LinkableString(""))
-            },
-            "children": {
-                value: Weave.linkableChild(this, new weavejs.core.LinkableHashMap()) // important to be prototype as type restriction is compared with prototype
-            },
-            "open": {
-                value: Weave.linkableChild(this, new weavejs.core.LinkableBoolean(false))
-            },
             "folderIcon": {
                 value: Weave.linkableChild(this, new weavejs.core.LinkableString("fa fa-folder"))
             },
@@ -24,43 +15,58 @@
             "fileOpenIcon": {
                 value: Weave.linkableChild(this, new weavejs.core.LinkableString("fa fa-file-text-o"))
             },
-            "enableTypeIcon": {
+            "enableDataTypeIcon": {
                 value: Weave.linkableChild(this, new weavejs.core.LinkableBoolean(false))
             }
         });
 
-        this.activeLeaf = null;
+        this.activeNode = null;
+        this.dataTypesMap = null;
+        this.getDataType = null;
     }
 
 
     var p = TreeConfig.prototype;
 
-    p.getNodes = function () {
-        return this.children.getNames();
+
+
+    p.changeActiveNode = function (nodeConfig) {
+        if (this.activeNode) {
+            this.activeNode.active.value = false;
+        }
+        this.activeNode = nodeConfig;
+        this.activeNode.active.value = true;
     }
 
     p.getFileIcon = function (data) {
-        if (this.enableTypeIcon.value) {
-            if (typeof (data) === "string") {
-                return "S";
-            } else if (typeof (data) === "number") {
-                return "N";
+        var datType = this.getDataType ? this.getDataType(data) : data.constructor.name;
+        if (this.dataTypesMap[datType])
+            return this.dataTypesMap[datType];
+        return this.fileOpenIcon.value;
 
-            } else if (typeof (data) === "boolean") {
-                return "B";
+    }
 
-            }
-
+    p.getFileIconStyle = function () {
+        return {
+            fontStyle: "bold",
+            borderStyle: "solid",
+            borderColor: "#7fd6f9",
+            borderWidth: "1px",
+            borderRadius: "4px",
+            paddingLeft: "3px",
+            paddingRight: "3px",
+            fontSize: "11px"
         }
-        return this.fileIcon.value;
-
     }
 
-    p.reset = function () {
-        this.label.value = "";
-        this.open.value = false;
-        this.children.removeAllObjects();
+    p.getNodeIconStyle = function () {
+        return {
+            color: "#7fd6f9",
+            textShadow: "-1px 0 black, 0 1px black, 1px 0 black, 0 -1px black"
+        }
     }
+
+
 
     //This Function makes this class as SessionClass
     Weave.registerClass('weavereact.TreeConfig', TreeConfig);

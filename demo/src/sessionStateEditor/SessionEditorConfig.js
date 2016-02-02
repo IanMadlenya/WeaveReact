@@ -23,9 +23,19 @@ import Weave from "Weave";
 
         });
 
+        this.dataTypesMap = {
+            "weavejs.core.LinkableString": "S",
+            "weavejs.core.LinkableNumber": "N",
+            "weavejs.core.LinkableBoolean": "B"
+        }
+
+
     }
 
 
+    SessionEditorConfig.prototype.getDataType = function (treeItem) {
+        return treeItem.data.FLEXJS_CLASS_INFO.names[0].qName;
+    }
 
 
     Weave.registerClass('weavereactdemo.SessionEditorConfig', SessionEditorConfig);

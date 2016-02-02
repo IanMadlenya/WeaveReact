@@ -13,27 +13,22 @@ class Modal extends React.Component {
         this.settings = this.props.settings ? this.props.settings:new ModalConfig();
 
 
-        this.state = {
-            open:this.settings.open.value
-        }
-        this.updateState = this.updateState.bind(this);
         this.openModal = this.openModal.bind(this);
 
     }
 
     componentDidMount(){
-        this.settings.open.addImmediateCallback(this, this.updateState);
+        this.settings.open.addImmediateCallback(this, this.forceUpdate);
+        this.settings.buttonIcon.addImmediateCallback(this, this.forceUpdate);
     }
+
+
 
     componentWillUnmount () {
-        this.settings.open.removeCallback(this, this.updateState)
+        this.settings.open.removeCallback(this, this.forceUpdate)
+        this.settings.buttonIcon.removeCallback(this, this.forceUpdate)
     }
 
-    updateState(){
-        this.setState({
-            open:this.settings.open.value
-        });
-    }
 
     openModal(){
         this.settings.open.value = true;
@@ -41,13 +36,20 @@ class Modal extends React.Component {
 
 
     render() {
+    var isOpen = this.settings.open.value;
+    var overlay = Style.overlayContainer(isOpen);
+    var modal = Style.modal(isOpen);
+    var modalButtonUI = "";
 
-    var overlay = Style.overlayContainer(this.state.open);
-    var modal = Style.modal(this.state.open);
-    //if(this.state.open)modal['width'] = this.state.width;
+    if (!this.props.keyPress){
+        if(this.settings.buttonIcon.value){
+            modalButtonUI = <span style={{cursor:"pointer"}} onClick={this.openModal}><i className={this.settings.buttonIcon.value}></i></span>;
+        }
+        else{
+            modalButtonUI = <span type="button" className="btn btn-primary" onClick={this.openModal}>Open</span>;
+        }
 
-    // important to put modalpanel in wrapper in style, as style is not applied to custom react component, react takes the style of outer contianer in
-    // react Component render function
+    }
     return (<span >
                     <span type="button" className="btn btn-primary" onClick={this.openModal}>Open</span>
 
