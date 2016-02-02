@@ -2,9 +2,9 @@
     "name": "weavereact",
     "version": "1.0.0",
     "description": "components built with react",
-    "main": "dist/index.js",
+    "main": "build/dist/weavereact.js",
     "directories": {
-        "lib": "build/dist/weavereact.js"
+        "build": "build"
     },
     "files": [
     "build"
