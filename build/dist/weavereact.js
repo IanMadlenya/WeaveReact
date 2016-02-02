@@ -68,6 +68,14 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _Tree2 = _interopRequireDefault(_Tree);
 
+	var _Node = __webpack_require__(11);
+
+	var _Node2 = _interopRequireDefault(_Node);
+
+	var _NodeConfig = __webpack_require__(12);
+
+	var _NodeConfig2 = _interopRequireDefault(_NodeConfig);
+
 	var _Modal = __webpack_require__(13);
 
 	var _Modal2 = _interopRequireDefault(_Modal);
@@ -684,7 +692,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	                    for (var i = 0; i < nodes.length; i++) {
 	                        var treeItem = treeNodes[i];
 	                        var nodeConfig = this.settings.children.getObject(nodes[i]);
-	                        var active = false;
 	                        nodesUI.push(React.createElement(Node, { key: i, data: treeItem, label: this.props.label, nodes: this.props.nodes, treeConfig: this.props.treeConfig, settings: nodeConfig, clickCallback: this.props.clickCallback }));
 	                    }
 	                }

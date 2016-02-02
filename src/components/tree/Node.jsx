@@ -83,7 +83,6 @@ class Node extends React.Component {
                 for (var i = 0 ; i < nodes.length ;i++){
                     var treeItem = treeNodes[i];
                     var nodeConfig = this.settings.children.getObject( nodes[i]);
-                    var active = false;
                     nodesUI.push(<Node key={i} data={treeItem} label={this.props.label} nodes={this.props.nodes} treeConfig={this.props.treeConfig} settings={nodeConfig} clickCallback={this.props.clickCallback}/>) ;
                 }
             }

@@ -1,6 +1,8 @@
 import TreeConfig from "./components/tree/TreeConfig";
 import ModalConfig from "./components/modal/ModalConfig";
 import Tree from "./components/tree/Tree";
+import Node from "./components/tree/Node";
+import NodeConfig from "./components/tree/NodeConfig";
 import Modal from "./components/modal/Modal";
 
 import App from "./utils/App.js";
