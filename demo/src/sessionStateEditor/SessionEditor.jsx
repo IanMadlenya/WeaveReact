@@ -9,7 +9,7 @@ class SessionEditor extends React.Component {
 
   constructor(props) {
     super(props);
-    this.settings =  new SessionEditorConfig();
+    this.settings =  this.props.settings?  this.props.settings:new SessionEditorConfig();
     this.nodeClick = this.nodeClick.bind(this);
     this.changeSessionValue = this.changeSessionValue.bind(this);
     this.nodeValue = "";
@@ -81,7 +81,7 @@ class SessionEditor extends React.Component {
          padding:"4px"
     }
 
-    return ( <weavereact.Modal settings={this.settings.modalConfig}>
+    return ( <weavereact.Modal settings={this.settings.modalConfig} keyPress="true" open="false">
                 <div style={{display:"inline-block",width:"100%"}}>
                     <div style={treeContainerStyle}>
                         {treeUI}

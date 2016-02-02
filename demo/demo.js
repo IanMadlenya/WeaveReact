@@ -135,6 +135,10 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _SessionEditor2 = _interopRequireDefault(_SessionEditor);
 
+	var _SessionEditorConfig = __webpack_require__(8);
+
+	var _SessionEditorConfig2 = _interopRequireDefault(_SessionEditorConfig);
+
 	var _TestSpan = __webpack_require__(10);
 
 	var _TestSpan2 = _interopRequireDefault(_TestSpan);
@@ -153,13 +157,28 @@ return /******/ (function(modules) { // webpackBootstrap
 	    function App(props) {
 	        _classCallCheck(this, App);
 
-	        return _possibleConstructorReturn(this, Object.getPrototypeOf(App).call(this, props));
+	        var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(App).call(this, props));
+
+	        _this.openSettings = _this.openSettings.bind(_this);
+	        _this.sessionConfig = new _SessionEditorConfig2.default();
+
+	        return _this;
 	    }
 
 	    _createClass(App, [{
+	        key: "openSettings",
+	        value: function openSettings(e) {
+	            if (e.code === "Enter") {
+	                this.sessionConfig.modalConfig.open.value = true;
+	            } else if (e.code === "KeyQ") {
+	                this.sessionConfig.modalConfig.open.value = false;
+	            }
+	        }
+	    }, {
 	        key: "componentDidMount",
 	        value: function componentDidMount() {
 	            this.props.root.childListCallbacks.addImmediateCallback(this, this.forceUpdate);
+	            window.addEventListener('keydown', this.openSettings);
 	        }
 	    }, {
 	        key: "componentWillUnMount",
@@ -188,7 +207,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	            return _react2.default.createElement(
 	                "div",
 	                null,
-	                _react2.default.createElement(_SessionEditor2.default, { sessionState: this.props.root }),
+	                _react2.default.createElement(_SessionEditor2.default, { sessionState: this.props.root, settings: this.sessionConfig }),
 	                this.props.children,
 	                toolUI
 	            );
@@ -250,7 +269,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	        var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(SessionEditor).call(this, props));
 
-	        _this.settings = new _SessionEditorConfig2.default();
+	        _this.settings = _this.props.settings ? _this.props.settings : new _SessionEditorConfig2.default();
 	        _this.nodeClick = _this.nodeClick.bind(_this);
 	        _this.changeSessionValue = _this.changeSessionValue.bind(_this);
 	        _this.nodeValue = "";
@@ -330,7 +349,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	            return _react2.default.createElement(
 	                _weavereact2.default.Modal,
-	                { settings: this.settings.modalConfig },
+	                { settings: this.settings.modalConfig, keyPress: "true", open: "false" },
 	                _react2.default.createElement(
 	                    "div",
 	                    { style: { display: "inline-block", width: "100%" } },
@@ -388,6 +407,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	            },
 	            activeNodeValue: {
 	                value: new _weavejs2.default.core.LinkableVariable()
+	            },
+	            modalConfig: {
+	                value: new _weavereact2.default.ModalConfig()
 	            }
 
 	        });

@@ -1,17 +1,31 @@
 import React from "react";
 import SessionEditor from "./sessionStateEditor/SessionEditor";
+import SessionEditorConfig from "./sessionStateEditor/SessionEditorConfig";
 import TestSpan from "./TestSpan";
 
 
 class App extends React.Component {
 
     constructor(props) {
-        super(props)
+        super(props);
+        this.openSettings = this.openSettings.bind(this);
+        this.sessionConfig = new SessionEditorConfig();
 
     }
 
+    openSettings(e){
+        if(e.code === "Enter"){
+            this.sessionConfig.modalConfig.open.value = true;
+        }else if(e.code === "KeyQ"){
+                 this.sessionConfig.modalConfig.open.value = false;
+        }
+    }
+
+
+
     componentDidMount(){
         this.props.root.childListCallbacks.addImmediateCallback(this,this.forceUpdate);
+         window.addEventListener('keydown', this.openSettings);
     }
 
     componentWillUnMount(){
@@ -39,7 +53,7 @@ class App extends React.Component {
         }
 
         return (<div>
-                    <SessionEditor sessionState={ this.props.root}/>
+        <SessionEditor sessionState={ this.props.root} settings={this.sessionConfig}/>
                     {this.props.children}
                     {toolUI}
                 </div>

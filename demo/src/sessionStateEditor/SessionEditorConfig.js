@@ -19,6 +19,9 @@ import Weave from "Weave";
             },
             activeNodeValue: {
                 value: new weavejs.core.LinkableVariable()
+            },
+            modalConfig: {
+                value: new weavereact.ModalConfig()
             }
 
         });
