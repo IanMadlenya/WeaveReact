@@ -1,13 +1,13 @@
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
-		module.exports = factory(require("React"));
+		module.exports = factory();
 	else if(typeof define === 'function' && define.amd)
-		define(["React"], factory);
+		define([], factory);
 	else if(typeof exports === 'object')
-		exports["weavereact"] = factory(require("React"));
+		exports["weavereact"] = factory();
 	else
-		root["weavereact"] = factory(root["React"]);
-})(this, function(__WEBPACK_EXTERNAL_MODULE_12__) {
+		root["weavereact"] = factory();
+})(this, function() {
 return /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
@@ -68,7 +68,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _Tree2 = _interopRequireDefault(_Tree);
 
-	var _Modal = __webpack_require__(14);
+	var _Modal = __webpack_require__(13);
 
 	var _Modal2 = _interopRequireDefault(_Modal);
 
@@ -571,10 +571,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	    value: true
 	});
 
-	var _react = __webpack_require__(12);
-
-	var _react2 = _interopRequireDefault(_react);
-
 	var _App = __webpack_require__(6);
 
 	var _App2 = _interopRequireDefault(_App);
@@ -583,7 +579,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _Style2 = _interopRequireDefault(_Style);
 
-	var _NodeConfig = __webpack_require__(13);
+	var _NodeConfig = __webpack_require__(12);
 
 	var _NodeConfig2 = _interopRequireDefault(_NodeConfig);
 
@@ -689,7 +685,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	                        var treeItem = treeNodes[i];
 	                        var nodeConfig = this.settings.children.getObject(nodes[i]);
 	                        var active = false;
-	                        nodesUI.push(_react2.default.createElement(Node, { key: i, data: treeItem, label: this.props.label, nodes: this.props.nodes, treeConfig: this.props.treeConfig, settings: nodeConfig, clickCallback: this.props.clickCallback }));
+	                        nodesUI.push(React.createElement(Node, { key: i, data: treeItem, label: this.props.label, nodes: this.props.nodes, treeConfig: this.props.treeConfig, settings: nodeConfig, clickCallback: this.props.clickCallback }));
 	                    }
 	                }
 	            }
@@ -697,17 +693,17 @@ return /******/ (function(modules) { // webpackBootstrap
 	            if (nodes.length > 0) {
 	                //folder
 	                var nodeIconStyleObject = _Style2.default.appendVendorPrefix(this.props.treeConfig.getNodeIconStyle());
-	                nodeUI = _react2.default.createElement(
+	                nodeUI = React.createElement(
 	                    "span",
 	                    null,
-	                    _react2.default.createElement(
+	                    React.createElement(
 	                        "span",
 	                        { onClick: this.toggle },
-	                        _react2.default.createElement("i", { className: folderIcon, style: nodeIconStyleObject }),
+	                        React.createElement("i", { className: folderIcon, style: nodeIconStyleObject }),
 	                        " ",
 	                        this.settings.label.value
 	                    ),
-	                    _react2.default.createElement(
+	                    React.createElement(
 	                        "ul",
 	                        { style: { listStyleType: "none", paddingLeft: "20px" } },
 	                        nodesUI
@@ -719,16 +715,16 @@ return /******/ (function(modules) { // webpackBootstrap
 	                var fileIcon = this.props.treeConfig.getFileIcon(this.props.data);
 	                var fileIconStyle = this.props.treeConfig.getFileIconStyle();
 	                var activeLeafColor = this.settings.active.value ? "#8e8d8d" : "black";
-	                if (fileIcon.indexOf("fa fa-") > -1) nodeUI = _react2.default.createElement(
+	                if (fileIcon.indexOf("fa fa-") > -1) nodeUI = React.createElement(
 	                    "li",
 	                    { style: { color: activeLeafColor }, onClick: this.toggle },
-	                    _react2.default.createElement("i", { className: fileIcon }),
+	                    React.createElement("i", { className: fileIcon }),
 	                    " ",
 	                    leaf
-	                );else nodeUI = _react2.default.createElement(
+	                );else nodeUI = React.createElement(
 	                    "li",
 	                    { style: { color: activeLeafColor }, onClick: this.toggle },
-	                    _react2.default.createElement(
+	                    React.createElement(
 	                        "span",
 	                        { style: fileIconStyle },
 	                        fileIcon
@@ -743,19 +739,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }]);
 
 	    return Node;
-	}(_react2.default.Component);
+	}(React.Component);
 
 	_App2.default.registerToolImplementation("weavereact.NodeConfig", Node);
 	exports.default = Node;
 
 /***/ },
 /* 12 */
-/***/ function(module, exports) {
-
-	module.exports = __WEBPACK_EXTERNAL_MODULE_12__;
-
-/***/ },
-/* 13 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(module) {"use strict";
@@ -800,7 +790,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(2)(module)))
 
 /***/ },
-/* 14 */
+/* 13 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -819,7 +809,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _ModalConfig2 = _interopRequireDefault(_ModalConfig);
 
-	var _ModalPanel = __webpack_require__(15);
+	var _ModalPanel = __webpack_require__(14);
 
 	var _ModalPanel2 = _interopRequireDefault(_ModalPanel);
 
@@ -914,7 +904,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.default = Modal;
 
 /***/ },
-/* 15 */
+/* 14 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";

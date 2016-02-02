@@ -1,4 +1,3 @@
-import React from "react";
 import App from "../../utils/App";
 import Styles from "../../utils/Style";
 import NodeConfig from "./NodeConfig";
