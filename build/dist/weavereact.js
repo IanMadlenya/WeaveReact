@@ -7,7 +7,7 @@
 		exports["weavereact"] = factory(require("React"));
 	else
 		root["weavereact"] = factory(root["React"]);
-})(this, function(__WEBPACK_EXTERNAL_MODULE_8__) {
+})(this, function(__WEBPACK_EXTERNAL_MODULE_12__) {
 return /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
@@ -370,19 +370,15 @@ return /******/ (function(modules) { // webpackBootstrap
 	    value: true
 	});
 
-	var _react = __webpack_require__(8);
-
-	var _react2 = _interopRequireDefault(_react);
-
 	var _App = __webpack_require__(6);
 
 	var _App2 = _interopRequireDefault(_App);
 
-	var _Style = __webpack_require__(9);
+	var _Style = __webpack_require__(8);
 
 	var _Style2 = _interopRequireDefault(_Style);
 
-	var _Node = __webpack_require__(12);
+	var _Node = __webpack_require__(11);
 
 	var _Node2 = _interopRequireDefault(_Node);
 
@@ -418,29 +414,23 @@ return /******/ (function(modules) { // webpackBootstrap
 	        key: "render",
 	        value: function render() {
 
-	            return _react2.default.createElement(_Node2.default, { data: this.props.data, label: this.props.label, nodes: this.props.nodes, treeConfig: this.settings, clickCallback: this.props.clickCallback });
+	            return React.createElement(_Node2.default, { data: this.props.data, label: this.props.label, nodes: this.props.nodes, treeConfig: this.settings, clickCallback: this.props.clickCallback });
 	        }
 	    }]);
 
 	    return Tree;
-	}(_react2.default.Component);
+	}(React.Component);
 
 	_App2.default.registerToolImplementation("weavereact.TreeConfig", Tree);
 	exports.default = Tree;
 
 /***/ },
 /* 8 */
-/***/ function(module, exports) {
-
-	module.exports = __WEBPACK_EXTERNAL_MODULE_8__;
-
-/***/ },
-/* 9 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(module) {'use strict';
 
-	var _appendVendorPrefix = __webpack_require__(10);
+	var _appendVendorPrefix = __webpack_require__(9);
 
 	var _appendVendorPrefix2 = _interopRequireDefault(_appendVendorPrefix);
 
@@ -506,12 +496,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(2)(module)))
 
 /***/ },
-/* 10 */
+/* 9 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var getVendorPropertyName = __webpack_require__(11);
+	var getVendorPropertyName = __webpack_require__(10);
 
 	module.exports = function (target, sources) {
 	    var to = Object(target);
@@ -541,7 +531,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	};
 
 /***/ },
-/* 11 */
+/* 10 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -570,7 +560,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	};
 
 /***/ },
-/* 12 */
+/* 11 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -581,7 +571,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    value: true
 	});
 
-	var _react = __webpack_require__(8);
+	var _react = __webpack_require__(12);
 
 	var _react2 = _interopRequireDefault(_react);
 
@@ -589,7 +579,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _App2 = _interopRequireDefault(_App);
 
-	var _Style = __webpack_require__(9);
+	var _Style = __webpack_require__(8);
 
 	var _Style2 = _interopRequireDefault(_Style);
 
@@ -759,6 +749,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.default = Node;
 
 /***/ },
+/* 12 */
+/***/ function(module, exports) {
+
+	module.exports = __WEBPACK_EXTERNAL_MODULE_12__;
+
+/***/ },
 /* 13 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -815,11 +811,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    value: true
 	});
 
-	var _react = __webpack_require__(8);
-
-	var _react2 = _interopRequireDefault(_react);
-
-	var _Style = __webpack_require__(9);
+	var _Style = __webpack_require__(8);
 
 	var _Style2 = _interopRequireDefault(_Style);
 
@@ -881,32 +873,32 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	            if (!this.props.keyPress) {
 	                if (this.settings.buttonIcon.value) {
-	                    modalButtonUI = _react2.default.createElement(
+	                    modalButtonUI = React.createElement(
 	                        "span",
 	                        { style: { cursor: "pointer" }, onClick: this.openModal },
-	                        _react2.default.createElement("i", { className: this.settings.buttonIcon.value })
+	                        React.createElement("i", { className: this.settings.buttonIcon.value })
 	                    );
 	                } else {
-	                    modalButtonUI = _react2.default.createElement(
+	                    modalButtonUI = React.createElement(
 	                        "span",
 	                        { type: "button", className: "btn btn-primary", onClick: this.openModal },
 	                        "Open"
 	                    );
 	                }
 	            }
-	            return _react2.default.createElement(
+	            return React.createElement(
 	                "span",
 	                null,
-	                _react2.default.createElement(
+	                React.createElement(
 	                    "span",
 	                    { type: "button", className: "btn btn-primary", onClick: this.openModal },
 	                    "Open"
 	                ),
-	                _react2.default.createElement("div", { style: overlay }),
-	                _react2.default.createElement(
+	                React.createElement("div", { style: overlay }),
+	                React.createElement(
 	                    "div",
 	                    { style: modal },
-	                    _react2.default.createElement(
+	                    React.createElement(
 	                        _ModalPanel2.default,
 	                        { sessionOpen: this.settings.open, settings: this.settings.panelConfig },
 	                        this.props.children
@@ -917,7 +909,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }]);
 
 	    return Modal;
-	}(_react2.default.Component);
+	}(React.Component);
 
 	exports.default = Modal;
 
@@ -932,10 +924,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	Object.defineProperty(exports, "__esModule", {
 	    value: true
 	});
-
-	var _react = __webpack_require__(8);
-
-	var _react2 = _interopRequireDefault(_react);
 
 	var _ModalPanelConfig = __webpack_require__(4);
 
@@ -1006,27 +994,27 @@ return /******/ (function(modules) { // webpackBootstrap
 	            layoutStyle["position"] = 'absolute';
 	            this.sessionOpen.value ? layoutStyle["display"] = 'block' : layoutStyle["display"] = 'none';
 
-	            return _react2.default.createElement(
+	            return React.createElement(
 	                "div",
 	                { style: layoutStyle },
-	                _react2.default.createElement(
+	                React.createElement(
 	                    "div",
 	                    { className: "modal-content" },
-	                    _react2.default.createElement(
+	                    React.createElement(
 	                        "div",
 	                        { className: "modal-header" },
-	                        _react2.default.createElement(
+	                        React.createElement(
 	                            "button",
 	                            { type: "button", className: "close", onClick: this.closeModal },
 	                            "×"
 	                        ),
-	                        _react2.default.createElement(
+	                        React.createElement(
 	                            "h4",
 	                            { className: "modal-title" },
 	                            "Title"
 	                        )
 	                    ),
-	                    _react2.default.createElement(
+	                    React.createElement(
 	                        "div",
 	                        { className: "modal-body", style: bodyStyle },
 	                        this.props.children
@@ -1037,7 +1025,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }]);
 
 	    return ModalPanel;
-	}(_react2.default.Component);
+	}(React.Component);
 
 	exports.default = ModalPanel;
 
