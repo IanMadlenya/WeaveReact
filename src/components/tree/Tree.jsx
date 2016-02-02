@@ -30,5 +30,5 @@ return ( <Node data={this.props.data} label={this.props.label} nodes={this.props
 
 }
 
-App.registerToolImplementation("reactweave.TreeConfig",Tree);
+App.registerToolImplementation("weavereact.TreeConfig",Tree);
 export default Tree;

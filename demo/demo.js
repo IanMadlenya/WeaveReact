@@ -518,11 +518,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	    SessionEditor.prototype.nodeClick = function nodeClick(node) {
 	        if (node.children) {
 	            this.selectedData = node.data;
-	            this.settings.activeNodeValue.state = Weave.getState(node.data);
+	            //this.settings.activeNodeValue.state = Weave.getState(node.data);
 	        } else {
-	            this.selectedData = node.data;
-	            this.settings.activeNodeValue.state = node.data.value;
-	        }
+	                this.selectedData = node.data;
+	                this.settings.activeNodeValue.state = node.data.value;
+	            }
 	    };
 
 	    SessionEditor.prototype.changeSessionValue = function changeSessionValue(e) {

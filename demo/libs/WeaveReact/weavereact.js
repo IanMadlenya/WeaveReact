@@ -467,7 +467,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    return Tree;
 	})(_react2["default"].Component);
 
-	_utilsApp2["default"].registerToolImplementation("reactweave.TreeConfig", Tree);
+	_utilsApp2["default"].registerToolImplementation("weavereact.TreeConfig", Tree);
 	exports["default"] = Tree;
 	module.exports = exports["default"];
 
