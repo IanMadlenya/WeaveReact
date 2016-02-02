@@ -7,7 +7,7 @@ module.exports = {
         app: "./src/index.js"
     },
     output: {
-        path: path.join(__dirname, "build/dist/"),
+        path: path.join(__dirname, "dist/"),
         filename: "weavereact.js",
         publicPath: "js/",
         library: "weavereact",
@@ -32,9 +32,6 @@ module.exports = {
     externals: {
         "react": "React",
         "react-dom": "ReactDOM",
-        "d3": "d3",
-        "c3": "c3",
-        "_": "lodash",
         "weavejs": "weavejs",
         "Weave": "Weave"
     },
