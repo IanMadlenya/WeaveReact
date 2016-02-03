@@ -1,3 +1,4 @@
+import React from 'react';
 import Style from "../../utils/Style";
 import PaneConfig from "./PaneConfig";
 

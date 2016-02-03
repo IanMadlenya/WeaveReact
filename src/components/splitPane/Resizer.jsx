@@ -1,3 +1,4 @@
+import React from 'react';
 import Style from "../../utils/Style";
 
 //code logic taken from https://github.com/tomkp/react-split-pane

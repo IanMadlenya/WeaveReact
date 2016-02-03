@@ -1,3 +1,5 @@
+import Weave from 'Weave';
+import weavejs from 'weavejs';
 (function (module) {
 
     function TreeConfig() {

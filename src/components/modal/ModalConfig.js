@@ -1,3 +1,6 @@
+import Weave from 'Weave';
+import weavejs from 'weavejs';
+
 import ModalPanelConfig from "./ModalPanelConfig";
 
 (function (module) {

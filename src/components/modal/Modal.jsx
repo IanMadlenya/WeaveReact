@@ -1,3 +1,4 @@
+import React from 'react';
 import Style from "../../utils/Style";
 import ModalConfig from "./ModalConfig";
 import ModalPanel from "./ModalPanel";

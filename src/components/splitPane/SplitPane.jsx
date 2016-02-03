@@ -1,3 +1,4 @@
+import React from 'react';
 import Style from "../../utils/Style";
 import SplitPaneConfig from "./SplitPaneConfig";
 import Pane from './Pane';
