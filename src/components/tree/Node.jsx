@@ -87,7 +87,7 @@ class Node extends React.Component {
 
         if(nodes.length > 0){ //folder
             var nodeIconStyleObject = Styles.appendVendorPrefix(this.props.treeConfig.getNodeIconStyle());
-            var folderIcon = this.props.treeConfig.getFileIcon(this.props.data,this.settings.open.value);
+            var folderIcon = this.props.treeConfig.getFolderIcon(this.props.data,this.settings.open.value);
             nodeUI = <span>
                     <span onClick={this.toggle}>
                         <i className={folderIcon} style={nodeIconStyleObject} ></i>

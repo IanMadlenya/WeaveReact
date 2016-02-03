@@ -158,10 +158,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	        return this.fileOpenIcon.value;
 	    };
 
-	    p.getFolderIcon = function (icon, data, isOpen) {
+	    p.getFolderIcon = function (data, isOpen) {
 	        var datType = this.getDataType ? this.getDataType(data) : data.constructor.name;
 	        if (this.dataTypesMap[datType]) return this.dataTypesMap[datType];
-	        return isOpen ? this.fileOpenIcon.value : this.folderIcon.value;
+	        return isOpen ? this.folderOpenIcon.value : this.folderIcon.value;
 	    };
 
 	    p.getFileIconStyle = function () {
@@ -713,7 +713,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	            if (nodes.length > 0) {
 	                //folder
 	                var nodeIconStyleObject = _Style2.default.appendVendorPrefix(this.props.treeConfig.getNodeIconStyle());
-	                var folderIcon = this.props.treeConfig.getFileIcon(this.props.data, this.settings.open.value);
+	                var folderIcon = this.props.treeConfig.getFolderIcon(this.props.data, this.settings.open.value);
 	                nodeUI = React.createElement(
 	                    "span",
 	                    null,

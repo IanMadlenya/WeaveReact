@@ -29,7 +29,10 @@ import Weave from "Weave";
         this.dataTypesMap = {
             "weavejs.core.LinkableString": "S",
             "weavejs.core.LinkableNumber": "N",
-            "weavejs.core.LinkableBoolean": "B"
+            "weavejs.core.LinkableBoolean": "B",
+            "weavejs.data.source.WeaveDataSource": "fa fa-database",
+            "weavejs.data.key.KeySet": "fa fa-key",
+            "weavejs.data.key.KeyFilter": "fa fa-filter"
         }
 
 
