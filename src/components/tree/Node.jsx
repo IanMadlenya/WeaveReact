@@ -70,13 +70,10 @@ class Node extends React.Component {
 
     render() {
         var nodesUI = [];
-        var folderIcon = this.props.treeConfig.folderIcon.value;
-        //var activeLeafColor = "black";
 
         var nodeUI = "";
         var nodes = this.settings.getNodes();
         if(this.settings.open.value){
-            folderIcon = this.props.treeConfig.folderOpenIcon.value;
 
             if(nodes.length > 0){
                 var treeNodes = this.getTreeNodes();
@@ -90,6 +87,7 @@ class Node extends React.Component {
 
         if(nodes.length > 0){ //folder
             var nodeIconStyleObject = Styles.appendVendorPrefix(this.props.treeConfig.getNodeIconStyle());
+            var folderIcon = this.props.treeConfig.getFileIcon(this.props.data,this.settings.open.value);
             nodeUI = <span>
                     <span onClick={this.toggle}>
                         <i className={folderIcon} style={nodeIconStyleObject} ></i>

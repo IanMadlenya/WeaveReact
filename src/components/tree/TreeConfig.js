@@ -46,6 +46,14 @@
 
     }
 
+    p.getFolderIcon = function (icon, data, isOpen) {
+        var datType = this.getDataType ? this.getDataType(data) : data.constructor.name;
+        if (this.dataTypesMap[datType])
+            return this.dataTypesMap[datType];
+        return isOpen ? this.fileOpenIcon.value : this.folderIcon.value;
+
+    }
+
     p.getFileIconStyle = function () {
         return {
             fontStyle: "bold",

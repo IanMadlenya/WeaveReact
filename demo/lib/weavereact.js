@@ -158,6 +158,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	        return this.fileOpenIcon.value;
 	    };
 
+	    p.getFolderIcon = function (icon, data, isOpen) {
+	        var datType = this.getDataType ? this.getDataType(data) : data.constructor.name;
+	        if (this.dataTypesMap[datType]) return this.dataTypesMap[datType];
+	        return isOpen ? this.fileOpenIcon.value : this.folderIcon.value;
+	    };
+
 	    p.getFileIconStyle = function () {
 	        return {
 	            fontStyle: "bold",
@@ -689,13 +695,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	        key: "render",
 	        value: function render() {
 	            var nodesUI = [];
-	            var folderIcon = this.props.treeConfig.folderIcon.value;
-	            //var activeLeafColor = "black";
 
 	            var nodeUI = "";
 	            var nodes = this.settings.getNodes();
 	            if (this.settings.open.value) {
-	                folderIcon = this.props.treeConfig.folderOpenIcon.value;
 
 	                if (nodes.length > 0) {
 	                    var treeNodes = this.getTreeNodes();
@@ -710,6 +713,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	            if (nodes.length > 0) {
 	                //folder
 	                var nodeIconStyleObject = _Style2.default.appendVendorPrefix(this.props.treeConfig.getNodeIconStyle());
+	                var folderIcon = this.props.treeConfig.getFileIcon(this.props.data, this.settings.open.value);
 	                nodeUI = React.createElement(
 	                    "span",
 	                    null,
