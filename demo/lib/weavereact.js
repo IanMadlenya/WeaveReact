@@ -80,6 +80,14 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _Modal2 = _interopRequireDefault(_Modal);
 
+	var _SplitPane = __webpack_require__(15);
+
+	var _SplitPane2 = _interopRequireDefault(_SplitPane);
+
+	var _SplitPaneConfig = __webpack_require__(16);
+
+	var _SplitPaneConfig2 = _interopRequireDefault(_SplitPaneConfig);
+
 	var _App = __webpack_require__(6);
 
 	var _App2 = _interopRequireDefault(_App);
@@ -90,6 +98,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.Modal = _Modal2.default;
 	exports.TreeConfig = _TreeConfig2.default;
 	exports.ModalConfig = _ModalConfig2.default;
+	exports.SplitPane = _SplitPane2.default;
+	exports.SplitPaneConfig = _SplitPaneConfig2.default;
 
 	exports.getToolForConfigName = function (name) {
 	    if (_App2.default.getToolImplementation(name)) {
@@ -837,6 +847,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(Modal).call(this, props));
 
 	        _this.settings = _this.props.settings ? _this.props.settings : new _ModalConfig2.default();
+	        if (_this.props.title) _this.settings.panelConfig.title.value = _this.props.title;
 
 	        _this.openModal = _this.openModal.bind(_this);
 
@@ -867,6 +878,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	            var overlay = _Style2.default.overlayContainer(isOpen);
 	            var modal = _Style2.default.modal(isOpen);
 	            var modalButtonUI = "";
+	            var modalPanelUI = "";
+	            if (isOpen) {
+	                modalPanelUI = React.createElement(
+	                    _ModalPanel2.default,
+	                    { sessionOpen: this.settings.open, settings: this.settings.panelConfig },
+	                    this.props.children
+	                );
+	            }
 
 	            if (!this.props.keyPress) {
 	                if (this.settings.buttonIcon.value) {
@@ -891,11 +910,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	                React.createElement(
 	                    "div",
 	                    { style: modal },
-	                    React.createElement(
-	                        _ModalPanel2.default,
-	                        { sessionOpen: this.settings.open, settings: this.settings.panelConfig },
-	                        this.props.children
-	                    )
+	                    modalPanelUI
 	                )
 	            );
 	        }
@@ -1004,7 +1019,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	                        React.createElement(
 	                            "h4",
 	                            { className: "modal-title" },
-	                            "Title"
+	                            this.settings.title.value
 	                        )
 	                    ),
 	                    React.createElement(
@@ -1021,6 +1036,473 @@ return /******/ (function(modules) { // webpackBootstrap
 	}(React.Component);
 
 	exports.default = ModalPanel;
+
+/***/ },
+/* 15 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	var _Style = __webpack_require__(8);
+
+	var _Style2 = _interopRequireDefault(_Style);
+
+	var _SplitPaneConfig = __webpack_require__(16);
+
+	var _SplitPaneConfig2 = _interopRequireDefault(_SplitPaneConfig);
+
+	var _Pane = __webpack_require__(18);
+
+	var _Pane2 = _interopRequireDefault(_Pane);
+
+	var _Resizer = __webpack_require__(19);
+
+	var _Resizer2 = _interopRequireDefault(_Resizer);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	//code logic taken from https://github.com/tomkp/react-split-pane
+
+	var SplitPane = function (_React$Component) {
+	    _inherits(SplitPane, _React$Component);
+
+	    function SplitPane(props) {
+	        _classCallCheck(this, SplitPane);
+
+	        var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(SplitPane).call(this, props));
+
+	        _this.settings = _this.props.settings ? _this.props.settings : new _SplitPaneConfig2.default();
+	        _this.onMouseDown = _this.onMouseDown.bind(_this);
+	        _this.onMouseMove = _this.onMouseMove.bind(_this);
+	        _this.onMouseUp = _this.onMouseUp.bind(_this);
+	        return _this;
+	    }
+
+	    _createClass(SplitPane, [{
+	        key: "componentDidMount",
+	        value: function componentDidMount() {
+	            this.settings.active.addGroupedCallback(this, this.forceUpdate);
+	            this.settings.resized.addGroupedCallback(this, this.forceUpdate);
+	            this.settings.position.addGroupedCallback(this, this.forceUpdate);
+	            this.settings.unFocusCount.addImmediateCallback(this, this.unFocus);
+	            document.addEventListener('mouseup', this.onMouseUp);
+	            document.addEventListener('mousemove', this.onMouseMove);
+	            var ref = this.refs.pane1;
+	            if (ref && this.props.defaultSize && !this.settings.resized.value) {
+	                this.settings.pane1.size.value = this.props.defaultSize;
+	                //ref.setSessionState( this.props.defaultSize);
+	            }
+	        }
+	    }, {
+	        key: "componentWillUnmount",
+	        value: function componentWillUnmount() {
+	            this.settings.active.removeCallback(this, this.forceUpdate);
+	            this.settings.resized.removeCallback(this, this.forceUpdate);
+	            this.settings.position.removeCallback(this, this.forceUpdate);
+	            this.settings.unFocusCount.removeCallback(this, this.unFocus);
+	            document.removeEventListener('mouseup', this.onMouseUp);
+	            document.removeEventListener('mousemove', this.onMouseMove);
+	        }
+	    }, {
+	        key: "onMouseDown",
+	        value: function onMouseDown(event) {
+	            this.settings.updateUnFocus();
+	            var position = this.props.split === 'vertical' ? event.clientX : event.clientY;
+	            this.settings.position.value = position;
+	            this.settings.active.value = true;
+	        }
+	    }, {
+	        key: "onMouseMove",
+	        value: function onMouseMove(event) {
+	            if (this.settings.active.value) {
+	                this.settings.updateUnFocus();
+	                var ref = this.refs.pane1;
+	                if (ref) {
+	                    var node = ReactDOM.findDOMNode(ref);
+	                    if (node.getBoundingClientRect) {
+	                        var width = node.getBoundingClientRect().width;
+	                        var height = node.getBoundingClientRect().height;
+	                        var current = this.props.split === 'vertical' ? event.clientX : event.clientY;
+	                        var size = this.props.split === 'vertical' ? width : height;
+	                        var position = this.settings.position.value;
+
+	                        var newSize = size - (position - current);
+
+	                        this.settings.position.value = current;
+	                        this.settings.resized.value = true;
+
+	                        if (newSize >= this.props.minSize) {
+	                            if (this.props.onChange) {
+	                                this.props.onChange(newSize);
+	                            }
+	                            this.settings.pane1.size.value = newSize;
+	                        }
+	                    }
+	                }
+	            }
+	        }
+	    }, {
+	        key: "onMouseUp",
+	        value: function onMouseUp() {
+	            if (this.settings.active.value) {
+	                if (this.props.onDragFinished) {
+	                    this.props.onDragFinished();
+	                }
+	                this.settings.active.value = false;
+	            }
+	        }
+	    }, {
+	        key: "unFocus",
+	        value: function unFocus() {
+	            // need to be called change of session value so that we can see them in session Log
+	            if (document.selection) {
+	                document.selection.empty();
+	            } else {
+	                window.getSelection().removeAllRanges();
+	            }
+	        }
+	    }, {
+	        key: "render",
+	        value: function render() {
+	            var split = this.props.split;
+
+	            var styleObj = _Style2.default.appendVendorPrefix({
+	                display: 'flex',
+	                flex: 1,
+	                position: 'relative',
+	                outline: 'none',
+	                overflow: 'hidden',
+	                MozUserSelect: 'text',
+	                WebkitUserSelect: 'text',
+	                msUserSelect: 'text',
+	                userSelect: 'text'
+	            });
+
+	            if (split === 'vertical') {
+	                _Style2.default.mergeStyleObjects(styleObj, {
+	                    flexDirection: 'row',
+	                    height: '100%',
+	                    position: 'absolute',
+	                    left: 0,
+	                    right: 0
+	                }, true);
+	            } else {
+	                _Style2.default.mergeStyleObjects(styleObj, {
+	                    flexDirection: 'column',
+	                    height: '100%',
+	                    minHeight: '100%',
+	                    position: 'absolute',
+	                    top: 0,
+	                    bottom: 0,
+	                    width: '100%'
+	                }, true);
+	            }
+	            var children = this.props.children;
+
+	            var classes = ['SplitPane', split];
+
+	            return React.createElement(
+	                "div",
+	                { className: classes.join(' '), style: styleObj, ref: "splitPane" },
+	                React.createElement(
+	                    _Pane2.default,
+	                    { ref: "pane1", key: "pane1", split: split, settings: this.settings.pane1 },
+	                    children[0]
+	                ),
+	                React.createElement(_Resizer2.default, { ref: "resizer", key: "resizer", onMouseDown: this.onMouseDown, split: split }),
+	                React.createElement(
+	                    _Pane2.default,
+	                    { ref: "pane2", key: "pane2", split: split, settings: this.settings.pane2 },
+	                    children[1]
+	                )
+	            );
+	        }
+	    }]);
+
+	    return SplitPane;
+	}(React.Component);
+
+	SplitPane.defaultProps = {
+	    minSize: 0,
+	    split: "vertical"
+	};
+
+	exports.default = SplitPane;
+
+/***/ },
+/* 16 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/* WEBPACK VAR INJECTION */(function(module) {"use strict";
+
+	var _PaneConfig = __webpack_require__(17);
+
+	var _PaneConfig2 = _interopRequireDefault(_PaneConfig);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	(function (module) {
+
+	    function SplitPaneConfig() {
+
+	        Object.defineProperties(this, {
+	            "active": {
+	                value: Weave.linkableChild(this, new weavejs.core.LinkableBoolean(false))
+	            },
+	            "resized": {
+	                value: Weave.linkableChild(this, new weavejs.core.LinkableBoolean(false))
+	            },
+	            "position": {
+	                value: Weave.linkableChild(this, new weavejs.core.LinkableString(""))
+	            },
+	            "pane1": {
+	                value: Weave.linkableChild(this, new _PaneConfig2.default())
+	            },
+	            "pane2": {
+	                value: Weave.linkableChild(this, new _PaneConfig2.default())
+	            },
+	            "unFocusCount": {
+	                value: Weave.linkableChild(this, new weavejs.core.LinkableNumber(0))
+	            }
+
+	        });
+	    }
+
+	    var p = SplitPaneConfig.prototype;
+
+	    p.updateUnFocus = function () {
+	        this.unFocusCount.value = this.unFocusCount.value + 1;
+	    };
+
+	    //This Function makes this class as SessionClass
+	    Weave.registerClass('weavereact.SplitPaneConfig', SplitPaneConfig);
+
+	    module.exports = SplitPaneConfig;
+	})(module);
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(2)(module)))
+
+/***/ },
+/* 17 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/* WEBPACK VAR INJECTION */(function(module) {"use strict";
+
+	(function (module) {
+
+	    function PaneConfig() {
+
+	        Object.defineProperties(this, {
+
+	            "size": {
+	                value: Weave.linkableChild(this, new weavejs.core.LinkableString(""))
+	            }
+
+	        });
+	    }
+
+	    //This Function makes this class as SessionClass
+	    Weave.registerClass('weavereact.PaneConfig', PaneConfig);
+
+	    module.exports = PaneConfig;
+	})(module);
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(2)(module)))
+
+/***/ },
+/* 18 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	var _Style = __webpack_require__(8);
+
+	var _Style2 = _interopRequireDefault(_Style);
+
+	var _PaneConfig = __webpack_require__(17);
+
+	var _PaneConfig2 = _interopRequireDefault(_PaneConfig);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	//code logic taken from https://github.com/tomkp/react-split-pane
+
+	var Pane = function (_React$Component) {
+	    _inherits(Pane, _React$Component);
+
+	    function Pane(props) {
+	        _classCallCheck(this, Pane);
+
+	        var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(Pane).call(this, props));
+
+	        _this.settings = _this.props.settings ? _this.props.settings : new _PaneConfig2.default();
+	        _this.setSessionState = _this.setSessionState.bind(_this);
+	        //this.state ={};
+	        return _this;
+	    }
+
+	    _createClass(Pane, [{
+	        key: "componentDidMount",
+	        value: function componentDidMount() {
+	            this.settings.size.addImmediateCallback(this, this.forceUpdate);
+	        }
+	    }, {
+	        key: "componentWillUnmount",
+	        value: function componentWillUnmount() {
+	            this.settings.size.removeCallback(this, this.forceUpdate);
+	        }
+	    }, {
+	        key: "setSessionState",
+	        value: function setSessionState(size) {
+	            this.settings.size.value = size;
+	        }
+	    }, {
+	        key: "render",
+	        value: function render() {
+
+	            var split = this.props.split;
+	            var classes = ['Pane', split];
+
+	            var styleObj = _Style2.default.appendVendorPrefix({
+	                flex: 1,
+	                position: 'relative',
+	                outline: 'none',
+	                overflow: 'auto'
+	            });
+
+	            if (this.settings.size.value) {
+	                if (split === 'vertical') {
+	                    styleObj.width = this.settings.size.value;
+	                } else {
+	                    styleObj.height = this.settings.size.value;
+	                    styleObj.display = 'flex';
+	                }
+	                styleObj.flex = 'none';
+	            }
+
+	            return React.createElement(
+	                "div",
+	                { className: classes.join(' '), style: styleObj },
+	                this.props.children
+	            );
+	        }
+	    }]);
+
+	    return Pane;
+	}(React.Component);
+
+	exports.default = Pane;
+
+/***/ },
+/* 19 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	var _Style = __webpack_require__(8);
+
+	var _Style2 = _interopRequireDefault(_Style);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	//code logic taken from https://github.com/tomkp/react-split-pane
+
+	var Resizer = function (_React$Component) {
+	    _inherits(Resizer, _React$Component);
+
+	    function Resizer(props) {
+	        _classCallCheck(this, Resizer);
+
+	        var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(Resizer).call(this, props));
+
+	        _this.onMouseDown = _this.onMouseDown.bind(_this);
+	        return _this;
+	    }
+
+	    _createClass(Resizer, [{
+	        key: "onMouseDown",
+	        value: function onMouseDown(event) {
+	            this.props.onMouseDown(event);
+	        }
+	    }, {
+	        key: "render",
+	        value: function render() {
+	            var resizerStyle = {
+	                boxSizing: "border-box",
+	                background: "#000",
+	                opacity: ".2",
+	                zIndex: "1",
+	                MozBackgroundClip: "padding",
+	                WebkitBackgroundClip: "padding",
+	                backgroundClip: "padding-box"
+	            };
+
+	            var split = this.props.split;
+	            var splitStyle;
+	            if (split === 'horizontal') {
+	                splitStyle = {
+	                    height: "11px",
+	                    margin: "-5px 0",
+	                    borderTop: "5px solid rgba(255, 255, 255, 0)",
+	                    borderBottom: "5px solid rgba(255, 255, 255, 0)",
+	                    cursor: "row-resize",
+	                    width: "100%"
+	                };
+	            } else {
+	                splitStyle = {
+	                    width: "11px",
+	                    margin: "0 -5px",
+	                    borderLeft: "5px solid rgba(255, 255, 255, 0)",
+	                    borderRight: "5px solid rgba(255, 255, 255, 0)",
+	                    cursor: "col-resize",
+	                    height: "100%"
+	                };
+	            }
+
+	            _Style2.default.mergeStyleObjects(resizerStyle, splitStyle, true);
+
+	            return React.createElement("span", { style: resizerStyle, onMouseDown: this.onMouseDown });
+	        }
+	    }]);
+
+	    return Resizer;
+	}(React.Component);
+
+	exports.default = Resizer;
 
 /***/ }
 /******/ ])

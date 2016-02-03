@@ -9,6 +9,7 @@ class Modal extends React.Component {
     constructor(props) {
         super(props);
         this.settings = this.props.settings ? this.props.settings:new ModalConfig();
+        if(this.props.title) this.settings.panelConfig.title.value =  this.props.title;
 
 
         this.openModal = this.openModal.bind(this);
@@ -38,6 +39,12 @@ class Modal extends React.Component {
     var overlay = Style.overlayContainer(isOpen);
     var modal = Style.modal(isOpen);
     var modalButtonUI = "";
+    var modalPanelUI = "";
+    if(isOpen){
+        modalPanelUI = <ModalPanel  sessionOpen={this.settings.open} settings={this.settings.panelConfig}>
+                            {this.props.children}
+                        </ModalPanel>
+    }
 
     if (!this.props.keyPress){
         if(this.settings.buttonIcon.value){
@@ -53,9 +60,7 @@ class Modal extends React.Component {
 
                     <div style={overlay}/>
                     <div style={modal}>
-                        <ModalPanel  sessionOpen={this.settings.open} settings={this.settings.panelConfig}>
-                            {this.props.children}
-                        </ModalPanel>
+                        {modalPanelUI}
                     </div>
             </span>
     );

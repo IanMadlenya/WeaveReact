@@ -57,43 +57,44 @@ class SessionEditor extends React.Component {
     }
 
     var treeContainerStyle = {
-        width:"72%",
+        width:"100%",
         height:"100%",
         borderStyle:"solid",
         borderRadius:"2px",
         borderWidth:"1px",
         borderColor:"grey",
-        float:"left",
         overflowY: 'scroll',
         overflowX: 'scroll',
         padding:"4px"
     }
     var resultContainerStyle = {
-        width:"24%",
+        width:"100%",
         height:"100%",
         borderStyle:"solid",
         borderRadius:"2px",
         borderWidth:"1px",
         borderColor:"grey",
-        float:"right",
         overflowY: 'scroll',
         overflowX: 'scroll',
-         padding:"4px"
+        padding:"4px"
     }
 
-    return ( <weavereact.Modal settings={this.settings.modalConfig} keyPress="true" open="false">
-                <div style={{display:"inline-block",width:"100%"}}>
+    return ( <weavereact.Modal settings={this.settings.modalConfig} keyPress="true" open="false" title="Session State Editor">
+                <div>
+                <weavereact.SplitPane split="vertical" minSize="50" defaultSize="100">
                     <div style={treeContainerStyle}>
                         {treeUI}
                     </div>
-                    <span style={resultContainerStyle}>
+                    <div style={resultContainerStyle}>
                         <textarea style={{width:"100%",height:"100%",border:"none"}} value={this.settings.activeNodeValue.state} onChange={this.changeSessionValue}/>
-                    </span>
+                    </div>
+                </weavereact.SplitPane>
                 </div>
-
             </weavereact.Modal>
+
             );
     }
 
 }
 export default SessionEditor;
+

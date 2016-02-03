@@ -30,6 +30,7 @@ class App extends React.Component {
 
     componentWillUnMount(){
         this.props.root.childListCallbacks.removeCallback(this,this.forceUpdate);
+        window.removeEventListener('keydown', this.openSettings);
     }
 
 

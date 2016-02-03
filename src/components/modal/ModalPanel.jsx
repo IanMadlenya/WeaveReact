@@ -51,11 +51,10 @@ class ModalPanel extends React.Component {
                 <div className="modal-content">
                     <div className="modal-header">
                         <button type="button" className="close" onClick={this.closeModal}>&times;</button>
-                        <h4 className="modal-title">Title</h4>
+                        <h4 className="modal-title">{this.settings.title.value}</h4>
                     </div>
                     <div className="modal-body" style={bodyStyle}>
                         {this.props.children}
-
                     </div>
                 </div>
             </div>

@@ -184,6 +184,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        key: "componentWillUnMount",
 	        value: function componentWillUnMount() {
 	            this.props.root.childListCallbacks.removeCallback(this, this.forceUpdate);
+	            window.removeEventListener('keydown', this.openSettings);
 	        }
 	    }, {
 	        key: "render",
@@ -323,25 +324,23 @@ return /******/ (function(modules) { // webpackBootstrap
 	            }
 
 	            var treeContainerStyle = {
-	                width: "72%",
+	                width: "100%",
 	                height: "100%",
 	                borderStyle: "solid",
 	                borderRadius: "2px",
 	                borderWidth: "1px",
 	                borderColor: "grey",
-	                float: "left",
 	                overflowY: 'scroll',
 	                overflowX: 'scroll',
 	                padding: "4px"
 	            };
 	            var resultContainerStyle = {
-	                width: "24%",
+	                width: "100%",
 	                height: "100%",
 	                borderStyle: "solid",
 	                borderRadius: "2px",
 	                borderWidth: "1px",
 	                borderColor: "grey",
-	                float: "right",
 	                overflowY: 'scroll',
 	                overflowX: 'scroll',
 	                padding: "4px"
@@ -349,19 +348,23 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	            return _react2.default.createElement(
 	                _weavereact2.default.Modal,
-	                { settings: this.settings.modalConfig, keyPress: "true", open: "false" },
+	                { settings: this.settings.modalConfig, keyPress: "true", open: "false", title: "Session State Editor" },
 	                _react2.default.createElement(
 	                    "div",
-	                    { style: { display: "inline-block", width: "100%" } },
+	                    null,
 	                    _react2.default.createElement(
-	                        "div",
-	                        { style: treeContainerStyle },
-	                        treeUI
-	                    ),
-	                    _react2.default.createElement(
-	                        "span",
-	                        { style: resultContainerStyle },
-	                        _react2.default.createElement("textarea", { style: { width: "100%", height: "100%", border: "none" }, value: this.settings.activeNodeValue.state, onChange: this.changeSessionValue })
+	                        _weavereact2.default.SplitPane,
+	                        { split: "vertical", minSize: "50", defaultSize: "100" },
+	                        _react2.default.createElement(
+	                            "div",
+	                            { style: treeContainerStyle },
+	                            treeUI
+	                        ),
+	                        _react2.default.createElement(
+	                            "div",
+	                            { style: resultContainerStyle },
+	                            _react2.default.createElement("textarea", { style: { width: "100%", height: "100%", border: "none" }, value: this.settings.activeNodeValue.state, onChange: this.changeSessionValue })
+	                        )
 	                    )
 	                )
 	            );
