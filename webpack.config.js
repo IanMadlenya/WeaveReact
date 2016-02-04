@@ -30,7 +30,19 @@ module.exports = {
     plugins: [
 		new webpack.NoErrorsPlugin()
 	],
-    externals: [
+    externals: {
+        "react": "React",
+        "react-dom": "ReactDOM",
+        "weavejs": "weavejs",
+        "Weave": "Weave"
+    },
+    resolve: {
+        extensions: ["", ".js", ".jsx", ".scss", ".md"]
+    }
+};
+
+/*
+[
         {
             'react': {
                 root: 'React',
@@ -57,8 +69,4 @@ module.exports = {
                 root: 'Weave'
             }
         }
-    ],
-    resolve: {
-        extensions: ["", ".js", ".jsx", ".scss", ".md"]
-    }
-};
+    ]*/
