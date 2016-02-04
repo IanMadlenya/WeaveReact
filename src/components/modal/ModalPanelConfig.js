@@ -1,5 +1,5 @@
-import Weave from 'Weave';
-import weavejs from 'weavejs';
+/*import Weave from 'Weave';
+import weavejs from 'weavejs';*/
 import BorderConfig from "../../configs/BorderConfig";
 
 (function (module) {

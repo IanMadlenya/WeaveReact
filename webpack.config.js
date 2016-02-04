@@ -32,9 +32,7 @@ module.exports = {
 	],
     externals: {
         "react": "React",
-        "react-dom": "ReactDOM",
-        "weavejs": "weavejs",
-        "Weave": "Weave"
+        "react-dom": "ReactDOM"
     },
     resolve: {
         extensions: ["", ".js", ".jsx", ".scss", ".md"]

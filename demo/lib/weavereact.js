@@ -1,13 +1,13 @@
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
-		module.exports = factory(require(undefined), require(undefined), require("react"));
+		module.exports = factory(require("React"));
 	else if(typeof define === 'function' && define.amd)
-		define([, , "react"], factory);
+		define(["React"], factory);
 	else if(typeof exports === 'object')
-		exports["weavereact"] = factory(require(undefined), require(undefined), require("react"));
+		exports["weavereact"] = factory(require("React"));
 	else
-		root["weavereact"] = factory(root["Weave"], root["weavejs"], root["React"]);
-})(this, function(__WEBPACK_EXTERNAL_MODULE_3__, __WEBPACK_EXTERNAL_MODULE_4__, __WEBPACK_EXTERNAL_MODULE_10__) {
+		root["weavereact"] = factory(root["React"]);
+})(this, function(__WEBPACK_EXTERNAL_MODULE_2__) {
 return /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
@@ -56,39 +56,39 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	"use strict";
 
-	var _TreeConfig = __webpack_require__(1);
-
-	var _TreeConfig2 = _interopRequireDefault(_TreeConfig);
-
-	var _ModalConfig = __webpack_require__(5);
-
-	var _ModalConfig2 = _interopRequireDefault(_ModalConfig);
-
-	var _Tree = __webpack_require__(9);
+	var _Tree = __webpack_require__(1);
 
 	var _Tree2 = _interopRequireDefault(_Tree);
 
-	var _Node = __webpack_require__(14);
+	var _TreeConfig = __webpack_require__(10);
+
+	var _TreeConfig2 = _interopRequireDefault(_TreeConfig);
+
+	var _Node = __webpack_require__(8);
 
 	var _Node2 = _interopRequireDefault(_Node);
 
-	var _NodeConfig = __webpack_require__(15);
+	var _NodeConfig = __webpack_require__(9);
 
 	var _NodeConfig2 = _interopRequireDefault(_NodeConfig);
 
-	var _Modal = __webpack_require__(16);
+	var _Modal = __webpack_require__(11);
 
 	var _Modal2 = _interopRequireDefault(_Modal);
 
-	var _SplitPane = __webpack_require__(18);
+	var _ModalConfig = __webpack_require__(12);
+
+	var _ModalConfig2 = _interopRequireDefault(_ModalConfig);
+
+	var _SplitPane = __webpack_require__(16);
 
 	var _SplitPane2 = _interopRequireDefault(_SplitPane);
 
-	var _SplitPaneConfig = __webpack_require__(19);
+	var _SplitPaneConfig = __webpack_require__(17);
 
 	var _SplitPaneConfig2 = _interopRequireDefault(_SplitPaneConfig);
 
-	var _App = __webpack_require__(8);
+	var _App = __webpack_require__(3);
 
 	var _App2 = _interopRequireDefault(_App);
 
@@ -104,332 +104,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.getToolForConfigName = function (name) {
 	    if (_App2.default.getToolImplementation(name)) {
 	        return _App2.default.getToolImplementation(name);
-	    } else {
-	        console.warn("No Tool is registered for " + name);
 	    }
 	};
 
 /***/ },
 /* 1 */
-/***/ function(module, exports, __webpack_require__) {
-
-	/* WEBPACK VAR INJECTION */(function(module) {'use strict';
-
-	var _Weave = __webpack_require__(3);
-
-	var _Weave2 = _interopRequireDefault(_Weave);
-
-	var _weavejs = __webpack_require__(4);
-
-	var _weavejs2 = _interopRequireDefault(_weavejs);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	(function (module) {
-
-	    function TreeConfig() {
-
-	        Object.defineProperties(this, {
-	            "folderIcon": {
-	                value: _Weave2.default.linkableChild(this, new _weavejs2.default.core.LinkableString("fa fa-folder"))
-	            },
-	            "folderOpenIcon": {
-	                value: _Weave2.default.linkableChild(this, new _weavejs2.default.core.LinkableString("fa fa-folder-open"))
-	            },
-	            "fileIcon": {
-	                value: _Weave2.default.linkableChild(this, new _weavejs2.default.core.LinkableString("fa fa-file-text"))
-	            },
-	            "fileOpenIcon": {
-	                value: _Weave2.default.linkableChild(this, new _weavejs2.default.core.LinkableString("fa fa-file-text-o"))
-	            },
-	            "enableDataTypeIcon": {
-	                value: _Weave2.default.linkableChild(this, new _weavejs2.default.core.LinkableBoolean(false))
-	            }
-	        });
-
-	        this.activeNode = null;
-	        this.dataTypesMap = null;
-	        this.getDataType = null;
-	    }
-
-	    var p = TreeConfig.prototype;
-
-	    p.changeActiveNode = function (nodeConfig) {
-	        if (this.activeNode) {
-	            this.activeNode.active.value = false;
-	        }
-	        this.activeNode = nodeConfig;
-	        this.activeNode.active.value = true;
-	    };
-
-	    p.getFileIcon = function (data) {
-	        var datType = this.getDataType ? this.getDataType(data) : data.constructor.name;
-	        if (this.dataTypesMap[datType]) return this.dataTypesMap[datType];
-	        return this.fileOpenIcon.value;
-	    };
-
-	    p.getFolderIcon = function (data, isOpen) {
-	        var datType = this.getDataType ? this.getDataType(data) : data.constructor.name;
-	        if (this.dataTypesMap[datType]) return this.dataTypesMap[datType];
-	        return isOpen ? this.folderOpenIcon.value : this.folderIcon.value;
-	    };
-
-	    p.getFileIconStyle = function () {
-	        return {
-	            fontStyle: "bold",
-	            borderStyle: "solid",
-	            borderColor: "#7fd6f9",
-	            borderWidth: "1px",
-	            borderRadius: "4px",
-	            paddingLeft: "3px",
-	            paddingRight: "3px",
-	            fontSize: "11px"
-	        };
-	    };
-
-	    p.getNodeIconStyle = function () {
-	        return {
-	            color: "#7fd6f9",
-	            textShadow: "-1px 0 black, 0 1px black, 1px 0 black, 0 -1px black"
-	        };
-	    };
-
-	    //This Function makes this class as SessionClass
-	    _Weave2.default.registerClass('weavereact.TreeConfig', TreeConfig);
-
-	    module.exports = TreeConfig;
-	})(module);
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(2)(module)))
-
-/***/ },
-/* 2 */
-/***/ function(module, exports) {
-
-	module.exports = function(module) {
-		if(!module.webpackPolyfill) {
-			module.deprecate = function() {};
-			module.paths = [];
-			// module.parent = undefined by default
-			module.children = [];
-			module.webpackPolyfill = 1;
-		}
-		return module;
-	}
-
-
-/***/ },
-/* 3 */
-/***/ function(module, exports) {
-
-	module.exports = __WEBPACK_EXTERNAL_MODULE_3__;
-
-/***/ },
-/* 4 */
-/***/ function(module, exports) {
-
-	module.exports = __WEBPACK_EXTERNAL_MODULE_4__;
-
-/***/ },
-/* 5 */
-/***/ function(module, exports, __webpack_require__) {
-
-	/* WEBPACK VAR INJECTION */(function(module) {'use strict';
-
-	var _Weave = __webpack_require__(3);
-
-	var _Weave2 = _interopRequireDefault(_Weave);
-
-	var _weavejs = __webpack_require__(4);
-
-	var _weavejs2 = _interopRequireDefault(_weavejs);
-
-	var _ModalPanelConfig = __webpack_require__(6);
-
-	var _ModalPanelConfig2 = _interopRequireDefault(_ModalPanelConfig);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	(function (module) {
-
-	    function ModalConfig() {
-
-	        Object.defineProperties(this, {
-	            "panelConfig": {
-	                value: _Weave2.default.linkableChild(this, new _ModalPanelConfig2.default())
-	            },
-	            "open": {
-	                value: _Weave2.default.linkableChild(this, new _weavejs2.default.core.LinkableBoolean(false))
-	            },
-	            "buttonIcon": {
-	                value: _Weave2.default.linkableChild(this, new _weavejs2.default.core.LinkableString(""))
-	            }
-
-	        });
-	    }
-
-	    //This Function makes this class as SessionClass
-	    _Weave2.default.registerClass('weavereact.ModalConfig', ModalConfig);
-
-	    module.exports = ModalConfig;
-	})(module);
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(2)(module)))
-
-/***/ },
-/* 6 */
-/***/ function(module, exports, __webpack_require__) {
-
-	/* WEBPACK VAR INJECTION */(function(module) {'use strict';
-
-	var _Weave = __webpack_require__(3);
-
-	var _Weave2 = _interopRequireDefault(_Weave);
-
-	var _weavejs = __webpack_require__(4);
-
-	var _weavejs2 = _interopRequireDefault(_weavejs);
-
-	var _BorderConfig = __webpack_require__(7);
-
-	var _BorderConfig2 = _interopRequireDefault(_BorderConfig);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	(function (module) {
-
-	    function ModalPanelConfig() {
-
-	        Object.defineProperties(this, {
-	            "border": {
-	                value: _Weave2.default.linkableChild(this, new _weavejs2.default.core.LinkableDynamicObject(_BorderConfig2.default))
-	            },
-	            "title": {
-	                value: _Weave2.default.linkableChild(this, new _weavejs2.default.core.LinkableString(""))
-	            }
-
-	        });
-
-	        Object.defineProperties(this, {
-	            "width": {
-	                value: _Weave2.default.linkableChild(this, new _weavejs2.default.core.LinkableString("60%"))
-	            },
-	            "height": {
-	                value: _Weave2.default.linkableChild(this, new _weavejs2.default.core.LinkableString("80%"))
-	            },
-	            "marginLeft": {
-	                value: _Weave2.default.linkableChild(this, new _weavejs2.default.core.LinkableString("-20%"))
-	            },
-	            "marginTop": {
-	                value: _Weave2.default.linkableChild(this, new _weavejs2.default.core.LinkableString("-20%"))
-	            },
-	            "left": {
-	                value: _Weave2.default.linkableChild(this, new _weavejs2.default.core.LinkableString("40%"))
-	            },
-	            "top": {
-	                value: _Weave2.default.linkableChild(this, new _weavejs2.default.core.LinkableString("40%"))
-	            }
-
-	        });
-	    }
-
-	    var p = ModalPanelConfig.prototype;
-
-	    p.getLayoutState = function () {
-	        return {
-	            "top": this.top.value,
-	            "left": this.left.value,
-	            "marginTop": this.marginTop.value,
-	            "marginLeft": this.marginLeft.value,
-	            "width": this.width.value,
-	            "height": this.height.value
-	        };
-	    };
-
-	    //This Function makes this class as SessionClass
-	    _Weave2.default.registerClass('weavereact.ModalPanelConfig', ModalPanelConfig);
-
-	    module.exports = ModalPanelConfig;
-	})(module);
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(2)(module)))
-
-/***/ },
-/* 7 */
-/***/ function(module, exports, __webpack_require__) {
-
-	/* WEBPACK VAR INJECTION */(function(module) {'use strict';
-
-	var _Weave = __webpack_require__(3);
-
-	var _Weave2 = _interopRequireDefault(_Weave);
-
-	var _weavejs = __webpack_require__(4);
-
-	var _weavejs2 = _interopRequireDefault(_weavejs);
-
-	var _App = __webpack_require__(8);
-
-	var _App2 = _interopRequireDefault(_App);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	(function (module) {
-
-	    function BorderConfig() {
-
-	        Object.defineProperties(this, {
-	            "borderColor": {
-	                value: _Weave2.default.linkableChild(this, new _weavejs2.default.core.LinkableString('#bebebe'))
-	            },
-	            "borderWidth": {
-	                value: _Weave2.default.linkableChild(this, new _weavejs2.default.core.LinkableString('1px'))
-	            },
-	            "borderRadius": {
-	                value: _Weave2.default.linkableChild(this, new _weavejs2.default.core.LinkableString('5px'))
-	            },
-	            "borderStyle": {
-	                value: _Weave2.default.linkableChild(this, new _weavejs2.default.core.LinkableString('solid'))
-	            }
-	        });
-	    }
-
-	    var p = BorderConfig.prototype;
-
-	    p.getBorderStateFor = function (properties) {
-	        if (!properties) properties = ["borderColor", "borderWidth", "borderRadius", "borderStyle"];
-	        return _App2.default.getStateFor(this, properties);
-	    };
-
-	    _Weave2.default.registerClass('weavereact.BorderConfig', BorderConfig);
-
-	    module.exports = BorderConfig;
-	})(module);
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(2)(module)))
-
-/***/ },
-/* 8 */
-/***/ function(module, exports, __webpack_require__) {
-
-	/* WEBPACK VAR INJECTION */(function(module) {"use strict";
-
-	(function (module) {
-
-	    function App() {}
-
-	    var toolRegistry = {};
-
-	    App.registerToolImplementation = function (asClassName, jsClass) {
-	        if (!toolRegistry[asClassName]) toolRegistry[asClassName] = jsClass;
-	    };
-
-	    App.getToolImplementation = function (asClassName) {
-	        return toolRegistry[asClassName];
-	    };
-
-	    module.exports = App;
-	})(module);
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(2)(module)))
-
-/***/ },
-/* 9 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -440,19 +119,19 @@ return /******/ (function(modules) { // webpackBootstrap
 	    value: true
 	});
 
-	var _react = __webpack_require__(10);
+	var _react = __webpack_require__(2);
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _App = __webpack_require__(8);
+	var _App = __webpack_require__(3);
 
 	var _App2 = _interopRequireDefault(_App);
 
-	var _Style = __webpack_require__(11);
+	var _Style = __webpack_require__(5);
 
 	var _Style2 = _interopRequireDefault(_Style);
 
-	var _Node = __webpack_require__(14);
+	var _Node = __webpack_require__(8);
 
 	var _Node2 = _interopRequireDefault(_Node);
 
@@ -499,18 +178,58 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.default = Tree;
 
 /***/ },
-/* 10 */
+/* 2 */
 /***/ function(module, exports) {
 
-	module.exports = __WEBPACK_EXTERNAL_MODULE_10__;
+	module.exports = __WEBPACK_EXTERNAL_MODULE_2__;
 
 /***/ },
-/* 11 */
+/* 3 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/* WEBPACK VAR INJECTION */(function(module) {"use strict";
+
+	(function (module) {
+
+	    function App() {}
+
+	    var toolRegistry = {};
+
+	    App.registerToolImplementation = function (asClassName, jsClass) {
+	        if (!toolRegistry[asClassName]) toolRegistry[asClassName] = jsClass;
+	    };
+
+	    App.getToolImplementation = function (asClassName) {
+	        return toolRegistry[asClassName];
+	    };
+
+	    module.exports = App;
+	})(module);
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)(module)))
+
+/***/ },
+/* 4 */
+/***/ function(module, exports) {
+
+	module.exports = function(module) {
+		if(!module.webpackPolyfill) {
+			module.deprecate = function() {};
+			module.paths = [];
+			// module.parent = undefined by default
+			module.children = [];
+			module.webpackPolyfill = 1;
+		}
+		return module;
+	}
+
+
+/***/ },
+/* 5 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(module) {'use strict';
 
-	var _appendVendorPrefix = __webpack_require__(12);
+	var _appendVendorPrefix = __webpack_require__(6);
 
 	var _appendVendorPrefix2 = _interopRequireDefault(_appendVendorPrefix);
 
@@ -573,15 +292,15 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	    module.exports = Style;
 	})(module);
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(2)(module)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)(module)))
 
 /***/ },
-/* 12 */
+/* 6 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var getVendorPropertyName = __webpack_require__(13);
+	var getVendorPropertyName = __webpack_require__(7);
 
 	module.exports = function (target, sources) {
 	    var to = Object(target);
@@ -611,7 +330,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	};
 
 /***/ },
-/* 13 */
+/* 7 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -640,7 +359,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	};
 
 /***/ },
-/* 14 */
+/* 8 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -651,19 +370,19 @@ return /******/ (function(modules) { // webpackBootstrap
 	    value: true
 	});
 
-	var _react = __webpack_require__(10);
+	var _react = __webpack_require__(2);
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _App = __webpack_require__(8);
+	var _App = __webpack_require__(3);
 
 	var _App2 = _interopRequireDefault(_App);
 
-	var _Style = __webpack_require__(11);
+	var _Style = __webpack_require__(5);
 
 	var _Style2 = _interopRequireDefault(_Style);
 
-	var _NodeConfig = __webpack_require__(15);
+	var _NodeConfig = __webpack_require__(9);
 
 	var _NodeConfig2 = _interopRequireDefault(_NodeConfig);
 
@@ -826,37 +545,29 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.default = Node;
 
 /***/ },
-/* 15 */
+/* 9 */
 /***/ function(module, exports, __webpack_require__) {
 
-	/* WEBPACK VAR INJECTION */(function(module) {'use strict';
+	/* WEBPACK VAR INJECTION */(function(module) {"use strict";
 
-	var _Weave = __webpack_require__(3);
-
-	var _Weave2 = _interopRequireDefault(_Weave);
-
-	var _weavejs = __webpack_require__(4);
-
-	var _weavejs2 = _interopRequireDefault(_weavejs);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
+	/*import Weave from 'Weave';
+	import weavejs from 'weavejs';*/
 	(function (module) {
 
 	    function NodeConfig() {
 
 	        Object.defineProperties(this, {
 	            "label": {
-	                value: _Weave2.default.linkableChild(this, new _weavejs2.default.core.LinkableString(""))
+	                value: Weave.linkableChild(this, new weavejs.core.LinkableString(""))
 	            },
 	            "children": {
-	                value: _Weave2.default.linkableChild(this, new _weavejs2.default.core.LinkableHashMap()) // important to be prototype as type restriction is compared with prototype
+	                value: Weave.linkableChild(this, new weavejs.core.LinkableHashMap()) // important to be prototype as type restriction is compared with prototype
 	            },
 	            "open": {
-	                value: _Weave2.default.linkableChild(this, new _weavejs2.default.core.LinkableBoolean(false))
+	                value: Weave.linkableChild(this, new weavejs.core.LinkableBoolean(false))
 	            },
 	            "active": {
-	                value: _Weave2.default.linkableChild(this, new _weavejs2.default.core.LinkableBoolean(false))
+	                value: Weave.linkableChild(this, new weavejs.core.LinkableBoolean(false))
 	            }
 	        });
 	    }
@@ -874,14 +585,98 @@ return /******/ (function(modules) { // webpackBootstrap
 	    };
 
 	    //This Function makes this class as SessionClass
-	    _Weave2.default.registerClass('weavereact.NodeConfig', NodeConfig);
+	    Weave.registerClass('weavereact.NodeConfig', NodeConfig);
 
 	    module.exports = NodeConfig;
 	})(module);
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(2)(module)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)(module)))
 
 /***/ },
-/* 16 */
+/* 10 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/* WEBPACK VAR INJECTION */(function(module) {"use strict";
+
+	/*import Weave from 'Weave';
+	import weavejs from 'weavejs';*/
+	(function (module) {
+
+	    function TreeConfig() {
+
+	        Object.defineProperties(this, {
+	            "folderIcon": {
+	                value: Weave.linkableChild(this, new weavejs.core.LinkableString("fa fa-folder"))
+	            },
+	            "folderOpenIcon": {
+	                value: Weave.linkableChild(this, new weavejs.core.LinkableString("fa fa-folder-open"))
+	            },
+	            "fileIcon": {
+	                value: Weave.linkableChild(this, new weavejs.core.LinkableString("fa fa-file-text"))
+	            },
+	            "fileOpenIcon": {
+	                value: Weave.linkableChild(this, new weavejs.core.LinkableString("fa fa-file-text-o"))
+	            },
+	            "enableDataTypeIcon": {
+	                value: Weave.linkableChild(this, new weavejs.core.LinkableBoolean(false))
+	            }
+	        });
+
+	        this.activeNode = null;
+	        this.dataTypesMap = null;
+	        this.getDataType = null;
+	    }
+
+	    var p = TreeConfig.prototype;
+
+	    p.changeActiveNode = function (nodeConfig) {
+	        if (this.activeNode) {
+	            this.activeNode.active.value = false;
+	        }
+	        this.activeNode = nodeConfig;
+	        this.activeNode.active.value = true;
+	    };
+
+	    p.getFileIcon = function (data) {
+	        var datType = this.getDataType ? this.getDataType(data) : data.constructor.name;
+	        if (this.dataTypesMap[datType]) return this.dataTypesMap[datType];
+	        return this.fileOpenIcon.value;
+	    };
+
+	    p.getFolderIcon = function (data, isOpen) {
+	        var datType = this.getDataType ? this.getDataType(data) : data.constructor.name;
+	        if (this.dataTypesMap[datType]) return this.dataTypesMap[datType];
+	        return isOpen ? this.folderOpenIcon.value : this.folderIcon.value;
+	    };
+
+	    p.getFileIconStyle = function () {
+	        return {
+	            fontStyle: "bold",
+	            borderStyle: "solid",
+	            borderColor: "#7fd6f9",
+	            borderWidth: "1px",
+	            borderRadius: "4px",
+	            paddingLeft: "3px",
+	            paddingRight: "3px",
+	            fontSize: "11px"
+	        };
+	    };
+
+	    p.getNodeIconStyle = function () {
+	        return {
+	            color: "#7fd6f9",
+	            textShadow: "-1px 0 black, 0 1px black, 1px 0 black, 0 -1px black"
+	        };
+	    };
+
+	    //This Function makes this class as SessionClass
+	    Weave.registerClass('weavereact.TreeConfig', TreeConfig);
+
+	    module.exports = TreeConfig;
+	})(module);
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)(module)))
+
+/***/ },
+/* 11 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -892,19 +687,19 @@ return /******/ (function(modules) { // webpackBootstrap
 	    value: true
 	});
 
-	var _react = __webpack_require__(10);
+	var _react = __webpack_require__(2);
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _Style = __webpack_require__(11);
+	var _Style = __webpack_require__(5);
 
 	var _Style2 = _interopRequireDefault(_Style);
 
-	var _ModalConfig = __webpack_require__(5);
+	var _ModalConfig = __webpack_require__(12);
 
 	var _ModalConfig2 = _interopRequireDefault(_ModalConfig);
 
-	var _ModalPanel = __webpack_require__(17);
+	var _ModalPanel = __webpack_require__(15);
 
 	var _ModalPanel2 = _interopRequireDefault(_ModalPanel);
 
@@ -1000,7 +795,161 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.default = Modal;
 
 /***/ },
-/* 17 */
+/* 12 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/* WEBPACK VAR INJECTION */(function(module) {"use strict";
+
+	var _ModalPanelConfig = __webpack_require__(13);
+
+	var _ModalPanelConfig2 = _interopRequireDefault(_ModalPanelConfig);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	(function (module) {
+
+	    function ModalConfig() {
+
+	        Object.defineProperties(this, {
+	            "panelConfig": {
+	                value: Weave.linkableChild(this, new _ModalPanelConfig2.default())
+	            },
+	            "open": {
+	                value: Weave.linkableChild(this, new weavejs.core.LinkableBoolean(false))
+	            },
+	            "buttonIcon": {
+	                value: Weave.linkableChild(this, new weavejs.core.LinkableString(""))
+	            }
+
+	        });
+	    }
+
+	    //This Function makes this class as SessionClass
+	    Weave.registerClass('weavereact.ModalConfig', ModalConfig);
+
+	    module.exports = ModalConfig;
+	})(module); /*import Weave from 'Weave';
+	            import weavejs from 'weavejs';*/
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)(module)))
+
+/***/ },
+/* 13 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/* WEBPACK VAR INJECTION */(function(module) {"use strict";
+
+	var _BorderConfig = __webpack_require__(14);
+
+	var _BorderConfig2 = _interopRequireDefault(_BorderConfig);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	(function (module) {
+
+	    function ModalPanelConfig() {
+
+	        Object.defineProperties(this, {
+	            "border": {
+	                value: Weave.linkableChild(this, new weavejs.core.LinkableDynamicObject(_BorderConfig2.default))
+	            },
+	            "title": {
+	                value: Weave.linkableChild(this, new weavejs.core.LinkableString(""))
+	            }
+
+	        });
+
+	        Object.defineProperties(this, {
+	            "width": {
+	                value: Weave.linkableChild(this, new weavejs.core.LinkableString("60%"))
+	            },
+	            "height": {
+	                value: Weave.linkableChild(this, new weavejs.core.LinkableString("80%"))
+	            },
+	            "marginLeft": {
+	                value: Weave.linkableChild(this, new weavejs.core.LinkableString("-20%"))
+	            },
+	            "marginTop": {
+	                value: Weave.linkableChild(this, new weavejs.core.LinkableString("-20%"))
+	            },
+	            "left": {
+	                value: Weave.linkableChild(this, new weavejs.core.LinkableString("40%"))
+	            },
+	            "top": {
+	                value: Weave.linkableChild(this, new weavejs.core.LinkableString("40%"))
+	            }
+
+	        });
+	    }
+
+	    var p = ModalPanelConfig.prototype;
+
+	    p.getLayoutState = function () {
+	        return {
+	            "top": this.top.value,
+	            "left": this.left.value,
+	            "marginTop": this.marginTop.value,
+	            "marginLeft": this.marginLeft.value,
+	            "width": this.width.value,
+	            "height": this.height.value
+	        };
+	    };
+
+	    //This Function makes this class as SessionClass
+	    Weave.registerClass('weavereact.ModalPanelConfig', ModalPanelConfig);
+
+	    module.exports = ModalPanelConfig;
+	})(module); /*import Weave from 'Weave';
+	            import weavejs from 'weavejs';*/
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)(module)))
+
+/***/ },
+/* 14 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/* WEBPACK VAR INJECTION */(function(module) {"use strict";
+
+	var _App = __webpack_require__(3);
+
+	var _App2 = _interopRequireDefault(_App);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	(function (module) {
+
+	    function BorderConfig() {
+
+	        Object.defineProperties(this, {
+	            "borderColor": {
+	                value: Weave.linkableChild(this, new weavejs.core.LinkableString('#bebebe'))
+	            },
+	            "borderWidth": {
+	                value: Weave.linkableChild(this, new weavejs.core.LinkableString('1px'))
+	            },
+	            "borderRadius": {
+	                value: Weave.linkableChild(this, new weavejs.core.LinkableString('5px'))
+	            },
+	            "borderStyle": {
+	                value: Weave.linkableChild(this, new weavejs.core.LinkableString('solid'))
+	            }
+	        });
+	    }
+
+	    var p = BorderConfig.prototype;
+
+	    p.getBorderStateFor = function (properties) {
+	        if (!properties) properties = ["borderColor", "borderWidth", "borderRadius", "borderStyle"];
+	        return _App2.default.getStateFor(this, properties);
+	    };
+
+	    Weave.registerClass('weavereact.BorderConfig', BorderConfig);
+
+	    module.exports = BorderConfig;
+	})(module); /*import Weave from 'Weave';
+	            import weavejs from 'weavejs';*/
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)(module)))
+
+/***/ },
+/* 15 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -1011,11 +960,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	    value: true
 	});
 
-	var _react = __webpack_require__(10);
+	var _react = __webpack_require__(2);
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _ModalPanelConfig = __webpack_require__(6);
+	var _ModalPanelConfig = __webpack_require__(13);
 
 	var _ModalPanelConfig2 = _interopRequireDefault(_ModalPanelConfig);
 
@@ -1120,7 +1069,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.default = ModalPanel;
 
 /***/ },
-/* 18 */
+/* 16 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -1131,23 +1080,23 @@ return /******/ (function(modules) { // webpackBootstrap
 	    value: true
 	});
 
-	var _react = __webpack_require__(10);
+	var _react = __webpack_require__(2);
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _Style = __webpack_require__(11);
+	var _Style = __webpack_require__(5);
 
 	var _Style2 = _interopRequireDefault(_Style);
 
-	var _SplitPaneConfig = __webpack_require__(19);
+	var _SplitPaneConfig = __webpack_require__(17);
 
 	var _SplitPaneConfig2 = _interopRequireDefault(_SplitPaneConfig);
 
-	var _Pane = __webpack_require__(21);
+	var _Pane = __webpack_require__(19);
 
 	var _Pane2 = _interopRequireDefault(_Pane);
 
-	var _Resizer = __webpack_require__(22);
+	var _Resizer = __webpack_require__(20);
 
 	var _Resizer2 = _interopRequireDefault(_Resizer);
 
@@ -1328,20 +1277,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.default = SplitPane;
 
 /***/ },
-/* 19 */
+/* 17 */
 /***/ function(module, exports, __webpack_require__) {
 
-	/* WEBPACK VAR INJECTION */(function(module) {'use strict';
+	/* WEBPACK VAR INJECTION */(function(module) {"use strict";
 
-	var _Weave = __webpack_require__(3);
-
-	var _Weave2 = _interopRequireDefault(_Weave);
-
-	var _weavejs = __webpack_require__(4);
-
-	var _weavejs2 = _interopRequireDefault(_weavejs);
-
-	var _PaneConfig = __webpack_require__(20);
+	var _PaneConfig = __webpack_require__(18);
 
 	var _PaneConfig2 = _interopRequireDefault(_PaneConfig);
 
@@ -1353,22 +1294,22 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	        Object.defineProperties(this, {
 	            "active": {
-	                value: _Weave2.default.linkableChild(this, new _weavejs2.default.core.LinkableBoolean(false))
+	                value: Weave.linkableChild(this, new weavejs.core.LinkableBoolean(false))
 	            },
 	            "resized": {
-	                value: _Weave2.default.linkableChild(this, new _weavejs2.default.core.LinkableBoolean(false))
+	                value: Weave.linkableChild(this, new weavejs.core.LinkableBoolean(false))
 	            },
 	            "position": {
-	                value: _Weave2.default.linkableChild(this, new _weavejs2.default.core.LinkableString(""))
+	                value: Weave.linkableChild(this, new weavejs.core.LinkableString(""))
 	            },
 	            "pane1": {
-	                value: _Weave2.default.linkableChild(this, new _PaneConfig2.default())
+	                value: Weave.linkableChild(this, new _PaneConfig2.default())
 	            },
 	            "pane2": {
-	                value: _Weave2.default.linkableChild(this, new _PaneConfig2.default())
+	                value: Weave.linkableChild(this, new _PaneConfig2.default())
 	            },
 	            "unFocusCount": {
-	                value: _Weave2.default.linkableChild(this, new _weavejs2.default.core.LinkableNumber(0))
+	                value: Weave.linkableChild(this, new weavejs.core.LinkableNumber(0))
 	            }
 
 	        });
@@ -1381,28 +1322,21 @@ return /******/ (function(modules) { // webpackBootstrap
 	    };
 
 	    //This Function makes this class as SessionClass
-	    _Weave2.default.registerClass('weavereact.SplitPaneConfig', SplitPaneConfig);
+	    Weave.registerClass('weavereact.SplitPaneConfig', SplitPaneConfig);
 
 	    module.exports = SplitPaneConfig;
-	})(module);
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(2)(module)))
+	})(module); /*import Weave from 'Weave';
+	            import weavejs from 'weavejs';*/
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)(module)))
 
 /***/ },
-/* 20 */
+/* 18 */
 /***/ function(module, exports, __webpack_require__) {
 
-	/* WEBPACK VAR INJECTION */(function(module) {'use strict';
+	/* WEBPACK VAR INJECTION */(function(module) {"use strict";
 
-	var _Weave = __webpack_require__(3);
-
-	var _Weave2 = _interopRequireDefault(_Weave);
-
-	var _weavejs = __webpack_require__(4);
-
-	var _weavejs2 = _interopRequireDefault(_weavejs);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
+	/*import Weave from 'Weave';
+	import weavejs from 'weavejs';*/
 	(function (module) {
 
 	    function PaneConfig() {
@@ -1410,21 +1344,21 @@ return /******/ (function(modules) { // webpackBootstrap
 	        Object.defineProperties(this, {
 
 	            "size": {
-	                value: _Weave2.default.linkableChild(this, new _weavejs2.default.core.LinkableString(""))
+	                value: Weave.linkableChild(this, new weavejs.core.LinkableString(""))
 	            }
 
 	        });
 	    }
 
 	    //This Function makes this class as SessionClass
-	    _Weave2.default.registerClass('weavereact.PaneConfig', PaneConfig);
+	    Weave.registerClass('weavereact.PaneConfig', PaneConfig);
 
 	    module.exports = PaneConfig;
 	})(module);
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(2)(module)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)(module)))
 
 /***/ },
-/* 21 */
+/* 19 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -1435,15 +1369,15 @@ return /******/ (function(modules) { // webpackBootstrap
 	    value: true
 	});
 
-	var _react = __webpack_require__(10);
+	var _react = __webpack_require__(2);
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _Style = __webpack_require__(11);
+	var _Style = __webpack_require__(5);
 
 	var _Style2 = _interopRequireDefault(_Style);
 
-	var _PaneConfig = __webpack_require__(20);
+	var _PaneConfig = __webpack_require__(18);
 
 	var _PaneConfig2 = _interopRequireDefault(_PaneConfig);
 
@@ -1524,7 +1458,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.default = Pane;
 
 /***/ },
-/* 22 */
+/* 20 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -1535,11 +1469,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	    value: true
 	});
 
-	var _react = __webpack_require__(10);
+	var _react = __webpack_require__(2);
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _Style = __webpack_require__(11);
+	var _Style = __webpack_require__(5);
 
 	var _Style2 = _interopRequireDefault(_Style);
 
