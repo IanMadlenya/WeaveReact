@@ -9,24 +9,19 @@ If you install WeaveReact using NPM, you can import individual components under 
 
 ## ES6
 
-$ npm install react react-bootstrap
+```$ npm install react weavereact
 
-import Button from 'react-bootstrap/lib/Button';
+import Tree from 'weavereact/tree/Tree';
 // or
-import { Button } from 'react-bootstrap';
+import { Tree } from 'weavereact';```
 ## AMD
-$ bower install react react-bootstrap
+```$ bower install react weavereact
 
-define(['react-bootstrap'], function(ReactBootstrap) { var Alert = ReactBootstrap.Alert; ... });
+define(['weavereact'], function(WeaveReact) { var Tree = ReactBootstrap.WeaveReact; ... });```
 ## Browser globals
-We provide react-bootstrap.js and react-bootstrap.min.js bundles with all components exported on the window.ReactBootstrap object. These bundles are available on CDNJS, and in both the Bower and NPM packages.
+We provide weavereact.js and weavereact.min.js bundles with all components exported on the window.weavereact object. These bundles are available in both the Bower and NPM packages.
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/react/<react-version>/react.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/react/<react-version>/react-dom.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/react-bootstrap/<version>/react-bootstrap.min.js"></script>
-<script>
-  var Alert = ReactBootstrap.Alert;
-</script>
+
 
 
 
