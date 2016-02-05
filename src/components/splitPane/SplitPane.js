@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactDOM from "react-dom";
 import Style from "../../utils/Style";
 import SplitPaneConfig from "./SplitPaneConfig";
 import Pane from './Pane';
@@ -10,7 +11,7 @@ class SplitPane extends React.Component {
 
     constructor(props) {
         super(props);
-        this.settings = this.props.settings ? this.props.settings:new SplitPaneConfig();
+        this.settings = this.props.settings ? this.props.settings : new SplitPaneConfig();
         this.onMouseDown = this.onMouseDown.bind(this);
         this.onMouseMove = this.onMouseMove.bind(this);
         this.onMouseUp = this.onMouseUp.bind(this);
@@ -18,11 +19,11 @@ class SplitPane extends React.Component {
 
 
 
-    componentDidMount(){
-        this.settings.active.addGroupedCallback(this,this.forceUpdate);
-        this.settings.resized.addGroupedCallback(this,this.forceUpdate);
-        this.settings.position.addGroupedCallback(this,this.forceUpdate);
-        this.settings.unFocusCount.addImmediateCallback(this,this.unFocus);
+    componentDidMount() {
+        this.settings.active.addGroupedCallback(this, this.forceUpdate);
+        this.settings.resized.addGroupedCallback(this, this.forceUpdate);
+        this.settings.position.addGroupedCallback(this, this.forceUpdate);
+        this.settings.unFocusCount.addImmediateCallback(this, this.unFocus);
         document.addEventListener('mouseup', this.onMouseUp);
         document.addEventListener('mousemove', this.onMouseMove);
         const ref = this.refs.pane1;
@@ -32,11 +33,11 @@ class SplitPane extends React.Component {
         }
     }
 
-    componentWillUnmount () {
-        this.settings.active.removeCallback(this,this.forceUpdate);
-        this.settings.resized.removeCallback(this,this.forceUpdate);
-        this.settings.position.removeCallback(this,this.forceUpdate);
-        this.settings.unFocusCount.removeCallback(this,this.unFocus);
+    componentWillUnmount() {
+        this.settings.active.removeCallback(this, this.forceUpdate);
+        this.settings.resized.removeCallback(this, this.forceUpdate);
+        this.settings.position.removeCallback(this, this.forceUpdate);
+        this.settings.unFocusCount.removeCallback(this, this.unFocus);
         document.removeEventListener('mouseup', this.onMouseUp);
         document.removeEventListener('mousemove', this.onMouseMove);
     }
@@ -46,7 +47,7 @@ class SplitPane extends React.Component {
         this.settings.updateUnFocus();
         let position = this.props.split === 'vertical' ? event.clientX : event.clientY;
         this.settings.position.value = position;
-        this.settings.active.value =  true;
+        this.settings.active.value = true;
     }
 
     onMouseMove(event) {
@@ -65,7 +66,7 @@ class SplitPane extends React.Component {
                     const newSize = size - (position - current);
 
                     this.settings.position.value = current;
-                    this.settings.resized.value =  true;
+                    this.settings.resized.value = true;
 
                     if (newSize >= this.props.minSize) {
                         if (this.props.onChange) {
@@ -119,9 +120,9 @@ class SplitPane extends React.Component {
                 position: 'absolute',
                 left: 0,
                 right: 0
-            },true);
+            }, true);
         } else {
-           Style.mergeStyleObjects(styleObj, {
+            Style.mergeStyleObjects(styleObj, {
                 flexDirection: 'column',
                 height: '100%',
                 minHeight: '100%',
@@ -129,24 +130,53 @@ class SplitPane extends React.Component {
                 top: 0,
                 bottom: 0,
                 width: '100%'
-            },true);
+            }, true);
         }
         const children = this.props.children;
 
         const classes = ['SplitPane', split];
 
-        return (<div className={classes.join(' ')} style={styleObj} ref="splitPane">
-                    <Pane ref="pane1" key="pane1" split={split} settings={this.settings.pane1}>{children[0]}</Pane>
-                    <Resizer ref="resizer" key="resizer" onMouseDown={this.onMouseDown} split={split} />
-                    <Pane ref="pane2" key="pane2" split={split}  settings={this.settings.pane2}>{children[1]}</Pane>
-                </div>
+        return ( < div className = {
+                classes.join(' ')
+            }
+            style = {
+                styleObj
+            }
+            ref = "splitPane" >
+            < Pane ref = "pane1"
+            key = "pane1"
+            split = {
+                split
+            }
+            settings = {
+                this.settings.pane1
+            } > {
+                children[0]
+            } < /Pane> < Resizer ref = "resizer"
+            key = "resizer"
+            onMouseDown = {
+                this.onMouseDown
+            }
+            split = {
+                split
+            }
+            /> < Pane ref = "pane2"
+            key = "pane2"
+            split = {
+                split
+            }
+            settings = {
+                this.settings.pane2
+            } > {
+                children[1]
+            } < /Pane> < /div>
         );
-  }
+    }
 }
 
 SplitPane.defaultProps = {
-            minSize: 0,
-            split:"vertical"
-        };
+    minSize: 0,
+    split: "vertical"
+};
 
 export default SplitPane;
