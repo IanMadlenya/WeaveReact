@@ -1,4 +1,4 @@
 # Summary
 
-* [Getting Started](getting-started.md)
+* Set Up
 
