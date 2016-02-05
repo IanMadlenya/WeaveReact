@@ -1,4 +1,5 @@
 # Summary
 
-* Set Up
+* [Introduction](README.md)
+* [Set Up](setup.md)
 
