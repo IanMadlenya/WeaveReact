@@ -10,7 +10,6 @@ module.exports = {
     output: {
         path: path.join(__dirname, "dist/"),
         filename: "weavereact.js",
-        publicPath: "js/",
         library: "weavereact",
         libraryTarget: "umd",
     },
@@ -35,36 +34,6 @@ module.exports = {
         "react-dom": "ReactDOM"
     },
     resolve: {
-        extensions: ["", ".js", ".jsx", ".scss", ".md"]
+        extensions: ["", ".js", ".jsx"]
     }
 };
-
-/*
-[
-        {
-            'react': {
-                root: 'React',
-                commonjs2: 'react',
-                commonjs: 'react',
-                amd: 'react'
-            }
-        },
-        {
-            'react-dom': {
-                root: 'ReactDOM',
-                commonjs2: 'react-dom',
-                commonjs: 'react-dom',
-                amd: 'react-dom'
-            }
-        },
-        {
-            "weavejs": {
-                root: 'weavejs'
-            }
-        },
-        {
-            "Weave": {
-                root: 'Weave'
-            }
-        }
-    ]*/

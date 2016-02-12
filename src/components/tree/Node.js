@@ -66,7 +66,33 @@ class Node extends React.Component {
     }
 
     componentWillReceiveProps(nextProps){
-        this.setSessionStateFromTree();
+        var flag = false;
+        if(this.settings !== nextProps.settings){
+            this.settings = nextProps.settings;
+            flag = true;
+        }
+        else if(this.props.label !== nextProps.label)
+            flag =  true;
+        else if(this.props.nodes !== nextProps.nodes)
+            flag =  true;
+
+        if(flag)this.setSessionStateFromTree();
+    }
+
+
+    shouldComponentUpdate(nextProps){
+        if(Weave.detectLinkableObjectChange(this.settings))
+            return true;
+        if(this.props.settings !== nextProps.settings)
+            return true;
+        else if(this.props.label !== nextProps.label)
+            return true;
+        else if(this.props.nodes !== nextProps.nodes)
+            return true;
+        else if(this.props.clickCallback !== nextProps.clickCallback)
+            return true;
+        else
+            return false;
     }
 
     render() {

@@ -21,10 +21,21 @@ class Tree extends React.Component {
 
     }
 
+    componentWillReceiveProps(nextProps){
+        if(this.props.settings !== nextProps.settings){
+            this.settings = nextProps.settings
+            this.settings.dataTypesMap = this.props.dataTypesMap;
+            this.settings.getDataType = this.props.getDataType;
+        }
+
+    }
+
+
+
 
 
     render() {
-
+        console.log("Tree render")
 
 return ( <Node data={this.props.data} label={this.props.label} nodes={this.props.nodes} treeConfig={this.settings} clickCallback={this.props.clickCallback}/> );
     }
