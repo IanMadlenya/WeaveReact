@@ -62,7 +62,6 @@
   },
   "dependencies": {
     "babel": "^6.3.26",
-    "babel-cli": "^6.4.5",
-    "jszip": "^2.5.0"
+    "babel-cli": "^6.4.5"
   }
 }
