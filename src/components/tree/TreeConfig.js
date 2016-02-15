@@ -1,5 +1,6 @@
 /*import Weave from 'Weave';
 import weavejs from 'weavejs';*/
+import NodeConfig from "./NodeConfig";
 (function (module) {
 
     function TreeConfig() {
@@ -19,6 +20,9 @@ import weavejs from 'weavejs';*/
             },
             "enableDataTypeIcon": {
                 value: Weave.linkableChild(this, new weavejs.core.LinkableBoolean(false))
+            },
+            rootNode:{
+                value: Weave.linkableChild(this, new NodeConfig())
             }
         });
 
@@ -75,6 +79,8 @@ import weavejs from 'weavejs';*/
             textShadow: "-1px 0 black, 0 1px black, 1px 0 black, 0 -1px black"
         }
     }
+
+
 
 
 

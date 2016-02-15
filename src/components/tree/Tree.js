@@ -27,6 +27,9 @@ class Tree extends React.Component {
             this.settings.dataTypesMap = this.props.dataTypesMap;
             this.settings.getDataType = this.props.getDataType;
         }
+        if(this.props.data !== nextProps.data){
+            console.log("Data Changed")
+        }
 
     }
 
@@ -35,9 +38,7 @@ class Tree extends React.Component {
 
 
     render() {
-        console.log("Tree render")
-
-return ( <Node data={this.props.data} label={this.props.label} nodes={this.props.nodes} treeConfig={this.settings} clickCallback={this.props.clickCallback}/> );
+return ( <Node data={this.props.data} label={this.props.label} nodes={this.props.nodes} settings={this.settings.rootNode} treeConfig={this.settings} clickCallback={this.props.clickCallback}/> );
     }
 
 }

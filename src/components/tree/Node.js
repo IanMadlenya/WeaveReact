@@ -11,6 +11,7 @@ class Node extends React.Component {
         this.toggle = this.toggle.bind(this);
         this.getTreeNodes = this.getTreeNodes.bind(this);
         this.getTreeLabel = this.getTreeLabel.bind(this);
+        this.setSessionStateFromTree = this.setSessionStateFromTree.bind(this);
         this.setSessionStateFromTree();
     }
 
@@ -39,7 +40,7 @@ class Node extends React.Component {
     setSessionStateFromTree() {
         this.settings.label.value = this.getTreeLabel();
         var treeNodes = this.getTreeNodes();
-        if (treeNodes && treeNodes.length !== this.settings.children.getNames().length) {
+        if (treeNodes && treeNodes.length) {
             this.settings.children.delayCallbacks();
             for (var i = 0; i < treeNodes.length; i++) {
                 var objectName = "node" + i;
@@ -66,34 +67,15 @@ class Node extends React.Component {
     }
 
     componentWillReceiveProps(nextProps){
-        var flag = false;
-        if(this.settings !== nextProps.settings){
-            this.settings = nextProps.settings;
-            flag = true;
+        if(this.props.treeItem !== nextProps.treeItem){
+            conosle.log("Session tree called");
+            this.setSessionStateFromTree();
         }
-        else if(this.props.label !== nextProps.label)
-            flag =  true;
-        else if(this.props.nodes !== nextProps.nodes)
-            flag =  true;
 
-        if(flag)this.setSessionStateFromTree();
     }
 
 
-    shouldComponentUpdate(nextProps){
-        if(Weave.detectLinkableObjectChange(this.settings))
-            return true;
-        if(this.props.settings !== nextProps.settings)
-            return true;
-        else if(this.props.label !== nextProps.label)
-            return true;
-        else if(this.props.nodes !== nextProps.nodes)
-            return true;
-        else if(this.props.clickCallback !== nextProps.clickCallback)
-            return true;
-        else
-            return false;
-    }
+
 
     render() {
         var nodesUI = [];

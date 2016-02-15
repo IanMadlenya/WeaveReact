@@ -27,13 +27,13 @@ import BorderConfig from "../../configs/BorderConfig";
                 value: Weave.linkableChild(this, new weavejs.core.LinkableString("-20%"))
             },
             "marginTop": {
-                value: Weave.linkableChild(this, new weavejs.core.LinkableString("-20%"))
+                value: Weave.linkableChild(this, new weavejs.core.LinkableString("0"))
             },
             "left": {
                 value: Weave.linkableChild(this, new weavejs.core.LinkableString("40%"))
             },
             "top": {
-                value: Weave.linkableChild(this, new weavejs.core.LinkableString("40%"))
+                value: Weave.linkableChild(this, new weavejs.core.LinkableString("20%"))
             }
 
         });

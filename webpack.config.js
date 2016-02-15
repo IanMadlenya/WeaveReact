@@ -35,5 +35,7 @@ module.exports = {
     },
     resolve: {
         extensions: ["", ".js", ".jsx"]
-    }
+    },
+    "devtool":"sourcemap",
+    debug : true
 };

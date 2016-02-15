@@ -45,7 +45,7 @@ class ModalPanel extends React.Component {
         overflowX: 'hidden'
     }
 
-    layoutStyle["position"] = 'absolute';
+    layoutStyle["position"] = 'fixed';
     (this.sessionOpen.value)?(layoutStyle["display"] = 'block'):(layoutStyle["display"] = 'none')
 
     return (<div style={layoutStyle}>

@@ -1,8 +1,5 @@
-import weavejs from "weavejs";
-import weavereact from "weavereact";
-import Weave from "Weave";
-
-
+import {TreeConfig} from "../../../lib/index.js";
+import {ModalConfig} from "../../../lib/index.js";
 (function (module) {
 
 
@@ -12,7 +9,7 @@ import Weave from "Weave";
         Object.defineProperties(this, {
 
             "treeConfig": {
-                value: Weave.linkableChild(this, new weavereact.TreeConfig())
+                value: new TreeConfig()
             },
             showTree: {
                 value: new weavejs.core.LinkableBoolean(false)
@@ -21,8 +18,8 @@ import Weave from "Weave";
                 value: new weavejs.core.LinkableVariable()
             },
             modalConfig: {
-                value: new weavereact.ModalConfig()
-            }
+                value: new ModalConfig()
+            },
 
         });
 
@@ -30,21 +27,19 @@ import Weave from "Weave";
             "weavejs.core.LinkableString": "S",
             "weavejs.core.LinkableNumber": "N",
             "weavejs.core.LinkableBoolean": "B",
-            "weavejs.data.source.WeaveDataSource": "fa fa-database",
-            "weavejs.data.key.KeySet": "fa fa-key",
-            "weavejs.data.key.KeyFilter": "fa fa-filter"
+            "weavejs.data.source.WeaveDataSource": "fa fa-database"
+
         }
 
 
     }
 
-
-    SessionEditorConfig.prototype.getDataType = function (treeItem) {
+    var p = SessionEditorConfig.prototype;
+    p.getDataType = function (treeItem) {
         return treeItem.data.FLEXJS_CLASS_INFO.names[0].qName;
     }
 
 
-    Weave.registerClass('weavereactdemo.SessionEditorConfig', SessionEditorConfig);
 
     module.exports = SessionEditorConfig;
 

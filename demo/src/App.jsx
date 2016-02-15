@@ -9,6 +9,12 @@ class App extends React.Component {
         super(props);
         this.openSettings = this.openSettings.bind(this);
         this.sessionConfig = new SessionEditorConfig();
+        //if(this.props.root){
+
+        //}
+        /*else if(this.props.tree){
+            this.tree = this.props.tree;
+        }*/
 
     }
 
@@ -16,44 +22,29 @@ class App extends React.Component {
         if(e.code === "Enter"){
             this.sessionConfig.modalConfig.open.value = true;
         }else if(e.code === "KeyQ"){
-                 this.sessionConfig.modalConfig.open.value = false;
+            this.sessionConfig.modalConfig.open.value = false;
         }
     }
 
 
 
     componentDidMount(){
-        this.props.root.childListCallbacks.addImmediateCallback(this,this.forceUpdate);
+        //this.props.root.childListCallbacks.addImmediateCallback(this,this.forceUpdate);
          window.addEventListener('keydown', this.openSettings);
     }
 
     componentWillUnMount(){
-        this.props.root.childListCallbacks.removeCallback(this,this.forceUpdate);
+        //this.props.root.childListCallbacks.removeCallback(this,this.forceUpdate);
         window.removeEventListener('keydown', this.openSettings);
     }
 
 
 
     render() {
-        var sessionChildren = this.props.root.getNames();
-        var toolUI = [];
-        for(var i=0; i<sessionChildren.length; i++){
-            var sessionName = sessionChildren[i];
-            var sessionObj = this.props.root.getObject(sessionName);
-            var configClassName = Weave.getPath(sessionObj).getType();
-            var ToolClass = weavereact.getToolForConfigName(configClassName);
-             var ui;
-            if(ToolClass){
-                ui = <ToolClass settings={sessionObj} index={i}  key={i}/>
-
-            }
-            toolUI.push(ui);
-        }
 
         return (<div>
-        <SessionEditor sessionState={ this.props.root} settings={this.sessionConfig}/>
+                    <SessionEditor root={this.props.root}  settings={this.sessionConfig}/>
                     {this.props.children}
-                    {toolUI}
                 </div>
         );
 
