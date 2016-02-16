@@ -14,8 +14,12 @@ class App extends React.Component {
 
         window.dbweave = new Weave();
         this.navConfig = window.dbweave.root.requestObject('navbar',NavbarConfig);
-        this.navConfig.navList.links.requestObject('link1',NavLinkConfig).title.value = "Set Up";
-        this.navConfig.navList.links.requestObject('link2',NavLinkConfig).title.value = "Documentation";
+        var linkConfig = this.navConfig.navList.links.requestObject('link1',NavLinkConfig);
+        linkConfig.title.value = " Set Up";
+        linkConfig.iconName.value = "fa fa-home";
+        linkConfig= this.navConfig.navList.links.requestObject('link2',NavLinkConfig);
+        linkConfig.title.value = " Documentation";
+        linkConfig.iconName.value = "fa fa-folder";
 
 
     }
