@@ -15,7 +15,7 @@ import {NavbarConfig,NavLinkConfig} from "./components/navbar/Config";
 
 import App from "./utils/App";
 
-Weave.registerAsyncClass(React.Component);
+//Weave.registerAsyncClass(React.Component);
 
 exports.Tree = Tree;
 exports.Modal = Modal;
