@@ -43,7 +43,7 @@ class App extends React.Component {
 
         return (<div>
                     <Navbar settings={this.navConfig}/>
-                    <SessionEditor root={window.dbweave.root}  settings={this.sessionConfig}/>
+                    <SessionEditor weave={window.dbweave}  settings={this.sessionConfig}/>
                     {this.props.children}
                 </div>
         );
