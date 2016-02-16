@@ -21,6 +21,18 @@ class Brand extends React.Component {
         if(this.langSettings)this.langSettings.removeCallback(this,this.forceUpdate);
     }
 
+    shouldComponentUpdate(nextProps){
+        if(this.props.positionType !== nextProps.positionType){
+            return true
+        }else if(this.props.position !== nextProps.position){
+            return true
+        }else if(this.props.useCSS !== nextProps.useCSS){
+            return true
+        }else{
+            return false;
+        }
+    }
+
     render() {
         var BrandUI = <div/>;
         if(this.settings.enable.value){
@@ -28,9 +40,17 @@ class Brand extends React.Component {
             if(this.langSettings){
                 title = App.getTranslatedWord(this.settings.title.value);
             }
-            BrandUI = <div className="navbar-header">
-                        <span className="navbar-brand">{title}</span>
+            if(this.props.useCSS){
+                var headerCSS = this.props.css.header;
+                var titleCSS = this.props.css.title
+                BrandUI = <div className={headerCSS}>
+                        <div className={titleCSS}>{title}</div>
                       </div>
+
+            }else{
+                BrandUI = <div>{title}</div>
+            }
+
         }
         return (BrandUI);
     }

@@ -30,20 +30,24 @@ class Link extends React.Component {
 
 
     render() {
+        var title = this.settings.title.value;
+        if(this.props.iconOnly){
+            title = "";
+        }
         if (this.props.isActive) {
-            return ( <li className = 'active'>
+
+            return ( <li style={this.props.style}>
                         <a href = {'#' + this.props.pageName }>
                             <i className = {this.settings.iconName.value}> </i>
-                            {this.settings.title.value }
-                            <span className = "sr-only"> (current) </span>
+                            {title}
                         </a>
                     </li>
             );
         } else {
-            return (<li>
+            return (<li style={this.props.style}>
                         <a href = {'#' + this.props.pageName}>
                             <i className = {this.settings.iconName.value}> </i>
-                            {this.settings.title.value}
+                            {title}
                         </a>
                     </li>
             );

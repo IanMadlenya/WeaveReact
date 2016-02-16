@@ -13,6 +13,7 @@ class List extends React.Component {
 
     componentDidMount(){
         this.settings.enable.addImmediateCallback(this, this.forceUpdate);
+        this.settings.space.addImmediateCallback(this, this.forceUpdate);
         this.settings.rightAlign.addImmediateCallback(this, this.forceUpdate);
         this.settings.activePage.addImmediateCallback(this, this.forceUpdate);
         this.settings.links.childListCallbacks.addImmediateCallback(this, this.forceUpdate);
@@ -22,14 +23,53 @@ class List extends React.Component {
 
     componentWillUnmount(){
         this.settings.enable.removeCallback(this, this.forceUpdate);
+        this.settings.space.removeCallback(this, this.forceUpdate);
         this.settings.rightAlign.removeCallback(this, this.forceUpdate);
         this.settings.activePage.removeCallback(this, this.forceUpdate);
         this.settings.links.childListCallbacks.removeCallback(this, this.forceUpdate);
     }
 
+    shouldComponentUpdate(nextProps){
+        if(this.props.positionType !== nextProps.positionType){
+            return true
+        }else if(this.props.position !== nextProps.position){
+            return true
+        }else if(this.props.useCSS !== nextProps.useCSS){
+            return true
+        }else{
+            return false;
+        }
+    }
+
     render() {
         var navLinks = "";
+
         if(this.settings.enable.value){
+            var iconOnly = false;
+            var styleObject = {
+                display:"flex",
+                flexDirection:"row",
+                listStyleType:"none",
+                paddingLeft:0
+            }
+
+            if(this.settings.rightAlign){
+                styleObject["marginRight"] = "auto";
+            }
+            var space = this.settings.space.value;
+            var linkStyleObject = {
+                marginRight:space
+            }
+
+            if(this.props.positionType === "fixed"){
+                if((this.props.position === "right") || (this.props.position === "left")){
+                    styleObject["flexDirection"] = "column";
+                    iconOnly = true;
+                    linkStyleObject["marginRight"] = 0;
+                    linkStyleObject["marginBottom"] = space;
+                }
+            }
+
             var links = this.settings.links.getNames().map(function(linkName,index){
 
                 //var linkablePlaceHolder = this.links.getObject(linkName);
@@ -37,14 +77,18 @@ class List extends React.Component {
                 var linkConfig = this.settings.links.getObject(linkName);
 
                 if(linkName === this.settings.activePage.value) {
-                    return (<Link key={index} isActive={true} pageName={linkName} settings={linkConfig} />);
+                    return (<Link style={linkStyleObject} key={index} iconOnly={iconOnly} isActive={true} pageName={linkName} settings={linkConfig} />);
                 }
                 else{
-                    return (<Link key={index} isActive={false} pageName={linkName} settings={linkConfig}/>);
+                    return (<Link style={linkStyleObject} key={index} iconOnly={iconOnly} isActive={false} pageName={linkName} settings={linkConfig}/>);
                 }
             }.bind(this));
 
-            navLinks = <ul className="nav navbar-nav">{links}</ul>;
+            styleObject = Style.appendVendorPrefix(styleObject);
+            if(this.props.useCSS)
+                navLinks = <ul className={this.props.css}>{links}</ul>;
+            else
+                navLinks = <ul style={styleObject}>{links}</ul>;
         }
 
         return (navLinks);

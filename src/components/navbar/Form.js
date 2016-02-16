@@ -1,4 +1,6 @@
 import React from "react";
+import Style from "../../utils/Style";
+import App from "../../utils/App";
 
 class Form extends React.Component {
 
@@ -21,22 +23,57 @@ class Form extends React.Component {
         this.settings.controllers.childListCallbacks.removeCallback(this, this.forceUpdate);
     }
 
+    shouldComponentUpdate(nextProps){
+        if(this.props.positionType !== nextProps.positionType){
+            return true
+        }else if(this.props.position !== nextProps.position){
+            return true
+        }else if(this.props.useCSS !== nextProps.useCSS){
+            return true
+        }else{
+            return false;
+        }
+    }
+
     render() {
         var navFormUI = <div/>;
         if(this.settings.enable.value){
-            var cssNames = this.settings.rightAlign.value?"navbar-form navbar-right":"navbar-form";
+            var styleObject = {
+                display:"flex",
+                flexDirection:"row"
+            }
+            if(this.setings.rightAlign){
+                styleObject["marginRight"] = "auto";
+            }
+            var space = this.settings.space.value;
+            var childStyleObject = {
+                marginRight:space
+            }
+
+            if(this.props.positionType === "fixed"){
+                if((this.props.position === "right") || (this.props.position === "left")){
+                    styleObject["flexDirection"] = "column";
+                    childStyleObject["marginRight"] = 0;
+                    childStyleObject["marginBottom"] = space;
+                }
+            }
+
             var controllersUI = this.settings.controllers.getNames().map(function(controllerName,index){
-                var linkablePlaceHolder = this.settings.controllers.getObject(controllerName);
-                var ToolClass = linkablePlaceHolder.getClass();
-                var spaceValue = this.settings.space.value;
-                var marginStyle = {marginLeft:spaceValue,marginRight:spaceValue}
-                return <span key={index} style={marginStyle}><ToolClass /></span>
+                var formConfig = this.settings.controllers.getObject(controllerName);
+                var ToolClass = App.getToolImplementation(Weave.getPath(formConfig).getType())
+                return <span key={index} style={childStyleObject}><ToolClass settings={formConfig} /></span>
             }.bind(this));
-            navFormUI = <div className={cssNames} style={{margin:"0"}} >
-                            <div className="form-group"  style = {{width: "100%"}}>
+
+            if(this.props.useCSS){
+                navFormUI = <div  className={this.props.css} >
                                 {controllersUI}
-                            </div>
                         </div>
+            }else{
+               navFormUI = <div  style={styleObject} >
+                                {controllersUI}
+                        </div>
+            }
+
 
         }
 

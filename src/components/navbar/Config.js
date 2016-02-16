@@ -7,9 +7,6 @@ export class NavbarConfig {
     constructor() {
 
         Object.defineProperties(this, {
-            "type": {
-                value: Weave.linkableChild(this, new weavejs.core.LinkableString(NavbarConfig.types.DEFAULT))
-            },
             "positionType": {
                 value: Weave.linkableChild(this, new weavejs.core.LinkableString(NavbarConfig.positionType.STATIC))
             },
@@ -24,18 +21,42 @@ export class NavbarConfig {
             },
             "navList": {
                 value: Weave.linkableChild(this, new NavListConfig())
+            },
+            backgroundColor:{
+                value: Weave.linkableChild(this, new weavejs.core.LinkableString("#F8F8F8"))
+            },
+            border:{
+                value: Weave.linkableChild(this, new weavejs.core.LinkableVariable())
+            },
+            padding:{
+                value: Weave.linkableChild(this, new weavejs.core.LinkableVariable())
+            },
+            useCSS:{
+                value: Weave.linkableChild(this, new weavejs.core.LinkableBoolean(false))
+            },
+            CSS:{
+                value: Weave.linkableChild(this, new weavejs.core.LinkableVariable())
             }
         });
+
+        //initial default values
+        this.border.state = {border:"1px solid transparent"};
+        this.padding.state = {padding:"6px"};
+        this.CSS.state = {
+            navbar:"navbar navbar-default",
+            brand:{
+                header:"navbar-header",
+                title:"navbar-brand"
+            },
+            list:"nav navbar-nav",
+            form:"navbar-form navbar-right"
+
+        };
     }
 }
 
-//to-do replace with flexbox
-NavbarConfig.MAIN = 'navbar';
 
-NavbarConfig.types = {
-    "DEFAULT": "default",
-    "INVERSE": "inverse"
-};
+
 
 //body { padding-top: 70px; } for fixed status we have to set this
 NavbarConfig.positionType = {
@@ -45,13 +66,12 @@ NavbarConfig.positionType = {
 
 NavbarConfig.position = {
     "TOP": "top",
-    "BOTTOM": "bottom"
+    "BOTTOM": "bottom",
+    "RIGHT": "right",
+    "LEFT": "left"
 };
 
-NavbarConfig.alignment = {
-    "RIGHT": "pull-right",
-    "LEFT": ""
-};
+
 //This Function makes this class as SessionClass
 Weave.registerClass('weavereact.navbar.config.NavbarConfig', NavbarConfig,[weavejs.api.core.ILinkableObject]);
 
@@ -67,7 +87,7 @@ export class NavLinkConfig {
                 value: Weave.linkableChild(this, new weavejs.core.LinkableString("Link"))
             },
             "iconName": {
-                value: Weave.linkableChild(this, new weavejs.core.LinkableString(""))
+                value: Weave.linkableChild(this, new weavejs.core.LinkableString("fa fa-home"))
             }
         });
     }
@@ -110,6 +130,9 @@ export class NavListConfig {
             },
              "links":{
                  value: Weave.linkableChild(this, new weavejs.core.LinkableHashMap())
+             },
+             "space":{
+                 value: Weave.linkableChild(this, new weavejs.core.LinkableNumber(2))
              }
         });
     }
@@ -124,7 +147,7 @@ export class NavFormConfig {
 
          Object.defineProperties(this, {
             "enable": {
-                value: Weave.linkableChild(this, new weavejs.core.LinkableBoolean(true))
+                value: Weave.linkableChild(this, new weavejs.core.LinkableBoolean(false))
             },
             "rightAlign": {
                 value: Weave.linkableChild(this, new weavejs.core.LinkableBoolean(true))
