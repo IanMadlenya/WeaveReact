@@ -1,7 +1,9 @@
 import React from "react";
 import SessionEditor from "./sessionStateEditor/SessionEditor";
 import SessionEditorConfig from "./sessionStateEditor/SessionEditorConfig";
-
+import {Navbar} from "../../lib/index.js";
+import {NavbarConfig} from "../../lib/index.js";
+import {NavLinkConfig} from "../../lib/index.js";
 
 class App extends React.Component {
 
@@ -9,12 +11,12 @@ class App extends React.Component {
         super(props);
         this.openSettings = this.openSettings.bind(this);
         this.sessionConfig = new SessionEditorConfig();
-        //if(this.props.root){
 
-        //}
-        /*else if(this.props.tree){
-            this.tree = this.props.tree;
-        }*/
+        window.dbweave = new Weave();
+        this.navConfig = window.dbweave.root.requestObject('navbar',NavbarConfig);
+        this.navConfig.navList.links.requestObject('link1',NavLinkConfig).title.value = "Set Up";
+        this.navConfig.navList.links.requestObject('link2',NavLinkConfig).title.value = "Documentation";
+
 
     }
 
@@ -27,23 +29,21 @@ class App extends React.Component {
     }
 
 
-
     componentDidMount(){
-        //this.props.root.childListCallbacks.addImmediateCallback(this,this.forceUpdate);
          window.addEventListener('keydown', this.openSettings);
     }
 
     componentWillUnMount(){
-        //this.props.root.childListCallbacks.removeCallback(this,this.forceUpdate);
         window.removeEventListener('keydown', this.openSettings);
     }
 
 
-
     render() {
 
+
         return (<div>
-                    <SessionEditor root={this.props.root}  settings={this.sessionConfig}/>
+                    <Navbar settings={this.navConfig}/>
+                    <SessionEditor root={window.dbweave.root}  settings={this.sessionConfig}/>
                     {this.props.children}
                 </div>
         );
