@@ -19,7 +19,19 @@ import NodeConfig from "./NodeConfig";
                 value: Weave.linkableChild(this, new weavejs.core.LinkableString("fa fa-file-text-o"))
             },
             "enableDataTypeIcon": {
+                value: Weave.linkableChild(this, new weavejs.core.LinkableBoolean(true))
+            },
+            "rightAlign": {
                 value: Weave.linkableChild(this, new weavejs.core.LinkableBoolean(false))
+            },
+            "nodePadding": {
+                value: Weave.linkableChild(this, new weavejs.core.LinkableString("20px"))
+            },
+            "nodeColor": {
+                value: Weave.linkableChild(this, new weavejs.core.LinkableString(""))
+            },
+            "leafColor": {
+                value: Weave.linkableChild(this, new weavejs.core.LinkableString(""))
             },
             rootNode:{
                 value: Weave.linkableChild(this, new NodeConfig())
@@ -45,18 +57,29 @@ import NodeConfig from "./NodeConfig";
     }
 
     p.getFileIcon = function (data) {
-        var datType = this.getDataType ? this.getDataType(data) : data.constructor.name;
-        if (this.dataTypesMap[datType])
-            return this.dataTypesMap[datType];
-        return this.fileOpenIcon.value;
+        if(data){
+            if(this.enableDataTypeIcon.value){
+                var datType = this.getDataType ? this.getDataType(data) : data.constructor.name;
+                if (this.dataTypesMap && this.dataTypesMap[datType])
+                    return this.dataTypesMap[datType];
+                else
+                    return this.fileOpenIcon.value;
+            }
+            return "";
+        }else
+            return "";
 
     }
 
     p.getFolderIcon = function (data, isOpen) {
-        var datType = this.getDataType ? this.getDataType(data) : data.constructor.name;
-        if (this.dataTypesMap[datType])
-            return this.dataTypesMap[datType];
-        return isOpen ? this.folderOpenIcon.value : this.folderIcon.value;
+        if(data){
+            var datType = this.getDataType ? this.getDataType(data) : data.constructor.name;
+            if (this.dataTypesMap && this.dataTypesMap[datType])
+                return this.dataTypesMap[datType];
+            else
+                return isOpen ? this.folderOpenIcon.value : this.folderIcon.value;
+        }else
+            return "";
 
     }
 

@@ -35,20 +35,36 @@ class Brand extends React.Component {
 
     render() {
         var BrandUI = <div/>;
+
         if(this.settings.enable.value){
             var title = this.settings.title.value;
+
+
             if(this.langSettings){
                 title = App.getTranslatedWord(this.settings.title.value);
+            }
+            var logoUI = "";
+            if(this.settings.logoPath.value){
+                var logoBorder = this.settings.logoBorder.state;
+                logoUI = <img style={logoBorder} alt={title} src={this.settings.logoPath.value}/>
             }
             if(this.props.useCSS){
                 var headerCSS = this.props.css.header;
                 var titleCSS = this.props.css.title
+
                 BrandUI = <div className={headerCSS}>
-                        <div className={titleCSS}>{title}</div>
-                      </div>
+                            <div className={titleCSS}>
+                                {logoUI}
+                                {title}
+                            </div>
+                         </div>
+
 
             }else{
-                BrandUI = <div>{title}</div>
+                BrandUI = <div>
+                            {logoUI}
+                            {title}
+                         </div>
             }
 
         }

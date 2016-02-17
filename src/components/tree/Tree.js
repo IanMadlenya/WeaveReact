@@ -14,16 +14,31 @@ class Tree extends React.Component {
     }
 
     componentDidMount(){
-
+        this.settings.rightAlign.addImmediateCallback(this, this.forceUpdate);
+        this.settings.nodePadding.addImmediateCallback(this, this.forceUpdate);
+        this.settings.nodeColor.addImmediateCallback(this, this.forceUpdate);
+        this.settings.leafColor.addImmediateCallback(this, this.forceUpdate);
     }
 
     componentWillUnmount () {
-
+        this.settings.rightAlign.removeCallback(this, this.forceUpdate);
+        this.settings.nodePadding.removeCallback(this, this.forceUpdate);
+        this.settings.nodeColor.removeCallback(this, this.forceUpdate);
+        this.settings.leafColor.removeCallback(this, this.forceUpdate);
     }
 
     componentWillReceiveProps(nextProps){
         if(this.props.settings !== nextProps.settings){
-            this.settings = nextProps.settings
+            this.settings.rightAlign.removeCallback(this, this.forceUpdate);
+            this.settings.nodePadding.removeCallback(this, this.forceUpdate);
+            this.settings.nodeColor.removeCallback(this, this.forceUpdate);
+            this.settings.leafColor.removeCallback(this, this.forceUpdate);
+            this.settings = nextProps.settings;
+            this.settings.rightAlign.addImmediateCallback(this, this.forceUpdate);
+            this.settings.nodePadding.addImmediateCallback(this, this.forceUpdate);
+            this.settings.nodeColor.addImmediateCallback(this, this.forceUpdate);
+            this.settings.leafColor.addImmediateCallback(this, this.forceUpdate);
+
             this.settings.dataTypesMap = this.props.dataTypesMap;
             this.settings.getDataType = this.props.getDataType;
         }

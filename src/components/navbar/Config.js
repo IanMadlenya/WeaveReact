@@ -102,12 +102,24 @@ export class NavBrandConfig {
 
         Object.defineProperties(this, {
             "title": {
-                value: Weave.linkableChild(this, new weavejs.core.LinkableString("Brand"))
+                value: Weave.linkableChild(this, new weavejs.core.LinkableString(""))
             },
             "enable": {
                 value: Weave.linkableChild(this, new weavejs.core.LinkableBoolean(true))
+            },
+            logoPath:{
+                value: Weave.linkableChild(this, new weavejs.core.LinkableString(""))
+            },
+            logoBorder:{
+                value: Weave.linkableChild(this, new weavejs.core.LinkableVariable())
             }
         });
+        this.logoBorder.state = {
+            border:"2px solid #F3B46E",
+            borderRadius:"50%",
+            width:"100",
+            height: "90"
+        };
     }
 }
 

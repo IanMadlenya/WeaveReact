@@ -1,24 +1,45 @@
 {
-  "label": "Top Level",
-  "parent": "null",
+  "label": "Locations",
   "children": [
     {
-      "label": "Level 2: A",
-      "parent": "Top Level",
+      "label": "Saudi Kingdom",
       "children": [
         {
-          "label": "Son of A",
-          "parent": "Level 2: A"
+          "label": "Saudi Kingdom 1"
         },
         {
-          "label": "Daughter of A",
-          "parent": "Level 2: A"
+          "label": "Saudi Kingdom 2"
         }
       ]
     },
     {
-      "label": "Level 2: B",
-      "parent": "Top Level"
+      "label": "Al Joaf",
+      "children": [
+        {
+          "label": "Al Joaf 1"
+        },
+        {
+          "label": "Al Joaf 2"
+        },
+        {
+          "label": "Al Joaf 3"
+        }
+      ]
+    },
+    {
+      "label": "Tabuk",
+      "children": [
+        {
+          "label": "Tabuk 1"
+        },
+        {
+          "label": "Tabuk 2"
+        },
+        {
+          "label": "Tabuk 3"
+        }
+      ]
     }
+
   ]
 }
