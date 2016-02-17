@@ -153,7 +153,7 @@ export class NavFormConfig {
                 value: Weave.linkableChild(this, new weavejs.core.LinkableBoolean(true))
             },
             "controllers": {
-                value: Weave.linkableChild(this, new weavejs.core.LinkableHashMap(weavejs.core.LinkablePlaceholder))
+                value: Weave.linkableChild(this, new weavejs.core.LinkableHashMap())
             },
             "space": {
                 value: Weave.linkableChild(this, new weavejs.core.LinkableString("2px"))
