@@ -42,7 +42,7 @@ class Form extends React.Component {
                 display:"flex",
                 flexDirection:"row"
             }
-            if(this.setings.rightAlign){
+            if(this.settings.rightAlign){
                 styleObject["marginRight"] = "auto";
             }
             var space = this.settings.space.value;
