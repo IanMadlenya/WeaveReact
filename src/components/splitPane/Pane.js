@@ -26,6 +26,14 @@ class Pane extends React.Component {
         this.settings.size.value = size;
     }
 
+    componentWillReceiveProps(nextProps){
+        if(this.props.settings !== nextProps.settings){
+            this.settings.size.removeCallback(this,this.forceUpdate);
+            this.settings = nextProps.settings;
+            this.settings.size.addImmediateCallback(this,this.forceUpdate);
+        }
+    }
+
     render() {
 
         const split = this.props.split;

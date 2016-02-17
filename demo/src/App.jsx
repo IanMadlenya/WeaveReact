@@ -10,9 +10,11 @@ class App extends React.Component {
     constructor(props) {
         super(props);
         this.openSettings = this.openSettings.bind(this);
-        this.sessionConfig = new SessionEditorConfig();
-
+        this.sessionConfigDashdoard = new SessionEditorConfig();
+        this.sessionConfigWeave = new SessionEditorConfig();
+        window.weave = new Weave();
         window.dbweave = new Weave();
+
         this.navConfig = window.dbweave.root.requestObject('navbar',NavbarConfig);
         var linkConfig = this.navConfig.navList.links.requestObject('link1',NavLinkConfig);
         linkConfig.title.value = " Set Up";
@@ -20,25 +22,34 @@ class App extends React.Component {
         linkConfig= this.navConfig.navList.links.requestObject('link2',NavLinkConfig);
         linkConfig.title.value = " Documentation";
         linkConfig.iconName.value = "fa fa-folder";
-
-
     }
 
-    openSettings(e){
-        if(e.code === "Enter"){
-            this.sessionConfig.modalConfig.open.value = true;
-        }else if(e.code === "KeyQ"){
-            this.sessionConfig.modalConfig.open.value = false;
+   openSettings(e) {
+        if (e.code === "KeyD") {
+            if(this.sessionConfigWeave.modalConfig.open.value)  this.sessionConfigWeave.modalConfig.open.value= false;
+            this.sessionConfigDashdoard.modalConfig.open.value = true;
+            this.popUpSessionEditor( this.sessionConfigDashdoard, window.dbweave, "Session State Editor (Weave Dashboard)",true)
+        }else if (e.code === "KeyW") {
+            if(this.sessionConfigDashdoard.modalConfig.open.value)  this.sessionConfigDashdoard.modalConfig.open.value= false;
+            this.sessionConfigWeave.modalConfig.open.value = true;
+            this.popUpSessionEditor( this.sessionConfigWeave, window.weave, "Session State Editor (Weave)",false)
+        } else if (e.code === "KeyQ") {
+            this.sessionConfigWeave.modalConfig.open.value = false;
+            this.sessionConfigDashdoard.modalConfig.open.value = false;
         }
     }
 
-
     componentDidMount(){
-         window.addEventListener('keydown', this.openSettings);
+        window.addEventListener('keydown', this.openSettings);
     }
 
     componentWillUnMount(){
         window.removeEventListener('keydown', this.openSettings);
+    }
+
+    popUpSessionEditor(config,weaveInstance,title,isDb) {
+        ReactDOM.render( <SessionEditor isDashboard={isDb} weave={weaveInstance} keyPress = "true" title={title} settings = {config}/>,document.getElementById("popUp")
+                       );
     }
 
 
@@ -46,8 +57,9 @@ class App extends React.Component {
 
 
         return (<div>
+                    <div id="popUp"/>
                     <Navbar settings={this.navConfig}/>
-                    <SessionEditor weave={window.dbweave}  settings={this.sessionConfig}/>
+
                     {this.props.children}
                 </div>
         );

@@ -7,6 +7,7 @@ class ModalPanel extends React.Component {
     constructor(props) {
         super(props);
         this.settings = this.props.settings ? this.props.settings:new ModalPanelConfig();
+        this.settings.title.value = this.props.title;
         window.modalLayout = this.settings;// for testing
         this.sessionOpen = this.props.sessionOpen;
 
@@ -17,13 +18,11 @@ class ModalPanel extends React.Component {
     }
 
     componentDidMount(){
-        var cc = Weave.getCallbacks(this.settings);
-        cc.addImmediateCallback(this, this.updateState);
+        Weave.getCallbacks(this.settings).addImmediateCallback(this, this.updateState);
     }
 
     componentWillUnmount () {
-        var cc = Weave.getCallbacks(this.settings);
-        cc.removeCallback(this, this.updateState);
+        Weave.getCallbacks(this.settings).removeCallback(this, this.updateState);
     }
 
     updateState(){
@@ -32,6 +31,17 @@ class ModalPanel extends React.Component {
 
     closeModal(){
         this.sessionOpen.value = false;
+    }
+
+    componentWillReceiveProps(nextProps){
+        if(this.props.settings !== nextProps.settings){
+            Weave.getCallbacks(this.settings).removeCallback(this, this.updateState);
+            this.settings = nextProps.settings;
+            Weave.getCallbacks(this.settings).addImmediateCallback(this, this.updateState);
+        }
+        if(this.props.title !== nextProps.title){
+            this.settings.title.value = this.props.title
+        }
     }
 
     render() {

@@ -10,14 +10,12 @@ class Modal extends React.Component {
     constructor(props) {
         super(props);
         this.settings = this.props.settings ? this.props.settings:new ModalConfig();
-        if(this.props.title) this.settings.panelConfig.title.value =  this.props.title;
-
-
         this.openModal = this.openModal.bind(this);
 
     }
 
     componentDidMount(){
+         console.log("componentDidMount")
         this.settings.open.addImmediateCallback(this, this.forceUpdate);
         this.settings.buttonIcon.addImmediateCallback(this, this.forceUpdate);
     }
@@ -25,13 +23,25 @@ class Modal extends React.Component {
 
 
     componentWillUnmount () {
-        this.settings.open.removeCallback(this, this.forceUpdate)
-        this.settings.buttonIcon.removeCallback(this, this.forceUpdate)
+        console.log("componentWillUnmount.....")
+        this.settings.open.removeCallback(this, this.forceUpdate);
+        this.settings.buttonIcon.removeCallback(this, this.forceUpdate);
     }
 
 
     openModal(){
         this.settings.open.value = true;
+    }
+
+    componentWillReceiveProps(nextProps){
+        if(this.props.settings !== nextProps.settings){
+            console.log("componentWillReceiveProps");
+            this.settings.open.removeCallback(this, this.forceUpdate);
+            this.settings.buttonIcon.removeCallback(this, this.forceUpdate);
+            this.settings = nextProps.settings;
+            this.settings.open.addImmediateCallback(this, this.forceUpdate);
+            this.settings.buttonIcon.addImmediateCallback(this, this.forceUpdate);
+        }
     }
 
 
@@ -42,7 +52,7 @@ class Modal extends React.Component {
     var modalButtonUI = "";
     var modalPanelUI = "";
     if(isOpen){
-        modalPanelUI = <ModalPanel  sessionOpen={this.settings.open} settings={this.settings.panelConfig}>
+        modalPanelUI = <ModalPanel title={this.props.title}  sessionOpen={this.settings.open} settings={this.settings.panelConfig}>
                             {this.props.children}
                         </ModalPanel>
     }

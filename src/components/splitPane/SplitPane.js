@@ -43,6 +43,7 @@ class SplitPane extends React.Component {
     }
 
 
+
     onMouseDown(event) {
         this.settings.updateUnFocus();
         let position = this.props.split === 'vertical' ? event.clientX : event.clientY;
@@ -96,7 +97,19 @@ class SplitPane extends React.Component {
         }
     }
 
-
+    componentWillReceiveProps(nextProps){
+        if(this.props.settings !== nextProps.settings){
+             this.settings.active.removeCallback(this, this.forceUpdate);
+            this.settings.resized.removeCallback(this, this.forceUpdate);
+            this.settings.position.removeCallback(this, this.forceUpdate);
+            this.settings.unFocusCount.removeCallback(this, this.unFocus);
+            this.settings = nextProps.settings;
+            this.settings.active.addGroupedCallback(this, this.forceUpdate);
+            this.settings.resized.addGroupedCallback(this, this.forceUpdate);
+            this.settings.position.addGroupedCallback(this, this.forceUpdate);
+            this.settings.unFocusCount.addImmediateCallback(this, this.unFocus);
+        }
+    }
 
     render() {
         const split = this.props.split;

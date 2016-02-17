@@ -13,7 +13,7 @@ export default class SessionEditor extends React.Component {
         super(props);
         this.settings =  this.props.settings?this.props.settings:new SessionEditorConfig();
         this.tree =  weavejs.WeaveAPI.SessionManager.getSessionStateTree(this.props.weave.root);
-        this.tree.label = "Weave";
+        this.tree.label = this.props.isDashboard?"WeaveDashboard":"Weave";
 
         this.changeSessionValue = this.changeSessionValue.bind(this);
         this.nodeClick = this.nodeClick.bind(this);
@@ -30,12 +30,16 @@ export default class SessionEditor extends React.Component {
 
     }
 
-
-
     componentWillReceiveProps(nextProps){
-        /*if(this.props.root !== nextProps.root){
-
-        }*/
+        if(this.props.settings !== nextProps.settings){
+            this.settings = nextProps.settings
+        }
+        if(this.props.weave !== nextProps.weave){
+            this.settings = nextProps.settings;
+            this.tree =  weavejs.WeaveAPI.SessionManager.getSessionStateTree(nextProps.weave.root);
+            this.tree.label = nextProps.isDashboard?"WeaveDashboard":"Weave";
+            this.selectedData = null ;
+        }
     }
 
     nodeClick(node){
@@ -132,9 +136,8 @@ export default class SessionEditor extends React.Component {
         bottom:"2px"
     }
 
-    console.log("Session Render");
 
-    return ( <Modal settings={this.settings.modalConfig} keyPress="true" title="Session State Editor">
+    return ( <Modal settings={this.settings.modalConfig} keyPress="true" title={this.props.title}>
 
                 <div style={{height:"90%",width:"100%",display: "flex", position: "relative", overflow: "hidden"}}>
                     <SplitPane split="vertical" minSize="50" defaultSize="256">
