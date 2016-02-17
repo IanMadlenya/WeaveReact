@@ -15,7 +15,6 @@ class Modal extends React.Component {
     }
 
     componentDidMount(){
-         console.log("componentDidMount")
         this.settings.open.addImmediateCallback(this, this.forceUpdate);
         this.settings.buttonIcon.addImmediateCallback(this, this.forceUpdate);
     }
@@ -23,7 +22,6 @@ class Modal extends React.Component {
 
 
     componentWillUnmount () {
-        console.log("componentWillUnmount.....")
         this.settings.open.removeCallback(this, this.forceUpdate);
         this.settings.buttonIcon.removeCallback(this, this.forceUpdate);
     }
@@ -35,7 +33,6 @@ class Modal extends React.Component {
 
     componentWillReceiveProps(nextProps){
         if(this.props.settings !== nextProps.settings){
-            console.log("componentWillReceiveProps");
             this.settings.open.removeCallback(this, this.forceUpdate);
             this.settings.buttonIcon.removeCallback(this, this.forceUpdate);
             this.settings = nextProps.settings;
