@@ -19,8 +19,9 @@ class Navbar extends React.Component {
          var styleObject = {
              display:"flex",
              flexDirection:"row",
+             flex:"1",
              width:"100%",
-             heigh:"5%",
+             height:"5%",
              position:this.settings.positionType.value,
              backgroundColor: this.settings.backgroundColor.value,
 
@@ -86,14 +87,25 @@ class Navbar extends React.Component {
             var brandCSS = cssObj.brand;
             var listCSS = cssObj.list;
             var formCSS = cssObj.form;
-        }
-        return (
-            <nav id="navbar"  style={styleObj}>
-                <Brand css={brandCSS} useCSS={this.settings.useCSS.value} settings={this.settings.brand} positionType={posType} position={pos}/>
-                <List css={listCSS} useCSS={this.settings.useCSS.value} settings={this.settings.navList} positionType={posType} position={pos}/>
-                <Form css={formCSS} useCSS={this.settings.useCSS.value} settings={this.settings.form} positionType={posType} position={pos}/>
-            </nav>
+            return (
+                <nav className={cssObj.navbar}>
+                    <Brand css={brandCSS} useCSS={this.settings.useCSS.value} settings={this.settings.brand} positionType={posType} position={pos}/>
+                    <List css={listCSS} useCSS={this.settings.useCSS.value} settings={this.settings.navList} positionType={posType} position={pos}/>
+                    <Form css={formCSS} useCSS={this.settings.useCSS.value} settings={this.settings.form} positionType={posType} position={pos}/>
+                </nav>
+            );
+        }else{
+            return (
+                <nav   style={styleObj}>
+                    <Brand useCSS={this.settings.useCSS.value} settings={this.settings.brand} positionType={posType} position={pos}/>
+                    <List  useCSS={this.settings.useCSS.value} settings={this.settings.navList} positionType={posType} position={pos}/>
+                    <Form  useCSS={this.settings.useCSS.value} settings={this.settings.form} positionType={posType} position={pos}/>
+                </nav>
         );
+
+        }
+
+
     }
 
 }

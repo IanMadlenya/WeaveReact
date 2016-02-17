@@ -48,12 +48,14 @@ class List extends React.Component {
             var iconOnly = false;
             var styleObject = {
                 display:"flex",
+                flex:"1",
                 flexDirection:"row",
                 listStyleType:"none",
                 paddingLeft:0
             }
 
-            if(this.settings.rightAlign){
+            if((this.props.position !== "right") && (this.props.position !== "left") && this.settings.rightAlign){
+                styleObject["justifyContent"] = "flex-end";
                 styleObject["marginRight"] = "auto";
             }
             var space = this.settings.space.value;

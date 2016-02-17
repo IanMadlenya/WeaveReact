@@ -40,9 +40,11 @@ class Form extends React.Component {
         if(this.settings.enable.value){
             var styleObject = {
                 display:"flex",
-                flexDirection:"row"
+                flexDirection:"row",
+                flex:"1"
             }
-            if(this.settings.rightAlign){
+            if((this.props.position !== "right") && (this.props.position !== "left") && this.settings.rightAlign){
+                styleObject["justifyContent"] = "flex-end";
                 styleObject["marginRight"] = "auto";
             }
             var space = this.settings.space.value;
