@@ -42,7 +42,7 @@ class List extends React.Component {
     }
 
     render() {
-        var navLinks = "";
+        var navLinks = <div/>;
 
         if(this.settings.enable.value){
             var iconOnly = false;
