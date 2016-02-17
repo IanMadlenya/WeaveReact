@@ -29,7 +29,11 @@ exports.NavbarConfig = NavbarConfig;
 exports.NavLinkConfig = NavLinkConfig;
 
 
-exports.getToolForConfigName = function (name) {
+exports.registerToolImplementation = function (asClassName, jsClass) {
+    App.registerToolImplementation(asClassName, jsClass);
+}
+
+exports.getToolImplementation = function (name) {
     if (App.getToolImplementation(name)) {
         return App.getToolImplementation(name);
     }
