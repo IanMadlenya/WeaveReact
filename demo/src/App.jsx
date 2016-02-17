@@ -18,6 +18,14 @@ class App extends React.Component {
         this.sessionConfigWeave = new SessionEditorConfig();
         this.navConfig = window.dbweave.root.requestObject('navbar',NavbarConfig);
         this.navConfig.brand.logoPath.value = "./brand.png";
+
+        var linkConfig = this.navConfig.navList.links.requestObject('link1',NavLinkConfig);
+        linkConfig.title.value = " Set Up";
+        linkConfig.iconName.value = "fa fa-home";
+        linkConfig= this.navConfig.navList.links.requestObject('link2',NavLinkConfig);
+        linkConfig.title.value = " Documentation";
+        linkConfig.iconName.value = "fa fa-folder";
+
         this.treeConfig = window.dbweave.root.requestObject('tree',TreeConfig);
         this.treeConfig.nodePadding.value ="10px";
         this.treeConfig.rightAlign.value = true;
@@ -37,12 +45,21 @@ class App extends React.Component {
         }.bind(this))
 
 
-        var linkConfig = this.navConfig.navList.links.requestObject('link1',NavLinkConfig);
-        linkConfig.title.value = " Set Up";
-        linkConfig.iconName.value = "fa fa-home";
-        linkConfig= this.navConfig.navList.links.requestObject('link2',NavLinkConfig);
-        linkConfig.title.value = " Documentation";
-        linkConfig.iconName.value = "fa fa-folder";
+
+    }
+
+     loadJSON(callback) {
+
+        var xobj = new XMLHttpRequest();
+        xobj.overrideMimeType("application/json");
+        xobj.open('GET', './test.json', true);
+        xobj.onreadystatechange = function () {
+            if (xobj.readyState == 4 && xobj.status == "200") {
+                // Required use of an anonymous callback as .open will NOT return a value but simply returns undefined in asynchronous mode
+                callback(xobj.responseText);
+            }
+        };
+        xobj.send(null);
     }
 
    openSettings(e) {
@@ -73,19 +90,7 @@ class App extends React.Component {
                        );
     }
 
-    loadJSON(callback) {
 
-        var xobj = new XMLHttpRequest();
-        xobj.overrideMimeType("application/json");
-        xobj.open('GET', './test.json', true);
-        xobj.onreadystatechange = function () {
-            if (xobj.readyState == 4 && xobj.status == "200") {
-                // Required use of an anonymous callback as .open will NOT return a value but simply returns undefined in asynchronous mode
-                callback(xobj.responseText);
-            }
-        };
-        xobj.send(null);
-    }
 
 
     render() {

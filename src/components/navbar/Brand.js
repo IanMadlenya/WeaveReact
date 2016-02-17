@@ -11,6 +11,8 @@ class Brand extends React.Component {
     componentDidMount(){
         this.settings.enable.addImmediateCallback(this,this.forceUpdate);
         this.settings.title.addImmediateCallback(this,this.forceUpdate);
+        this.settings.logoPath.addImmediateCallback(this,this.forceUpdate);
+        this.settings.logoBorder.addImmediateCallback(this,this.forceUpdate);
         if(this.langSettings)this.langSettings.addImmediateCallback(this,this.forceUpdate);
     }
 
@@ -18,6 +20,8 @@ class Brand extends React.Component {
     componentWillUnmount () {
         this.settings.enable.removeCallback(this,this.forceUpdate);
         this.settings.title.removeCallback(this,this.forceUpdate);
+        this.settings.logoPath.removeCallback(this,this.forceUpdate);
+        this.settings.logoBorder.removeCallback(this,this.forceUpdate);
         if(this.langSettings)this.langSettings.removeCallback(this,this.forceUpdate);
     }
 
