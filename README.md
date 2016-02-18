@@ -49,7 +49,7 @@ eg: consider style property "color"
     }
     
 ## How to implement interaction tied between Parent and Children?  (use case: modal -  close and open)
-    // parent
+    //Parent Component
     this.color = new LinkabaleString("red");
     
     changeColor(e){
@@ -64,7 +64,7 @@ eg: consider style property "color"
                 </div>
     }
     
-    //children 
+    //Child Component 
     componentDidMount(){
         this.props.color.addImmediateCallback(this, this.forceUpdate)
     }
