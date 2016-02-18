@@ -1,17 +1,18 @@
 import Brand from "./Brand";
 import List from "./List";
 import Form from "./Form";
+import InlineStyle from "../../configs/InlineStyle";
 
 
 export class NavbarConfig {
     constructor() {
 
         Object.defineProperties(this, {
-            "positionType": {
-                value: Weave.linkableChild(this, new weavejs.core.LinkableString(NavbarConfig.positionType.STATIC))
+            "style":{
+                value: Weave.linkableChild(this, new InlineStyle())
             },
-            "position": {
-                value: Weave.linkableChild(this, new weavejs.core.LinkableString(NavbarConfig.position.TOP))
+            "CSS":{
+                value: Weave.linkableChild(this, new weavejs.core.LinkableVariable())
             },
             "brand": {
                 value: Weave.linkableChild(this, new NavBrandConfig())
@@ -22,26 +23,15 @@ export class NavbarConfig {
             "navList": {
                 value: Weave.linkableChild(this, new NavListConfig())
             },
-            backgroundColor:{
-                value: Weave.linkableChild(this, new weavejs.core.LinkableString("#F8F8F8"))
-            },
-            border:{
-                value: Weave.linkableChild(this, new weavejs.core.LinkableVariable())
-            },
-            padding:{
-                value: Weave.linkableChild(this, new weavejs.core.LinkableVariable())
-            },
-            useCSS:{
+            "useCSS":{
                 value: Weave.linkableChild(this, new weavejs.core.LinkableBoolean(false))
             },
-            CSS:{
-                value: Weave.linkableChild(this, new weavejs.core.LinkableVariable())
+            "dock":{
+                value: Weave.linkableChild(this, new weavejs.core.LinkableString("top"))
             }
         });
 
         //initial default values
-        this.border.state = {border:"1px solid transparent"};
-        this.padding.state = {padding:"6px"};
         this.CSS.state = {
             navbar:"navbar navbar-default",
             brand:{
@@ -50,8 +40,14 @@ export class NavbarConfig {
             },
             list:"nav navbar-nav",
             form:"navbar-form navbar-right"
-
         };
+
+
+        this.style.display.value = "flex";
+        this.style.border.state = {border:"1px solid transparent"};
+        this.style.other.state = {flexDirection:"row",flex:"1",height:"6%"};
+        this.style.padding.state = {padding:"6px"};
+        this.style.background.state = "#F8F8F8";
     }
 }
 
@@ -110,11 +106,11 @@ export class NavBrandConfig {
             logoPath:{
                 value: Weave.linkableChild(this, new weavejs.core.LinkableString(""))
             },
-            logoBorder:{
-                value: Weave.linkableChild(this, new weavejs.core.LinkableVariable())
+             "logoStyle":{
+                value: Weave.linkableChild(this, new InlineStyle())
             }
         });
-        this.logoBorder.state = {
+        this.logoStyle.border.state = {
             border:"2px solid #F3B46E",
             borderRadius:"50%",
             width:"100",
@@ -131,6 +127,9 @@ export class NavListConfig {
     constructor() {
 
          Object.defineProperties(this, {
+            "style":{
+                value: Weave.linkableChild(this, new InlineStyle())
+            },
             "enable": {
                 value: Weave.linkableChild(this, new weavejs.core.LinkableBoolean(true))
             },
@@ -147,6 +146,15 @@ export class NavListConfig {
                  value: Weave.linkableChild(this, new weavejs.core.LinkableNumber(2))
              }
         });
+
+        this.style.display.value = "flex";
+        this.style.other.state = {
+            flexDirection:"inherit",
+            flex:"1",
+            listStyleType:"none",
+            paddingLeft:"0"
+        };
+
     }
 }
 
@@ -158,6 +166,9 @@ export class NavFormConfig {
     constructor() {
 
          Object.defineProperties(this, {
+            "style":{
+                value: Weave.linkableChild(this, new InlineStyle())
+            },
             "enable": {
                 value: Weave.linkableChild(this, new weavejs.core.LinkableBoolean(false))
             },
@@ -171,6 +182,14 @@ export class NavFormConfig {
                 value: Weave.linkableChild(this, new weavejs.core.LinkableString("2px"))
             }
         });
+
+        this.style.display.value = "flex";
+         this.style.other.state = {
+            flexDirection:"inherit",
+            flex:"1",
+            listStyleType:"none",
+            paddingLeft:"0"
+        };
     }
 }
 

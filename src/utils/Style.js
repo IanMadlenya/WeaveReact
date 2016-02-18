@@ -27,6 +27,25 @@ import appendVendorPrefix from './appendVendorPrefix';
     }
 
 
+    /*convenience function to get a particular sessioned property of a sessioned object*/
+    Style.getStyleStateFor = function (sessionObj, properties, appendVendorPrefix) {
+        var state = {};
+        if (properties.constructor === Array) {
+            properties.map(function (propertyName) {
+                if(sessionObj[propertyName].state){
+                    if(sessionObj[propertyName].constructor === weavejs.core.LinkableVariable){
+                        state = Style.mergeStyleObjects(state,sessionObj[propertyName].state);
+                    }else
+                        state[propertyName] = sessionObj[propertyName].state;
+                }
+            });
+        } else if (properties instanceof String) {
+            state[properties] = sessionObj[properties].state;
+        }
+        if(appendVendorPrefix)
+            return Style.appendVendorPrefix(state);
+        return state;
+    };
 
 
     Style.getStyle = function (style) {

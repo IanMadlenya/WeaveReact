@@ -12,7 +12,7 @@ class Brand extends React.Component {
         this.settings.enable.addImmediateCallback(this,this.forceUpdate);
         this.settings.title.addImmediateCallback(this,this.forceUpdate);
         this.settings.logoPath.addImmediateCallback(this,this.forceUpdate);
-        this.settings.logoBorder.addImmediateCallback(this,this.forceUpdate);
+        Weave.getCallbacks(this.settings.logoStyle).addImmediateCallback(this,this.forceUpdate);
         if(this.langSettings)this.langSettings.addImmediateCallback(this,this.forceUpdate);
     }
 
@@ -21,7 +21,7 @@ class Brand extends React.Component {
         this.settings.enable.removeCallback(this,this.forceUpdate);
         this.settings.title.removeCallback(this,this.forceUpdate);
         this.settings.logoPath.removeCallback(this,this.forceUpdate);
-        this.settings.logoBorder.removeCallback(this,this.forceUpdate);
+        Weave.getCallbacks(this.settings.logoStyle).removeCallback(this,this.forceUpdate);
         if(this.langSettings)this.langSettings.removeCallback(this,this.forceUpdate);
     }
 
@@ -49,8 +49,8 @@ class Brand extends React.Component {
             }
             var logoUI = "";
             if(this.settings.logoPath.value){
-                var logoBorder = this.settings.logoBorder.state;
-                logoUI = <img style={logoBorder} alt={title} src={this.settings.logoPath.value}/>
+                var logoStyle = this.settings.logoStyle.getStyleFor();
+                logoUI = <img style={logoStyle} alt={title} src={this.settings.logoPath.value}/>
             }
             if(this.props.useCSS){
                 var headerCSS = this.props.css.header;

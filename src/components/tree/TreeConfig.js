@@ -33,6 +33,9 @@ import NodeConfig from "./NodeConfig";
             "leafColor": {
                 value: Weave.linkableChild(this, new weavejs.core.LinkableString(""))
             },
+            "leafBorder": {
+                value: Weave.linkableChild(this, new weavejs.core.LinkableVariable())
+            },
             rootNode:{
                 value: Weave.linkableChild(this, new NodeConfig())
             }
@@ -41,6 +44,10 @@ import NodeConfig from "./NodeConfig";
         this.activeNode = null;
         this.dataTypesMap = null;
         this.getDataType = null;
+
+        this.leafBorder.state = {
+            borderBottom:"1px solid #0369B1"
+        };
     }
 
 

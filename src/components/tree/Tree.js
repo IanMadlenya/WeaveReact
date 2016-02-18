@@ -18,6 +18,7 @@ class Tree extends React.Component {
         this.settings.nodePadding.addImmediateCallback(this, this.forceUpdate);
         this.settings.nodeColor.addImmediateCallback(this, this.forceUpdate);
         this.settings.leafColor.addImmediateCallback(this, this.forceUpdate);
+        this.settings.leafBorder.addImmediateCallback(this, this.forceUpdate);
     }
 
     componentWillUnmount () {
@@ -25,6 +26,7 @@ class Tree extends React.Component {
         this.settings.nodePadding.removeCallback(this, this.forceUpdate);
         this.settings.nodeColor.removeCallback(this, this.forceUpdate);
         this.settings.leafColor.removeCallback(this, this.forceUpdate);
+        this.settings.leafBorder.removeCallback(this, this.forceUpdate);
     }
 
     componentWillReceiveProps(nextProps){
@@ -33,11 +35,13 @@ class Tree extends React.Component {
             this.settings.nodePadding.removeCallback(this, this.forceUpdate);
             this.settings.nodeColor.removeCallback(this, this.forceUpdate);
             this.settings.leafColor.removeCallback(this, this.forceUpdate);
+            this.settings.leafBorder.removeCallback(this, this.forceUpdate);
             this.settings = nextProps.settings;
             this.settings.rightAlign.addImmediateCallback(this, this.forceUpdate);
             this.settings.nodePadding.addImmediateCallback(this, this.forceUpdate);
             this.settings.nodeColor.addImmediateCallback(this, this.forceUpdate);
             this.settings.leafColor.addImmediateCallback(this, this.forceUpdate);
+            this.settings.leafBorder.addImmediateCallback(this, this.forceUpdate);
 
             this.settings.dataTypesMap = this.props.dataTypesMap;
             this.settings.getDataType = this.props.getDataType;

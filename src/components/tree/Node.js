@@ -126,18 +126,20 @@ class Node extends React.Component {
                 var fileIcon = this.props.treeConfig.getFileIcon(this.props.data);
                 var fileIconStyle = this.props.treeConfig.getFileIconStyle();
                 var activeLeafColor = this.settings.active.value?"#000000":"#9d9d9d";
+                var leafStyleObj = {color:activeLeafColor,backgroundColor:this.props.treeConfig.leafColor.value}
+                leafStyleObj = Styles.mergeStyleObjects(leafStyleObj,this.props.treeConfig.leafBorder.state)
                 if(fileIcon && fileIcon.indexOf("fa fa-") > -1)
-                    nodeUI = <li style={{color:activeLeafColor,backgroundColor:this.props.treeConfig.leafColor.value}} onClick={this.toggle}>
+                    nodeUI = <li style={leafStyleObj} onClick={this.toggle}>
                                 <i className={fileIcon}></i>
                                 &#160;{leaf}
                              </li>
                 else if(this.props.treeConfig.enableDataTypeIcon.value)
-                    nodeUI = <li style={{color:activeLeafColor,backgroundColor:this.props.treeConfig.leafColor.value}} onClick={this.toggle}>
+                    nodeUI = <li style={leafStyleObj} onClick={this.toggle}>
                                 <span style={fileIconStyle}>{fileIcon}</span>
                                 &#160;{leaf}
                              </li>
                 else
-                    nodeUI = <li style={{color:activeLeafColor,backgroundColor:this.props.treeConfig.leafColor.value}} onClick={this.toggle}>
+                    nodeUI = <li style={leafStyleObj} onClick={this.toggle}>
                                 &#160;{leaf}
                              </li>
             }

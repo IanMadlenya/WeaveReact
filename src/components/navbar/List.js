@@ -13,6 +13,7 @@ class List extends React.Component {
 
     componentDidMount(){
         this.settings.enable.addImmediateCallback(this, this.forceUpdate);
+        Weave.getCallbacks(this.settings.style).addImmediateCallback(this, this.forceUpdate);
         this.settings.space.addImmediateCallback(this, this.forceUpdate);
         this.settings.rightAlign.addImmediateCallback(this, this.forceUpdate);
         this.settings.activePage.addImmediateCallback(this, this.forceUpdate);
@@ -23,6 +24,7 @@ class List extends React.Component {
 
     componentWillUnmount(){
         this.settings.enable.removeCallback(this, this.forceUpdate);
+        Weave.getCallbacks(this.settings.style).removeCallback(this, this.forceUpdate);
         this.settings.space.removeCallback(this, this.forceUpdate);
         this.settings.rightAlign.removeCallback(this, this.forceUpdate);
         this.settings.activePage.removeCallback(this, this.forceUpdate);
@@ -30,7 +32,7 @@ class List extends React.Component {
     }
 
     shouldComponentUpdate(nextProps){
-        if(this.props.positionType !== nextProps.positionType){
+        if(this.props.dock !== nextProps.dock){
             return true
         }else if(this.props.position !== nextProps.position){
             return true
@@ -41,35 +43,29 @@ class List extends React.Component {
         }
     }
 
+
     render() {
         var navLinks = <div/>;
 
         if(this.settings.enable.value){
-            var iconOnly = false;
-            var styleObject = {
-                display:"flex",
-                flex:"1",
-                flexDirection:"row",
-                listStyleType:"none",
-                paddingLeft:0
-            }
-
-            if((this.props.position !== "right") && (this.props.position !== "left") && this.settings.rightAlign){
-                styleObject["justifyContent"] = "flex-end";
-                styleObject["marginRight"] = "auto";
-            }
-            var space = this.settings.space.value;
-            var linkStyleObject = {
-                marginRight:space
-            }
-
-            if(this.props.positionType === "fixed"){
-                if((this.props.position === "right") || (this.props.position === "left")){
-                    styleObject["flexDirection"] = "column";
-                    iconOnly = true;
-                    linkStyleObject["marginRight"] = 0;
-                    linkStyleObject["marginBottom"] = space;
+            if(!this.props.useCSS){
+                var styleObject = this.settings.style.getStyleFor(null)
+                if((this.props.dock !== "right") && (this.props.dock !== "left") && this.settings.rightAlign){
+                    styleObject["justifyContent"] = "flex-end";
+                    styleObject["marginRight"] = "auto";
                 }
+                styleObject = Style.appendVendorPrefix(styleObject);
+            }
+            var linkStyleObject={};
+            var iconOnly = false;
+            var space = this.settings.space.value;
+            if((this.props.dock === "right") || (this.props.dock === "left")){
+                iconOnly = true;
+                linkStyleObject["marginBottom"] = space;
+            }
+            else if((this.props.dock === "top") || (this.props.dock === "bottom")){
+                iconOnly = false;
+                linkStyleObject["marginRight"] = space;
             }
 
             var links = this.settings.links.getNames().map(function(linkName,index){

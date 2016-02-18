@@ -15,34 +15,22 @@ class Navbar extends React.Component {
         this.getStyle = this.getStyle.bind(this);
     }
 
+
      getStyle  () {
-         var styleObject = {
-             display:"flex",
-             flexDirection:"row",
-             flex:"1",
-             width:"100%",
-             height:"5%",
-             position:this.settings.positionType.value,
-             backgroundColor: this.settings.backgroundColor.value,
 
-         }
-         var border = this.settings.border.state;
-         var padding = this.settings.padding.state;
-         Style.mergeStyleObjects(styleObject,border);
-         Style.mergeStyleObjects(styleObject,padding);
-
+        var styleObject = this.settings.style.getStyleFor(null)
          if(styleObject["position"] === "fixed"){
-             if(this.settings.position.value === "top"){
+             if(this.settings.dock.value === "top"){
                 styleObject["top"] = "0";
-             }else if(this.settings.position.value === "bottom"){
+             }else if(this.settings.dock.value === "bottom"){
                 styleObject["bottom"] = "0";
-             }else if(this.settings.position.value === "right"){
+             }else if(this.settings.dock.value === "right"){
                 styleObject["right"] = "0";
                 styleObject["flexDirection"] = "column";
                 styleObject["width"] = "5%";
                 styleObject["height"] = "100%";
 
-             }else if(this.settings.position.value === "left"){
+             }else if(this.settings.dock.value === "left"){
                 styleObject["left"] = "0";
                 styleObject["flexDirection"] = "column";
                 styleObject["width"] = "5%";
@@ -54,21 +42,17 @@ class Navbar extends React.Component {
 
 
     componentDidMount(){
-        this.settings.positionType.addImmediateCallback(this,this.forceUpdate);
-        this.settings.position.addImmediateCallback(this,this.forceUpdate);
-        this.settings.backgroundColor.addImmediateCallback(this,this.forceUpdate);
-        this.settings.border.addImmediateCallback(this,this.forceUpdate);
-        this.settings.padding.addImmediateCallback(this,this.forceUpdate);
+        Weave.getCallbacks(this.settings.style).addImmediateCallback(this,this.forceUpdate);
+        this.settings.CSS.addImmediateCallback(this,this.forceUpdate);
         this.settings.useCSS.addImmediateCallback(this,this.forceUpdate);
+        this.settings.dock.addImmediateCallback(this,this.forceUpdate);
     }
 
     componentWillUnmount(){
-        this.settings.positionType.removeCallback(this,this.forceUpdate);
-        this.settings.position.removeCallback(this,this.forceUpdate);
-        this.settings.backgroundColor.removeCallback(this,this.forceUpdate);
-        this.settings.border.removeCallback(this,this.forceUpdate);
-        this.settings.padding.removeCallback(this,this.forceUpdate);
+        Weave.getCallbacks(this.settings.style).removeCallback(this,this.forceUpdate);
+        this.settings.CSS.removeCallback(this,this.forceUpdate);
         this.settings.useCSS.removeCallback(this,this.forceUpdate);
+        this.settings.dock.removeCallback(this,this.forceUpdate);
     }
 
     componentDidUpdate(){
@@ -79,8 +63,8 @@ class Navbar extends React.Component {
     render() {
 
         var styleObj = this.getStyle();
-        var posType = this.settings.positionType.value;
-        var pos = this.settings.position.value;
+        var pos = this.settings.style.position.value;
+        var dock = pos === "fixed"?this.settings.dock.value:null;
         var cssObj = null;
         if(this.settings.useCSS.value){
             cssObj = this.settings.CSS.state;
@@ -89,17 +73,17 @@ class Navbar extends React.Component {
             var formCSS = cssObj.form;
             return (
                 <nav className={cssObj.navbar}>
-                    <Brand css={brandCSS} useCSS={this.settings.useCSS.value} settings={this.settings.brand} positionType={posType} position={pos}/>
-                    <List css={listCSS} useCSS={this.settings.useCSS.value} settings={this.settings.navList} positionType={posType} position={pos}/>
-                    <Form css={formCSS} useCSS={this.settings.useCSS.value} settings={this.settings.form} positionType={posType} position={pos}/>
+                    <Brand css={brandCSS} useCSS={this.settings.useCSS.value} settings={this.settings.brand} dock={dock} position={pos}/>
+                    <List css={listCSS} useCSS={this.settings.useCSS.value} settings={this.settings.navList} dock={dock} position={pos}/>
+                    <Form css={formCSS} useCSS={this.settings.useCSS.value} settings={this.settings.form} dock={dock} position={pos}/>
                 </nav>
             );
         }else{
             return (
                 <nav   style={styleObj}>
-                    <Brand useCSS={this.settings.useCSS.value} settings={this.settings.brand} positionType={posType} position={pos}/>
-                    <List  useCSS={this.settings.useCSS.value} settings={this.settings.navList} positionType={posType} position={pos}/>
-                    <Form  useCSS={this.settings.useCSS.value} settings={this.settings.form} positionType={posType} position={pos}/>
+                    <Brand useCSS={this.settings.useCSS.value} settings={this.settings.brand} dock={dock} position={pos}/>
+                    <List  useCSS={this.settings.useCSS.value} settings={this.settings.navList} dock={dock} position={pos}/>
+                    <Form  useCSS={this.settings.useCSS.value} settings={this.settings.form} dock={dock} position={pos}/>
                 </nav>
         );
 

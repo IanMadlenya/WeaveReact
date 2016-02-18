@@ -63,17 +63,10 @@ class App extends React.Component {
     }
 
    openSettings(e) {
-        if (e.code === "KeyD") {
+        if (e.code === "Enter" && e.ctrlKey) {
             if(this.sessionConfigWeave.modalConfig.open.value)  this.sessionConfigWeave.modalConfig.open.value= false;
             this.sessionConfigDashdoard.modalConfig.open.value = true;
             this.popUpSessionEditor( this.sessionConfigDashdoard, window.dbweave, "Session State Editor (Weave Dashboard)",true)
-        }else if (e.code === "KeyW") {
-            if(this.sessionConfigDashdoard.modalConfig.open.value)  this.sessionConfigDashdoard.modalConfig.open.value= false;
-            this.sessionConfigWeave.modalConfig.open.value = true;
-            this.popUpSessionEditor( this.sessionConfigWeave, window.weave, "Session State Editor (Weave)",false)
-        } else if (e.code === "KeyQ") {
-            this.sessionConfigWeave.modalConfig.open.value = false;
-            this.sessionConfigDashdoard.modalConfig.open.value = false;
         }
     }
 

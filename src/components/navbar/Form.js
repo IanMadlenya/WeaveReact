@@ -11,6 +11,7 @@ class Form extends React.Component {
 
     componentDidMount() {
         this.settings.enable.addImmediateCallback(this, this.forceUpdate);
+        Weave.getCallbacks(this.settings.style).addImmediateCallback(this, this.forceUpdate);
         this.settings.rightAlign.addImmediateCallback(this, this.forceUpdate);
         this.settings.space.addImmediateCallback(this, this.forceUpdate);
         this.settings.controllers.childListCallbacks.addImmediateCallback(this, this.forceUpdate);
@@ -18,6 +19,7 @@ class Form extends React.Component {
 
     componentWillUnmount() {
         this.settings.enable.removeCallback(this, this.forceUpdate);
+        Weave.getCallbacks(this.settings.style).removeCallback(this, this.forceUpdate);
         this.settings.rightAlign.removeCallback(this, this.forceUpdate);
         this.settings.space.removeCallback(this, this.forceUpdate);
         this.settings.controllers.childListCallbacks.removeCallback(this, this.forceUpdate);
@@ -38,42 +40,43 @@ class Form extends React.Component {
     render() {
         var navFormUI = <div/>;
         if(this.settings.enable.value){
-            var styleObject = {
-                display:"flex",
-                flexDirection:"row",
-                flex:"1"
+            if(!this.props.useCSS){
+                var iconOnly = false;
+                var styleObject = this.settings.style.getStyleFor(null);
+                if((this.props.dock !== "right") && (this.props.dock !== "left") && this.settings.rightAlign){
+                    styleObject["justifyContent"] = "flex-end";
+                    styleObject["marginRight"] = "auto";
+                }
+                styleObject = Style.appendVendorPrefix(styleObject);
             }
-            if((this.props.position !== "right") && (this.props.position !== "left") && this.settings.rightAlign){
-                styleObject["justifyContent"] = "flex-end";
-                styleObject["marginRight"] = "auto";
-            }
+            var childStyleObject={};
+            var mode = "large";
             var space = this.settings.space.value;
-            var childStyleObject = {
-                marginRight:space
+
+            if((this.props.dock === "right") || (this.props.dock === "left")){
+                mode = "small";
+                childStyleObject["marginBottom"] = space;
+            }
+            else if((this.props.dock === "top") || (this.props.dock === "bottom")){
+                mode = "large";
+                childStyleObject["marginRight"] = space;
             }
 
-            if(this.props.positionType === "fixed"){
-                if((this.props.position === "right") || (this.props.position === "left")){
-                    styleObject["flexDirection"] = "column";
-                    childStyleObject["marginRight"] = 0;
-                    childStyleObject["marginBottom"] = space;
-                }
-            }
 
             var controllersUI = this.settings.controllers.getNames().map(function(controllerName,index){
                 var formConfig = this.settings.controllers.getObject(controllerName);
                 var ToolClass = App.getToolImplementation(Weave.getPath(formConfig).getType())
-                return <span key={index} style={childStyleObject}><ToolClass settings={formConfig} /></span>
+                return <span key={index} style={childStyleObject}><ToolClass device={mode} settings={formConfig} /></span>
             }.bind(this));
 
             if(this.props.useCSS){
                 navFormUI = <div  className={this.props.css} >
                                 {controllersUI}
-                        </div>
+                            </div>
             }else{
                navFormUI = <div  style={styleObject} >
                                 {controllersUI}
-                        </div>
+                            </div>
             }
 
 
