@@ -78,7 +78,7 @@ eg: consider style property "color"
         return <span style={color}>Hi</span>
     }
     
-    ## How to implement interaction tied between childrens? (use case tree, accordion)
-        1. create the session property in parent and add its callback in parent too
-        2. pass the session property to children make changes to session property in chil interactions
+## How to implement interaction tied between childrens? (use case tree, accordion)
+    1. Create the session property in parent and add its callback in parent too
+    2. Pass the session property to children make changes to session property in chil interactions
     
