@@ -3,10 +3,8 @@ import path from 'path';
 import fsp from 'fs-promise';
 import copy from '../fs-utils';
 import exec from '../exec';
-import {
-    repoRoot, bowerRoot
-}
-from '../constants';
+import {repoRoot, bowerRoot} from '../constants';
+console.log(copy);
 
 const packagePath = path.join(repoRoot, 'package.json');
 const bowerTemplate = path.join(__dirname, 'bower.json');

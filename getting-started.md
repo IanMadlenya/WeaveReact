@@ -17,7 +17,7 @@ import { Tree } from 'weavereact';```
 ## AMD
 ```$ bower install react weavereact
 
-define(['weavereact'], function(WeaveReact) { var Tree = ReactBootstrap.WeaveReact; ... });```
+define(['weavereact'], function(WeaveReact) { var Tree = WeaveReact.Tree; ... });```
 ## Browser globals
 We provide weavereact.js and weavereact.min.js bundles with all components exported on the window.weavereact object. These bundles are available in both the Bower and NPM packages.
 

@@ -1,5 +1,4 @@
 import React from "react";
-import weavereact from "weavereact";
 import {Modal} from "../../../lib/index.js";
 import {SplitPane} from "../../../lib/index.js";
 import SessionEditorConfig from "./SessionEditorConfig";

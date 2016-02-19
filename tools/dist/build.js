@@ -1,8 +1,5 @@
 import exec from '../exec';
-import {
-    distRoot
-}
-from '../constants';
+import {distRoot} from '../constants';
 
 export default function BuildDistributable() {
     console.log('Building: '.cyan + 'distributable'.green);

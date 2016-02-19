@@ -2,7 +2,7 @@
 
 import 'colors';
 import build from './build';
-//import docs from '../docs/build';
+import docs from '../docs/build';
 import exec from './exec';
 
 import yargs from 'yargs';

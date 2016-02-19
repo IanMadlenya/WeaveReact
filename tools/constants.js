@@ -6,7 +6,8 @@ const srcRoot = path.join(repoRoot, 'src/');
 const distRoot = path.join(repoRoot, 'dist/');
 const libRoot = path.join(repoRoot, 'lib/');
 const bowerRoot = path.join(repoRoot, 'amd/');
-const docsRoot = path.join(repoRoot, 'docs-built/');
+const docsSrcRoot = path.join(repoRoot, 'demo/src/');
+const docsAssetsRoot = path.join(repoRoot, 'demo/assets/');
 
 export {
   repoRoot,
@@ -14,5 +15,6 @@ export {
   distRoot,
   libRoot,
   bowerRoot,
-  docsRoot
+  docsSrcRoot,
+  docsAssetsRoot
 };
