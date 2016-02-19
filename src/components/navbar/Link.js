@@ -12,12 +12,14 @@ class Link extends React.Component {
     componentDidMount() {
         this.settings.title.addImmediateCallback(this, this.forceUpdate);
         this.settings.iconName.addImmediateCallback(this, this.forceUpdate);
+        Weave.getCallbacks(this.settings.style).addImmediateCallback(this, this.forceUpdate);
     }
 
 
     componentWillUnmount() {
         this.settings.title.removeCallback(this, this.forceUpdate);
         this.settings.iconName.removeCallback(this, this.forceUpdate);
+        Weave.getCallbacks(this.settings.style).removeCallback(this, this.forceUpdate);
     }
 
     componentWillReceiveProps(nextProps){
@@ -34,10 +36,11 @@ class Link extends React.Component {
         if(this.props.iconOnly){
             title = "";
         }
+        var styleObject = this.settings.style.getStyleFor(null,true)
         if (this.props.isActive) {
 
             return ( <li style={this.props.style}>
-                        <a href = {'#' + this.props.pageName }>
+                        <a style={styleObject} href = {'#' + this.props.pageName}>
                             <i className = {this.settings.iconName.value}> </i>
                             {title}
                         </a>
@@ -45,7 +48,7 @@ class Link extends React.Component {
             );
         } else {
             return (<li style={this.props.style}>
-                        <a href = {'#' + this.props.pageName}>
+                        <a style={styleObject} href = {'#' + this.props.pageName}>
                             <i className = {this.settings.iconName.value}> </i>
                             {title}
                         </a>

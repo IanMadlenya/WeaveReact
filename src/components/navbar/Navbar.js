@@ -64,7 +64,7 @@ class Navbar extends React.Component {
 
         var styleObj = this.getStyle();
         var pos = this.settings.style.position.value;
-        var dock = pos === "fixed"?this.settings.dock.value:null;
+        var dock = this.settings.dock.value;
         var cssObj = null;
         if(this.settings.useCSS.value){
             cssObj = this.settings.CSS.state;

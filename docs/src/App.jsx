@@ -17,7 +17,8 @@ class App extends React.Component {
         this.sessionConfigDashdoard = new SessionEditorConfig();
         this.sessionConfigWeave = new SessionEditorConfig();
         this.navConfig = window.dbweave.root.requestObject('navbar',NavbarConfig);
-        this.navConfig.brand.logoPath.value = "./brand.png";
+        this.navConfig.brand.logoPath.value = "./logo.png";
+        this.navConfig.brand.title.value = "Brand";
 
         var linkConfig = this.navConfig.navList.links.requestObject('link1',NavLinkConfig);
         linkConfig.title.value = " Set Up";

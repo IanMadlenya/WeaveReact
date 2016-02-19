@@ -45,7 +45,13 @@ export class NavbarConfig {
 
         this.style.display.value = "flex";
         this.style.border.state = {border:"1px solid transparent"};
-        this.style.other.state = {flexDirection:"row",flex:"1",height:"6%"};
+        this.style.other.state = {
+            flexDirection:"row",
+            flex:"1",
+            height:"7%",
+            minHeight:"50px",
+            zIndex: "1000"
+        };
         this.style.padding.state = {padding:"6px"};
         this.style.background.state = "#F8F8F8";
     }
@@ -53,44 +59,9 @@ export class NavbarConfig {
 
 
 
-
-//body { padding-top: 70px; } for fixed status we have to set this
-NavbarConfig.positionType = {
-    "FIXED": "fixed",
-    "STATIC": "static"
-};
-
-NavbarConfig.position = {
-    "TOP": "top",
-    "BOTTOM": "bottom",
-    "RIGHT": "right",
-    "LEFT": "left"
-};
-
-
 //This Function makes this class as SessionClass
 Weave.registerClass('weavereact.navbar.config.NavbarConfig', NavbarConfig,[weavejs.api.core.ILinkableObject]);
 
-
-
-
-
-export class NavLinkConfig {
-    constructor() {
-
-        Object.defineProperties(this, {
-            "title": {
-                value: Weave.linkableChild(this, new weavejs.core.LinkableString("Link"))
-            },
-            "iconName": {
-                value: Weave.linkableChild(this, new weavejs.core.LinkableString("fa fa-home"))
-            }
-        });
-    }
-}
-
-//This Function makes this class as SessionClass
-Weave.registerClass('weavereact.navbar.config.NavLinkConfig', NavLinkConfig,[weavejs.api.core.ILinkableObject]);
 
 
 export class NavBrandConfig {
@@ -106,15 +77,28 @@ export class NavBrandConfig {
             logoPath:{
                 value: Weave.linkableChild(this, new weavejs.core.LinkableString(""))
             },
-             "logoStyle":{
+            "style":{
+                value: Weave.linkableChild(this, new InlineStyle())
+            },
+            "logoStyle":{
                 value: Weave.linkableChild(this, new InlineStyle())
             }
         });
+        this.style.padding.state = {
+            padding:"15px 15px"
+        };
+        this.style.font.state = {
+            fontSize: "18px",
+            lineHeight: "20px"
+        };
+
         this.logoStyle.border.state = {
-            border:"2px solid #F3B46E",
-            borderRadius:"50%",
-            width:"100",
-            height: "90"
+            border:"2px solid #ebebeb",
+            borderRadius:"50%"
+        };
+        this.logoStyle.other.state = {
+            width:"50",
+            height:"50"
         };
     }
 }
@@ -143,7 +127,7 @@ export class NavListConfig {
                  value: Weave.linkableChild(this, new weavejs.core.LinkableHashMap())
              },
              "space":{
-                 value: Weave.linkableChild(this, new weavejs.core.LinkableNumber(2))
+                 value: Weave.linkableChild(this, new weavejs.core.LinkableNumber(8))
              }
         });
 
@@ -155,11 +139,47 @@ export class NavListConfig {
             paddingLeft:"0"
         };
 
+        this.style.margin.state = {
+            margin:"7.5px"
+        };
+
     }
 }
 
 //This Function makes this class as SessionClass
 Weave.registerClass('weavereact.navbar.config.NavListConfig', NavListConfig,[weavejs.api.core.ILinkableObject]);
+
+export class NavLinkConfig {
+    constructor() {
+
+        Object.defineProperties(this, {
+            "title": {
+                value: Weave.linkableChild(this, new weavejs.core.LinkableString("Link"))
+            },
+            "iconName": {
+                value: Weave.linkableChild(this, new weavejs.core.LinkableString("fa fa-home"))
+            },
+            "style":{
+                value: Weave.linkableChild(this, new InlineStyle())
+            },
+            "activeLinkStyle":{
+                value: Weave.linkableChild(this, new InlineStyle())
+            }
+        });
+
+        this.style.font.state = {
+            lineHeight: "20px",
+            color:"#777"
+        };
+        this.style.padding.state = {
+            paddingTop: "10px",
+            paddingBottom: "10px"
+        };
+    }
+}
+
+//This Function makes this class as SessionClass
+Weave.registerClass('weavereact.navbar.config.NavLinkConfig', NavLinkConfig,[weavejs.api.core.ILinkableObject]);
 
 
 export class NavFormConfig {
@@ -189,6 +209,11 @@ export class NavFormConfig {
             flex:"1",
             listStyleType:"none",
             paddingLeft:"0"
+        };
+
+        this.style.margin.state = {
+            margin:"4px",
+            alignItems:"stretch"
         };
     }
 }

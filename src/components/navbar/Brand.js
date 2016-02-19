@@ -13,6 +13,7 @@ class Brand extends React.Component {
         this.settings.title.addImmediateCallback(this,this.forceUpdate);
         this.settings.logoPath.addImmediateCallback(this,this.forceUpdate);
         Weave.getCallbacks(this.settings.logoStyle).addImmediateCallback(this,this.forceUpdate);
+        Weave.getCallbacks(this.settings.style).addImmediateCallback(this,this.forceUpdate);
         if(this.langSettings)this.langSettings.addImmediateCallback(this,this.forceUpdate);
     }
 
@@ -22,6 +23,7 @@ class Brand extends React.Component {
         this.settings.title.removeCallback(this,this.forceUpdate);
         this.settings.logoPath.removeCallback(this,this.forceUpdate);
         Weave.getCallbacks(this.settings.logoStyle).removeCallback(this,this.forceUpdate);
+        Weave.getCallbacks(this.settings.style).removeCallback(this,this.forceUpdate);
         if(this.langSettings)this.langSettings.removeCallback(this,this.forceUpdate);
     }
 
@@ -43,7 +45,7 @@ class Brand extends React.Component {
         if(this.settings.enable.value){
             var title = this.settings.title.value;
 
-
+            var titleStyle  = this.settings.style.getStyleFor();
             if(this.langSettings){
                 title = App.getTranslatedWord(this.settings.title.value);
             }
@@ -59,7 +61,7 @@ class Brand extends React.Component {
                 BrandUI = <div className={headerCSS}>
                             <div className={titleCSS}>
                                 {logoUI}
-                                {title}
+                                <span style={titleStyle}>{title}</span>
                             </div>
                          </div>
 
@@ -67,7 +69,7 @@ class Brand extends React.Component {
             }else{
                 BrandUI = <div>
                             {logoUI}
-                            {title}
+                            <span style={titleStyle}>{title}</span>
                          </div>
             }
 

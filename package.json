@@ -16,7 +16,8 @@
   "scripts": {
     "build": "babel-node tools/build-cli.js",
     "docs-build": "babel-node tools/build-cli.js --docs-only",
-    "deploy": "git subtree push --prefix docs origin gh-pages"
+    "deploy": "git subtree push --prefix docs origin gh-pages",
+    "deploy-force":"git push origin `git subtree split --prefix docs master`:gh-pages --force"
   },
   "repository": {
     "type": "git",
