@@ -21,6 +21,9 @@ class InlineStyle{
             },
             "other": {
                 value: Weave.linkableChild(this, new weavejs.core.LinkableVariable())
+            },
+            "domDefined": { // for props.style
+                value: Weave.linkableChild(this, new weavejs.core.LinkableVariable())
             }
         });
 

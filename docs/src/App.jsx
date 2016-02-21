@@ -2,8 +2,7 @@ import React from "react";
 import SessionEditor from "./sessionStateEditor/SessionEditor";
 import SessionEditorConfig from "./sessionStateEditor/SessionEditorConfig";
 import {Navbar} from "../../lib/index.js";
-import {NavbarConfig} from "../../lib/index.js";
-import {NavLinkConfig} from "../../lib/index.js";
+import {navbarConfig} from "../../lib/index.js";
 import {Tree} from "../../lib/index.js";
 import {TreeConfig} from "../../lib/index.js";
 
@@ -16,16 +15,16 @@ class App extends React.Component {
         this.openSettings = this.openSettings.bind(this);
         this.sessionConfigDashdoard = new SessionEditorConfig();
         this.sessionConfigWeave = new SessionEditorConfig();
-        this.navConfig = window.dbweave.root.requestObject('navbar',NavbarConfig);
-        this.navConfig.brand.logoPath.value = "./logo.png";
-        this.navConfig.brand.title.value = "Brand";
+        this.navConfig = window.dbweave.root.requestObject('navbar',navbarConfig.Navbar);
+        //this.navConfig.brand.logoPath.value = "./logo.png";
+        //this.navConfig.brand.title.value = "Brand";
 
-        var linkConfig = this.navConfig.navList.links.requestObject('link1',NavLinkConfig);
-        linkConfig.title.value = " Set Up";
-        linkConfig.iconName.value = "fa fa-home";
-        linkConfig= this.navConfig.navList.links.requestObject('link2',NavLinkConfig);
-        linkConfig.title.value = " Documentation";
-        linkConfig.iconName.value = "fa fa-folder";
+        //var linkConfig = this.navConfig.navList.links.requestObject('link1',navbarConfig.Link);
+        //linkConfig.title.value = " Set Up";
+        //linkConfig.iconName.value = "fa fa-home";
+        //linkConfig= this.navConfig.navList.links.requestObject('link2',navbarConfig.Link);
+        //linkConfig.title.value = " Documentation";
+        //linkConfig.iconName.value = "fa fa-folder";
 
         this.treeConfig = window.dbweave.root.requestObject('tree',TreeConfig);
         this.treeConfig.nodePadding.value ="10px";
@@ -92,7 +91,15 @@ class App extends React.Component {
 
         return (<div>
                     <div id="popUp"/>
-                    <Navbar settings={this.navConfig}/>
+                    <Navbar settings={this.navConfig}>
+                        <Navbar.Brand />
+                        <Navbar.List>
+                            <Navbar.Link/>
+                            <Navbar.Link/>
+                        </Navbar.List>
+                        <Navbar.Form />
+                        <div>Hi</div>
+                    </Navbar>
                     <div style={{marginTop:"60px"}}>
                         <div style={{width:"240px",color:"white", border:"1px solid grey",background:"linear-gradient(to right, #036FBB , #013458)"}}>
                             <Tree data={this.tree} settings={this.treeConfig} label="label" nodes="children"/>

@@ -10,12 +10,10 @@ import SplitPane from "./components/splitPane/SplitPane";
 import SplitPaneConfig from "./components/splitPane/SplitPaneConfig";
 
 import Navbar from "./components/navbar/Navbar";
-import {NavbarConfig,NavLinkConfig} from "./components/navbar/Config";
-//import LinkConfig from "./components/navbar/LinkConfig";
+import navbarConfig from "./components/navbar/Config";
 
 import App from "./utils/App";
 
-//Weave.registerAsyncClass(React.Component);
 
 exports.Tree = Tree;
 exports.Modal = Modal;
@@ -25,8 +23,7 @@ exports.SplitPane = SplitPane;
 exports.SplitPaneConfig = SplitPaneConfig;
 
 exports.Navbar = Navbar;
-exports.NavbarConfig = NavbarConfig;
-exports.NavLinkConfig = NavLinkConfig;
+exports.navbarConfig = navbarConfig;
 
 
 exports.registerToolImplementation = function (asClassName, jsClass) {
@@ -37,4 +34,13 @@ exports.getToolImplementation = function (name) {
     if (App.getToolImplementation(name)) {
         return App.getToolImplementation(name);
     }
+}
+
+
+exports.registerToolConfig = function (toolClass, configClass) {
+    App.registerToolConfig(toolClass, configClass);
+}
+
+exports.getToolConfig = function (toolClass) {
+    App.getToolConfig(toolClass);
 }

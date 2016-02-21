@@ -3,8 +3,7 @@ import List from "./List";
 import Form from "./Form";
 import InlineStyle from "../../configs/InlineStyle";
 
-
-export class NavbarConfig {
+class NavConfig {
     constructor() {
 
         Object.defineProperties(this, {
@@ -14,14 +13,8 @@ export class NavbarConfig {
             "CSS":{
                 value: Weave.linkableChild(this, new weavejs.core.LinkableVariable())
             },
-            "brand": {
-                value: Weave.linkableChild(this, new NavBrandConfig())
-            },
-            "form": {
-                value: Weave.linkableChild(this, new NavFormConfig())
-            },
-            "navList": {
-                value: Weave.linkableChild(this, new NavListConfig())
+            children:{
+                value: Weave.linkableChild(this, new weavejs.core.LinkableHashMap())
             },
             "useCSS":{
                 value: Weave.linkableChild(this, new weavejs.core.LinkableBoolean(false))
@@ -50,7 +43,8 @@ export class NavbarConfig {
             flex:"1",
             height:"7%",
             minHeight:"50px",
-            zIndex: "1000"
+            zIndex: "1000",
+            alignItems:"center"
         };
         this.style.padding.state = {padding:"6px"};
         this.style.background.state = "#F8F8F8";
@@ -58,13 +52,7 @@ export class NavbarConfig {
 }
 
 
-
-//This Function makes this class as SessionClass
-Weave.registerClass('weavereact.navbar.config.NavbarConfig', NavbarConfig,[weavejs.api.core.ILinkableObject]);
-
-
-
-export class NavBrandConfig {
+class BrandConfig {
     constructor() {
 
         Object.defineProperties(this, {
@@ -103,11 +91,9 @@ export class NavBrandConfig {
     }
 }
 
-//This Function makes this class as SessionClass
-Weave.registerClass('weavereact.navbar.config.NavBrandConfig', NavBrandConfig,[weavejs.api.core.ILinkableObject]);
 
 
-export class NavListConfig {
+class ListConfig {
     constructor() {
 
          Object.defineProperties(this, {
@@ -123,7 +109,7 @@ export class NavListConfig {
             "activePage": {
                 value: Weave.linkableChild(this, new weavejs.core.LinkableString(""))
             },
-             "links":{
+            "children":{
                  value: Weave.linkableChild(this, new weavejs.core.LinkableHashMap())
              },
              "space":{
@@ -136,7 +122,8 @@ export class NavListConfig {
             flexDirection:"inherit",
             flex:"1",
             listStyleType:"none",
-            paddingLeft:"0"
+            paddingLeft:"0",
+            alignItems:"inherit"
         };
 
         this.style.margin.state = {
@@ -146,10 +133,8 @@ export class NavListConfig {
     }
 }
 
-//This Function makes this class as SessionClass
-Weave.registerClass('weavereact.navbar.config.NavListConfig', NavListConfig,[weavejs.api.core.ILinkableObject]);
 
-export class NavLinkConfig {
+class LinkConfig {
     constructor() {
 
         Object.defineProperties(this, {
@@ -178,11 +163,9 @@ export class NavLinkConfig {
     }
 }
 
-//This Function makes this class as SessionClass
-Weave.registerClass('weavereact.navbar.config.NavLinkConfig', NavLinkConfig,[weavejs.api.core.ILinkableObject]);
 
 
-export class NavFormConfig {
+class FormConfig {
     constructor() {
 
          Object.defineProperties(this, {
@@ -208,19 +191,31 @@ export class NavFormConfig {
             flexDirection:"inherit",
             flex:"1",
             listStyleType:"none",
-            paddingLeft:"0"
+            paddingLeft:"0",
+            alignItems:"inherit"
         };
 
         this.style.margin.state = {
             margin:"4px",
-            alignItems:"stretch"
+
         };
     }
 }
 
+
+const navbarConfig = {};
+export default navbarConfig
+
+navbarConfig.Navbar = NavConfig;
+navbarConfig.Brand = BrandConfig;
+navbarConfig.List = ListConfig;
+navbarConfig.Link = LinkConfig;
+navbarConfig.Form = FormConfig;
+
 //This Function makes this class as SessionClass
-Weave.registerClass('weavereact.navbar.config.NavFormConfig', NavFormConfig,[weavejs.api.core.ILinkableObject]);
-
-
-
+Weave.registerClass('weavereact.navbarConfig.Navbar', navbarConfig.Navbar,[weavejs.api.core.ILinkableObject]);
+Weave.registerClass('weavereact.navbarConfig.Brand', navbarConfig.Brand,[weavejs.api.core.ILinkableObject]);
+Weave.registerClass('weavereact.navbarConfig.List', navbarConfig.List,[weavejs.api.core.ILinkableObject]);
+Weave.registerClass('weavereact.navbarConfig.Link', navbarConfig.Link,[weavejs.api.core.ILinkableObject]);
+Weave.registerClass('weavereact.navbarConfig.Form', navbarConfig.Form,[weavejs.api.core.ILinkableObject]);
 

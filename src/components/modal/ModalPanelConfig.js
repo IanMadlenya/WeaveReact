@@ -1,15 +1,11 @@
-/*import Weave from 'Weave';
-import weavejs from 'weavejs';*/
-import BorderConfig from "../../configs/BorderConfig";
+
 
 (function (module) {
 
     function ModalPanelConfig() {
 
         Object.defineProperties(this, {
-            "border": {
-                value: Weave.linkableChild(this, new weavejs.core.LinkableDynamicObject(BorderConfig))
-            },
+
             "title": {
                 value: Weave.linkableChild(this, new weavejs.core.LinkableString(""))
             }
