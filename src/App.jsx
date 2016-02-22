@@ -22,6 +22,8 @@ class App extends React.Component {
         var brandConfig = this.navConfig.children.requestObject('',navbarConfig.Brand);
         var logoConfig = brandConfig.children.requestObject('',navbarConfig.Logo);
         logoConfig.src.state = "logo.png";
+        var titleConfig = brandConfig.children.requestObject('',navbarConfig.Title);
+        titleConfig.title.state = "Brand";
         /*var listConfig = this.navConfig.children.requestObject('',navbarConfig.List);
         var linkConfig = listConfig.children.requestObject('',navbarConfig.Link);
         linkConfig.title.value = " Documentation";
