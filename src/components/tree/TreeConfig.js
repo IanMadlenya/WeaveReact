@@ -38,6 +38,9 @@ import NodeConfig from "./NodeConfig";
             },
             rootNode:{
                 value: Weave.linkableChild(this, new NodeConfig())
+            },
+            allowMultipleSelection:{
+                value: Weave.linkableChild(this,  new weavejs.core.LinkableBoolean(false))
             }
         });
 
@@ -57,7 +60,7 @@ import NodeConfig from "./NodeConfig";
 
     p.changeActiveNode = function (nodeConfig) {
         if (this.activeNode) {
-            this.activeNode.active.value = false;
+            if(!this.allowMultipleSelection.value)this.activeNode.active.value = false;
         }
         this.activeNode = nodeConfig;
         this.activeNode.active.value = true;
