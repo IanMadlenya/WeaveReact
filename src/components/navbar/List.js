@@ -134,26 +134,29 @@ class List extends React.Component {
 
     render() {
         var navLinks = <div/>;
+        if(this.settings.enable.value){
+            var childrenUI = []
+            var styleObject = this.settings.style.getStyleFor(null,true);
 
-        var childrenUI = []
-        var styleObject = this.settings.style.getStyleFor(null,true);
-
-        if(!this.props.useCSS){
-            if((this.props.dock !== "right") && (this.props.dock !== "left") && this.settings.rightAlign.value){
-                styleObject["justifyContent"] = "flex-end";
-                styleObject["marginRight"] = "auto";
+            if(!this.props.useCSS){
+                if((this.props.dock !== "right") && (this.props.dock !== "left") && this.settings.rightAlign.value){
+                    styleObject["justifyContent"] = "flex-end";
+                    styleObject["marginRight"] = "auto";
+                }
+                styleObject = Style.appendVendorPrefix(styleObject);
             }
-            styleObject = Style.appendVendorPrefix(styleObject);
+
+            if(this.props.useCSS){
+                childrenUI = this.renderChildren(this.props.CSS);
+                navLinks = <ul className={this.props.className}>{childrenUI}</ul>;
+            }
+            else{
+                childrenUI = this.renderChildren(null);
+                navLinks = <ul style={styleObject}>{childrenUI}</ul>;
+            }
         }
 
-        if(this.props.useCSS){
-            childrenUI = this.renderChildren(this.props.CSS);
-            navLinks = <ul className={this.props.className}>{childrenUI}</ul>;
-        }
-        else{
-            childrenUI = this.renderChildren(null);
-            navLinks = <ul style={styleObject}>{childrenUI}</ul>;
-        }
+
 
         return (navLinks);
     }

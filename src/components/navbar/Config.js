@@ -49,7 +49,8 @@ class NavConfig {
             height:"7%",
             minHeight:"50px",
             zIndex: "1000",
-            alignItems:"center"
+            alignItems:"center",
+            justifyContent:"space-between"
         };
         this.style.padding.state = {padding:"6px"};
         this.style.background.state = "#F8F8F8";
@@ -226,8 +227,6 @@ class FormConfig {
         this.style.display.value = "flex";
         this.style.other.state = {
             flexDirection:"inherit",
-            listStyleType:"none",
-            paddingLeft:"0",
             alignItems:"inherit"
         };
 
