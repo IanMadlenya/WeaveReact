@@ -32,10 +32,11 @@ class App extends React.Component {
         this.treeConfig.rightAlign.value = true;
         this.treeConfig.folderIcon.value = "fa fa-caret-right";
         this.treeConfig.folderOpenIcon.value = "fa fa-caret-down";
-        this.treeConfig.fileIcon.value = "";
-        this.treeConfig.fileOpenIcon.value = "";
+        this.treeConfig.fileIcon.value = "fa fa-check";
+        this.treeConfig.fileOpenIcon.value = "fa fa-times";
         this.treeConfig.enableDataTypeIcon.value = false;
         this.treeConfig.leafColor.value = "#0470AF";
+        this.treeConfig.allowMultipleSelection.value = "true";
 
         this.tree=null;
         this.loadJSON = this.loadJSON.bind(this);
