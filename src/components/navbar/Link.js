@@ -59,7 +59,7 @@ class Link extends React.Component {
         if (this.props.isActive) {
 
             return ( <li style={this.props.style}>
-                        <a style={styleObject} href = {'#' + this.props.pageName}>
+                        <a style={styleObject} href = {'#' + title.toLowerCase()}>
                             <i className = {this.settings.iconName.value}> </i>
                             {title}
                         </a>
@@ -67,7 +67,7 @@ class Link extends React.Component {
             );
         } else {
             return (<li style={this.props.style}>
-                        <a style={styleObject} href = {'#' + this.props.pageName}>
+                        <a style={styleObject} href = {'#' + title.toLowerCase()}>
                             <i className = {this.settings.iconName.value}> </i>
                             {title}
                         </a>

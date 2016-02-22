@@ -111,28 +111,7 @@ class Brand extends React.Component {
 
     }
 
-     /*renderChildren(CSS){
-        var clonedChildren = React.Children.map(this.props.children,function(child,index){
-            var childName = "";
-            var props = App.mergeInto({},child.props);
-            if(typeof(child.type) === "string"){
-                childName =  child.type + index;
-                var htmlWrapperConfig = this.settings.children.getObject(childName);
-                return <HTMLWrapper settings={htmlWrapperConfig}>{child}</HTMLWrapper>
-            }else{
-                childName =  child.type.name + index;
-                var childConfig = this.settings.children.getObject(childName);
-                props["settings"] = childConfig;
-                if(CSS){
-                     props["className"] = CSS[childName];
-                     props["CSS"] = CSS;
-                }
-                return React.cloneElement(child,props);
-            }
 
-        },this);
-        return clonedChildren;
-    }*/
 
     render() {
         var BrandUI = <div/>;
