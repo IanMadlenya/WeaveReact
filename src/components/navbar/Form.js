@@ -6,24 +6,56 @@ class Form extends React.Component {
 
     constructor(props) {
         super(props);
-         this.settings = this.props.settings;
+        this.settings = this.props.settings;
+        if(this.props.children)App.hookSessionStateForComponentChildren(this.props.children,this.settings);
+        this.addCallbacks = this.addCallbacks.bind(this);
+        this.removeCallbacks = this.removeCallbacks.bind(this);
+
     }
 
-    componentDidMount() {
+    componentWillReceiveProps(nextProps){
+        if(this.props.settings !== nextProps.settings){
+            if(nextProps.settings){
+                this.removeCallbacks();
+                this.settings = nextProps.settings;
+                this.addCallbacks();
+            }
+        }
+        if(this.props.style !== nextProps.style){// user style added through UI is Sessioned
+            if(nextProps.style)this.settings.style.domDefined.state = nextProps.style;
+        }
+        if(this.props.children !== nextProps.children){
+            App.hookSessionStateForComponentChildren(nextProps.children,this.settings);
+        }
+
+    }
+
+    componentDidMount(){
+        this.addCallbacks();
+    }
+
+    addCallbacks() {
         this.settings.enable.addImmediateCallback(this, this.forceUpdate);
         Weave.getCallbacks(this.settings.style).addImmediateCallback(this, this.forceUpdate);
         this.settings.rightAlign.addImmediateCallback(this, this.forceUpdate);
         this.settings.space.addImmediateCallback(this, this.forceUpdate);
-        this.settings.controllers.childListCallbacks.addImmediateCallback(this, this.forceUpdate);
+        //this.settings.children.childListCallbacks.addImmediateCallback(this, this.forceUpdate);
     }
 
-    componentWillUnmount() {
+    removeCallbacks() {
         this.settings.enable.removeCallback(this, this.forceUpdate);
         Weave.getCallbacks(this.settings.style).removeCallback(this, this.forceUpdate);
         this.settings.rightAlign.removeCallback(this, this.forceUpdate);
         this.settings.space.removeCallback(this, this.forceUpdate);
-        this.settings.controllers.childListCallbacks.removeCallback(this, this.forceUpdate);
+        //this.settings.children.childListCallbacks.removeCallback(this, this.forceUpdate);
     }
+
+
+    componentWillUnmount() {
+        this.removeCallbacks();
+    }
+
+
 
     shouldComponentUpdate(nextProps){
         if(this.props.positionType !== nextProps.positionType){
@@ -37,11 +69,53 @@ class Form extends React.Component {
         }
     }
 
+
+    renderChildren(CSS){
+        var childStyleObject={};
+        var space = this.settings.space.value;
+        if((this.props.dock === "right") || (this.props.dock === "left")){
+            childStyleObject["marginBottom"] = space;
+        }
+        else if((this.props.dock === "top") || (this.props.dock === "bottom")){
+            childStyleObject["marginRight"] = space;
+        }
+
+        var childConfigs = this.settings.children.getObjects();
+        var clonedChildren = childConfigs.map(function(childConfig,index){
+            var child = this.settings.configChildMap.get(childConfig);
+            var configName = this.settings.children.getName(childConfig);
+            if(child){
+                var props = App.mergeInto({},child.props);
+
+                props["settings"] = childConfig;
+                props["key"] = configName;
+
+                if(CSS){
+                    props["className"] = CSS[childName];
+                }else{
+                    props["style"] = childStyleObject;
+                }
+
+                if(this.settings.childConfigMap.has(child))
+                    this.settings.childConfigMap.delete(child);
+                var clonedChild = React.cloneElement(child,props);
+                this.settings.configChildMap.set(childConfig,clonedChild);
+                this.settings.childConfigMap.set(clonedChild,childConfig);
+                return clonedChild;
+
+             }
+
+        }.bind(this));
+
+        return clonedChildren;
+    }
+
+
+
     render() {
         var navFormUI = <div/>;
         if(this.settings.enable.value){
             if(!this.props.useCSS){
-                var iconOnly = false;
                 var styleObject = this.settings.style.getStyleFor(null);
                 if((this.props.dock !== "right") && (this.props.dock !== "left") && this.settings.rightAlign){
                     styleObject["justifyContent"] = "flex-end";
@@ -49,32 +123,18 @@ class Form extends React.Component {
                 }
                 styleObject = Style.appendVendorPrefix(styleObject);
             }
-            var childStyleObject={};
-            var mode = "large";
-            var space = this.settings.space.value;
-
-            if((this.props.dock === "right") || (this.props.dock === "left")){
-                mode = "small";
-                childStyleObject["marginBottom"] = space;
-            }
-            else if((this.props.dock === "top") || (this.props.dock === "bottom")){
-                mode = "large";
-                childStyleObject["marginRight"] = space;
-            }
 
 
-            var controllersUI = this.settings.controllers.getNames().map(function(controllerName,index){
-                var formConfig = this.settings.controllers.getObject(controllerName);
-                var ToolClass = App.getToolImplementation(Weave.getPath(formConfig).getType())
-                return <span key={index} style={childStyleObject}><ToolClass device={mode} settings={formConfig} /></span>
-            }.bind(this));
+            var controllersUI = []
 
             if(this.props.useCSS){
+                controllersUI = this.renderChildren(this.props.CSS)
                 navFormUI = <div  className={this.props.css} >
                                 {controllersUI}
                             </div>
             }else{
-               navFormUI = <div  style={styleObject} >
+                controllersUI = this.renderChildren(null)
+                navFormUI = <div  style={styleObject} >
                                 {controllersUI}
                             </div>
             }

@@ -2,6 +2,7 @@ import React from 'react';
 import Style from "../../utils/Style";
 import App from "../../utils/App";
 import Brand from "./Brand";
+import Logo from "./Logo";
 import List from "./List";
 import Form from "./Form";
 import Link from "./Link";
@@ -18,8 +19,30 @@ class Navbar extends React.Component {
         this.settings = this.props.settings ? this.props.settings : new navbarConfig.Navbar();
         this.getStyle = this.getStyle.bind(this);
         this.renderChildren = this.renderChildren.bind(this);
-        App.hookSessionStateForComponentChildren(this.props.children,this.settings);
+        if(this.props.children)App.hookSessionStateForComponentChildren(this.props.children,this.settings);
+        this.addCallbacks = this.addCallbacks.bind(this);
+        this.removeCallbacks = this.removeCallbacks.bind(this);
+
     }
+
+    componentWillReceiveProps(nextProps){
+        if(this.props.settings !== nextProps.settings){
+            if(nextProps.settings){
+                this.removeCallbacks();
+                this.settings = nextProps.settings;
+                this.addCallbacks();
+            }
+        }
+        if(this.props.style !== nextProps.style){// user style added through UI is Sessioned
+            if(nextProps.style)this.settings.style.domDefined.state = nextProps.style;
+        }
+        if(this.props.children !== nextProps.children){
+            App.hookSessionStateForComponentChildren(nextProps.children,this.settings);
+        }
+
+    }
+
+
 
      getStyle() {
         var styleObject = this.settings.style.getStyleFor(null)
@@ -43,63 +66,74 @@ class Navbar extends React.Component {
         return Style.appendVendorPrefix(styleObject);
     }
 
-
-
-
     componentDidMount(){
+        this.addCallbacks()
+    }
+
+    addCallbacks(){
         Weave.getCallbacks(this.settings.style).addImmediateCallback(this,this.forceUpdate);
         this.settings.CSS.addImmediateCallback(this,this.forceUpdate);
         this.settings.useCSS.addImmediateCallback(this,this.forceUpdate);
         this.settings.dock.addImmediateCallback(this,this.forceUpdate);
+        this.settings.children.childListCallbacks.addGroupedCallback(this,this.forceUpdate);
     }
 
-    componentWillUnmount(){
+    removeCallbacks(){
         Weave.getCallbacks(this.settings.style).removeCallback(this,this.forceUpdate);
         this.settings.CSS.removeCallback(this,this.forceUpdate);
         this.settings.useCSS.removeCallback(this,this.forceUpdate);
         this.settings.dock.removeCallback(this,this.forceUpdate);
+        this.settings.children.childListCallbacks.removeCallback(this,this.forceUpdate);
+    }
+    componentWillUnmount(){
+        this.removeCallbacks();
     }
 
-    componentWillReceiveProps(nextProps){
-        if(this.props.children !== nextProps.children){
-            App.hookSessionStateForComponentChildren(nextProps.children,this.settings);
-        }
-        if(this.props.style !== nextProps.style){// user style added through UI is Sessioned
-            this.settings.style.domDefined.state = nextProps.style;
-        }
-    }
 
 
     renderChildren(CSS){
-        var clonedChildren = React.Children.map(this.props.children,function(child,index){
-            var childName = "";
-            var props = App.mergeInto({},child.props);
-            if(typeof(child.type) === "string"){
-                childName =  child.type + index;
-                var htmlWrapperConfig = this.settings.children.getObject(childName);
-                return <HTMLWrapper settings={htmlWrapperConfig}>{child}</HTMLWrapper>
-            }else{
-                var additionalProps = {
-                    "dock": this.settings.dock.value,
-                    "position":this.settings.style.position.value,
-                    "useCSS":this.settings.useCSS.value
-                }
-                props = App.mergeInto(props,additionalProps);
-                childName =  child.type.name + index;
-                var childConfig = this.settings.children.getObject(childName);
-                props["settings"] = childConfig;
-                if(CSS){
-                     props["className"] = CSS[childName];
-                     props["CSS"] = CSS;
-                }else{
-                    var styleConfig = childConfig.style;
-                    props["style"]  = styleConfig.getStyleFor(null,true);
-                }
-                return React.cloneElement(child,props);
-            }
+        var childConfigs = this.settings.children.getObjects();
+        var clonedChildren = childConfigs.map(function(childConfig,index){
+            var child = this.settings.configChildMap.get(childConfig);
 
-        },this);
+            var additionalProps = {
+                "dock": this.settings.dock.value,
+                "position":this.settings.style.position.value,
+                "useCSS":this.settings.useCSS.value
+            }
+            if(child){
+                var props = App.mergeInto({},child.props);
+                if(typeof(child.type) === "string"){
+                    var configName =  this.settings.children.getName(childConfig);
+                    return <HTMLWrapper key={configName} settings={childConfig}>{child}</HTMLWrapper>
+                }else{
+                    props = App.mergeInto(props,additionalProps);
+                    props["settings"] = childConfig;
+                    if(CSS){
+                        props["className"] = CSS[childName];
+                        props["CSS"] = CSS;
+                    }
+                    if(this.settings.childConfigMap.has(child))
+                        this.settings.childConfigMap.delete(child);
+                    var clonedChild = React.cloneElement(child,props);
+                    this.settings.configChildMap.set(childConfig,clonedChild);
+                    this.settings.childConfigMap.set(clonedChild,childConfig);
+                    return clonedChild;
+                }
+             }else{
+                var configClass = Weave.getPath(childConfig).getType();
+                var ToolClass =  App.getToolImplementation(configClass);
+                var configName =  this.settings.children.getName(childConfig);
+                var newChild = <ToolClass key={configName}  settings={childConfig}/>;
+                //this.settings.configChildMap.set(childConfig,newChild);
+                //this.settings.childConfigMap.set(newChild,childConfig);
+                return newChild;
+             }
+
+        }.bind(this));
+
         return clonedChildren;
+
     }
 
 
@@ -136,6 +170,7 @@ class Navbar extends React.Component {
 }
 
 Navbar.Brand = Brand;
+Navbar.Logo = Logo;
 Navbar.List = List;
 Navbar.Link = Link;
 Navbar.Form = Form;
@@ -143,9 +178,17 @@ Navbar.Form = Form;
 
 App.registerToolConfig(Navbar,navbarConfig.Navbar);
 App.registerToolConfig(Navbar.Brand,navbarConfig.Brand);
+App.registerToolConfig(Navbar.Logo,navbarConfig.Logo);
 App.registerToolConfig(Navbar.List,navbarConfig.List);
 App.registerToolConfig(Navbar.Link,navbarConfig.Link);
 App.registerToolConfig(Navbar.Form,navbarConfig.Form);
+
+App.registerToolImplementation("weavereact.navbarConfig.Navbar",Navbar);
+App.registerToolImplementation("weavereact.navbarConfig.Brand",Navbar.Brand);
+App.registerToolImplementation("weavereact.navbarConfig.Logo",Navbar.Logo);
+App.registerToolImplementation("weavereact.navbarConfig.List",Navbar.List);
+App.registerToolImplementation("weavereact.navbarConfig.Link",Navbar.Link);
+App.registerToolImplementation("weavereact.navbarConfig.Form",Navbar.Form);
 
 Weave.registerClass("weavereact.Navbar", Navbar,[weavejs.api.core.ILinkableObject]);
 

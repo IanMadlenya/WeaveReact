@@ -1,4 +1,6 @@
 import React from "react";
+import HTMLWrapper from "../HTMLWrapper";
+import App from "../../utils/App";
 
 class Brand extends React.Component {
 
@@ -6,29 +8,58 @@ class Brand extends React.Component {
         super(props);
         this.settings = this.props.settings;
         this.langSettings = (this.props && this.props.langSettings)?this.props.langSettings:null;
+        if(this.props.children)App.hookSessionStateForComponentChildren(this.props.children,this.settings);
+        this.addCallbacks = this.addCallbacks.bind(this);
+        this.removeCallbacks = this.removeCallbacks.bind(this);
+
+    }
+
+    componentWillReceiveProps(nextProps){
+        if(this.props.settings !== nextProps.settings){
+            if(nextProps.settings){
+                this.removeCallbacks();
+                this.settings = nextProps.settings;
+                this.addCallbacks();
+            }
+        }
+        if(this.props.style !== nextProps.style){// user style added through UI is Sessioned
+            if(nextProps.style)this.settings.style.domDefined.state = nextProps.style;
+        }
+        if(this.props.children !== nextProps.children){
+            App.hookSessionStateForComponentChildren(nextProps.children,this.settings);
+        }
+
     }
 
     componentDidMount(){
+        this.addCallbacks();
+    }
+
+    addCallbacks(){
         this.settings.enable.addImmediateCallback(this,this.forceUpdate);
         this.settings.title.addImmediateCallback(this,this.forceUpdate);
-        this.settings.logoPath.addImmediateCallback(this,this.forceUpdate);
-        Weave.getCallbacks(this.settings.logoStyle).addImmediateCallback(this,this.forceUpdate);
         Weave.getCallbacks(this.settings.style).addImmediateCallback(this,this.forceUpdate);
         if(this.langSettings)this.langSettings.addImmediateCallback(this,this.forceUpdate);
+        //this.settings.children.childListCallbacks.addGroupedCallback(this,this.forceUpdate);
     }
 
 
-    componentWillUnmount () {
+    removeCallbacks () {
         this.settings.enable.removeCallback(this,this.forceUpdate);
         this.settings.title.removeCallback(this,this.forceUpdate);
-        this.settings.logoPath.removeCallback(this,this.forceUpdate);
-        Weave.getCallbacks(this.settings.logoStyle).removeCallback(this,this.forceUpdate);
         Weave.getCallbacks(this.settings.style).removeCallback(this,this.forceUpdate);
         if(this.langSettings)this.langSettings.removeCallback(this,this.forceUpdate);
+        //this.settings.children.childListCallbacks.removeCallback(this,this.forceUpdate);
     }
 
+    componentWillUnmount () {
+        this.removeCallbacks();
+    }
+
+
+
     shouldComponentUpdate(nextProps){
-        if(this.props.positionType !== nextProps.positionType){
+        if(this.props.dock !== nextProps.dock){
             return true
         }else if(this.props.position !== nextProps.position){
             return true
@@ -39,38 +70,94 @@ class Brand extends React.Component {
         }
     }
 
+
+
+    renderChildren(CSS){
+        var childConfigs = this.settings.children.getObjects();
+        var clonedChildren = childConfigs.map(function(childConfig,index){
+            var child = this.settings.configChildMap.get(childConfig);
+
+            if(child){
+                var props = App.mergeInto({},child.props);
+                if(typeof(child.type) === "string"){
+                    var configName =  this.settings.children.getName(childConfig);
+                    return <HTMLWrapper key={configName} settings={childConfig}>{child}</HTMLWrapper>
+                }else{
+                    props["settings"] = childConfig;
+                    if(CSS){
+                        props["className"] = CSS[childName];
+                        props["CSS"] = CSS;
+                    }
+                    if(this.settings.childConfigMap.has(child))
+                        this.settings.childConfigMap.delete(child);
+                    var clonedChild = React.cloneElement(child,props);
+                    this.settings.configChildMap.set(childConfig,clonedChild);
+                    this.settings.childConfigMap.set(clonedChild,childConfig);
+                    return clonedChild;
+                }
+             }else{
+                var configClass = Weave.getPath(childConfig).getType();
+                var ToolClass =  App.getToolImplementation(configClass);
+                var configName =  this.settings.children.getName(childConfig);
+                var newChild = <ToolClass key={configName}  settings={childConfig}/>;
+                this.settings.configChildMap.set(childConfig,newChild);
+                this.settings.childConfigMap.set(newChild,childConfig);
+                return newChild;
+             }
+
+        }.bind(this));
+
+        return clonedChildren;
+
+    }
+
+     /*renderChildren(CSS){
+        var clonedChildren = React.Children.map(this.props.children,function(child,index){
+            var childName = "";
+            var props = App.mergeInto({},child.props);
+            if(typeof(child.type) === "string"){
+                childName =  child.type + index;
+                var htmlWrapperConfig = this.settings.children.getObject(childName);
+                return <HTMLWrapper settings={htmlWrapperConfig}>{child}</HTMLWrapper>
+            }else{
+                childName =  child.type.name + index;
+                var childConfig = this.settings.children.getObject(childName);
+                props["settings"] = childConfig;
+                if(CSS){
+                     props["className"] = CSS[childName];
+                     props["CSS"] = CSS;
+                }
+                return React.cloneElement(child,props);
+            }
+
+        },this);
+        return clonedChildren;
+    }*/
+
     render() {
         var BrandUI = <div/>;
 
         if(this.settings.enable.value){
-            var title = this.settings.title.value;
+            /*var title = this.settings.title.value;
 
             var titleStyle  = this.settings.style.getStyleFor();
             if(this.langSettings){
                 title = App.getTranslatedWord(this.settings.title.value);
-            }
-            var logoUI = "";
-            if(this.settings.logoPath.value){
-                var logoStyle = this.settings.logoStyle.getStyleFor();
-                logoUI = <img style={logoStyle} alt={title} src={this.settings.logoPath.value}/>
-            }
+            }*/
+
+            var childrenUI = []
             if(this.props.useCSS){
-                var headerCSS = this.props.css.header;
-                var titleCSS = this.props.css.title
+                childrenUI = this.renderChildren(this.props.css);
 
-                BrandUI = <div className={headerCSS}>
-                            <div className={titleCSS}>
-                                {logoUI}
-                                <span style={titleStyle}>{title}</span>
-                            </div>
-                         </div>
-
-
+                BrandUI = <div className={this.props.css.header}>
+                            {childrenUI}
+                          </div>
             }else{
-                BrandUI = <div>
-                            {logoUI}
-                            <span style={titleStyle}>{title}</span>
-                         </div>
+                var styleObject = this.settings.style.getStyleFor(null,true);
+                childrenUI = this.renderChildren(null);
+                BrandUI = <div style={styleObject}>
+                            {childrenUI}
+                          </div>
             }
 
         }

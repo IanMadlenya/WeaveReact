@@ -16,6 +16,9 @@ class NavConfig {
             children:{
                 value: Weave.linkableChild(this, new weavejs.core.LinkableHashMap())
             },
+            children:{
+                value: Weave.linkableChild(this, new weavejs.core.LinkableHashMap())
+            },
             "useCSS":{
                 value: Weave.linkableChild(this, new weavejs.core.LinkableBoolean(false))
             },
@@ -24,6 +27,8 @@ class NavConfig {
             }
         });
 
+        this.childConfigMap = new Map();
+        this.configChildMap = new Map();
         //initial default values
         this.CSS.state = {
             navbar:"navbar navbar-default",
@@ -62,16 +67,17 @@ class BrandConfig {
             "enable": {
                 value: Weave.linkableChild(this, new weavejs.core.LinkableBoolean(true))
             },
-            logoPath:{
-                value: Weave.linkableChild(this, new weavejs.core.LinkableString(""))
-            },
             "style":{
                 value: Weave.linkableChild(this, new InlineStyle())
             },
-            "logoStyle":{
-                value: Weave.linkableChild(this, new InlineStyle())
+            "children":{
+                value: Weave.linkableChild(this, new weavejs.core.LinkableHashMap())
             }
         });
+
+        this.childConfigMap = new Map();
+        this.configChildMap = new Map();
+
         this.style.padding.state = {
             padding:"15px 15px"
         };
@@ -80,11 +86,38 @@ class BrandConfig {
             lineHeight: "20px"
         };
 
-        this.logoStyle.border.state = {
+        this.style.display.value = "flex";
+        this.style.other.state = {
+            flexDirection:"inherit",
+            alignItems:"inherit"
+        };
+    }
+}
+
+
+class LogoConfig {
+    constructor() {
+
+        Object.defineProperties(this, {
+            "enable": {
+                value: Weave.linkableChild(this, new weavejs.core.LinkableBoolean(true))
+            },
+            src:{
+                value: Weave.linkableChild(this, new weavejs.core.LinkableString(""))
+            },
+            "style":{
+                value: Weave.linkableChild(this, new InlineStyle())
+            }
+        });
+
+        this.childConfigMap = new Map();
+        this.configChildMap = new Map();
+
+        this.style.border.state = {
             border:"2px solid #ebebeb",
             borderRadius:"50%"
         };
-        this.logoStyle.other.state = {
+        this.style.other.state = {
             width:"50",
             height:"50"
         };
@@ -111,16 +144,18 @@ class ListConfig {
             },
             "children":{
                  value: Weave.linkableChild(this, new weavejs.core.LinkableHashMap())
-             },
-             "space":{
+            },
+            "space":{
                  value: Weave.linkableChild(this, new weavejs.core.LinkableNumber(8))
-             }
+            }
         });
+
+        this.childConfigMap = new Map();
+        this.configChildMap = new Map();
 
         this.style.display.value = "flex";
         this.style.other.state = {
             flexDirection:"inherit",
-            flex:"1",
             listStyleType:"none",
             paddingLeft:"0",
             alignItems:"inherit"
@@ -178,18 +213,19 @@ class FormConfig {
             "rightAlign": {
                 value: Weave.linkableChild(this, new weavejs.core.LinkableBoolean(true))
             },
-            "controllers": {
+            "children": {
                 value: Weave.linkableChild(this, new weavejs.core.LinkableHashMap())
             },
             "space": {
                 value: Weave.linkableChild(this, new weavejs.core.LinkableString("2px"))
             }
         });
+        this.childConfigMap = new Map();
+        this.configChildMap = new Map();
 
         this.style.display.value = "flex";
-         this.style.other.state = {
+        this.style.other.state = {
             flexDirection:"inherit",
-            flex:"1",
             listStyleType:"none",
             paddingLeft:"0",
             alignItems:"inherit"
@@ -208,6 +244,7 @@ export default navbarConfig
 
 navbarConfig.Navbar = NavConfig;
 navbarConfig.Brand = BrandConfig;
+navbarConfig.Logo = LogoConfig;
 navbarConfig.List = ListConfig;
 navbarConfig.Link = LinkConfig;
 navbarConfig.Form = FormConfig;
@@ -215,6 +252,7 @@ navbarConfig.Form = FormConfig;
 //This Function makes this class as SessionClass
 Weave.registerClass('weavereact.navbarConfig.Navbar', navbarConfig.Navbar,[weavejs.api.core.ILinkableObject]);
 Weave.registerClass('weavereact.navbarConfig.Brand', navbarConfig.Brand,[weavejs.api.core.ILinkableObject]);
+Weave.registerClass('weavereact.navbarConfig.Logo', navbarConfig.Logo,[weavejs.api.core.ILinkableObject]);
 Weave.registerClass('weavereact.navbarConfig.List', navbarConfig.List,[weavejs.api.core.ILinkableObject]);
 Weave.registerClass('weavereact.navbarConfig.Link', navbarConfig.Link,[weavejs.api.core.ILinkableObject]);
 Weave.registerClass('weavereact.navbarConfig.Form', navbarConfig.Form,[weavejs.api.core.ILinkableObject]);

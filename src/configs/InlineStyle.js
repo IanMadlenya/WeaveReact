@@ -47,7 +47,7 @@ class InlineStyle{
     }
 
     getStyleFor(properties,appendVendorPrefix){
-        properties = properties?properties:['border','margin','padding','font','other','color','background','display','position']
+        properties = properties?properties:['border','margin','padding','font','other','color','background','display','position','domDefined']
         return Styles.getStyleStateFor(this,properties,appendVendorPrefix);
     }
 }
