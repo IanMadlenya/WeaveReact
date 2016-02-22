@@ -141,7 +141,7 @@ class List extends React.Component {
             if(!this.props.useCSS){
                 if((this.props.dock !== "right") && (this.props.dock !== "left") && this.settings.rightAlign.value){
                     styleObject["justifyContent"] = "flex-end";
-                    styleObject["marginRight"] = "auto";
+                    //styleObject["marginRight"] = "auto";
                 }
                 styleObject = Style.appendVendorPrefix(styleObject);
             }
