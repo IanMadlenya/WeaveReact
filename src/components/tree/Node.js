@@ -32,7 +32,7 @@ class Node extends React.Component {
     toggle(){
         this.settings.open.value = !this.settings.open.value;
         if(this.props.clickCallback)
-            this.props.clickCallback.call(this,this.props.data);
+            this.props.clickCallback.call(this,this.props.data,this.settings);
         this.props.treeConfig.changeActiveNode(this.settings)
     }
 
