@@ -118,7 +118,12 @@ class List extends React.Component {
                 this.settings.configChildMap.set(childConfig,clonedChild);
                 this.settings.childConfigMap.set(clonedChild,childConfig);
                 return clonedChild;
-
+             }else{
+                var configClass = Weave.getPath(childConfig).getType();
+                var ToolClass =  App.getToolImplementation(configClass);
+                var configName =  this.settings.children.getName(childConfig);
+                var newChild = <ToolClass key={configName}  settings={childConfig}/>;
+                return newChild;
              }
 
         }.bind(this));
