@@ -63,19 +63,18 @@ import NodeConfig from "./NodeConfig";
             if(!this.allowMultipleSelection.value)this.activeNode.active.value = false;
         }
         this.activeNode = nodeConfig;
-        this.activeNode.active.value = true;
+        this.activeNode.active.value = this.activeNode.open.value;
     }
 
-    p.getFileIcon = function (data) {
+    p.getFileIcon = function (data,isOpen) {
         if(data){
             if(this.enableDataTypeIcon.value){
                 var datType = this.getDataType ? this.getDataType(data) : data.constructor.name;
                 if (this.dataTypesMap && this.dataTypesMap[datType])
                     return this.dataTypesMap[datType];
-                else
-                    return this.fileOpenIcon.value;
+            }else{
+                return isOpen ? this.fileOpenIcon.value : this.fileIcon.value;
             }
-            return "";
         }else
             return "";
 

@@ -123,7 +123,7 @@ class Node extends React.Component {
             }
             else{ //leaf
                 var leaf = this.settings.label.value;
-                var fileIcon = this.props.treeConfig.getFileIcon(this.props.data);
+                var fileIcon = this.props.treeConfig.getFileIcon(this.props.data,this.settings.open.value);
                 var fileIconStyle = this.props.treeConfig.getFileIconStyle();
                 var activeLeafColor = this.settings.active.value?"#000000":"#9d9d9d";
                 var leafStyleObj = {color:activeLeafColor,backgroundColor:this.props.treeConfig.leafColor.value}
