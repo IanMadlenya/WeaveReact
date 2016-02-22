@@ -19,12 +19,13 @@ class App extends React.Component {
         //this.navConfig.brand.logoPath.value = "./logo.png";
         //this.navConfig.brand.title.value = "Brand";
 
-        //var linkConfig = this.navConfig.navList.links.requestObject('link1',navbarConfig.Link);
-        //linkConfig.title.value = " Set Up";
-        //linkConfig.iconName.value = "fa fa-home";
-        //linkConfig= this.navConfig.navList.links.requestObject('link2',navbarConfig.Link);
-        //linkConfig.title.value = " Documentation";
-        //linkConfig.iconName.value = "fa fa-folder";
+        var brandConfig = this.navConfig.children.requestObject('',navbarConfig.Brand);
+        var logoConfig = brandConfig.children.requestObject('',navbarConfig.Logo);
+        logoConfig.src.state = "logo.png";
+        /*var listConfig = this.navConfig.children.requestObject('',navbarConfig.List);
+        var linkConfig = listConfig.children.requestObject('',navbarConfig.Link);
+        linkConfig.title.value = " Documentation";
+        linkConfig.iconName.value = "fa fa-folder";*/
 
         this.treeConfig = window.dbweave.root.requestObject('tree',TreeConfig);
         this.treeConfig.nodePadding.value ="10px";
@@ -92,19 +93,23 @@ class App extends React.Component {
         return (<div>
                     <div id="popUp"/>
                     <Navbar settings={this.navConfig}>
-                        <Navbar.Brand />
-                        <Navbar.List>
-                            <Navbar.Link/>
-                            <Navbar.Link/>
+                        <Navbar.List key="list">
+                            <Navbar.Link key="link1"/>
+                            <Navbar.Link key="link2"/>
                         </Navbar.List>
-                        <Navbar.Form />
-                        <div>Hi</div>
+                        <Navbar.Form key="form">
+                            <div key="form1">Form1</div>
+                            <div key="di">Form2</div>
+                        </Navbar.Form >
+
                     </Navbar>
-                    <div style={{marginTop:"60px"}}>
+
+                <div style={{marginTop:"60px"}}>
                         <div style={{width:"240px",color:"white", border:"1px solid grey",background:"linear-gradient(to right, #036FBB , #013458)"}}>
                             <Tree data={this.tree} settings={this.treeConfig} label="label" nodes="children"/>
                         </div>
                     </div>
+
                 </div>
         );
 
@@ -112,3 +117,6 @@ class App extends React.Component {
 }
 
 export default App;
+
+
+/**/
