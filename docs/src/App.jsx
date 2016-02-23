@@ -104,6 +104,7 @@ class App extends React.Component {
                             <div key="form1">Form1</div>
                             <div key="di">Form2</div>
                         </Navbar.Form >
+                        <div style={{color:"red"}}>Hi I am Sanjay</div>
 
                     </Navbar>
 

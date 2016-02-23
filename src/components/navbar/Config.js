@@ -52,7 +52,7 @@ class NavConfig {
             alignItems:"center",
             justifyContent:"space-between"
         };
-        this.style.padding.state = {padding:"6px"};
+        this.style.padding.state = {padding:"4px"};
         this.style.background.state = "#F8F8F8";
     }
 }

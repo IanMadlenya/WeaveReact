@@ -12,6 +12,8 @@ import SplitPaneConfig from "./components/splitPane/SplitPaneConfig";
 import Navbar from "./components/navbar/Navbar";
 import navbarConfig from "./components/navbar/Config";
 
+import InlineStyle from "./configs/InlineStyle";
+
 import App from "./utils/App";
 
 
@@ -24,6 +26,8 @@ exports.SplitPaneConfig = SplitPaneConfig;
 
 exports.Navbar = Navbar;
 exports.navbarConfig = navbarConfig;
+
+exports.InlineStyle = InlineStyle;
 
 
 exports.registerToolImplementation = function (asClassName, jsClass) {

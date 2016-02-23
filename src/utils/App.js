@@ -56,7 +56,8 @@ import React from "react";
                     childConfig = config.children.requestObject('',configClass);
                 }
             }
-            if(child.props.style)childConfig.style.domDefined.state = child.props.style;
+            if(child.props.style)childConfig.style.domDefinedStyle.state = child.props.style;
+            if(child.props.className)childConfig.style.domDefinedCSS.state = child.props.className;
             config.childConfigMap.set(child,childConfig);
             config.configChildMap.set(childConfig,child);
             //config.configChildObjectMap[childConfigName] = childConfig;
