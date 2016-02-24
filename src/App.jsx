@@ -31,13 +31,12 @@ class App extends React.Component {
 
         this.treeConfig = window.dbweave.root.requestObject('tree',TreeConfig);
         this.treeConfig.nodePadding.value ="10px";
-        this.treeConfig.rightAlign.value = true;
-        this.treeConfig.folderIcon.value = "fa fa-caret-right";
-        this.treeConfig.folderOpenIcon.value = "fa fa-caret-down";
-        this.treeConfig.fileIcon.value = "fa fa-check";
-        this.treeConfig.fileOpenIcon.value = "fa fa-times";
+        this.treeConfig.align.value = "right";
+        this.treeConfig.nodeIcon.value = "fa fa-caret-right";
+        this.treeConfig.nodeOpenIcon.value = "fa fa-caret-down";
+        this.treeConfig.leafIcon.value = "fa fa-times";
+        this.treeConfig.leafOpenIcon.value = "fa fa-check";
         this.treeConfig.enableDataTypeIcon.value = false;
-        this.treeConfig.leafColor.value = "#0470AF";
         this.treeConfig.allowMultipleSelection.value = "true";
 
         this.tree=null;
@@ -100,6 +99,7 @@ class App extends React.Component {
                             <Navbar.Link key="link1"/>
                             <Navbar.Link key="link2"/>
                         </Navbar.List>
+                        <div style={{color:"red" , flex:"1"}}></div>
                         <Navbar.Form key="form">
                             <div key="form1">Form1</div>
                             <div key="di">Form2</div>
