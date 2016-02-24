@@ -121,7 +121,7 @@ class Node extends React.Component {
                 nodesUI = this.renderChildren();
             }
 
-            var iconName = this.getIconName(this.props.data,this.props.label);
+            var iconName = this.getIconName(this.props.data,this.props.icon);
             var label = this.getTreeLabel(this.props.data,this.props.label);
             if(nodes.length > 0){ //folder
                 var branchStyle = this.props.treeConfig.branchStyle.getStyleFor();
