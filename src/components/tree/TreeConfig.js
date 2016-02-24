@@ -102,7 +102,7 @@ import InlineStyle from "../../configs/InlineStyle";
 
     //to-do do this for entire tree rather only for the first child
     p.setOpenNodes = function(nodesLabel){
-        var rootNodes = this.rootNode.getNodes();
+        var rootNodes = this.rootNode.children.getObjects();
         rootNodes.map(function(node){
             if(nodesLabel.indexOf(node.label.state) > 0){
                 node.open.value = true;
