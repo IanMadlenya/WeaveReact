@@ -107,6 +107,10 @@ import InlineStyle from "../../configs/InlineStyle";
             if(nodesLabel.indexOf(node.label.state) > 0){
                 node.open.value = true;
             }
+            else{
+                node.open.value = false;
+                node.active.value = false;
+            }
         }.bind(this))
 
     }
