@@ -128,7 +128,7 @@ class Brand extends React.Component {
             if(this.props.useCSS){
                 childrenUI = this.renderChildren(this.props.css);
 
-                BrandUI = <div className={this.props.css.header}>
+                BrandUI = <div className={this.props.className}>
                             {childrenUI}
                           </div>
             }else{
