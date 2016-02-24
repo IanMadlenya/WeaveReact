@@ -12,6 +12,7 @@ class Node extends React.Component {
         this.toggle = this.toggle.bind(this);
         this.getTreeNodes = this.getTreeNodes.bind(this);
         this.getTreeLabel = this.getTreeLabel.bind(this);
+        this.getIconName = this.getIconName.bind(this);
         this.setSessionStateFromTree = this.setSessionStateFromTree.bind(this);
         this.renderChildren = this.renderChildren.bind(this);
         this.setSessionStateFromTree(this.props.data,this.props.label,this.props.nodes);
@@ -65,6 +66,18 @@ class Node extends React.Component {
 
     }
 
+    getIconName(data,icon){
+       if(data){
+            if(data[icon] instanceof Function){
+                return data[icon]();
+            }else{
+                return data[icon];
+            }
+        }else{
+            return "";
+        }
+    }
+
     getTreeLabel(data,label){
         if(data){
             if(data[label] instanceof Function){
@@ -90,6 +103,7 @@ class Node extends React.Component {
         this.propsManager.addNewProps("treeConfig",this.props.treeConfig);
         this.propsManager.addNewProps("label",this.props.label);
         this.propsManager.addNewProps("nodes",this.props.nodes);
+        this.propsManager.addNewProps("icon",this.props.icon);
         this.propsManager.addNewProps("clickCallback",this.props.clickCallback);
 
         var treeNodes = this.getTreeNodes(this.props.data,this.props.nodes);
@@ -107,7 +121,8 @@ class Node extends React.Component {
                 nodesUI = this.renderChildren();
             }
 
-            var iconName = this.settings.iconName.state;
+            var iconName = this.getIconName(this.props.data,this.props.label);
+            var label = this.getTreeLabel(this.props.data,this.props.label);
             if(nodes.length > 0){ //folder
                 var branchStyle = this.props.treeConfig.branchStyle.getStyleFor();
                 var nodeStyle = this.props.treeConfig.nodeStyle.getStyleFor();
@@ -116,7 +131,7 @@ class Node extends React.Component {
 
                 var folderUI = <span style={nodeStyle} onClick={this.toggle}>
                                     <i className={iconName} ></i>
-                                    {this.settings.label.value}
+                                    {label}
                                     <span style={{flex:"1"}}/>
                                     <i className={controlName} ></i>
                                 </span>;
@@ -135,7 +150,7 @@ class Node extends React.Component {
 
                 nodeUI = <li style={leafStyle} onClick={this.toggle}>
                             <i className={iconName} ></i>
-                            {this.settings.label.value}
+                            {label}
                             <span style={{flex:"1"}}/>
                             <i className={fileIcon}></i>
                          </li>
