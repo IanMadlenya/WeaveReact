@@ -100,6 +100,16 @@ import InlineStyle from "../../configs/InlineStyle";
 
     }
 
+    //to-do do this for entire tree rather only for the first child
+    p.setOpenNodes = function(nodesLabel){
+        var rootNodes = this.rootNode.getNodes();
+        rootNodes.map(function(node){
+            if(nodesLabel.indexOf(node.label.state) > 0){
+                node.open.value = true;
+            }
+        }.bind(this))
+
+    }
 
     p.changeActiveNode = function (nodeConfig) {
         if (this.activeNode) {
