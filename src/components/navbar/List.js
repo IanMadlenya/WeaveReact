@@ -2,6 +2,7 @@ import React from 'react';
 import Style from "../../utils/Style";
 import App from "../../utils/App";
 import Link from "./Link";
+import PropsManager from "../PropsManager";
 
 
 class List extends React.Component {
@@ -12,6 +13,8 @@ class List extends React.Component {
         if(this.props.children)App.hookSessionStateForComponentChildren(this.props.children,this.settings);
         this.addCallbacks = this.addCallbacks.bind(this);
         this.removeCallbacks = this.removeCallbacks.bind(this);
+        this.propsManager = new PropsManager();
+        this.updateRender = this.updateRender.bind(this);
 
     }
 
@@ -37,21 +40,30 @@ class List extends React.Component {
     }
 
     addCallbacks(){
+       // Weave.getCallbacks(this.settings).addGroupedCallback(this,this.updateRender);
         this.settings.enable.addImmediateCallback(this, this.forceUpdate);
         Weave.getCallbacks(this.settings.style).addImmediateCallback(this, this.forceUpdate);
+        Weave.getCallbacks(this.settings.CSS).addImmediateCallback(this, this.forceUpdate);
         this.settings.space.addImmediateCallback(this, this.forceUpdate);
-        this.settings.rightAlign.addImmediateCallback(this, this.forceUpdate);
+        this.settings.align.addImmediateCallback(this, this.forceUpdate);
         this.settings.activePage.addImmediateCallback(this, this.forceUpdate);
         this.settings.children.childListCallbacks.addImmediateCallback(this, this.forceUpdate);
     }
 
+    updateRender(){
+        if(Weave.detectChange(this,this.settings.enable,this.settings.style,this.settings.space,this.settings.align,this.settings.activePage,this.settings.children.childListCallbacks)){
+            this.forceUpdate();
+        }
+    }
 
 
     removeCallbacks(){
+         //Weave.getCallbacks(this.settings).removeCallback(this,this.updateRender)
         this.settings.enable.removeCallback(this, this.forceUpdate);
         Weave.getCallbacks(this.settings.style).removeCallback(this, this.forceUpdate);
+        Weave.getCallbacks(this.settings.CSS).removeCallback(this, this.forceUpdate);
         this.settings.space.removeCallback(this, this.forceUpdate);
-        this.settings.rightAlign.removeCallback(this, this.forceUpdate);
+        this.settings.align.removeCallback(this, this.forceUpdate);
         this.settings.activePage.removeCallback(this, this.forceUpdate);
         this.settings.children.childListCallbacks.removeCallback(this, this.forceUpdate);
     }
@@ -76,7 +88,7 @@ class List extends React.Component {
 
 
 
-    renderChildren(CSS){
+    renderChildren(){
         var linkStyleObject={};
         var iconOnly = false;
         var space = this.settings.space.value;
@@ -89,70 +101,28 @@ class List extends React.Component {
             linkStyleObject["marginRight"] = space;
         }
 
-        var childConfigs = this.settings.children.getObjects();
-        var clonedChildren = childConfigs.map(function(childConfig,index){
-            var child = this.settings.configChildMap.get(childConfig);
-            var configName = this.settings.children.getName(childConfig);
-            if(child){
-                var props = App.mergeInto({},child.props);
+        this.propsManager.addNewProps("iconOnly",iconOnly);
+        this.propsManager.updateStyle(linkStyleObject);
+        this.propsManager.addKeyProps("pageName");
+        this.propsManager.addOddChild(this.settings.activePage.value,{isActive:"true"});
+        return  App.renderChildren(this,this.propsManager)
 
-                props["settings"] = childConfig;
-                props["pageName"] = configName;
-                props["iconOnly"] = iconOnly;
-                props["key"] = configName;
-                if(configName === this.settings.activePage.value) {
-                    props["isActive"] = true;
-                }
-                else{
-                    props["isActive"] = false;
-                }
-                if(CSS){
-                    props["className"] = CSS[childName];
-                }else{
-                    props["style"] = linkStyleObject;
-                }
-
-                if(this.settings.childConfigMap.has(child))
-                    this.settings.childConfigMap.delete(child);
-                var clonedChild = React.cloneElement(child,props);
-                this.settings.configChildMap.set(childConfig,clonedChild);
-                this.settings.childConfigMap.set(clonedChild,childConfig);
-                return clonedChild;
-             }else{
-                var configClass = Weave.getPath(childConfig).getType();
-                var ToolClass =  App.getToolImplementation(configClass);
-                var configName =  this.settings.children.getName(childConfig);
-                var newChild = <ToolClass key={configName}  settings={childConfig}/>;
-                return newChild;
-             }
-
-        }.bind(this));
-
-        return clonedChildren;
     }
 
 
     render() {
         var navLinks = <div/>;
         if(this.settings.enable.value){
-            var childrenUI = []
             var styleObject = this.settings.style.getStyleFor(null,true);
+            var cssName = this.settings.CSS.getCSSFor();
+            var childrenUI = this.renderChildren();
 
-            if(!this.props.useCSS){
-                if((this.props.dock !== "right") && (this.props.dock !== "left") && this.settings.rightAlign.value){
-                    styleObject["justifyContent"] = "flex-end";
-                    //styleObject["marginRight"] = "auto";
-                }
-                styleObject = Style.appendVendorPrefix(styleObject);
-            }
 
             if(this.props.useCSS){
-                childrenUI = this.renderChildren(this.props.CSS);
-                navLinks = <ul className={this.props.className}>{childrenUI}</ul>;
+                navLinks = <ul className={cssName}>{childrenUI}</ul>;
             }
             else{
-                childrenUI = this.renderChildren(null);
-                navLinks = <ul style={styleObject}>{childrenUI}</ul>;
+                navLinks = <ul className={cssName} style={styleObject}>{childrenUI}</ul>;
             }
         }
 

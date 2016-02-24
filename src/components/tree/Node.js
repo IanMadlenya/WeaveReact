@@ -2,6 +2,7 @@ import React from 'react';
 import App from "../../utils/App";
 import Styles from "../../utils/Style";
 import NodeConfig from "./NodeConfig";
+import PropsManager from "../PropsManager"
 
 class Node extends React.Component {
 
@@ -12,7 +13,9 @@ class Node extends React.Component {
         this.getTreeNodes = this.getTreeNodes.bind(this);
         this.getTreeLabel = this.getTreeLabel.bind(this);
         this.setSessionStateFromTree = this.setSessionStateFromTree.bind(this);
+        this.renderChildren = this.renderChildren.bind(this);
         this.setSessionStateFromTree(this.props.data,this.props.label,this.props.nodes);
+        this.propsManager = new PropsManager()
     }
 
     componentDidMount(){
@@ -82,7 +85,18 @@ class Node extends React.Component {
     }
 
 
+    renderChildren(){
 
+        this.propsManager.addNewProps("treeConfig",this.props.treeConfig);
+        this.propsManager.addNewProps("label",this.props.label);
+        this.propsManager.addNewProps("nodes",this.props.nodes);
+        this.propsManager.addNewProps("clickCallback",this.props.clickCallback);
+
+        var treeNodes = this.getTreeNodes(this.props.data,this.props.nodes);
+        this.propsManager.addKeyProps("data",treeNodes);
+        //this.propsManager.addOddChild(this.settings.activePage.value,{isActive:"true"});
+        return App.renderChildren(this, this.propsManager);
+    }
 
     render() {
         var nodeUI = <div/>;
@@ -90,58 +104,41 @@ class Node extends React.Component {
             var nodesUI = [];
             var nodes = this.settings.getNodes();
             if(this.settings.open.value){
-                if(nodes.length > 0){
-                    var treeNodes = this.getTreeNodes(this.props.data,this.props.nodes);
-                    for (var i = 0 ; i < nodes.length ;i++){
-                        var treeItem = treeNodes[i];
-                        var nodeConfig = this.settings.children.getObject( nodes[i]);
-                        nodesUI.push(<Node key={i} data={treeItem} label={this.props.label} nodes={this.props.nodes} treeConfig={this.props.treeConfig} settings={nodeConfig} clickCallback={this.props.clickCallback}/>) ;
-                    }
-                }
+                nodesUI = this.renderChildren();
             }
 
+            var iconName = this.settings.iconName.state;
             if(nodes.length > 0){ //folder
-                var nodeIconStyleObject = Styles.appendVendorPrefix(this.props.treeConfig.getNodeIconStyle());
-                var folderIcon = this.props.treeConfig.getFolderIcon(this.props.data,this.settings.open.value);
-                var folderUI = <span onClick={this.toggle}>
-                                    <i className={folderIcon} style={nodeIconStyleObject} ></i>
-                                    &#160;{this.settings.label.value}
+                var branchStyle = this.props.treeConfig.branchStyle.getStyleFor();
+                var nodeStyle = this.props.treeConfig.nodeStyle.getStyleFor();
+
+                var controlName = this.props.treeConfig.getFolderIcon(this.settings.open.value);
+
+                var folderUI = <span style={nodeStyle} onClick={this.toggle}>
+                                    <i className={iconName} ></i>
+                                    {this.settings.label.value}
+                                    <span style={{flex:"1"}}/>
+                                    <i className={controlName} ></i>
                                 </span>;
-                if(this.props.treeConfig.rightAlign.value){
-                    folderUI = <span onClick={this.toggle}>
-                                    {this.settings.label.value}&#160;
-                                    <i className={folderIcon} style={nodeIconStyleObject} ></i>
-                                </span>;
-                }
-                var nodePadding = this.props.treeConfig.nodePadding.value;
-                nodeUI = <span style={{backgroundColor:this.props.treeConfig.nodeColor.value}}>
+
+                var nodePadding = this.props.treeConfig.nodePadding.state;
+                nodeUI = <span style={branchStyle}>
                             {folderUI}
                             <ul style={{listStyleType:"none",paddingLeft:nodePadding}}>
                                 {nodesUI}
                             </ul>
-                        </span>;
+                         </span>;
             }
             else{ //leaf
-                var leaf = this.settings.label.value;
                 var fileIcon = this.props.treeConfig.getFileIcon(this.props.data,this.settings.open.value);
-                var fileIconStyle = this.props.treeConfig.getFileIconStyle();
-                var activeLeafColor = this.settings.active.value?"#000000":"#9d9d9d";
-                var leafStyleObj = {color:activeLeafColor,backgroundColor:this.props.treeConfig.leafColor.value}
-                leafStyleObj = Styles.mergeStyleObjects(leafStyleObj,this.props.treeConfig.leafBorder.state)
-                if(fileIcon && fileIcon.indexOf("fa fa-") > -1)
-                    nodeUI = <li style={leafStyleObj} onClick={this.toggle}>
-                                <i className={fileIcon}></i>
-                                &#160;{leaf}
-                             </li>
-                else if(this.props.treeConfig.enableDataTypeIcon.value)
-                    nodeUI = <li style={leafStyleObj} onClick={this.toggle}>
-                                <span style={fileIconStyle}>{fileIcon}</span>
-                                &#160;{leaf}
-                             </li>
-                else
-                    nodeUI = <li style={leafStyleObj} onClick={this.toggle}>
-                                &#160;{leaf}
-                             </li>
+                var leafStyle = this.props.treeConfig.getLeafStyle(this.settings.open.value,this.settings.active.value);
+
+                nodeUI = <li style={leafStyle} onClick={this.toggle}>
+                            <i className={iconName} ></i>
+                            {this.settings.label.value}
+                            <span style={{flex:"1"}}/>
+                            <i className={fileIcon}></i>
+                         </li>
             }
         }
 

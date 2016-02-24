@@ -11,6 +11,7 @@ import HTMLWrapper from "../HTMLWrapper";
 import navbarConfig from "./Config";
 import Config from "./Config";
 import InlineStyle from "../../configs/InlineStyle";
+import PropsManager from "../PropsManager";
 
 
 class Navbar extends React.Component {
@@ -23,6 +24,7 @@ class Navbar extends React.Component {
         if(this.props.children)App.hookSessionStateForComponentChildren(this.props.children,this.settings);
         this.addCallbacks = this.addCallbacks.bind(this);
         this.removeCallbacks = this.removeCallbacks.bind(this);
+        this.propsManager =  new PropsManager()
 
     }
 
@@ -73,7 +75,7 @@ class Navbar extends React.Component {
 
     addCallbacks(){
         Weave.getCallbacks(this.settings.style).addImmediateCallback(this,this.forceUpdate);
-        this.settings.CSS.addImmediateCallback(this,this.forceUpdate);
+        Weave.getCallbacks(this.settings.CSS).addImmediateCallback(this,this.forceUpdate);
         this.settings.useCSS.addImmediateCallback(this,this.forceUpdate);
         this.settings.dock.addImmediateCallback(this,this.forceUpdate);
         this.settings.children.childListCallbacks.addGroupedCallback(this,this.forceUpdate);
@@ -81,7 +83,7 @@ class Navbar extends React.Component {
 
     removeCallbacks(){
         Weave.getCallbacks(this.settings.style).removeCallback(this,this.forceUpdate);
-        this.settings.CSS.removeCallback(this,this.forceUpdate);
+        Weave.getCallbacks(this.settings.CSS).removeCallback(this,this.forceUpdate);
         this.settings.useCSS.removeCallback(this,this.forceUpdate);
         this.settings.dock.removeCallback(this,this.forceUpdate);
         this.settings.children.childListCallbacks.removeCallback(this,this.forceUpdate);
@@ -90,78 +92,29 @@ class Navbar extends React.Component {
         this.removeCallbacks();
     }
 
+    renderChildren(){
 
-
-    renderChildren(CSS){
-        var childConfigs = this.settings.children.getObjects();
-        var clonedChildren = childConfigs.map(function(childConfig,index){
-            var child = this.settings.configChildMap.get(childConfig);
-
-            var additionalProps = {
-                "dock": this.settings.dock.value,
-                "position":this.settings.style.position.value,
-                "useCSS":this.settings.useCSS.value
-            }
-            if(child){
-                var props = App.mergeInto({},child.props);
-                if(typeof(child.type) === "string"){
-                    var configName =  this.settings.children.getName(childConfig);
-                    return <HTMLWrapper key={configName} settings={childConfig}>{child}</HTMLWrapper>
-                }else{
-                    props = App.mergeInto(props,additionalProps);
-                    props["settings"] = childConfig;
-                    if(CSS){
-                        props["className"] = CSS[childName];
-                        props["CSS"] = CSS;
-                    }
-                    if(this.settings.childConfigMap.has(child))
-                        this.settings.childConfigMap.delete(child);
-                    var clonedChild = React.cloneElement(child,props);
-                    this.settings.configChildMap.set(childConfig,clonedChild);
-                    this.settings.childConfigMap.set(clonedChild,childConfig);
-                    return clonedChild;
-                }
-             }else{
-                var configClass = Weave.getPath(childConfig).getType();
-                var ToolClass =  App.getToolImplementation(configClass);
-                var configName =  this.settings.children.getName(childConfig);
-                var newChild = <ToolClass key={configName}  settings={childConfig}/>;
-                //this.settings.configChildMap.set(childConfig,newChild);
-                //this.settings.childConfigMap.set(newChild,childConfig);
-                return newChild;
-             }
-
-        }.bind(this));
-
-        return clonedChildren;
-
+         this.propsManager.addNewProps("dock",this.settings.dock.value);
+         this.propsManager.addNewProps("useCSS",this.settings.useCSS.value);
+         return App.renderChildren(this,this.propsManager);
     }
 
 
     render() {
 
         var styleObj = this.getStyle();
-        var newProps = {}
-        var additionalProps = {
-            "dock": this.settings.dock.value,
-            "position":this.settings.style.position.value,
-            "useCSS":this.settings.useCSS.value
-        }
-
-        var childrenUI = []
+        var cssName = this.settings.CSS.getCSSFor();
+        var childrenUI = this.renderChildren();
 
         if(this.settings.useCSS.value){
-            var cssObj = this.settings.CSS.state;
-            childrenUI = this.renderChildren(cssObj);
             return (
-                <nav className={cssObj.navbar}>
+                <nav className={cssName}>
                     {childrenUI}
                 </nav>
             );
         }else{
-            childrenUI = this.renderChildren();
             return (
-                <nav style={styleObj}>
+                <nav className={cssName} style={styleObj}>
                     {childrenUI}
                 </nav>
             );

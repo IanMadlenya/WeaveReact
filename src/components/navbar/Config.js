@@ -2,6 +2,8 @@ import Brand from "./Brand";
 import List from "./List";
 import Form from "./Form";
 import InlineStyle from "../../configs/InlineStyle";
+import CSS from "../../configs/CSS";
+import Style from "../../utils/Style";
 
 class NavConfig {
     constructor() {
@@ -11,10 +13,7 @@ class NavConfig {
                 value: Weave.linkableChild(this, new InlineStyle())
             },
             "CSS":{
-                value: Weave.linkableChild(this, new weavejs.core.LinkableVariable())
-            },
-            children:{
-                value: Weave.linkableChild(this, new weavejs.core.LinkableHashMap())
+                value: Weave.linkableChild(this, new CSS())
             },
             children:{
                 value: Weave.linkableChild(this, new weavejs.core.LinkableHashMap())
@@ -71,6 +70,9 @@ class BrandConfig {
             "style":{
                 value: Weave.linkableChild(this, new InlineStyle())
             },
+            "CSS":{
+                value: Weave.linkableChild(this, new CSS())
+            },
             "children":{
                 value: Weave.linkableChild(this, new weavejs.core.LinkableHashMap())
             }
@@ -108,6 +110,9 @@ class LogoConfig {
             },
             "style":{
                 value: Weave.linkableChild(this, new InlineStyle())
+            },
+            "CSS":{
+                value: Weave.linkableChild(this, new CSS())
             }
         });
 
@@ -134,6 +139,9 @@ class TitleConfig {
             },
             "style":{
                 value: Weave.linkableChild(this, new InlineStyle())
+            },
+            "CSS":{
+                value: Weave.linkableChild(this, new CSS())
             }
         });
 
@@ -155,11 +163,14 @@ class ListConfig {
             "style":{
                 value: Weave.linkableChild(this, new InlineStyle())
             },
+             "CSS":{
+                value: Weave.linkableChild(this, new CSS())
+            },
             "enable": {
                 value: Weave.linkableChild(this, new weavejs.core.LinkableBoolean(true))
             },
-            "rightAlign": {
-                value: Weave.linkableChild(this, new weavejs.core.LinkableBoolean(false))
+            "align": {
+                value: Weave.linkableChild(this, new weavejs.core.LinkableString("left"))
             },
             "activePage": {
                 value: Weave.linkableChild(this, new weavejs.core.LinkableString(""))
@@ -187,6 +198,13 @@ class ListConfig {
             margin:"7.5px"
         };
 
+        this.align.addImmediateCallback(this,this.updateStyle);
+
+    }
+
+
+    updateStyle(){
+        Style.alignChildren(this.style,this.align.state);
     }
 }
 
@@ -206,6 +224,9 @@ class LinkConfig {
             },
             "activeLinkStyle":{
                 value: Weave.linkableChild(this, new InlineStyle())
+            },
+            "CSS":{
+                value: Weave.linkableChild(this, new CSS())
             }
         });
 
@@ -240,8 +261,12 @@ class FormConfig {
             },
             "space": {
                 value: Weave.linkableChild(this, new weavejs.core.LinkableString("2px"))
+            },
+             "CSS":{
+                value: Weave.linkableChild(this, new CSS())
             }
         });
+
         this.childConfigMap = new Map();
         this.configChildMap = new Map();
 

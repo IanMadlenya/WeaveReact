@@ -2,37 +2,31 @@
 import Styles from "./Style";
 import HTMLWrapperConfig  from "../configs/HTMLWrapperConfig";
 import React from "react";
-(function (module) {
 
-
-    function App() {
+class App {
+    constructor() {
 
     }
 
-    var toolRegistry = {};
-
-
-    App.registerToolImplementation = function (asClassName, jsClass) {
-        if (!toolRegistry[asClassName])
-            toolRegistry[asClassName] = jsClass;
+    static registerToolImplementation(asClassName, jsClass) {
+        if (!App.toolRegistry[asClassName])
+            App.toolRegistry[asClassName] = jsClass;
     }
 
-    App.getToolImplementation = function (asClassName) {
-        return toolRegistry[asClassName];
+    static getToolImplementation(asClassName) {
+        return App.toolRegistry[asClassName];
     }
 
-    var toolConfigMap = new Map();
-
-    App.registerToolConfig = function (tool, config) {
-        if (!toolConfigMap.has(tool))
-            toolConfigMap.set(tool,config);
+    static registerToolConfig (tool, config) {
+        if (!App.toolConfigMap.has(tool))
+            App.toolConfigMap.set(tool,config);
     }
 
-    App.getToolConfig = function (tool) {
-        return toolConfigMap.get(tool);
+    static getToolConfig(tool) {
+        return App.toolConfigMap.get(tool);
     }
 
-    App.hookSessionStateForComponentChildren = function(children,config){
+    static hookSessionStateForComponentChildren(children,config){
         config.children.delayCallbacks();
 
         config.childConfigMap = new Map();
@@ -56,64 +50,98 @@ import React from "react";
                     childConfig = config.children.requestObject('',configClass);
                 }
             }
-            if(child.props.style)childConfig.style.domDefinedStyle.state = child.props.style;
-            if(child.props.className)childConfig.style.domDefinedCSS.state = child.props.className;
+            if(child.props.style)childConfig.style.domDefined.state = child.props.style;
+            if(child.props.className)childConfig.CSS.className.state = child.props.className;
             config.childConfigMap.set(child,childConfig);
             config.configChildMap.set(childConfig,child);
-            //config.configChildObjectMap[childConfigName] = childConfig;
         });
         config.children.resumeCallbacks();
     }
 
 
 
-  /*  App.renderChildren = function(reactComp,CSS,additionalProps,newProps){
+    static renderChildren(reactComp,propsManager){
         var childConfigs = reactComp.settings.children.getObjects();
+
         var clonedChildren = childConfigs.map(function(childConfig,index){
             var child = reactComp.settings.configChildMap.get(childConfig);
+            var configName =  reactComp.settings.children.getName(childConfig);
+            var props ={}
+            props["settings"] = childConfig;
+            if(child){
+                App.mergeInto(props,child.props);
 
+            }
+
+            if(propsManager){
+                var odd = propsManager.odd;
+                if(odd.children.length > 0){
+                    var oddChildrenIndex = odd.children.indexOf(configName);
+                    if(oddChildrenIndex > -1) {
+                        App.mergeInto(props,odd.values[oddChildrenIndex])
+                    }else if(propsManager["defaultValues"]){
+                        App.mergeInto(props,propsManager["defaultValues"])
+                    }
+                }
+
+                if(propsManager.all.properties.length > 0){
+                    propsManager.all.properties.map(function(propName,i){
+                        var value = propsManager.all.values[i];
+                        props[propName] = value ? value[index]:configName
+                    });
+                }
+
+                if(propsManager.new){
+                    App.mergeInto(props,propsManager.new);
+                }
+
+                if(props.style && propsManager.style){
+                    App.mergeInto(props.style,propsManager.style);
+                }
+
+            }
 
             if(child){
-                var props = App.mergeInto({},child.props);
                 if(typeof(child.type) === "string"){
-                    return <HTMLWrapper settings={childConfig}>{child}</HTMLWrapper>
+                     props["key"] = configName;
+                    var configClass = childConfig.FLEXJS_CLASS_INFO.names[0].qName;
+                    var ToolClass =  App.getToolImplementation(configClass);
+                    return <ToolClass {...props}>{child}</ToolClass>;
                 }else{
-                    props = App.mergeInto(props,additionalProps);
-                    props["settings"] = childConfig;
-                    if(CSS){
-                        props["className"] = CSS[childName];
-                        props["CSS"] = CSS;
-                    }
-                    if(this.settings.childConfigMap.has(child))
-                        this.settings.childConfigMap.delete(child);
+                    props = App.mergeInto(props,propsManager.new);
+                    if(reactComp.settings.childConfigMap.has(child))
+                        reactComp.settings.childConfigMap.delete(child);
                     var clonedChild = React.cloneElement(child,props);
-                    this.settings.configChildMap.set(childConfig,clonedChild);
-                    this.settings.childConfigMap.set(clonedChild,childConfig);
+                    reactComp.settings.configChildMap.set(childConfig,clonedChild);
+                    reactComp.settings.childConfigMap.set(clonedChild,childConfig);
                     return clonedChild;
                 }
              }else{
-                var configClass = Weave.getPath(childConfig).getType();
+                props["key"] = configName;
+                //to-do need to replace with flexinfo file or tiher mean, create a utility function
+                //this solution will fail when config not part of session tree
+                var configClass = childConfig.FLEXJS_CLASS_INFO.names[0].qName;
                 var ToolClass =  App.getToolImplementation(configClass);
-                var newChild = <ToolClass settings={childConfig}/>;
-                this.settings.configChildMap.set(childConfig,newChild);
-                this.settings.childConfigMap.set(newChild,childConfig);
+                var newChild = <ToolClass {...props}/>;
                 return newChild;
              }
 
         }.bind(this));
 
         return clonedChildren;
-    }*/
+    }
 
-    App.mergeInto = function(into, obj) {
+    static mergeInto(into, obj) {
         for (let attr in obj) {
             into[attr] = obj[attr];
         }
         return into;
     }
+}
+
+App.toolRegistry = {};
+App.toolConfigMap =  new Map();
+
+export default App;
 
 
-
-    module.exports = App;
-
-}(module));

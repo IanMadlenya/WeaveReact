@@ -1,43 +1,53 @@
-/*import Weave from 'Weave';
-import weavejs from 'weavejs';*/
+
 import NodeConfig from "./NodeConfig";
+import InlineStyle from "../../configs/InlineStyle";
+
 (function (module) {
 
     function TreeConfig() {
 
         Object.defineProperties(this, {
-            "folderIcon": {
+            "nodeIcon": {
                 value: Weave.linkableChild(this, new weavejs.core.LinkableString("fa fa-folder"))
             },
-            "folderOpenIcon": {
+            "nodeOpenIcon": {
                 value: Weave.linkableChild(this, new weavejs.core.LinkableString("fa fa-folder-open"))
             },
-            "fileIcon": {
+            "leafIcon": {
                 value: Weave.linkableChild(this, new weavejs.core.LinkableString("fa fa-file-text"))
             },
-            "fileOpenIcon": {
+            "leafOpenIcon": {
                 value: Weave.linkableChild(this, new weavejs.core.LinkableString("fa fa-file-text-o"))
             },
             "enableDataTypeIcon": {
                 value: Weave.linkableChild(this, new weavejs.core.LinkableBoolean(true))
             },
-            "rightAlign": {
-                value: Weave.linkableChild(this, new weavejs.core.LinkableBoolean(false))
+            "align": {
+                value: Weave.linkableChild(this, new weavejs.core.LinkableString("left"))
             },
             "nodePadding": {
                 value: Weave.linkableChild(this, new weavejs.core.LinkableString("20px"))
             },
-            "nodeColor": {
-                value: Weave.linkableChild(this, new weavejs.core.LinkableString(""))
-            },
-            "leafColor": {
-                value: Weave.linkableChild(this, new weavejs.core.LinkableString(""))
-            },
-            "leafBorder": {
-                value: Weave.linkableChild(this, new weavejs.core.LinkableVariable())
-            },
             rootNode:{
                 value: Weave.linkableChild(this, new NodeConfig())
+            },
+            rootStyle:{
+                value: Weave.linkableChild(this, new InlineStyle())
+            },
+            nodeStyle:{
+                value: Weave.linkableChild(this, new InlineStyle())
+            },
+            leafStyle:{
+                value: Weave.linkableChild(this, new InlineStyle())
+            },
+            selectedLeafStyle:{
+                value: Weave.linkableChild(this, new InlineStyle())
+            },
+            activeLeafStyle:{
+                value: Weave.linkableChild(this, new InlineStyle())
+            },
+            branchStyle:{
+                value: Weave.linkableChild(this, new InlineStyle())
             },
             allowMultipleSelection:{
                 value: Weave.linkableChild(this,  new weavejs.core.LinkableBoolean(false))
@@ -48,22 +58,58 @@ import NodeConfig from "./NodeConfig";
         this.dataTypesMap = null;
         this.getDataType = null;
 
-        this.leafBorder.state = {
-            borderBottom:"1px solid #0369B1"
-        };
+        this.nodeStyle.display.state = "flex";
+        this.nodeStyle.other.state = {
+            "flexDirection": "row"
+        }
+
+        this.leafStyle.display.state = "flex";
+        this.leafStyle.other.state = {
+            "flexDirection": "row"
+        }
+
+        this.selectedLeafStyle.other.state = {
+            "background" : "green"
+        }
+
+        this.activeLeafStyle.other.state = {
+            "background" : "orange"
+        }
+
+
     }
 
 
     var p = TreeConfig.prototype;
 
+    function mergeInto (into, obj) {
+        for (let attr in obj) {
+            into[attr] = obj[attr];
+        }
+        return into;
+    }
+
+    p.getLeafStyle = function(open, active){
+        var style = this.leafStyle.getStyleFor();
+        if(open){
+            mergeInto(style,this.selectedLeafStyle.getStyleFor())
+            if(active)
+                return mergeInto(style,this.activeLeafStyle.getStyleFor());
+        }
+        return style;
+
+    }
 
 
     p.changeActiveNode = function (nodeConfig) {
         if (this.activeNode) {
-            if(!this.allowMultipleSelection.value)this.activeNode.active.value = false;
+            this.activeNode.active.value = false;
+            if(!this.allowMultipleSelection.value){
+                this.activeNode.open.value = false;
+            }
         }
         this.activeNode = nodeConfig;
-        this.activeNode.active.value = this.activeNode.open.value;
+        this.activeNode.active.value = true;
     }
 
     p.getFileIcon = function (data,isOpen) {
@@ -73,44 +119,26 @@ import NodeConfig from "./NodeConfig";
                 if (this.dataTypesMap && this.dataTypesMap[datType])
                     return this.dataTypesMap[datType];
             }else{
-                return isOpen ? this.fileOpenIcon.value : this.fileIcon.value;
+                return isOpen ? this.leafOpenIcon.value : this.leafIcon.value;
             }
         }else
             return "";
 
     }
 
-    p.getFolderIcon = function (data, isOpen) {
-        if(data){
+    p.getFolderIcon = function ( isOpen) {
+       /* if(data){
             var datType = this.getDataType ? this.getDataType(data) : data.constructor.name;
             if (this.dataTypesMap && this.dataTypesMap[datType])
                 return this.dataTypesMap[datType];
-            else
-                return isOpen ? this.folderOpenIcon.value : this.folderIcon.value;
-        }else
-            return "";
+            else*/
+                return isOpen ? this.nodeOpenIcon.value : this.nodeIcon.value;
+        /*}else
+            return "";*/
 
     }
 
-    p.getFileIconStyle = function () {
-        return {
-            fontStyle: "bold",
-            borderStyle: "solid",
-            borderColor: "#7fd6f9",
-            borderWidth: "1px",
-            borderRadius: "4px",
-            paddingLeft: "3px",
-            paddingRight: "3px",
-            fontSize: "11px"
-        }
-    }
 
-    p.getNodeIconStyle = function () {
-        return {
-            color: "#7fd6f9",
-            textShadow: "-1px 0 black, 0 1px black, 1px 0 black, 0 -1px black"
-        }
-    }
 
 
 

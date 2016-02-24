@@ -11,6 +11,9 @@ import weavejs from 'weavejs';*/
             "children": {
                 value: Weave.linkableChild(this, new weavejs.core.LinkableHashMap()) // important to be prototype as type restriction is compared with prototype
             },
+            "iconName": {
+                value: Weave.linkableChild(this, new weavejs.core.LinkableString())
+            },
             "open": {
                 value: Weave.linkableChild(this, new weavejs.core.LinkableBoolean(false))
             },
@@ -18,6 +21,9 @@ import weavejs from 'weavejs';*/
                 value: Weave.linkableChild(this, new weavejs.core.LinkableBoolean(false))
             }
         });
+
+        this.childConfigMap = new Map();
+        this.configChildMap = new Map();
     }
 
 
