@@ -67,10 +67,9 @@ class App {
             var child = reactComp.settings.configChildMap.get(childConfig);
             var configName =  reactComp.settings.children.getName(childConfig);
             var props ={}
-            props["settings"] = childConfig;
+            if(!child.props.settings)props["settings"] = childConfig;
             if(child){
                 App.mergeInto(props,child.props);
-
             }
 
             if(propsManager){
@@ -131,7 +130,7 @@ class App {
         return clonedChildren;
     }
 
-    static mergeInto(into, obj) {
+    static mergeInto(into, obj,ignoreProps) {
         for (let attr in obj) {
             into[attr] = obj[attr];
         }
