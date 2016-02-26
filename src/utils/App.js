@@ -67,8 +67,9 @@ class App {
             var child = reactComp.settings.configChildMap.get(childConfig);
             var configName =  reactComp.settings.children.getName(childConfig);
             var props ={}
-            if(!child.props.settings)props["settings"] = childConfig;
+
             if(child){
+                if(child.props && !child.props.settings)props["settings"] = childConfig;
                 App.mergeInto(props,child.props);
             }
 
