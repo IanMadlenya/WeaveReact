@@ -103,10 +103,10 @@ import InlineStyle from "../../configs/InlineStyle";
     //to-do do this for entire tree rather only for the first child
     p.setOpenNodes = function(nodesLabel){
         //to-do still not s find a right way to update asynchrnous tree , so using the data approch
-        var rootNodes = this.rootNode.getTreeNodes();
-        var sessionRootNodes = this.rootNode.children.getObjects();
+        //var rootNodes = this.rootNode.getTreeNodes();
+       // var sessionRootNodes = this.rootNode.children.getObjects();
 
-        for(var i = 0 ; i < rootNodes.length; i++){
+        /*for(var i = 0 ; i < rootNodes.length; i++){
             var node = rootNodes[i];
             var treeLabel = node.getlabel();
             var sessionNode = sessionRootNodes[i];
@@ -117,8 +117,9 @@ import InlineStyle from "../../configs/InlineStyle";
                 sessionNode.open.value = false;
                 sessionNode.active.value = false;
             }
-        }
-        /*rootNodes.map(function(node){
+        }*/
+        var rootNodes = this.rootNode.children.getObjects();
+        rootNodes.map(function(node){
             var treeLabel = node.getlabel();
             if(nodesLabel.indexOf(node.label.state) > 0){
                 node.open.value = true;
@@ -127,7 +128,7 @@ import InlineStyle from "../../configs/InlineStyle";
                 node.open.value = false;
                 node.active.value = false;
             }
-        }.bind(this))*/
+        }.bind(this))
 
     }
 
