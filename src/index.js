@@ -54,13 +54,13 @@ exports.registerToolConfig = function (toolClass, configClass) {
 }
 
 exports.getToolConfig = function (toolClass) {
-    App.getToolConfig(toolClass);
+    return App.getToolConfig(toolClass);
 }
 
 exports.hookSessionStateForComponentChildren = function (ReactChildren,ownerConfig)  {
-    App.hookSessionStateForComponentChildren(ReactChildren,ownerConfig);
+    return App.hookSessionStateForComponentChildren(ReactChildren,ownerConfig);
 }
 
 exports.renderChildren = function (reactComp,propsManager)  {
-    App.renderChildren(reactComp,propsManager);
+    return App.renderChildren(reactComp,propsManager);
 }
