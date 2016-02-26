@@ -55,6 +55,8 @@ class Node extends React.Component {
     }
 
     getTreeNodes(data,nodes){
+        if(!data && this.props.data)data = this.props.data;
+        if(!nodes && this.props.nodes)nodes = this.props.nodes;
         if(data){
             if(data[nodes] instanceof Function){
                 return data[nodes]();
@@ -67,6 +69,10 @@ class Node extends React.Component {
     }
 
     getIconName(data,icon){
+
+        if(!data && this.props.data)data = this.props.data;
+        if(!icon && this.props.icon)icon = this.props.icon;
+
        if(data){
             if(data[icon] instanceof Function){
                 return data[icon]();
@@ -79,6 +85,9 @@ class Node extends React.Component {
     }
 
     getTreeLabel(data,label){
+        if(!data && this.props.data)data = this.props.data;
+        if(!label && this.props.label)label = this.props.label;
+
         if(data){
             if(data[label] instanceof Function){
                 return data[label]();

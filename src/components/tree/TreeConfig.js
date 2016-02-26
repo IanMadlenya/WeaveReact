@@ -103,7 +103,7 @@ import InlineStyle from "../../configs/InlineStyle";
     //to-do do this for entire tree rather only for the first child
     p.setOpenNodes = function(nodesLabel){
         //to-do still not s find a right way to update asynchrnous tree , so using the data approch
-        var rootNodes = this.rootNode.getTreeNodes(this.rootNode.props.data,this.rootNode.props.nodes);
+        var rootNodes = this.rootNode.getTreeNodes();
         var sessionRootNodes = this.rootNode.children.getObjects();
 
         for(var i = 0 ; i < rootNodes.length; i++){
