@@ -120,7 +120,6 @@ import InlineStyle from "../../configs/InlineStyle";
         }*/
         var rootNodes = this.rootNode.children.getObjects();
         rootNodes.map(function(node){
-            var treeLabel = node.getlabel();
             if(nodesLabel.indexOf(node.label.state) > 0){
                 node.open.value = true;
             }
