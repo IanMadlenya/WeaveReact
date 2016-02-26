@@ -69,7 +69,7 @@ class App {
             var props ={}
 
             if(child){
-                if(child.props && !child.props.settings)props["settings"] = childConfig;
+                //if(child.props && !child.props.settings)props["settings"] = childConfig;
                 App.mergeInto(props,child.props);
             }
 
