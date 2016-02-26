@@ -37,7 +37,7 @@ class App extends React.Component {
         this.treeConfig.leafIcon.value = "fa fa-times";
         this.treeConfig.leafOpenIcon.value = "fa fa-check";
         this.treeConfig.enableDataTypeIcon.value = false;
-        this.treeConfig.allowMultipleSelection.value = "true";
+        this.treeConfig.allowMultipleSelection.value = "false";
 
         this.tree=null;
         this.loadJSON = this.loadJSON.bind(this);
