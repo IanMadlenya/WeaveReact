@@ -30,14 +30,31 @@ class App extends React.Component {
         linkConfig.iconName.value = "fa fa-folder";*/
 
         this.treeConfig = window.dbweave.root.requestObject('tree',TreeConfig);
-        this.treeConfig.nodePadding.value ="10px";
+        this.treeConfig.nodePadding.value ="16px";
         this.treeConfig.align.value = "right";
         this.treeConfig.nodeIcon.value = "fa fa-caret-right";
         this.treeConfig.nodeOpenIcon.value = "fa fa-caret-down";
-        this.treeConfig.leafIcon.value = "fa fa-times";
-        this.treeConfig.leafOpenIcon.value = "fa fa-check";
+        this.treeConfig.leafIcon.value = "fa fa-square-o";
+        this.treeConfig.leafOpenIcon.value = "fa fa-check-square-o";
         this.treeConfig.enableDataTypeIcon.value = false;
         this.treeConfig.allowMultipleSelection.value = "false";
+        this.treeConfig.leafStyle.other.state = {
+            borderTop:"1px solid #1e5e9f",
+            paddingTop: "8px",
+            paddingBottom:"8px"
+        }
+
+
+        this.treeConfig.rootStyle.other.state = {
+            textTransform: "uppercase",
+            color:"#e57a38"
+        }
+
+        this.treeConfig.nodeStyle.other.state = {
+            paddingTop: "8px",
+            paddingBottom:"8px"
+
+        }
 
         this.tree=null;
         this.loadJSON = this.loadJSON.bind(this);
