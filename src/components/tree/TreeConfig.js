@@ -50,7 +50,7 @@ import InlineStyle from "../../configs/InlineStyle";
                 value: Weave.linkableChild(this, new InlineStyle())
             },
             allowMultipleSelection:{
-                value: Weave.linkableChild(this,  new weavejs.core.LinkableBoolean(true))
+                value: Weave.linkableChild(this,  new weavejs.core.LinkableBoolean(false))
             }
         });
 
@@ -104,7 +104,7 @@ import InlineStyle from "../../configs/InlineStyle";
     p.setOpenNodes = function(nodesLabel){
         var rootNodes = this.rootNode.children.getObjects();
         rootNodes.map(function(node){
-            if(nodesLabel.indexOf(node.label.state) > 0){
+            if(nodesLabel.indexOf(node.label.state) > -1){
                 node.open.value = true;
             }
             else{
@@ -119,8 +119,12 @@ import InlineStyle from "../../configs/InlineStyle";
         if (this.activeNode) {
             this.activeNode.active.value = false;
             if(!this.allowMultipleSelection.value){
-                if(nodeConfig.children.getName(this.activeNode))
-                    this.activeNode.open.value = false;
+                if(this.activeNode !== nodeConfig){
+                    var activeNodeChild = this.activeNode.children.getName(nodeConfig);
+                    if(!activeNodeChild)
+                        this.activeNode.open.value = false;
+                }
+
             }
         }
         this.activeNode = nodeConfig;

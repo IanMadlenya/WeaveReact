@@ -33,10 +33,6 @@ import weavejs from 'weavejs';*/
         return this.children.getNames();
     }
 
-
-
-
-
     p.reset = function () {
         this.label.value = "";
         this.open.value = false;

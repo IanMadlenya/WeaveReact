@@ -108,13 +108,11 @@ class Node extends React.Component {
 
 
     renderChildren(){
-
         this.propsManager.addNewProps("treeConfig",this.props.treeConfig);
         this.propsManager.addNewProps("label",this.props.label);
         this.propsManager.addNewProps("nodes",this.props.nodes);
         this.propsManager.addNewProps("icon",this.props.icon);
         this.propsManager.addNewProps("clickCallback",this.props.clickCallback);
-
         var treeNodes = this.getTreeNodes(this.props.data,this.props.nodes);
         this.propsManager.addKeyProps("data",treeNodes);
         return App.renderChildren(this, this.propsManager);
@@ -135,7 +133,7 @@ class Node extends React.Component {
             if(nodes.length > 0){ //folder
                 var branchStyle = this.props.treeConfig.branchStyle.getStyleFor();
                 var nodeStyle = this.props.treeConfig.nodeStyle.getStyleFor();
-                if(domeDefinedStyle)Style.mergeStyleObjects(nodeStyle,domeDefinedStyle,true);//this happedns for rootNode
+                if(domeDefinedStyle)Style.mergeStyleObjects(nodeStyle,domeDefinedStyle,true);//this happens for rootNode
                 var controlName = this.props.treeConfig.getFolderIcon(this.settings.open.value);
 
                 var folderUI = <span style={nodeStyle} onClick={this.toggle}>
