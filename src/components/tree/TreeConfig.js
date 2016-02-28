@@ -102,22 +102,6 @@ import InlineStyle from "../../configs/InlineStyle";
 
     //to-do do this for entire tree rather only for the first child
     p.setOpenNodes = function(nodesLabel){
-        //to-do still not s find a right way to update asynchrnous tree , so using the data approch
-        //var rootNodes = this.rootNode.getTreeNodes();
-       // var sessionRootNodes = this.rootNode.children.getObjects();
-
-        /*for(var i = 0 ; i < rootNodes.length; i++){
-            var node = rootNodes[i];
-            var treeLabel = node.getlabel();
-            var sessionNode = sessionRootNodes[i];
-            if(nodesLabel.indexOf(treeLabel) > 0){
-                sessionNode.open.value = true;
-            }
-            else{
-                sessionNode.open.value = false;
-                sessionNode.active.value = false;
-            }
-        }*/
         var rootNodes = this.rootNode.children.getObjects();
         rootNodes.map(function(node){
             if(nodesLabel.indexOf(node.label.state) > 0){
@@ -158,21 +142,8 @@ import InlineStyle from "../../configs/InlineStyle";
     }
 
     p.getFolderIcon = function ( isOpen) {
-       /* if(data){
-            var datType = this.getDataType ? this.getDataType(data) : data.constructor.name;
-            if (this.dataTypesMap && this.dataTypesMap[datType])
-                return this.dataTypesMap[datType];
-            else*/
-                return isOpen ? this.nodeOpenIcon.value : this.nodeIcon.value;
-        /*}else
-            return "";*/
-
+        return isOpen ? this.nodeOpenIcon.value : this.nodeIcon.value;
     }
-
-
-
-
-
 
 
     //This Function makes this class as SessionClass

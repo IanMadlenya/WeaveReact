@@ -1,6 +1,6 @@
 import React from 'react';
 import App from "../../utils/App";
-import Styles from "../../utils/Style";
+import Style from "../../utils/Style";
 import NodeConfig from "./NodeConfig";
 import PropsManager from "../PropsManager"
 
@@ -15,7 +15,7 @@ class Node extends React.Component {
         this.getIconName = this.getIconName.bind(this);
         this.setSessionStateFromTree = this.setSessionStateFromTree.bind(this);
         this.renderChildren = this.renderChildren.bind(this);
-        this.setSessionStateFromTree(this.props.data,this.props.label,this.props.nodes);
+        this.setSessionStateFromTree(this.props.data,this.props.label,this.props.nodes,this.props.icon);
         this.propsManager = new PropsManager()
     }
 
@@ -41,8 +41,9 @@ class Node extends React.Component {
     }
 
 
-    setSessionStateFromTree(data,label,nodes) {
+    setSessionStateFromTree(data,label,nodes,icon) {
         this.settings.label.value = this.getTreeLabel(data,label);
+        this.settings.iconName.value = this.getIconName(data,icon);
         var treeNodes = this.getTreeNodes(data,nodes);
         if (treeNodes && treeNodes.length) {
             this.settings.children.delayCallbacks();
@@ -101,9 +102,8 @@ class Node extends React.Component {
 
     componentWillReceiveProps(nextProps){
         if(this.props.data !== nextProps.data){
-            this.setSessionStateFromTree(nextProps.data,nextProps.label,nextProps.nodes);
+            this.setSessionStateFromTree(nextProps.data,nextProps.label,nextProps.nodes,nextProps.icon);
         }
-
     }
 
 
@@ -117,12 +117,12 @@ class Node extends React.Component {
 
         var treeNodes = this.getTreeNodes(this.props.data,this.props.nodes);
         this.propsManager.addKeyProps("data",treeNodes);
-        //this.propsManager.addOddChild(this.settings.activePage.value,{isActive:"true"});
         return App.renderChildren(this, this.propsManager);
     }
 
     render() {
         var nodeUI = <div/>;
+        var domeDefinedStyle = this.props.style;
         if(this.props.data){
             var nodesUI = [];
             var nodes = this.settings.getNodes();
@@ -130,12 +130,12 @@ class Node extends React.Component {
                 nodesUI = this.renderChildren();
             }
 
-            var iconName = this.getIconName(this.props.data,this.props.icon);
-            var label = this.getTreeLabel(this.props.data,this.props.label);
+            var iconName = this.settings.iconName.value;
+            var label = this.settings.label.value;
             if(nodes.length > 0){ //folder
                 var branchStyle = this.props.treeConfig.branchStyle.getStyleFor();
                 var nodeStyle = this.props.treeConfig.nodeStyle.getStyleFor();
-
+                if(domeDefinedStyle)Style.mergeStyleObjects(nodeStyle,domeDefinedStyle,true);//this happedns for rootNode
                 var controlName = this.props.treeConfig.getFolderIcon(this.settings.open.value);
 
                 var folderUI = <span style={nodeStyle} onClick={this.toggle}>
@@ -155,6 +155,7 @@ class Node extends React.Component {
             }
             else{ //leaf
                 var fileIcon = this.props.treeConfig.getFileIcon(this.props.data,this.settings.open.value);
+                // this will return either normal/Active/Slected Style based on state of the leaf
                 var leafStyle = this.props.treeConfig.getLeafStyle(this.settings.open.value,this.settings.active.value);
 
                 nodeUI = <li style={leafStyle} onClick={this.toggle}>

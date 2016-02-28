@@ -11,35 +11,50 @@ class Tree extends React.Component {
         this.settings = this.props.settings ? this.props.settings:new TreeConfig();
         this.settings.dataTypesMap = this.props.dataTypesMap;
         this.settings.getDataType = this.props.getDataType;
+        this.addCallbacks = this.addCallbacks.bind(this);
+        this.removeCallbacks = this.removeCallbacks.bind(this);
     }
 
     componentDidMount(){
-        this.settings.align.addImmediateCallback(this, this.forceUpdate);
-        this.settings.nodePadding.addImmediateCallback(this, this.forceUpdate);
-        //this.settings.nodeColor.addImmediateCallback(this, this.forceUpdate);
-        //this.settings.leafColor.addImmediateCallback(this, this.forceUpdate);
-        //this.settings.leafBorder.addImmediateCallback(this, this.forceUpdate);
+       this.addCallbacks();
     }
 
-    componentWillUnmount () {
+    addCallbacks(){
+        this.settings.align.addGroupedCallback(this, this.forceUpdate);
+        this.settings.nodePadding.addGroupedCallback(this, this.forceUpdate);
+        Weave.getCallbacks(this.settings.rootStyle).addGroupedCallback(this, this.forceUpdate);
+        Weave.getCallbacks(this.settings.branchStyle).addGroupedCallback(this, this.forceUpdate);
+        Weave.getCallbacks(this.settings.nodeStyle).addGroupedCallback(this, this.forceUpdate);
+        Weave.getCallbacks(this.settings.leafStyle).addGroupedCallback(this, this.forceUpdate);
+        Weave.getCallbacks(this.settings.selectedLeafStyle).addGroupedCallback(this, this.forceUpdate);
+        Weave.getCallbacks(this.settings.activeLeafStyle).addGroupedCallback(this, this.forceUpdate);
+    }
+
+    removeCallbacks(){
         this.settings.align.removeCallback(this, this.forceUpdate);
         this.settings.nodePadding.removeCallback(this, this.forceUpdate);
-        //this.settings.nodeColor.removeCallback(this, this.forceUpdate);
-        //this.settings.leafColor.removeCallback(this, this.forceUpdate);
-        //this.settings.leafBorder.removeCallback(this, this.forceUpdate);
+         Weave.getCallbacks(this.settings.rootStyle).removeCallback(this, this.forceUpdate);
+         Weave.getCallbacks(this.settings.branchStyle).removeCallback(this, this.forceUpdate);
+         Weave.getCallbacks(this.settings.nodeStyle).removeCallback(this, this.forceUpdate);
+         Weave.getCallbacks(this.settings.leafStyle).removeCallback(this, this.forceUpdate);
+         Weave.getCallbacks(this.settings.selectedLeafStyle).removeCallback(this, this.forceUpdate);
+         Weave.getCallbacks(this.settings.activeLeafStyle).removeCallback(this, this.forceUpdate);
+    }
+
+
+
+    componentWillUnmount () {
+        this.removeCallbacks()
     }
 
     componentWillReceiveProps(nextProps){
         if(this.props.settings !== nextProps.settings){
-            this.settings.align.removeCallback(this, this.forceUpdate);
-            this.settings.nodePadding.removeCallback(this, this.forceUpdate);
+            this.addCallbacks();
             this.settings = nextProps.settings;
-            this.settings.align.addImmediateCallback(this, this.forceUpdate);
-            this.settings.nodePadding.addImmediateCallback(this, this.forceUpdate);
+            this.removeCallbacks();
 
-
-            this.settings.dataTypesMap = this.props.dataTypesMap;
-            this.settings.getDataType = this.props.getDataType;
+            this.settings.dataTypesMap = nextProps.dataTypesMap;
+            this.settings.getDataType = nextProps.getDataType;
         }
         if(this.props.data !== nextProps.data){
             console.log("Data Changed")
@@ -49,10 +64,9 @@ class Tree extends React.Component {
 
 
 
-
-
     render() {
-return ( <Node data={this.props.data} label={this.props.label} nodes={this.props.nodes} settings={this.settings.rootNode} treeConfig={this.settings} clickCallback={this.props.clickCallback}/> );
+        var rootNodeStyle = this.settings.rootStyle.getStyleFor(null,true);
+return ( <Node style={rootNodeStyle} data={this.props.data} label={this.props.label} nodes={this.props.nodes} settings={this.settings.rootNode} treeConfig={this.settings} clickCallback={this.props.clickCallback}/> );
     }
 
 }

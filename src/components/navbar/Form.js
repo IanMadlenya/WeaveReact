@@ -122,7 +122,7 @@ class Form extends React.Component {
         if(this.settings.enable.value){
             if(!this.props.useCSS){
                 var styleObject = this.settings.style.getStyleFor(null);
-                if((this.props.dock !== "right") && (this.props.dock !== "left") && this.settings.rightAlign){
+                if((this.props.dock !== "right") && (this.props.dock !== "left") && this.settings.rightAlign.state){
                     styleObject["justifyContent"] = "flex-end";
                     //styleObject["marginRight"] = "auto";
                 }

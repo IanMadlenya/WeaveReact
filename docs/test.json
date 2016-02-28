@@ -3,28 +3,11 @@
   "children": [
     {
       "label": "Saudi Kingdom",
-      "children": [
-        {
-          "label": "Saudi Kingdom 1"
-        },
-        {
-          "label": "Saudi Kingdom 2"
-        }
-      ]
+      "children": []
     },
     {
       "label": "Al Joaf",
-      "children": [
-        {
-          "label": "Al Joaf 1"
-        },
-        {
-          "label": "Al Joaf 2"
-        },
-        {
-          "label": "Al Joaf 3"
-        }
-      ]
+      "children": []
     },
     {
       "label": "Tabuk",
