@@ -35,7 +35,9 @@ import weavejs from 'weavejs';*/
 
     p.reset = function () {
         this.label.value = "";
+        this.iconName.value = "";
         this.open.value = false;
+        this.active.value = false;
         this.children.removeAllObjects();
     }
 

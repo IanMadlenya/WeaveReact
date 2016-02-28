@@ -100,6 +100,29 @@ import InlineStyle from "../../configs/InlineStyle";
 
     }
 
+    function setChildrenStateToOpen(parentNode,openNodes){
+        var nodes = parentNode.children.getObjects();
+        if(nodes && nodes.length > 0){
+            nodes.map(function(node){
+                var nodeIndex = openNodes.indexOf(node.label.state);
+                if(nodeIndex > -1){
+                    node.open.value = true;
+                    openNodes.splice(nodeIndex);
+                    setChildrenStateToOpen(parentNode,openNodes);
+                }
+                else{
+                    node.open.value = false;
+                    node.active.value = false;
+                }
+            }.bind(this))
+        }
+    }
+
+    //to-do do this for entire tree rather only for the first child
+    p.setDefaultNodeSelection = function(nodesLabel){
+        setChildrenStateToOpen(this.rootNode,nodesLabel)
+    }
+
     //to-do do this for entire tree rather only for the first child
     p.setOpenNodes = function(nodesLabel){
         var rootNodes = this.rootNode.children.getObjects();
@@ -124,7 +147,6 @@ import InlineStyle from "../../configs/InlineStyle";
                     if(!activeNodeChild)
                         this.activeNode.open.value = false;
                 }
-
             }
         }
         this.activeNode = nodeConfig;

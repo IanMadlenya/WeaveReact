@@ -13,24 +13,37 @@ class Node extends React.Component {
         this.getTreeNodes = this.getTreeNodes.bind(this);
         this.getTreeLabel = this.getTreeLabel.bind(this);
         this.getIconName = this.getIconName.bind(this);
-        this.setSessionStateFromTree = this.setSessionStateFromTree.bind(this);
+        this.createSessionStateForTree = this.createSessionStateForTree.bind(this);
+        this.showChildren = this.showChildren.bind(this);
+        this.childrenCallback = this.childrenCallback.bind(this);
         this.renderChildren = this.renderChildren.bind(this);
-        this.setSessionStateFromTree(this.props.data,this.props.label,this.props.nodes,this.props.icon);
-        this.propsManager = new PropsManager()
+        this.propsManager = new PropsManager();
+        this.isSessionStateCreatedForTreeData = false;
     }
 
-    componentDidMount(){
-        this.settings.open.addImmediateCallback(this, this.forceUpdate);
-        this.settings.children.childListCallbacks.addImmediateCallback(this, this.forceUpdate);
+    addCallbacks(){
+        this.settings.open.addImmediateCallback(this, this.showChildren);
+        this.settings.children.childListCallbacks.addGroupedCallback(this, this.childrenCallback);
         this.settings.label.addImmediateCallback(this, this.forceUpdate);
         this.settings.active.addImmediateCallback(this, this.forceUpdate);
     }
 
-    componentWillUnmount () {
-        this.settings.open.removeCallback(this, this.forceUpdate);
-        this.settings.children.childListCallbacks.removeCallback(this, this.forceUpdate);
+    removeCallbacks(){
+        this.settings.open.removeCallback(this, this.showChildren);
+        this.settings.children.childListCallbacks.removeCallback(this, this.childrenCallback);
         this.settings.label.removeCallback(this, this.forceUpdate);
         this.settings.active.removeCallback(this, this.forceUpdate);
+    }
+
+
+
+    componentDidMount(){
+        this.addCallbacks();
+        this.createSessionStateForTree();
+    }
+
+    componentWillUnmount () {
+       this.removeCallbacks();
     }
 
     toggle(){
@@ -40,19 +53,38 @@ class Node extends React.Component {
         this.props.treeConfig.changeActiveNode(this.settings)
     }
 
+    childrenCallback(){
+        console.log("childrenCallback");
+        this.forceUpdate();
+    }
 
-    setSessionStateFromTree(data,label,nodes,icon) {
+
+
+    createSessionStateForTree(data,label,nodes,icon) {
+        if(data){ // calling with data arguments indicates data is changed so wipe the session state
+             this.settings.reset();
+        }
         this.settings.label.value = this.getTreeLabel(data,label);
         this.settings.iconName.value = this.getIconName(data,icon);
         var treeNodes = this.getTreeNodes(data,nodes);
-        if (treeNodes && treeNodes.length) {
+
+        if(treeNodes && treeNodes.length){
             this.settings.children.delayCallbacks();
-            for (var i = 0; i < treeNodes.length; i++) {
+            for(var i = 0; i < treeNodes.length; i++){
                 var objectName = "node" + i;
                 this.settings.children.requestObject(objectName, NodeConfig);
             }
             this.settings.children.resumeCallbacks();
         }
+        this.isSessionStateCreatedForTreeData = true;
+    }
+
+    showChildren(){
+        console.log("open Callback");
+        if(!this.isSessionStateCreatedForTreeData){
+            this.createSessionStateForTree()
+        }
+        this.forceUpdate();
     }
 
     getTreeNodes(data,nodes){
@@ -66,7 +98,6 @@ class Node extends React.Component {
             }
         }
         else return [];
-
     }
 
     getIconName(data,icon){
@@ -102,7 +133,7 @@ class Node extends React.Component {
 
     componentWillReceiveProps(nextProps){
         if(this.props.data !== nextProps.data){
-            this.setSessionStateFromTree(nextProps.data,nextProps.label,nextProps.nodes,nextProps.icon);
+            this.createSessionStateForTree(nextProps.data,nextProps.label,nextProps.nodes,nextProps.icon);
         }
     }
 
@@ -113,7 +144,7 @@ class Node extends React.Component {
         this.propsManager.addNewProps("nodes",this.props.nodes);
         this.propsManager.addNewProps("icon",this.props.icon);
         this.propsManager.addNewProps("clickCallback",this.props.clickCallback);
-        var treeNodes = this.getTreeNodes(this.props.data,this.props.nodes);
+        var treeNodes = this.getTreeNodes();
         this.propsManager.addKeyProps("data",treeNodes);
         return App.renderChildren(this, this.propsManager);
     }

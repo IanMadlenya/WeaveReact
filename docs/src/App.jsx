@@ -37,12 +37,14 @@ class App extends React.Component {
         this.treeConfig.leafIcon.value = "fa fa-square-o";
         this.treeConfig.leafOpenIcon.value = "fa fa-check-square-o";
         this.treeConfig.enableDataTypeIcon.value = false;
-        this.treeConfig.allowMultipleSelection.value = "false";
+        this.treeConfig.allowMultipleSelection.value = true;
         this.treeConfig.leafStyle.other.state = {
             borderTop:"1px solid #1e5e9f",
             paddingTop: "8px",
             paddingBottom:"8px"
         }
+
+
 
 
         this.treeConfig.rootStyle.other.state = {
@@ -99,15 +101,15 @@ class App extends React.Component {
     }
 
     popUpSessionEditor(config,weaveInstance,title,isDb) {
-        ReactDOM.render( <SessionEditor isDashboard={isDb} weave={weaveInstance} keyPress = "true" title={title} settings = {config}/>,document.getElementById("popUp")
-                       );
+        ReactDOM.render( <SessionEditor isDashboard={isDb} weave={weaveInstance} keyPress = "true" title={title} settings = {config}/>,document.getElementById("popUp"));
     }
 
 
-
+    componentDidUpdate(){
+        this.treeConfig.setDefaultNodeSelection(['Al Joaf','Tabuk 1'])
+    }
 
     render() {
-
 
         return (<div>
                     <div id="popUp"/>
