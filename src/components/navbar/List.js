@@ -10,7 +10,7 @@ class List extends React.Component {
     constructor(props){
         super(props);
         this.settings = this.props.settings;
-        if(this.props.children)App.hookSessionStateForComponentChildren(this.props.children,this.settings);
+        App.hookSessionStateForComponentChildren(this.props.children,this.settings);
         this.addCallbacks = this.addCallbacks.bind(this);
         this.removeCallbacks = this.removeCallbacks.bind(this);
         this.propsManager = new PropsManager();

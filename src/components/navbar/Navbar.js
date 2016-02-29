@@ -21,7 +21,7 @@ class Navbar extends React.Component {
         this.settings = this.props.settings ? this.props.settings : new navbarConfig.Navbar();
         this.getStyle = this.getStyle.bind(this);
         this.renderChildren = this.renderChildren.bind(this);
-        if(this.props.children)App.hookSessionStateForComponentChildren(this.props.children,this.settings);
+        App.hookSessionStateForComponentChildren(this.props.children,this.settings);
         this.addCallbacks = this.addCallbacks.bind(this);
         this.removeCallbacks = this.removeCallbacks.bind(this);
         this.propsManager =  new PropsManager()
