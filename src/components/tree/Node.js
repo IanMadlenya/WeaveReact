@@ -122,6 +122,8 @@ class Node extends React.Component {
                 return data[icon]();
             }else if(icon instanceof Function){
                 return icon(data);
+            }else{
+                return data[icon];
             }
         }else{
             return "";
