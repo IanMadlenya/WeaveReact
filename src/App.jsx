@@ -129,7 +129,7 @@ class App extends React.Component {
 
                 <div style={{marginTop:"60px"}}>
                         <div style={{width:"240px",color:"white", border:"1px solid grey",background:"linear-gradient(to right, #036FBB , #013458)"}}>
-                            <Tree data={this.tree} settings={this.treeConfig} label="label" nodes="children"/>
+                            <Tree data={this.tree} settings={this.treeConfig} label="label" nodes="children" icon="icon"/>
                         </div>
                     </div>
 
