@@ -120,8 +120,8 @@ class Node extends React.Component {
        if(data){
             if(data[icon] instanceof Function){
                 return data[icon]();
-            }else{
-                return data[icon];
+            }else if(icon instanceof Function){
+                return icon(data);
             }
         }else{
             return "";
@@ -184,7 +184,7 @@ class Node extends React.Component {
 
                 var folderUI = <span style={nodeStyle} onClick={this.toggle}>
                                     <i className={iconName} ></i>
-                                    {label}
+                                    &nbsp;{label}
                                     <span style={{flex:"1"}}/>
                                     <i className={controlName} ></i>
                                 </span>;
@@ -204,7 +204,7 @@ class Node extends React.Component {
 
                 nodeUI = <li style={leafStyle} onClick={this.toggle}>
                             <i className={iconName} ></i>
-                            {label}
+                            &nbsp;{label}
                             <span style={{flex:"1"}}/>
                             <i className={fileIcon}></i>
                          </li>
