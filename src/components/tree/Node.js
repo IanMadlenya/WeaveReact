@@ -72,7 +72,16 @@ class Node extends React.Component {
             this.settings.children.delayCallbacks();
             for(var i = 0; i < treeNodes.length; i++){
                 var objectName = "node" + i;
-                this.settings.children.requestObject(objectName, NodeConfig);
+                var nodeConfig = this.settings.children.requestObject(objectName, NodeConfig);
+                var nodeLabel = this.getTreeLabel(treeNodes[i])
+                nodeConfig.label.state = nodeLabel;
+                var nodeIcon = this.getIconName(treeNodes[i])
+                nodeConfig.iconName.state = nodeIcon;
+                if(this.props.treeConfig.defaultSelectedNodes.length>0){
+                    if(this.props.treeConfig.defaultSelectedNodes.indexOf(nodeLabel) !== -1){
+                        nodeConfig.open.value = true;
+                    }
+                }
             }
             this.settings.children.resumeCallbacks();
         }
@@ -134,6 +143,9 @@ class Node extends React.Component {
     componentWillReceiveProps(nextProps){
         if(this.props.data !== nextProps.data){
             this.createSessionStateForTree(nextProps.data,nextProps.label,nextProps.nodes,nextProps.icon);
+        }
+        if(this.props.open !== nextProps.open){
+            this.settings.open.value = nextProps.open;
         }
     }
 

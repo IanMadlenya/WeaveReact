@@ -15,12 +15,15 @@ import weavejs from 'weavejs';*/
                 value: Weave.linkableChild(this, new weavejs.core.LinkableString())
             },
             "open": {
-                value: Weave.linkableChild(this, new weavejs.core.LinkableBoolean(false))
+                value: Weave.linkableChild(this, new weavejs.core.LinkableBoolean())
             },
             "active": {
-                value: Weave.linkableChild(this, new weavejs.core.LinkableBoolean(false))
+                value: Weave.linkableChild(this, new weavejs.core.LinkableBoolean())
             }
         });
+
+        this.open.state = false;
+        this.active.state = false;
 
         this.childConfigMap = new Map();
         this.configChildMap = new Map();

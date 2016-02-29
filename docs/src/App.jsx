@@ -55,8 +55,9 @@ class App extends React.Component {
         this.treeConfig.nodeStyle.other.state = {
             paddingTop: "8px",
             paddingBottom:"8px"
-
         }
+        this.treeConfig.setDefaultNodeSelection(['Al Joaf','Tabuk 1'])
+        this.treeConfig.rootNode.open.state = true;
 
         this.tree=null;
         this.loadJSON = this.loadJSON.bind(this);
@@ -106,7 +107,7 @@ class App extends React.Component {
 
 
     componentDidUpdate(){
-        this.treeConfig.setDefaultNodeSelection(['Al Joaf','Tabuk 1'])
+
     }
 
     render() {

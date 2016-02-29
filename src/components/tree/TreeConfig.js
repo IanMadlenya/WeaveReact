@@ -76,7 +76,7 @@ import InlineStyle from "../../configs/InlineStyle";
             "background" : "orange"
         }
 
-
+        this.defaultSelectedNodes = [];
     }
 
 
@@ -107,8 +107,8 @@ import InlineStyle from "../../configs/InlineStyle";
                 var nodeIndex = openNodes.indexOf(node.label.state);
                 if(nodeIndex > -1){
                     node.open.value = true;
-                    openNodes.splice(nodeIndex);
-                    setChildrenStateToOpen(parentNode,openNodes);
+                    openNodes.splice(nodeIndex,1);
+                    setChildrenStateToOpen(node,openNodes);
                 }
                 else{
                     node.open.value = false;
@@ -120,7 +120,8 @@ import InlineStyle from "../../configs/InlineStyle";
 
     //to-do do this for entire tree rather only for the first child
     p.setDefaultNodeSelection = function(nodesLabel){
-        setChildrenStateToOpen(this.rootNode,nodesLabel)
+        this.defaultSelectedNodes = nodesLabel
+        //setChildrenStateToOpen(this.rootNode,nodesLabel)
     }
 
     //to-do do this for entire tree rather only for the first child
@@ -164,7 +165,6 @@ import InlineStyle from "../../configs/InlineStyle";
             }
         }else
             return "";
-
     }
 
     p.getFolderIcon = function ( isOpen) {
