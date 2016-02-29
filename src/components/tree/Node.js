@@ -77,11 +77,6 @@ class Node extends React.Component {
                 nodeConfig.label.state = nodeLabel;
                 var nodeIcon = this.getIconName(treeNodes[i])
                 nodeConfig.iconName.state = nodeIcon;
-                if(this.props.treeConfig.defaultSelectedNodes.length>0){
-                    if(this.props.treeConfig.defaultSelectedNodes.indexOf(nodeLabel) !== -1){
-                        nodeConfig.open.value = true;
-                    }
-                }
             }
             this.settings.children.resumeCallbacks();
         }
@@ -89,9 +84,17 @@ class Node extends React.Component {
     }
 
     showChildren(){
-        console.log("open Callback");
         if(!this.isSessionStateCreatedForTreeData){
             this.createSessionStateForTree()
+        }
+        if(this.props.treeConfig.defaultSelectedNodes.length>0){
+            var nodeConfigs = this.settings.children.getObjects();
+            nodeConfigs.map(function(nodeConfig,index){
+                var nodeLabel = nodeConfig.label.state;
+                if(this.props.treeConfig.defaultSelectedNodes.indexOf(nodeLabel) !== -1){
+                    nodeConfig.open.value = true;
+                }
+            }.bind(this));
         }
         this.forceUpdate();
     }
