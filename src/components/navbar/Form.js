@@ -1,15 +1,16 @@
 import React from "react";
 import Style from "../../utils/Style";
 import App from "../../utils/App";
+import PropsManager from "../PropsManager";
 
 class Form extends React.Component {
 
     constructor(props) {
         super(props);
-        this.settings = this.props.settings;
-        App.hookSessionStateForComponentChildren(this.props.children,this.settings);
+        this.settings = this.props.settings; App.hookSessionStateForComponentChildren(this.props.children,this.settings);
         this.addCallbacks = this.addCallbacks.bind(this);
         this.removeCallbacks = this.removeCallbacks.bind(this);
+        this.propsManager =  new PropsManager()
 
     }
 
@@ -40,7 +41,7 @@ class Form extends React.Component {
         this.settings.rightAlign.addImmediateCallback(this, this.forceUpdate);
         this.settings.space.addImmediateCallback(this, this.forceUpdate);
         this.settings.addGapAt.addImmediateCallback(this, this.forceUpdate);
-        //this.settings.children.childListCallbacks.addImmediateCallback(this, this.forceUpdate);
+        this.settings.children.childListCallbacks.addImmediateCallback(this, this.forceUpdate);
     }
 
     removeCallbacks() {
@@ -49,7 +50,7 @@ class Form extends React.Component {
         this.settings.rightAlign.removeCallback(this, this.forceUpdate);
         this.settings.space.removeCallback(this, this.forceUpdate);
         this.settings.addGapAt.removeCallback(this, this.forceUpdate);
-        //this.settings.children.childListCallbacks.removeCallback(this, this.forceUpdate);
+        this.settings.children.childListCallbacks.removeCallback(this, this.forceUpdate);
     }
 
 
@@ -57,10 +58,23 @@ class Form extends React.Component {
         this.removeCallbacks();
     }
 
+    renderChildren(){
+        var childStyleObject={};
+        var space = this.settings.space.value;
+        if((this.props.dock === "right") || (this.props.dock === "left")){
+            childStyleObject["marginBottom"] = space;
+        }
+        else if((this.props.dock === "top") || (this.props.dock === "bottom")){
+            childStyleObject["marginRight"] = space;
+        }
 
+        this.propsManager.updateStyle(childStyleObject);
+        this.propsManager.addKeyProps("pageName");
+         return App.renderChildren(this,this.propsManager);
+    }
 
     shouldComponentUpdate(nextProps){
-        if(this.props.positionType !== nextProps.positionType){
+        if(this.props.dock !== nextProps.dock){
             return true
         }else if(this.props.position !== nextProps.position){
             return true
@@ -72,77 +86,24 @@ class Form extends React.Component {
     }
 
 
-    renderChildren(CSS){
-        var childStyleObject={};
-        var space = this.settings.space.value;
-        if((this.props.dock === "right") || (this.props.dock === "left")){
-            childStyleObject["marginBottom"] = space;
-        }
-        else if((this.props.dock === "top") || (this.props.dock === "bottom")){
-            childStyleObject["marginRight"] = space;
-        }
 
-        var childConfigs = this.settings.children.getObjects();
-        var clonedChildren = childConfigs.map(function(childConfig,index){
-            var child = this.settings.configChildMap.get(childConfig);
-            var configName = this.settings.children.getName(childConfig);
-            if(child){
-                var props = App.mergeInto({},child.props);
-
-                props["settings"] = childConfig;
-                props["key"] = configName;
-
-                if(CSS){
-                    props["className"] = CSS[childName];
-                }else{
-                    props["style"] = childStyleObject;
-                }
-
-                if(this.settings.childConfigMap.has(child))
-                    this.settings.childConfigMap.delete(child);
-                var clonedChild = React.cloneElement(child,props);
-                this.settings.configChildMap.set(childConfig,clonedChild);
-                this.settings.childConfigMap.set(clonedChild,childConfig);
-                return clonedChild;
-             }else{
-                var configClass = Weave.getPath(childConfig).getType();
-                var ToolClass =  App.getToolImplementation(configClass);
-                var configName =  this.settings.children.getName(childConfig);
-                var newChild = <ToolClass key={configName}  settings={childConfig}/>;
-                return newChild;
-             }
-
-        }.bind(this));
-
-        return clonedChildren;
-    }
 
 
 
     render() {
         var navFormUI = <div/>;
         if(this.settings.enable.value){
-            if(!this.props.useCSS){
-                var styleObject = this.settings.style.getStyleFor(null);
-                if((this.props.dock !== "right") && (this.props.dock !== "left") && this.settings.rightAlign.state){
-                    styleObject["justifyContent"] = "flex-end";
-                    //styleObject["marginRight"] = "auto";
-                }
-                styleObject = Style.appendVendorPrefix(styleObject);
-            }
-
-
-            var controllersUI = []
+            var styleObject = this.settings.style.getStyleFor(null);
+            var cssName = this.settings.CSS.getCSSFor();
+            var childrenUI = this.renderChildren();
 
             if(this.props.useCSS){
-                controllersUI = this.renderChildren(this.props.CSS)
-                navFormUI = <div  className={this.props.css} >
-                                {controllersUI}
+                navFormUI = <div  className={cssName} >
+                                {childrenUI}
                             </div>
             }else{
-                controllersUI = this.renderChildren(null)
                 navFormUI = <div  style={styleObject} >
-                                {controllersUI}
+                                {childrenUI}
                             </div>
             }
 
