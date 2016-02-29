@@ -29,7 +29,7 @@ class NavConfig {
             }
         });
 
-        this.addGapAt.state = 0;
+        //this.addGapAt.state = 0;
         this.childConfigMap = new Map();
         this.configChildMap = new Map();
         //initial default values
@@ -276,7 +276,7 @@ class FormConfig {
 
         this.childConfigMap = new Map();
         this.configChildMap = new Map();
-        this.addGapAt.state = 0;
+        //this.addGapAt.state = 0;
         this.style.display.value = "flex";
         this.style.other.state = {
             flexDirection:"inherit",

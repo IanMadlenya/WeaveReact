@@ -126,9 +126,11 @@ class App {
                 props["key"] = configName;
                 if(configName === "gapDiv"){
                     var orderValue = String(reactComp.settings.addGapAt.state);
-                    props["style"] = {
-                        flex:"1",
-                        order:orderValue
+                    if(!isNaN(orderValue)){
+                        props["style"] = {
+                            flex:"1",
+                            order:orderValue
+                        }
                     }
                 }
                 //to-do need to replace with flexinfo file or tiher mean, create a utility function

@@ -39,6 +39,7 @@ class Form extends React.Component {
         Weave.getCallbacks(this.settings.style).addImmediateCallback(this, this.forceUpdate);
         this.settings.rightAlign.addImmediateCallback(this, this.forceUpdate);
         this.settings.space.addImmediateCallback(this, this.forceUpdate);
+        this.settings.addGapAt.addImmediateCallback(this, this.forceUpdate);
         //this.settings.children.childListCallbacks.addImmediateCallback(this, this.forceUpdate);
     }
 
@@ -47,6 +48,7 @@ class Form extends React.Component {
         Weave.getCallbacks(this.settings.style).removeCallback(this, this.forceUpdate);
         this.settings.rightAlign.removeCallback(this, this.forceUpdate);
         this.settings.space.removeCallback(this, this.forceUpdate);
+        this.settings.addGapAt.removeCallback(this, this.forceUpdate);
         //this.settings.children.childListCallbacks.removeCallback(this, this.forceUpdate);
     }
 

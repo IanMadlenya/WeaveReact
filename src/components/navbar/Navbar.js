@@ -78,6 +78,7 @@ class Navbar extends React.Component {
         Weave.getCallbacks(this.settings.CSS).addImmediateCallback(this,this.forceUpdate);
         this.settings.useCSS.addImmediateCallback(this,this.forceUpdate);
         this.settings.dock.addImmediateCallback(this,this.forceUpdate);
+        this.settings.addGapAt.addImmediateCallback(this,this.forceUpdate);
         this.settings.children.childListCallbacks.addGroupedCallback(this,this.forceUpdate);
     }
 
@@ -86,6 +87,7 @@ class Navbar extends React.Component {
         Weave.getCallbacks(this.settings.CSS).removeCallback(this,this.forceUpdate);
         this.settings.useCSS.removeCallback(this,this.forceUpdate);
         this.settings.dock.removeCallback(this,this.forceUpdate);
+        this.settings.addGapAt.removeCallback(this,this.forceUpdate);
         this.settings.children.childListCallbacks.removeCallback(this,this.forceUpdate);
     }
     componentWillUnmount(){
