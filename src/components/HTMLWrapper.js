@@ -47,7 +47,7 @@ class HTMLWrapper extends React.Component {
             childrenUI = this.renderChildren(null);
         }
 
-        return (<div>
+        return (<div style={this.props.style}>
                     {childrenUI}
                 </div>
         );

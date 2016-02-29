@@ -18,6 +18,9 @@ class NavConfig {
             children:{
                 value: Weave.linkableChild(this, new weavejs.core.LinkableHashMap())
             },
+            "addGapAt":{
+                value: Weave.linkableChild(this, new weavejs.core.LinkableNumber())
+            },
             "useCSS":{
                 value: Weave.linkableChild(this, new weavejs.core.LinkableBoolean(false))
             },
@@ -26,6 +29,7 @@ class NavConfig {
             }
         });
 
+        this.addGapAt.state = 0;
         this.childConfigMap = new Map();
         this.configChildMap = new Map();
         //initial default values
@@ -259,6 +263,9 @@ class FormConfig {
             "children": {
                 value: Weave.linkableChild(this, new weavejs.core.LinkableHashMap())
             },
+            "addGapAt":{
+                value: Weave.linkableChild(this, new weavejs.core.LinkableNumber())
+            },
             "space": {
                 value: Weave.linkableChild(this, new weavejs.core.LinkableString("2px"))
             },
@@ -269,7 +276,7 @@ class FormConfig {
 
         this.childConfigMap = new Map();
         this.configChildMap = new Map();
-
+        this.addGapAt.state = 0;
         this.style.display.value = "flex";
         this.style.other.state = {
             flexDirection:"inherit",
@@ -278,7 +285,6 @@ class FormConfig {
 
         this.style.margin.state = {
             margin:"4px",
-
         };
     }
 }

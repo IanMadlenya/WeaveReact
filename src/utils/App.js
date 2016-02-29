@@ -55,6 +55,10 @@ class App {
             config.childConfigMap.set(child,childConfig);
             config.configChildMap.set(childConfig,child);
         });
+
+        if(config["addGapAt"]){
+            config.children.requestObject('gapDiv',HTMLWrapperConfig);
+        }
         config.children.resumeCallbacks();
     }
 
@@ -120,6 +124,13 @@ class App {
                 }
              }else{
                 props["key"] = configName;
+                if(configName === "gapDiv"){
+                    var orderValue = String(reactComp.settings.addGapAt.state);
+                    props["style"] = {
+                        flex:"1",
+                        order:orderValue
+                    }
+                }
                 //to-do need to replace with flexinfo file or tiher mean, create a utility function
                 //this solution will fail when config not part of session tree
                 var configClass = childConfig.FLEXJS_CLASS_INFO.names[0].qName;

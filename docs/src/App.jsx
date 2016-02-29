@@ -119,7 +119,6 @@ class App extends React.Component {
                             <Navbar.Link key="link1"/>
                             <Navbar.Link key="link2"/>
                         </Navbar.List>
-                        <div style={{color:"red" , flex:"1"}}></div>
                         <Navbar.Form key="form">
                             <div key="form1">Form1</div>
                             <div key="di">Form2</div>
