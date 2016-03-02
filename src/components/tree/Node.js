@@ -54,7 +54,6 @@ class Node extends React.Component {
     }
 
     childrenCallback(){
-        console.log("childrenCallback");
         this.forceUpdate();
     }
 

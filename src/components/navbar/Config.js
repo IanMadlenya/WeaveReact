@@ -29,9 +29,10 @@ class NavConfig {
             }
         });
 
-        //this.addGapAt.state = 0;
         this.childConfigMap = new Map();
         this.configChildMap = new Map();
+
+
         //initial default values
         this.CSS.state = {
             navbar:"navbar navbar-default",
@@ -58,6 +59,8 @@ class NavConfig {
         this.style.padding.state = {padding:"4px"};
         this.style.background.state = "#F8F8F8";
     }
+
+
 }
 
 

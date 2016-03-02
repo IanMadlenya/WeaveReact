@@ -11,76 +11,35 @@ class List extends React.Component {
         super(props);
         this.settings = this.props.settings;
         App.hookSessionStateForComponentChildren(this.props.children,this.settings);
-        this.addCallbacks = this.addCallbacks.bind(this);
-        this.removeCallbacks = this.removeCallbacks.bind(this);
+        App.addForceUpdateToCallbacks(this);
         this.propsManager = new PropsManager();
-        this.updateRender = this.updateRender.bind(this);
-
+        if(App.debug)console.log("List - constructor");
     }
 
     componentWillReceiveProps(nextProps){
-        if(this.props.settings !== nextProps.settings){
-            if(nextProps.settings){
-                this.removeCallbacks();
-                this.settings = nextProps.settings;
-                this.addCallbacks();
-            }
-        }
-        if(this.props.style !== nextProps.style){// user style added through UI is Sessioned
-            if(nextProps.style)this.settings.style.domDefined.state = nextProps.style;
-        }
-        if(this.props.children !== nextProps.children){
-            App.hookSessionStateForComponentChildren(nextProps.children,this.settings);
-        }
-
-    }
-
-    componentDidMount(){
-        this.addCallbacks()
-    }
-
-    addCallbacks(){
-       // Weave.getCallbacks(this.settings).addGroupedCallback(this,this.updateRender);
-        this.settings.enable.addImmediateCallback(this, this.forceUpdate);
-        Weave.getCallbacks(this.settings.style).addImmediateCallback(this, this.forceUpdate);
-        Weave.getCallbacks(this.settings.CSS).addImmediateCallback(this, this.forceUpdate);
-        this.settings.space.addImmediateCallback(this, this.forceUpdate);
-        this.settings.align.addImmediateCallback(this, this.forceUpdate);
-        this.settings.activePage.addImmediateCallback(this, this.forceUpdate);
-        this.settings.children.childListCallbacks.addImmediateCallback(this, this.forceUpdate);
-    }
-
-    updateRender(){
-        if(Weave.detectChange(this,this.settings.enable,this.settings.style,this.settings.space,this.settings.align,this.settings.activePage,this.settings.children.childListCallbacks)){
-            this.forceUpdate();
-        }
+        if(App.debug)console.log("List - componentWillReceiveProps");
+        App.componentWillReceiveProps(this,nextProps);
     }
 
 
-    removeCallbacks(){
-         //Weave.getCallbacks(this.settings).removeCallback(this,this.updateRender)
-        this.settings.enable.removeCallback(this, this.forceUpdate);
-        Weave.getCallbacks(this.settings.style).removeCallback(this, this.forceUpdate);
-        Weave.getCallbacks(this.settings.CSS).removeCallback(this, this.forceUpdate);
-        this.settings.space.removeCallback(this, this.forceUpdate);
-        this.settings.align.removeCallback(this, this.forceUpdate);
-        this.settings.activePage.removeCallback(this, this.forceUpdate);
-        this.settings.children.childListCallbacks.removeCallback(this, this.forceUpdate);
-    }
     componentWillUnmount(){
-        this.removeCallbacks();
+        if(App.debug)console.log("List - componentWillUnmount");
+         App.removeForceUpdateFromCallbacks(this);
     }
 
-
+    // called only when React Parent render is called
     shouldComponentUpdate(nextProps){
+        console.log(this.settings.space.value);
+        if(App.debug)console.log("List - shouldComponentUpdate");
         if(this.props.dock !== nextProps.dock){
+            if(App.debug)console.log("props.dock changed");
             return true
         }else if(this.props.position !== nextProps.position){
+            if(App.debug)console.log("props.position changed");
             return true
         }else if(this.props.useCSS !== nextProps.useCSS){
+            if(App.debug)console.log("props.useCSS changed");
             return true
-        }else if(Weave.detectChange(this,this.settings.space,this.settings.rightAlign,this.settings.activePage)){
-            return true;
         }else{
             return false
         }
@@ -88,10 +47,14 @@ class List extends React.Component {
 
 
 
+
+
     renderChildren(){
+
         var linkStyleObject={};
         var iconOnly = false;
         var space = this.settings.space.value;
+        console.log(space);
         if((this.props.dock === "right") || (this.props.dock === "left")){
             iconOnly = true;
             linkStyleObject["marginBottom"] = space;
@@ -106,18 +69,17 @@ class List extends React.Component {
         this.propsManager.addKeyProps("pageName");
         this.propsManager.addOddChild(this.settings.activePage.value,{isActive:"true"});
         return  App.renderChildren(this,this.propsManager)
-
     }
 
 
     render() {
+        if(App.debug)console.log("List - render");
         var navLinks = <div/>;
         if(this.settings.enable.value){
             var styleObject = this.settings.style.getStyleFor(null,true);
+            console.log(styleObject);
             var cssName = this.settings.CSS.getCSSFor();
             var childrenUI = this.renderChildren();
-
-
             if(this.props.useCSS){
                 navLinks = <ul className={cssName}>{childrenUI}</ul>;
             }
@@ -125,9 +87,6 @@ class List extends React.Component {
                 navLinks = <ul className={cssName} style={styleObject}>{childrenUI}</ul>;
             }
         }
-
-
-
         return (navLinks);
     }
 

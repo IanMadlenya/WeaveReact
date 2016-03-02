@@ -9,7 +9,6 @@ import Form from "./Form";
 import Link from "./Link";
 import HTMLWrapper from "../HTMLWrapper";
 import navbarConfig from "./Config";
-import Config from "./Config";
 import InlineStyle from "../../configs/InlineStyle";
 import PropsManager from "../PropsManager";
 
@@ -17,35 +16,16 @@ import PropsManager from "../PropsManager";
 class Navbar extends React.Component {
 
     constructor(props){
+         if(App.debug)console.log("Navbar constructor");
         super(props);
         this.settings = this.props.settings ? this.props.settings : new navbarConfig.Navbar();
         this.getStyle = this.getStyle.bind(this);
+
         this.renderChildren = this.renderChildren.bind(this);
         App.hookSessionStateForComponentChildren(this.props.children,this.settings);
-        this.addCallbacks = this.addCallbacks.bind(this);
-        this.removeCallbacks = this.removeCallbacks.bind(this);
-        this.propsManager =  new PropsManager()
-
+        App.addForceUpdateToCallbacks(this);
+        this.propsManager =  new PropsManager();
     }
-
-    componentWillReceiveProps(nextProps){
-        if(this.props.settings !== nextProps.settings){
-            if(nextProps.settings){
-                this.removeCallbacks();
-                this.settings = nextProps.settings;
-                this.addCallbacks();
-            }
-        }
-        if(this.props.style !== nextProps.style){// user style added through UI is Sessioned
-            if(nextProps.style)this.settings.style.domDefined.state = nextProps.style;
-        }
-        if(this.props.children !== nextProps.children){
-            App.hookSessionStateForComponentChildren(nextProps.children,this.settings);
-        }
-
-    }
-
-
 
      getStyle() {
         var styleObject = this.settings.style.getStyleFor(null)
@@ -69,33 +49,28 @@ class Navbar extends React.Component {
         return Style.appendVendorPrefix(styleObject);
     }
 
-    componentDidMount(){
-        this.addCallbacks()
-    }
 
-    addCallbacks(){
-        Weave.getCallbacks(this.settings.style).addImmediateCallback(this,this.forceUpdate);
-        Weave.getCallbacks(this.settings.CSS).addImmediateCallback(this,this.forceUpdate);
-        this.settings.useCSS.addImmediateCallback(this,this.forceUpdate);
-        this.settings.dock.addImmediateCallback(this,this.forceUpdate);
-        this.settings.addGapAt.addImmediateCallback(this,this.forceUpdate);
-        this.settings.children.childListCallbacks.addGroupedCallback(this,this.forceUpdate);
-    }
 
-    removeCallbacks(){
-        Weave.getCallbacks(this.settings.style).removeCallback(this,this.forceUpdate);
-        Weave.getCallbacks(this.settings.CSS).removeCallback(this,this.forceUpdate);
-        this.settings.useCSS.removeCallback(this,this.forceUpdate);
-        this.settings.dock.removeCallback(this,this.forceUpdate);
-        this.settings.addGapAt.removeCallback(this,this.forceUpdate);
-        this.settings.children.childListCallbacks.removeCallback(this,this.forceUpdate);
-    }
     componentWillUnmount(){
-        this.removeCallbacks();
+        if(App.debug)console.log("Navbar componentWillUnmount");
+        App.removeForceUpdateFromCallbacks(this);
     }
+
+
+    componentWillReceiveProps(nextProps){
+        if(App.debug)console.log("Navbar componentWillReceiveProps");
+        App.componentWillReceiveProps(this,nextProps);
+    }
+
+    // weavestate change directly calls forceUpdate, so no need to use Weave.detectChange
+    shouldComponentUpdate(){
+        if(App.debug)console.log("Navbar shouldComponentUpdate");
+        // default return true
+        return false; // this ensures parent render wont render the navbar
+    }
+
 
     renderChildren(){
-
          this.propsManager.addNewProps("dock",this.settings.dock.value);
          this.propsManager.addNewProps("useCSS",this.settings.useCSS.value);
          return App.renderChildren(this,this.propsManager);
@@ -103,7 +78,7 @@ class Navbar extends React.Component {
 
 
     render() {
-
+        if(App.debug)console.log("Navbar ---Render---");
         var styleObj = this.getStyle();
         var cssName = this.settings.CSS.getCSSFor();
         var childrenUI = this.renderChildren();

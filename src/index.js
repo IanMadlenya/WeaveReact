@@ -1,7 +1,9 @@
 import Tree from "./components/tree/Tree";
 import TreeConfig from "./components/tree/TreeConfig";
-import Node from "./components/tree/Node";
-import NodeConfig from "./components/tree/NodeConfig";
+
+import SimpleTreeConfig from "./components/simpleTree/SimpleTreeConfig";
+import SimpleTree from "./components/simpleTree/SimpleTree";
+
 
 import Modal from "./components/modal/Modal";
 import ModalConfig from "./components/modal/ModalConfig";
@@ -17,11 +19,15 @@ import CSS from "./configs/CSS";
 
 
 import App from "./utils/App";
+import Style from "./utils/App";
 import PropsManager from "./components/PropsManager";
 
 
 exports.Tree = Tree;
 exports.TreeConfig = TreeConfig;
+
+exports.SimpleTree = SimpleTree;
+exports.SimpleTreeConfig = SimpleTreeConfig;
 
 exports.Modal = Modal;
 exports.ModalConfig = ModalConfig;
@@ -36,6 +42,9 @@ exports.InlineStyle = InlineStyle;
 exports.CSS = CSS;
 
 exports.PropsManager = PropsManager;
+
+exports.Style = Style;
+
 
 
 exports.registerToolImplementation = function (asClassName, jsClass) {
@@ -59,6 +68,10 @@ exports.getToolConfig = function (toolClass) {
 
 exports.hookSessionStateForComponentChildren = function (ReactChildren,ownerConfig)  {
     return App.hookSessionStateForComponentChildren(ReactChildren,ownerConfig);
+}
+
+exports.componentWillReceiveProps = function(reactComp,nextProps){
+    App.componentWillReceiveProps(reactComp,nextProps);
 }
 
 exports.renderChildren = function (reactComp,propsManager)  {

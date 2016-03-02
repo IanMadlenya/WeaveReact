@@ -8,6 +8,8 @@ class App {
 
     }
 
+
+
     static registerToolImplementation(asClassName, jsClass) {
         if (!App.toolRegistry[asClassName])
             App.toolRegistry[asClassName] = jsClass;
@@ -25,6 +27,110 @@ class App {
     static getToolConfig(tool) {
         return App.toolConfigMap.get(tool);
     }
+
+
+
+    static componentWillReceiveProps(reactComp,nextProps){
+        if(reactComp.props.settings !== nextProps.settings){
+            if(nextProps.settings){
+                App.removeForceUpdateFromCallbacks(reactComp);
+                reactComp.settings = nextProps.settings;
+                App.addForceUpdateToCallbacks(reactComp);
+            }
+        }
+        if(reactComp.props.style !== nextProps.style){// user style added through UI is Sessioned
+            if(nextProps.style)reactComp.settings.style.domDefined.state = nextProps.style;
+        }
+        if(reactComp.props.children !== nextProps.children){
+            App.hookSessionStateForComponentChildren(nextProps.children,reactComp.settings);
+        }
+
+    }
+
+    static addForceUpdateToCallbacks(reactComp){
+        var config = reactComp.settings;
+        if(!Weave.isLinkable(config))
+            console.error(config, " is not a LinkableObject");
+        var propertyNames = Object.getOwnPropertyNames(config);
+        for(var i = 0 ; i < propertyNames.length ; i++){
+            var pn = propertyNames[i];
+            var obj = config[pn];
+            if(Weave.isLinkable(obj)){
+                if(obj instanceof weavejs.core.LinkableHashMap)
+                    obj = obj.childListCallbacks;
+                Weave.getCallbacks(obj).addGroupedCallback(reactComp,reactComp.forceUpdate);
+            }
+        }
+
+
+    }
+
+    static removeForceUpdateFromCallbacks(reactComp){
+        var config = reactComp.settings;
+        if(!Weave.isLinkable(config))
+            console.error(config, " is not a LinkableObject");
+        var propertyNames = Object.getOwnPropertyNames(config);
+        for(var i = 0 ; i < propertyNames.length ; i++){
+            var pn = propertyNames[i];
+            var obj = config[pn];
+            if(Weave.isLinkable(obj)){
+                if(obj instanceof weavejs.core.LinkableHashMap)
+                    obj = obj.childListCallbacks;
+                Weave.getCallbacks(obj).removeCallback(reactComp,reactComp.forceUpdate);
+            }
+        }
+
+
+    }
+
+
+    //For testing  and debug
+    static isSessionChangedFor(config){
+        if(!Weave.isLinkable(config))
+            console.error(config, " is not a LinkableObject");
+        var propertyNames = Object.getOwnPropertyNames(config);
+        var linkbleObject = null;
+        var moreLinkableObjects = [];
+        for(var i = 0 ; i < propertyNames.length ; i++){
+            var pn = propertyNames[i];
+            var obj = config[pn];
+            if(Weave.isLinkable(obj)){
+                var lo = (obj instanceof weavejs.core.LinkableHashMap)? obj.childListCallbacks : obj
+                if(!linkbleObject) linkbleObject = lo;
+                else moreLinkableObjects.push(lo);
+            }
+        }
+
+        if(App.debug){
+            var isChanged = false;
+            if(moreLinkableObjects.length > 0){
+
+                for(var i = 0 ; i < moreLinkableObjects.length ; i++){
+                    isChanged = Weave.detectChange(config, moreLinkableObjects[i])
+                    if(isChanged){
+                        console.log( moreLinkableObjects[i] , " changed");
+                    }
+                }
+            }
+            else if(linkbleObject){
+                isChanged =  Weave.detectChange(config, linkbleObject);
+                if(isChanged){
+                    console.log( linkbleObject , " changed");
+                }
+            }else{
+                console.log( config , " no session Children");
+            }
+        }
+
+        if(moreLinkableObjects.length > 0)
+            return Weave.detectChange(config, linkbleObject , moreLinkableObjects)
+        else if(linkbleObject)
+            return Weave.detectChange(config, linkbleObject);
+        else
+            return false;
+    }
+
+
 
     static hookSessionStateForComponentChildren(children,config){
         config.children.delayCallbacks();
@@ -101,7 +207,8 @@ class App {
                     App.mergeInto(props,propsManager.new);
                 }
 
-                if(props.style && propsManager.style){
+                if( propsManager.style){
+                    props.style = props.style || {};
                     App.mergeInto(props.style,propsManager.style);
                 }
 
@@ -156,6 +263,7 @@ class App {
 
 App.toolRegistry = {};
 App.toolConfigMap =  new Map();
+App.debug = true;
 
 export default App;
 

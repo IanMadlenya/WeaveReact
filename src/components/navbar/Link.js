@@ -9,8 +9,6 @@ class Link extends React.Component {
         this.removeCallbacks = this.removeCallbacks.bind(this);
     }
 
-
-
     componentDidMount() {
         this.addCallbacks();
     }
@@ -31,7 +29,6 @@ class Link extends React.Component {
     componentWillUnmount() {
         this.removeCallbacks();
     }
-
 
 
     componentWillReceiveProps(nextProps){
