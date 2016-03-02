@@ -6,6 +6,9 @@ import {navbarConfig} from "../../lib/index.js";
 import {Tree} from "../../lib/index.js";
 import {TreeConfig} from "../../lib/index.js";
 
+import {SimpleTree} from "../../lib/index.js";
+import {SimpleTreeConfig} from "../../lib/index.js";
+
 class App extends React.Component {
 
     constructor(props) {
@@ -30,6 +33,7 @@ class App extends React.Component {
         linkConfig.iconName.value = "fa fa-folder";*/
 
         this.treeConfig = window.dbweave.root.requestObject('tree',TreeConfig);
+        this.simpleTreeConfig = window.dbweave.root.requestObject('simpleTree',SimpleTreeConfig);
         this.treeConfig.nodePadding.value ="16px";
         this.treeConfig.align.value = "right";
         this.treeConfig.nodeIcon.value = "fa fa-caret-right";
@@ -59,17 +63,47 @@ class App extends React.Component {
         this.treeConfig.setDefaultNodeSelection(['Al Joaf','Tabuk 1'])
         this.treeConfig.rootNode.open.state = true;
 
-        this.tree=null;
-        this.loadJSON = this.loadJSON.bind(this);
-        this.loadJSON(function(response){
+        this.tree={
+          "label": "Locations",
+          "children": [
+            {
+              "label": "Saudi Kingdom",
+              "children": []
+            },
+            {
+              "label": "Al Joaf",
+              "children": [],
+                "icon":"fa fa-heartbeat"
+            },
+            {
+              "label": "Tabuk",
+              "children": [
+                {
+                  "label": "Tabuk 1"
+                },
+                {
+                  "label": "Tabuk 2"
+                },
+                {
+                  "label": "Tabuk 3"
+                }
+              ]
+            }
+
+          ]
+        };
+        //this.loadJSON = this.loadJSON.bind(this);
+        /*this.loadJSON(function(response){
             this.tree = JSON.parse(response);
             console.log(this.tree);
             this.forceUpdate();
-        }.bind(this))
+        }.bind(this))*/
 
 
 
     }
+
+
 
      loadJSON(callback) {
 
@@ -102,9 +136,14 @@ class App extends React.Component {
     }
 
     popUpSessionEditor(config,weaveInstance,title,isDb) {
-        ReactDOM.render( <SessionEditor isDashboard={isDb} weave={weaveInstance} keyPress = "true" title={title} settings = {config}/>,document.getElementById("popUp"));
+        ReactDOM.render( <SessionEditor isDashboard={isDb} weave={weaveInstance} keyPress = "true" title={title} settings = {config}/>,document.getElementById("popUp")
+        );
     }
 
+
+    treeClick(node, open , active){
+          console.log(node, open, active);
+    }
 
     componentDidUpdate(){
 
@@ -130,6 +169,8 @@ class App extends React.Component {
                 <div style={{marginTop:"60px"}}>
                         <div style={{width:"240px",color:"white", border:"1px solid grey",background:"linear-gradient(to right, #036FBB , #013458)"}}>
                             <Tree data={this.tree} settings={this.treeConfig} label="label" nodes="children" icon="icon"/>
+                            <SimpleTree data={this.tree} settings={this.simpleTreeConfig} label="label" children="children" click={this.treeClick}/>
+
                         </div>
                     </div>
 
