@@ -1,64 +1,75 @@
 import React from "react";
 import Style from "../../utils/Style";
 import App from "../../utils/App";
+import PropsManager from "../PropsManager";
+import tabsConfig from "./Config";
+import Tab from "./Tab";
 
 
 
 class Tabs extends React.Component {
 
     constructor(props) {
+        if(App.debug)console.log("Tabs constructor");
         super(props);
-        this.settings = this.props.settings ? this.props.settings:new TabsConfig();
-        App.hookSessionStateForComponentChildren(this.props.children,this.settings);
-        this.addCallbacks = this.addCallbacks.bind(this);
-        this.removeCallbacks = this.removeCallbacks.bind(this);
-        this.propsManager =  new PropsManager()
+        this.settings = this.props.settings ? this.props.settings:new tabsConfig.Tabs();
+        this.WrapperConfigClass = Tab;
+        App.hookSessionStateForComponentChildren(this.props.children,this.settings,this.WrapperConfigClass);
+        App.addForceUpdateToCallbacks(this);
+        this.propsManager =  new PropsManager();
 
+        this.renderChildren = this.renderChildren.bind(this);
     }
 
     componentWillReceiveProps(nextProps){
-        if(this.props.settings !== nextProps.settings){
-            if(nextProps.settings){
-                this.removeCallbacks();
-                this.settings = nextProps.settings;
-                this.addCallbacks();
-            }
-        }
-        if(this.props.style !== nextProps.style){// user style added through UI is Sessioned
-            if(nextProps.style)this.settings.style.domDefined.state = nextProps.style;
-        }
-        if(this.props.children !== nextProps.children){
-            App.hookSessionStateForComponentChildren(nextProps.children,this.settings);
-        }
-
+        if(App.debug)console.log("Tabs componentWillReceiveProps");
+        App.componentWillReceiveProps(this,nextProps);
     }
 
-    componentDidMount(){
 
-    }
 
     componentWillUnmount(){
+        if(App.debug)console.log("Tabs componentWillUnmount");
+        App.removeForceUpdateFromCallbacks(this);
+    }
 
+    // weavestate change directly calls forceUpdate, so no need to use Weave.detectChange
+    shouldComponentUpdate(){
+        if(App.debug)console.log("Tabs shouldComponentUpdate");
+        // default return true
+        return false; // this ensures parent render of this wont render the navbar
     }
 
 
+    renderChildren(){
+        this.propsManager.addKeyProps("tabName");
+        this.propsManager.addOddChild(this.settings.activeTab.state,{isActive:"true"});
+        return App.renderChildren(this,this.propsManager);
+    }
+
+    switchTab(tabName,index){
+        this.settings.activeTab.value = tabName;
+        if(!isDefault &&this.props.clickCallback)this.props.clickCallback.call(this,tabName,index);
+    }
 
 
     render() {
 
-    var styleObject = this.settings.style.getStyleFor();
+        if(App.debug)console.log("Tabs ---Render---");
 
+        var styleObject = this.settings.style.getStyleFor();
+        var cssName = this.settings.CSS.getCSSFor();
+        var tabLinksUI = this.renderChildren();
+        var activeTabUI = <div/>
 
-    return (<div style={styleObject}>
-                <TabNav settings={this.props.settings} clickCallback={this.props.clickCallback} titles={this.props.titles}/>
-                <TabChildren settings={this.props.settings}  toolClass={this.props.toolClass} toolProps={this.props.toolProps}>
-                    {this.props.children}
-                </TabChildren>
-            </div>
-    );
-  }
+        return (<div style={styleObject}>
+                    {tabLinksUI}
+                    {activeTabUI}
+                </div>
+        );
+    }
 }
+//required when we change this to use LinkablePlaceHolder Object
+Weave.registerClass("weavereact.Tabs", Tabs,[weavejs.api.core.ILinkableObject]);
 
-weavereact.registerToolImplementation("admindesk.TabComponentConfig",TabComponent);
-
-export default TabComponent;
+export default Tabs;

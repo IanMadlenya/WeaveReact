@@ -57,7 +57,7 @@ class Tree extends React.Component {
             this.settings.getDataType = nextProps.getDataType;
         }
         if(this.props.data !== nextProps.data){
-            //console.log("Data Changed")
+            if(App.debug)console.log("Data Changed")
         }
 
     }

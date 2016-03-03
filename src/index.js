@@ -57,6 +57,9 @@ exports.getToolImplementation = function (name) {
     }
 }
 
+exports.setDebug = function(val){
+    App.debug = val;
+}
 
 exports.registerToolConfig = function (toolClass, configClass) {
     App.registerToolConfig(toolClass, configClass);

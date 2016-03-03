@@ -29,7 +29,6 @@ class List extends React.Component {
 
     // called only when React Parent render is called
     shouldComponentUpdate(nextProps){
-        console.log(this.settings.space.value);
         if(App.debug)console.log("List - shouldComponentUpdate");
         if(this.props.dock !== nextProps.dock){
             if(App.debug)console.log("props.dock changed");
@@ -54,7 +53,6 @@ class List extends React.Component {
         var linkStyleObject={};
         var iconOnly = false;
         var space = this.settings.space.value;
-        console.log(space);
         if((this.props.dock === "right") || (this.props.dock === "left")){
             iconOnly = true;
             linkStyleObject["marginBottom"] = space;
@@ -77,7 +75,6 @@ class List extends React.Component {
         var navLinks = <div/>;
         if(this.settings.enable.value){
             var styleObject = this.settings.style.getStyleFor(null,true);
-            console.log(styleObject);
             var cssName = this.settings.CSS.getCSSFor();
             var childrenUI = this.renderChildren();
             if(this.props.useCSS){

@@ -29,6 +29,7 @@ class SimpleNode extends React.Component {
         this.active.removeCallback(this, this.forceUpdate);
     }
 
+
     toggle(){
         this.open.value = !this.open.value;
         if(this.props.clickCallback)
@@ -45,6 +46,14 @@ class SimpleNode extends React.Component {
         }
     }
 
+    isNode(){
+        var nodes = this.props.treeConfig.getTreeNodes(this.props.data);
+        if(nodes && nodes.length > 0)
+            return true; // node
+        else
+            return false; // leaf
+    }
+
     renderChildren(){
         var nodes = this.props.treeConfig.getTreeNodes(this.props.data);
         var nodesUI = nodes.map(function(nodeData,index){
@@ -57,13 +66,7 @@ class SimpleNode extends React.Component {
         return nodesUI;
     }
 
-    isNode(){
-        var nodes = this.props.treeConfig.getTreeNodes(this.props.data);
-        if(nodes && nodes.length > 0)
-            return true; // node
-        else
-            return false; // leaf
-    }
+
 
     render() {
         var branchUI = <div/>;

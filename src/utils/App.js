@@ -42,7 +42,8 @@ class App {
             if(nextProps.style)reactComp.settings.style.domDefined.state = nextProps.style;
         }
         if(reactComp.props.children !== nextProps.children){
-            App.hookSessionStateForComponentChildren(nextProps.children,reactComp.settings);
+            var WrapperConfigClass = reactComp["WrapperConfigClass"]? reactComp["WrapperConfigClass"]:null;
+            App.hookSessionStateForComponentChildren(nextProps.children,reactComp.settings,WrapperConfigClass);
         }
 
     }
@@ -132,7 +133,7 @@ class App {
 
 
 
-    static hookSessionStateForComponentChildren(children,config){
+    static hookSessionStateForComponentChildren(children,config,WrapperConfigClass){
         config.children.delayCallbacks();
 
         config.childConfigMap = new Map();
@@ -148,7 +149,8 @@ class App {
             var childConfigName = "";
             if(typeof(child.type) === "string"){ // for HTML Elements
                 if(!childConfig){
-                    childConfig = config.children.requestObject('',HTMLWrapperConfig);
+                    var configClass = WrapperConfigClass ? WrapperConfigClass:HTMLWrapperConfig
+                    childConfig = config.children.requestObject('',configClass);
                 }
             }else{ // for React Composite Elements
                 var configClass = App.getToolConfig(child.type);
@@ -263,7 +265,7 @@ class App {
 
 App.toolRegistry = {};
 App.toolConfigMap =  new Map();
-App.debug = true;
+App.debug = false;
 
 export default App;
 
