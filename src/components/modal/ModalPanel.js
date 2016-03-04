@@ -53,7 +53,6 @@ class ModalPanel extends React.Component {
         }
 
         layoutStyle["position"] = 'fixed';
-        (this.sessionOpen.value)?(layoutStyle["display"] = 'block'):(layoutStyle["display"] = 'none')
 
         return (<div style={layoutStyle}>
                     <div className="modal-content">
