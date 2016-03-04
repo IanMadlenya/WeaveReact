@@ -13,7 +13,6 @@ class ModalPanel extends React.Component {
 
 
         this.closeModal =  this.closeModal.bind(this);
-        this.updateState =  this.updateState.bind(this);
     }
 
     componentDidMount(){
