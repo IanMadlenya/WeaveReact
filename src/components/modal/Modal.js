@@ -15,8 +15,8 @@ class Modal extends React.Component {
     }
 
     componentDidMount(){
-        this.settings.open.addImmediateCallback(this, this.forceUpdate);
-        this.settings.buttonIcon.addImmediateCallback(this, this.forceUpdate);
+        this.settings.open.addGroupedCallback(this, this.forceUpdate);
+        this.settings.buttonIcon.addGroupedCallback(this, this.forceUpdate);
     }
 
 
@@ -36,8 +36,8 @@ class Modal extends React.Component {
             this.settings.open.removeCallback(this, this.forceUpdate);
             this.settings.buttonIcon.removeCallback(this, this.forceUpdate);
             this.settings = nextProps.settings;
-            this.settings.open.addImmediateCallback(this, this.forceUpdate);
-            this.settings.buttonIcon.addImmediateCallback(this, this.forceUpdate);
+            this.settings.open.addGroupedCallback(this, this.forceUpdate);
+            this.settings.buttonIcon.addGroupedCallback(this, this.forceUpdate);
         }
     }
 

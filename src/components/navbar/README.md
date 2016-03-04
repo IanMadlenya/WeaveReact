@@ -35,9 +35,74 @@
         return  <Navbar settings={this.navConfig}/>
     }
     
-## Supported Navbar Components
-    1. Brand
-    2. Logo
-    3. List
-    4. Link
-    5. Form
+## Classes (JSX and Config JS)
+    1. Navbar
+    2. Navbar.Brand 
+      1. Navbar.Logo
+      2. Navbar.title
+    3. Navbar.List
+      1. Navbar.Link
+    4. Navbar.Form
+
+## Navbar
+
+#### Session State 
+    1. style: InlineStyle
+    2. CSS: CSS 
+    3. children: LinkableHashMap 
+    4. addGapAt: LinkableNumber
+    5. dock: LinkableString
+    
+## Navbar.Brand
+
+#### Session State 
+    1. style: InlineStyle
+    2. CSS: CSS  
+    3. enable: LinkableBoolean
+    
+## Navbar.Logo
+
+#### Session State 
+    1. style: InlineStyle
+    2. CSS: CSS  
+    4. src: LinkableString
+    5. enable: LinkableBoolean
+    
+## Navbar.Title
+
+#### Session State 
+    1. style: InlineStyle
+    2. CSS: CSS  
+    4. title: LinkableString
+    5. enable: LinkableBoolean
+
+## Navbar.List
+
+#### Session State
+    1. style: InlineStyle
+    2. CSS: CSS  
+    3. children: LinkableHashMap 
+    4. enable: LinkableBoolean
+    5. align: LinkableString 
+    6. activePage: LinkableString 
+    7. space: LinkableNumber 
+    
+## Navbar.Link
+
+#### Session State
+    1. style: InlineStyle
+    2. CSS: CSS  
+    3. title: LinkableString 
+    4. activeLinkStyle: InlineStyle
+    5. iconName: LinkableString 
+    
+## Navbar.Form
+
+#### Session State
+    1. style: InlineStyle
+    2. CSS: CSS  
+    3. children: LinkableHashMap 
+    4. enable: LinkableBoolean
+    5. align: LinkableString 
+    6. addGapAt: LinkableNumber 
+    7. space: LinkableNumber 
