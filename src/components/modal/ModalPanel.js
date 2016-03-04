@@ -9,11 +9,7 @@ class ModalPanel extends React.Component {
         this.settings = this.props.settings ? this.props.settings:new ModalPanelConfig();
         this.settings.title.value = this.props.title;
         window.modalLayout = this.settings;// for testing
-        this.sessionOpen = this.props.sessionOpen;
-
-
         this.closeModal =  this.closeModal.bind(this);
-        this.updateState =  this.updateState.bind(this);
     }
 
     componentDidMount(){
@@ -26,8 +22,9 @@ class ModalPanel extends React.Component {
 
 
 
+
     closeModal(){
-        this.sessionOpen.value = false;
+        this.props.sessionOpen.value = false;
     }
 
     componentWillReceiveProps(nextProps){
@@ -39,6 +36,7 @@ class ModalPanel extends React.Component {
         if(this.props.title !== nextProps.title){
             this.settings.title.value = this.props.title
         }
+
     }
 
     render() {
@@ -52,6 +50,8 @@ class ModalPanel extends React.Component {
             overflowX: 'hidden'
         }
 
+
+
         layoutStyle["position"] = 'fixed';
 
         return (<div style={layoutStyle}>
@@ -63,6 +63,7 @@ class ModalPanel extends React.Component {
                         <div className="modal-body" style={bodyStyle}>
                             {this.props.children}
                         </div>
+
                     </div>
                 </div>
         );
