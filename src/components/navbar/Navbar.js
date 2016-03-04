@@ -28,7 +28,7 @@ class Navbar extends React.Component {
     }
 
      getStyle() {
-        var styleObject = this.settings.style.getStyleFor(null)
+        var styleObject = this.settings.style.getStyleFor(null);
          if(styleObject["position"] === "fixed"){
              if(this.settings.dock.value === "top"){
                 styleObject["top"] = "0";

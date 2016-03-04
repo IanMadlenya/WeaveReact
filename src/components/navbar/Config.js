@@ -34,16 +34,7 @@ class NavConfig {
 
 
         //initial default values
-        this.CSS.state = {
-            navbar:"navbar navbar-default",
-            brand:{
-                header:"navbar-header",
-                title:"navbar-brand"
-            },
-            list:"nav navbar-nav",
-            form:"navbar-form navbar-right"
-        };
-
+        this.CSS.className.state = "navbar navbar-default";
 
         this.style.display.value = "flex";
         this.style.border.state = {border:"1px solid transparent"};
@@ -84,6 +75,8 @@ class BrandConfig {
                 value: Weave.linkableChild(this, new weavejs.core.LinkableHashMap())
             }
         });
+
+        this.CSS.className.state = "navbar-header";
 
         this.childConfigMap = new Map();
         this.configChildMap = new Map();
@@ -152,6 +145,7 @@ class TitleConfig {
             }
         });
 
+        this.CSS.className.state = "navbar-brand";
 
        this.style.font.state = {
             lineHeight: "20px",
@@ -189,6 +183,8 @@ class ListConfig {
                  value: Weave.linkableChild(this, new weavejs.core.LinkableNumber(8))
             }
         });
+
+        this.CSS.className.state = "nav navbar-nav";
 
         this.childConfigMap = new Map();
         this.configChildMap = new Map();
@@ -276,6 +272,8 @@ class FormConfig {
                 value: Weave.linkableChild(this, new CSS())
             }
         });
+
+        this.CSS.className.state = "navbar-form navbar-right";
 
         this.childConfigMap = new Map();
         this.configChildMap = new Map();
