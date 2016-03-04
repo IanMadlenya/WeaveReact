@@ -9,9 +9,7 @@ class ModalPanel extends React.Component {
         this.settings = this.props.settings ? this.props.settings:new ModalPanelConfig();
         this.settings.title.value = this.props.title;
         window.modalLayout = this.settings;// for testing
-        this.sessionOpen = this.props.sessionOpen;
-
-
+        this.props.sessionOpen.addImmediateCallback(this, this.forceUpdate);
         this.closeModal =  this.closeModal.bind(this);
     }
 
@@ -25,19 +23,23 @@ class ModalPanel extends React.Component {
 
 
 
+
     closeModal(){
-        this.sessionOpen.value = false;
+        this.props.sessionOpen.value = false;
     }
 
     componentWillReceiveProps(nextProps){
         if(this.props.settings !== nextProps.settings){
             Weave.getCallbacks(this.settings).removeCallback(this, this.forceUpdate);
+            this.props.sessionOpen.removeCallback(this, this.forceUpdate);
             this.settings = nextProps.settings;
+            nextProps.sessionOpen.addImmediateCallback(this, this.forceUpdate);
             Weave.getCallbacks(this.settings).addGroupedCallback(this, this.forceUpdate);
         }
         if(this.props.title !== nextProps.title){
             this.settings.title.value = this.props.title
         }
+
     }
 
     render() {
@@ -50,19 +52,18 @@ class ModalPanel extends React.Component {
             overflowY: 'scroll',
             overflowX: 'hidden'
         }
+        var childrenUI = [];
+        if(this.props.sessionOpen.value){
+            childrenUI = this.props.children
+        }
 
-        layoutStyle["position"] = 'fixed';
-        (this.sessionOpen.value)?(layoutStyle["display"] = 'block'):(layoutStyle["display"] = 'none')
-
-        return (<div style={layoutStyle}>
-                    <div className="modal-content">
-                        <div className="modal-header">
-                            <button type="button" className="close" onClick={this.closeModal}>&times;</button>
-                            <h4 className="modal-title">{this.settings.title.value}</h4>
-                        </div>
-                        <div className="modal-body" style={bodyStyle}>
-                            {this.props.children}
-                        </div>
+        return (<div className="modal-content">
+                    <div className="modal-header">
+                        <button type="button" className="close" onClick={this.closeModal}>&times;</button>
+                        <h4 className="modal-title">{this.settings.title.value}</h4>
+                    </div>
+                    <div className="modal-body" style={bodyStyle}>
+                        {childrenUI}
                     </div>
                 </div>
         );
