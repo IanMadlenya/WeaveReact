@@ -87,13 +87,21 @@ class Node extends React.Component {
             this.createSessionStateForTree()
         }
         if(this.props.treeConfig.defaultSelectedNodes && this.props.treeConfig.defaultSelectedNodes.length>0){
-            var nodeConfigs = this.settings.children.getObjects();
-            nodeConfigs.map(function(nodeConfig,index){
-                var nodeLabel = nodeConfig.label.state;
-                if(this.props.treeConfig.defaultSelectedNodes.indexOf(nodeLabel) !== -1){
+            if(this.props.treeConfig.defaultSelectedNodes.length>0){
+                var nodeConfigs = this.settings.children.getObjects();
+                nodeConfigs.map(function(nodeConfig,index){
+                    var nodeLabel = nodeConfig.label.state;
+                    if(this.props.treeConfig.defaultSelectedNodes.indexOf(nodeLabel) !== -1){
+                        nodeConfig.open.value = true;
+                    }
+                }.bind(this));
+            }else{
+                var nodeConfigs = this.settings.children.getObjects();
+                nodeConfigs.map(function(nodeConfig,index){
                     nodeConfig.open.value = true;
-                }
-            }.bind(this));
+                }.bind(this));
+            }
+
         }
         this.forceUpdate();
     }
