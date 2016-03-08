@@ -86,7 +86,7 @@ class Node extends React.Component {
         if(!this.isSessionStateCreatedForTreeData){
             this.createSessionStateForTree()
         }
-        if(this.props.treeConfig.defaultSelectedNodes.length>0){
+        if(this.props.treeConfig.defaultSelectedNodes && this.props.treeConfig.defaultSelectedNodes.length>0){
             var nodeConfigs = this.settings.children.getObjects();
             nodeConfigs.map(function(nodeConfig,index){
                 var nodeLabel = nodeConfig.label.state;
