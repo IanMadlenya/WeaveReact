@@ -98,7 +98,9 @@ class Node extends React.Component {
             }else{
                 var nodeConfigs = this.settings.children.getObjects();
                 nodeConfigs.map(function(nodeConfig,index){
+                    var nodeLabel = nodeConfig.label.state;
                     nodeConfig.open.value = true;
+                    this.props.treeConfig.defaultSelectedNodes.push(nodeLabel);
                 }.bind(this));
             }
 
