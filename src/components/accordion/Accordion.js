@@ -68,4 +68,8 @@ class Accordion extends React.Component {
 
 }
 Weave.registerClass("weavereact.Accordion", Accordion,[weavejs.api.core.ILinkableObject]);
+
+App.registerToolConfig(Accordion,AccordionConfig);
+App.registerToolImplementation("weavereact.AccordionConfig",Accordion);
+
 export default Accordion;
