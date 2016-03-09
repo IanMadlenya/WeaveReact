@@ -5,6 +5,8 @@ import {Navbar} from "../../lib/index.js";
 import {navbarConfig} from "../../lib/index.js";
 import {Tree} from "../../lib/index.js";
 import {TreeConfig} from "../../lib/index.js";
+import {Accordion} from "../../lib/index.js";
+import {AccordionConfig} from "../../lib/index.js";
 
 import {SimpleTree} from "../../lib/index.js";
 import {SimpleTreeConfig} from "../../lib/index.js";
@@ -15,22 +17,20 @@ class App extends React.Component {
         super(props);
         window.weave = new Weave();
         window.dbweave = new Weave();
+
         this.openSettings = this.openSettings.bind(this);
+
         this.sessionConfigDashdoard = new SessionEditorConfig();
         this.sessionConfigWeave = new SessionEditorConfig();
-        this.navConfig = window.dbweave.root.requestObject('navbar',navbarConfig.Navbar);
-        //this.navConfig.brand.logoPath.value = "./logo.png";
-        //this.navConfig.brand.title.value = "Brand";
 
+        this.navConfig = window.dbweave.root.requestObject('navbar',navbarConfig.Navbar);
         var brandConfig = this.navConfig.children.requestObject('',navbarConfig.Brand);
         var logoConfig = brandConfig.children.requestObject('',navbarConfig.Logo);
         logoConfig.src.state = "logo.png";
         var titleConfig = brandConfig.children.requestObject('',navbarConfig.Title);
         titleConfig.title.state = "Brand";
-        /*var listConfig = this.navConfig.children.requestObject('',navbarConfig.List);
-        var linkConfig = listConfig.children.requestObject('',navbarConfig.Link);
-        linkConfig.title.value = " Documentation";
-        linkConfig.iconName.value = "fa fa-folder";*/
+
+
 
         this.treeConfig = window.dbweave.root.requestObject('tree',TreeConfig);
         this.simpleTreeConfig = window.dbweave.root.requestObject('simpleTree',SimpleTreeConfig);
@@ -43,81 +43,62 @@ class App extends React.Component {
         this.treeConfig.enableDataTypeIcon.value = false;
         this.treeConfig.allowMultipleSelection.value = true;
         this.treeConfig.leafStyle.other.state = {
-            borderTop:"1px solid #1e5e9f",
             paddingTop: "8px",
             paddingBottom:"8px"
         }
 
 
-
-
         this.treeConfig.rootStyle.other.state = {
             textTransform: "uppercase",
-            color:"#e57a38"
+            color:"#5d5d5d"
         }
 
         this.treeConfig.nodeStyle.other.state = {
             paddingTop: "8px",
             paddingBottom:"8px"
         }
-        this.treeConfig.setDefaultNodeSelection(['Al Joaf','Tabuk 1'])
+
         this.treeConfig.rootNode.open.state = true;
 
         this.tree={
-          "label": "Locations",
-          "children": [
-            {
-              "label": "Saudi Kingdom",
-              "children": []
-            },
-            {
-              "label": "Al Joaf",
-              "children": [],
-                "icon":"fa fa-heartbeat"
-            },
-            {
-              "label": "Tabuk",
-              "children": [
-                {
-                  "label": "Tabuk 1"
-                },
-                {
-                  "label": "Tabuk 2"
-                },
-                {
-                  "label": "Tabuk 3"
-                }
+            "label": "Components",
+            "children": [
+              {
+                "label": "Navbar",
+                "children": [
+                    {
+                        "label": "Brand",
+                        "children": []
+                    },
+                    {
+                        "label": "Title",
+                        "children": []
+                    },
+                    {
+                        "label": "List",
+                        "children": []
+                    },
+                    {
+                        "label": "Link",
+                        "children": []
+                    },
+                    {
+                        "label": "Form",
+                        "children": []
+                    }
               ]
+            },
+            {
+              "label": "Accordion",
+              "children": [],
             }
-
           ]
         };
-        //this.loadJSON = this.loadJSON.bind(this);
-        /*this.loadJSON(function(response){
-            this.tree = JSON.parse(response);
-            console.log(this.tree);
-            this.forceUpdate();
-        }.bind(this))*/
 
-
-
+        this.accordionConfig = window.dbweave.root.requestObject('accordion',AccordionConfig);
     }
 
 
-
-     loadJSON(callback) {
-
-        var xobj = new XMLHttpRequest();
-        xobj.overrideMimeType("application/json");
-        xobj.open('GET', './test.json', true);
-        xobj.onreadystatechange = function () {
-            if (xobj.readyState == 4 && xobj.status == "200") {
-                // Required use of an anonymous callback as .open will NOT return a value but simply returns undefined in asynchronous mode
-                callback(xobj.responseText);
-            }
-        };
-        xobj.send(null);
-    }
 
    openSettings(e) {
         if (e.code === "Enter" && e.ctrlKey) {
@@ -151,7 +132,15 @@ class App extends React.Component {
 
     render() {
 
-        return (<div>
+        var styleObject = {
+            display:"flex",
+            flexDirection:"Column",
+            width:"100%",
+            height:"100%"
+        }
+
+
+        return (<div style={styleObject}>
                     <div id="popUp"/>
                     <Navbar settings={this.navConfig}>
                         <Navbar.List key="list">
@@ -163,14 +152,28 @@ class App extends React.Component {
                             <div key="di">Form2</div>
                         </Navbar.Form >
                         <div style={{color:"red"}}>Hi I am Sanjay</div>
-
                     </Navbar>
 
-                <div style={{marginTop:"60px"}}>
-                        <div style={{width:"240px",color:"white", border:"1px solid grey",background:"linear-gradient(to right, #036FBB , #013458)"}}>
+                    <div style={{display:"flex",flexDirection:"row"}}>
+                        <div style={{flexBasis:"15%", border:"1px solid #d0cdcd", padding:"4px" ,background:"linear-gradient(to right, #f8f8f8 , #f8f8f8)"}}>
                             <Tree data={this.tree} settings={this.treeConfig} label="label" nodes="children" icon="icon"/>
                             <SimpleTree data={this.tree} settings={this.simpleTreeConfig} label="label" children="children" click={this.treeClick}/>
 
+                        </div>
+                        <div style={{padding:"16px"}}>
+                            <Accordion settings={this.accordionConfig}>
+                                <div>
+                                    Child 1
+                                    <div>Hi 1 </div>
+                                </div>
+                                <div>Child 2</div>
+                                <div>
+                                    Child 3
+                                    <div>Hi 3 </div>
+                                    <div>Hi 32 </div>
+                                </div>
+                                <div>Child 4</div>
+                            </Accordion>
                         </div>
                     </div>
 

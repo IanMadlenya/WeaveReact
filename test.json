@@ -1,29 +1,34 @@
 {
-  "label": "Locations",
-  "children": [
-    {
-      "label": "Saudi Kingdom",
-      "children": []
-    },
-    {
-      "label": "Al Joaf",
-      "children": [],
-        "icon":"fa fa-heartbeat"
-    },
-    {
-      "label": "Tabuk",
-      "children": [
-        {
-          "label": "Tabuk 1"
-        },
-        {
-          "label": "Tabuk 2"
-        },
-        {
-          "label": "Tabuk 3"
-        }
+    "label": "Components",
+    "children": [
+      {
+        "label": "Navbar",
+        "children": [
+            {
+                "label": "Brand",
+                "children": []
+            },
+            {
+                "label": "Title",
+                "children": []
+            },
+            {
+                "label": "List",
+                "children": []
+            },
+            {
+                "label": "Link",
+                "children": []
+            },
+            {
+                "label": "Form",
+                "children": []
+            }
       ]
+    },
+    {
+      "label": "Accordion",
+      "children": [],
     }
-
   ]
 }
