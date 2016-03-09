@@ -23,7 +23,7 @@ class Node extends React.Component {
 
     addCallbacks(){
         this.settings.open.addImmediateCallback(this, this.showChildren);
-        this.settings.enable.addGroupedCallback(this, this.forceUpdate);
+        this.settings.alwaysOpen.addGroupedCallback(this, this.forceUpdate);
         this.settings.children.childListCallbacks.addGroupedCallback(this, this.childrenCallback);
         this.settings.label.addImmediateCallback(this, this.forceUpdate);
         this.settings.active.addImmediateCallback(this, this.forceUpdate);
@@ -31,7 +31,7 @@ class Node extends React.Component {
 
     removeCallbacks(){
         this.settings.open.removeCallback(this, this.showChildren);
-        this.settings.enable.removeCallback(this, this.forceUpdate);
+        this.settings.alwaysOpen.removeCallback(this, this.forceUpdate);
         this.settings.children.childListCallbacks.removeCallback(this, this.childrenCallback);
         this.settings.label.removeCallback(this, this.forceUpdate);
         this.settings.active.removeCallback(this, this.forceUpdate);
