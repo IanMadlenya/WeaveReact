@@ -1,6 +1,7 @@
 import React from 'react';
 import App from "../../utils/App";
 import PropsManager from "../PropsManager";
+import AccordionConfig from "./Config";
 
 
 class Accordion extends React.Component {
