@@ -39,6 +39,8 @@ class PropsManager {
             this.all.properties.push(propName);
             var valIndex = this.all.properties.indexOf(propName);
             this.all.values[valIndex] = value;
+        }else{
+            this.all.values[index] = value;
         }
     }
 
