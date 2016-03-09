@@ -69,7 +69,7 @@ class Tree extends React.Component {
 return ( <Node style={rootNodeStyle} data={this.props.data} label={this.props.label} nodes={this.props.nodes} icon={this.props.icon}
             settings={this.settings.rootNode}
             treeConfig={this.settings}
-            clickCallback={this.props.clickCallback}/>
+            clickCallback={this.props.clickCallback} />
        );
     }
 

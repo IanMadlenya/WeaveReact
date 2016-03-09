@@ -47,16 +47,18 @@ class Node extends React.Component {
     }
 
     toggle(){
+
         this.settings.open.value = !this.settings.open.value;
         if(this.props.clickCallback)
             this.props.clickCallback.call(this,this.props.data,this.settings);
-        this.props.treeConfig.changeActiveNode(this.settings)
+        this.props.treeConfig.changeActiveNode(this.settings);
+
+
     }
 
     childrenCallback(){
         this.forceUpdate();
     }
-
 
 
     createSessionStateForTree(data,label,nodes,icon) {
@@ -181,17 +183,18 @@ class Node extends React.Component {
         if(this.props.data){
             var nodesUI = [];
             var nodes = this.settings.getNodes();
-            if(this.settings.open.value){
+            if(this.settings.open.value && this.settings.enable.value){
                 nodesUI = this.renderChildren();
             }
 
             var iconName = this.settings.iconName.value;
             var label = this.settings.label.value;
+            var isOpen = (this.settings.open.value && this.settings.enable.value)
             if(nodes.length > 0){ //folder
                 var branchStyle = this.props.treeConfig.branchStyle.getStyleFor();
                 var nodeStyle = this.props.treeConfig.nodeStyle.getStyleFor();
                 if(domeDefinedStyle)Style.mergeStyleObjects(nodeStyle,domeDefinedStyle,true);//this happens for rootNode
-                var controlName = this.props.treeConfig.getFolderIcon(this.settings.open.value);
+                var controlName = this.props.treeConfig.getFolderIcon(isOpen);
 
                 var folderUI = <span style={nodeStyle} onClick={this.toggle}>
                                     <i className={iconName} ></i>
@@ -211,7 +214,7 @@ class Node extends React.Component {
             else{ //leaf
                 var fileIcon = this.props.treeConfig.getFileIcon(this.props.data,this.settings.open.value);
                 // this will return either normal/Active/Slected Style based on state of the leaf
-                var leafStyle = this.props.treeConfig.getLeafStyle(this.settings.open.value,this.settings.active.value);
+                var leafStyle = this.props.treeConfig.getLeafStyle(isOpen,this.settings.active.value);
 
                 nodeUI = <li style={leafStyle} onClick={this.toggle}>
                             <i className={iconName} ></i>
