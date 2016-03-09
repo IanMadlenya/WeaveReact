@@ -49,12 +49,13 @@ class Node extends React.Component {
     }
 
     toggle(){
-        if(this.settings.alwaysOpen.state){
+        /*if(this.settings.alwaysOpen.state){
             this.settings.open.value = true;
 
         }else{
-            this.settings.open.value = !this.settings.open.value;
-        }
+
+        }*/
+         this.settings.open.value = !this.settings.open.value;
         if(this.props.clickCallback)
             this.props.clickCallback.call(this,this.props.data,this.settings);
         this.props.treeConfig.changeActiveNode(this.settings);
