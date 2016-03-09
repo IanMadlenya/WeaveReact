@@ -31,9 +31,11 @@ class App extends React.Component {
         titleConfig.title.state = "Brand";
 
 
+        this.simpleTreeConfig = window.dbweave.root.requestObject('simpleTree',SimpleTreeConfig);
 
         this.treeConfig = window.dbweave.root.requestObject('tree',TreeConfig);
-        this.simpleTreeConfig = window.dbweave.root.requestObject('simpleTree',SimpleTreeConfig);
+        this.treeConfig.rootNode.enable.state = true;
+
         this.treeConfig.nodePadding.value ="16px";
         this.treeConfig.align.value = "right";
         this.treeConfig.nodeIcon.value = "fa fa-caret-right";
