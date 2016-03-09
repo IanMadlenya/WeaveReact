@@ -17,7 +17,7 @@ import weavejs from 'weavejs';*/
             "open": {
                 value: Weave.linkableChild(this, new weavejs.core.LinkableBoolean())
             },
-            "enable": {
+            "alwaysOpen": {
                 value: Weave.linkableChild(this, new weavejs.core.LinkableBoolean())
             },
             "active": {
@@ -26,7 +26,7 @@ import weavejs from 'weavejs';*/
         });
 
         this.open.state = false;
-        this.enable.state = true;
+        this.alwaysOpen.state = false;
         this.active.state = false;
 
         this.childConfigMap = new Map();

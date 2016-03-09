@@ -49,13 +49,15 @@ class Node extends React.Component {
     }
 
     toggle(){
+        if(this.settings.alwaysOpen.state){
+            this.settings.open.value = true;
 
-        this.settings.open.value = !this.settings.open.value;
+        }else{
+            this.settings.open.value = !this.settings.open.value;
+        }
         if(this.props.clickCallback)
             this.props.clickCallback.call(this,this.props.data,this.settings);
         this.props.treeConfig.changeActiveNode(this.settings);
-
-
     }
 
     childrenCallback(){
@@ -185,13 +187,14 @@ class Node extends React.Component {
         if(this.props.data){
             var nodesUI = [];
             var nodes = this.settings.getNodes();
-            if(this.settings.open.value && this.settings.enable.value){
+            var isOpen = this.settings.open.value;
+            if(isOpen){
                 nodesUI = this.renderChildren();
             }
 
             var iconName = this.settings.iconName.value;
             var label = this.settings.label.value;
-            var isOpen = (this.settings.open.value && this.settings.enable.value)
+
             if(nodes.length > 0){ //folder
                 var branchStyle = this.props.treeConfig.branchStyle.getStyleFor();
                 var nodeStyle = this.props.treeConfig.nodeStyle.getStyleFor();

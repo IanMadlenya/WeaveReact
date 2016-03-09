@@ -33,7 +33,6 @@ class Accordion extends React.Component {
     }
 
     onClickCallback(childConfig,index){
-        console.log(childConfig,index);
         this.settings.activeChild.state = index;
     }
 
