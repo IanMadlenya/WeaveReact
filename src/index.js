@@ -14,6 +14,9 @@ import SplitPaneConfig from "./components/splitPane/SplitPaneConfig";
 import Navbar from "./components/navbar/Navbar";
 import navbarConfig from "./components/navbar/Config";
 
+import Accordion from "./components/accordion/Accordion";
+import AccordionConfig from "./components/accordion/Config";
+
 import InlineStyle from "./configs/InlineStyle";
 import CSS from "./configs/CSS";
 
@@ -37,6 +40,9 @@ exports.SplitPaneConfig = SplitPaneConfig;
 
 exports.Navbar = Navbar;
 exports.navbarConfig = navbarConfig;
+
+exports.Accordion = Accordion;
+exports.AccordionConfig = AccordionConfig;
 
 exports.InlineStyle = InlineStyle;
 exports.CSS = CSS;
@@ -69,12 +75,22 @@ exports.getToolConfig = function (toolClass) {
     return App.getToolConfig(toolClass);
 }
 
+
+
 exports.hookSessionStateForComponentChildren = function (ReactChildren,ownerConfig)  {
     return App.hookSessionStateForComponentChildren(ReactChildren,ownerConfig);
 }
 
 exports.componentWillReceiveProps = function(reactComp,nextProps){
     App.componentWillReceiveProps(reactComp,nextProps);
+}
+
+exports.addForceUpdateToCallbacks = function (reactComp)  {
+    return App.addForceUpdateToCallbacks(reactComp);
+}
+
+exports.removeForceUpdateFromCallbacks = function (reactComp)  {
+    return App.removeForceUpdateFromCallbacks(reactComp);
 }
 
 exports.renderChildren = function (reactComp,propsManager)  {

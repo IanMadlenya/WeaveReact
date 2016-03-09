@@ -188,20 +188,15 @@ class App {
             }
 
             if(propsManager){
-                var odd = propsManager.odd;
-                if(odd.children.length > 0){
-                    var oddChildrenIndex = odd.children.indexOf(configName);
-                    if(oddChildrenIndex > -1) {
-                        App.mergeInto(props,odd.values[oddChildrenIndex])
-                    }else if(propsManager["defaultValues"]){
-                        App.mergeInto(props,propsManager["defaultValues"])
-                    }
-                }
-
                 if(propsManager.all.properties.length > 0){
                     propsManager.all.properties.map(function(propName,i){
-                        var value = propsManager.all.values[i];
-                        props[propName] = value ? value[index]:configName
+                        if(propName === "index"){
+                            props[propName] = index;
+                        }else{
+                            var value = propsManager.all.values[i];
+                            props[propName] = value ? value[index]:configName
+                        }
+
                     });
                 }
 
@@ -212,6 +207,29 @@ class App {
                 if( propsManager.style){
                     props.style = props.style || {};
                     App.mergeInto(props.style,propsManager.style);
+                }
+
+                if(propsManager.events){
+                    var eventNames =  Object.keys(propsManager.events);
+                    if(eventNames.length > 0){
+                        eventNames.map(function(eventName , i){
+                            var eventObj = propsManager.events[eventName];
+                            props[eventName] = eventObj.callback.bind(reactComp,childConfig,index)
+                        })
+                    }
+                }
+                // important to odd child to do last to override the base child values
+                var odd = propsManager.odd;
+                if(odd.children.length > 0){
+                    var oddChildrenIndex = odd.children.indexOf(configName);
+                    if(oddChildrenIndex == -1){
+                        oddChildrenIndex = odd.children.indexOf(String(index));
+                    }
+                    if(oddChildrenIndex > -1) {
+                        App.mergeInto(props,odd.values[oddChildrenIndex])
+                    }else if(propsManager["default"]){
+                        App.mergeInto(props,propsManager["default"])
+                    }
                 }
 
             }

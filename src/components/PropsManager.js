@@ -5,8 +5,10 @@ class PropsManager {
         this.key = [];
         this.default = {};
         this.style = {}
+        this.events = {};
 
-
+        // odd: Propeorties which has to be uniques for certain child
+        // all: Propeorties which has to be uniques for all child
          Object.defineProperties(this, {
             "odd": {
                 value: {
@@ -24,6 +26,13 @@ class PropsManager {
 
     }
 
+    resetOddProps(){
+        this.odd.children = [];
+        this.odd.values = [];
+    }
+
+    //value: undefined will make configName as keyValue
+    //propName = 'index' and value:undefined makes index as keyVaue
     addKeyProps(propName,value){
         var index = this.all.properties.indexOf(propName);
         if(index === -1){
@@ -33,8 +42,14 @@ class PropsManager {
         }
     }
 
-    addOddChild(childKey,childValue){
+    //to-do: replace reset temp solution
+    addOddChild(childKey,childValue,reset){
         //to-do add warning if childValue is missed
+        if(reset){
+            this.resetOddProps();
+        }
+        if(typeof childKey === 'number')
+            childKey = String(childKey);
         var childIndex = this.odd.children.indexOf(childKey)
         if(childIndex === -1){
             this.odd.children.push(childKey);
@@ -45,6 +60,13 @@ class PropsManager {
 
     addNewProps(propName,value){
         this.new[propName] = value;
+    }
+
+    addEvent(eventName,callbackFn,bindValues){
+        this.events[eventName] = {
+            callback:callbackFn,
+            bind:bindValues
+        }
     }
 
 

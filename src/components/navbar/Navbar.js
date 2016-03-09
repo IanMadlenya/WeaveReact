@@ -85,13 +85,13 @@ class Navbar extends React.Component {
 
         if(this.settings.useCSS.value){
             return (
-                <nav className={cssName}>
+                <nav className={cssName} style={styleObj}>
                     {childrenUI}
                 </nav>
             );
         }else{
             return (
-                <nav className={cssName} style={styleObj}>
+                <nav style={styleObj}>
                     {childrenUI}
                 </nav>
             );

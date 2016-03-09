@@ -81,7 +81,7 @@ class List extends React.Component {
                 navLinks = <ul className={cssName}>{childrenUI}</ul>;
             }
             else{
-                navLinks = <ul className={cssName} style={styleObject}>{childrenUI}</ul>;
+                navLinks = <ul  style={styleObject}>{childrenUI}</ul>;
             }
         }
         return (navLinks);

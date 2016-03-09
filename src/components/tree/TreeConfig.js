@@ -68,9 +68,6 @@ import InlineStyle from "../../configs/InlineStyle";
             "flexDirection": "row"
         }
 
-        this.selectedLeafStyle.other.state = {
-            "background" : "green"
-        }
 
         this.activeLeafStyle.other.state = {
             "background" : "orange"
