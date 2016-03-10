@@ -51,7 +51,6 @@ class TreeSection extends React.Component {
         padding:"4px"
     }
 
-    console.log("Tree Section Render");
     return ( <div style={treeContainerStyle}>
                             {treeUI}
                 </div>

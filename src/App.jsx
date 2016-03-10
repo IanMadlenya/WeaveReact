@@ -34,7 +34,6 @@ class App extends React.Component {
         this.simpleTreeConfig = window.dbweave.root.requestObject('simpleTree',SimpleTreeConfig);
 
         this.treeConfig = window.dbweave.root.requestObject('tree',TreeConfig);
-        this.treeConfig.rootNode.alwaysOpen.state = true;
 
         this.treeConfig.nodePadding.value ="16px";
         this.treeConfig.align.value = "right";
