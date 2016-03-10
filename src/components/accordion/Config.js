@@ -25,8 +25,13 @@ class AccordionConfig {
             },
             "useCSS":{
                 value: Weave.linkableChild(this, new weavejs.core.LinkableBoolean(false))
+            },
+            "mode":{
+                value: Weave.linkableChild(this, new weavejs.core.LinkableString("parentHeight"))
             }
         });
+
+        this.mode.addImmediateCallback(this,this.changeActiveChildStyle)
 
         this.activeChild.state = 0;
 
@@ -47,8 +52,20 @@ class AccordionConfig {
         };
 
         this.activeChildStyle.other.state = {
-            flexBasis:"100%"
+            flexBasis:"inherit"
         };
+    }
+
+    changeActiveChildStyle(){
+        if(this.mode.state == "parentHeight"){
+            this.activeChildStyle.other.state = {
+                flexBasis:"100%"
+            };
+        }else if(this.mode.state == "childHeight"){
+            this.activeChildStyle.other.state = {
+                flexBasis:"inherit"
+            };
+        }
     }
 }
 
