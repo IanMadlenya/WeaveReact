@@ -11,7 +11,6 @@ class SideBarContainer extends React.Component {
         this.settings = props.settings;
         App.hookSessionStateForComponentChildren(this.props.children,this.settings);
         App.addForceUpdateToCallbacks(this);
-        this.propsManager = new PropsManager();
         if(App.debug)console.log("SidebarContainer - constructor");
     }
 
@@ -33,7 +32,7 @@ class SideBarContainer extends React.Component {
     }
 
     renderChildren(){
-        return  App.renderChildren(this,this.propsManager);
+        return  App.renderChildren(this);
     }
 
     render() {

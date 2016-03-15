@@ -186,7 +186,7 @@ class App {
 
                 App.mergeInto(props, child.props);
             }
-            if(propsConfig.hasChildProps()){
+            if(propsConfig && propsConfig.hasChildProps()){
                 var obj = propsConfig.getPropsForChild(configName,index);
                 App.mergeInto(props, obj);
                 var eventObj = propsConfig.getEventProps(reactComp, childConfig, index);
@@ -203,6 +203,8 @@ class App {
                     props["key"] = index;
                 }
 
+            }else{
+                    props["key"] = index;
             }
 
             if(childConfig.props){

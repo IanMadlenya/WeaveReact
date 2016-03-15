@@ -11,6 +11,9 @@ class ContainerConfig {
              "CSS":{
                 value: Weave.linkableChild(this, new CSS())
             },
+            "children":{
+                value: Weave.linkableChild(this, new weavejs.core.LinkableHashMap())
+            },
             "useCSS":{
                 value: Weave.linkableChild(this, new weavejs.core.LinkableBoolean(false))
             },
@@ -32,6 +35,7 @@ class ContainerConfig {
             "bottomSideBar":{
                  value: Weave.linkableChild(this, new SideBarConfig())
             }
+
         });
 
         this.childConfigMap = new Map();
@@ -43,7 +47,7 @@ class ContainerConfig {
         this.topSideBar.direction = "top";
 
 
-        this.style.display = "flex"
+        this.style.display.state = "flex"
         this.style.other.state = {
             flexDirection:"row",
             width:"100%",
@@ -142,26 +146,29 @@ class SideBarConfig {
 
         this.childConfigMap = new Map();
         this.configChildMap = new Map();
+        this.direction = "";
+
+        this.open.addImmediateCallback(this,this.updateStyle);
 
     }
 
     updateStyle(){
         this.style.display.state = "flex";
         var styleObject = {
-            justifyContent:"space-around"
+            justifyContent:"flex-start"
         }
 
         if(this.open.state){
-            styleObject["flexBasis"] = "20%"
+            styleObject["flexBasis"] = "12%"
         }else{
             styleObject["flexBasis"] = "0%"
         }
 
-        if(this.direction.state === "right" || this.direction.state === "left"){
-             styleObject["flexDirections"] = "column";
+        if(this.direction === "right" || this.direction === "left"){
+            styleObject["flexDirection"] = "column";
             this.style.other.state = styleObject
-        }else if(this.direction.state === "top" || this.direction.state === "bottom"){
-             styleObject["flexDirections"] = "row";
+        }else if(this.direction === "top" || this.direction === "bottom"){
+            styleObject["flexDirection"] = "row";
             this.style.other.state = styleObject
         }
     }

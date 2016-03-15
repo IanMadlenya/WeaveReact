@@ -1,4 +1,5 @@
 import React from 'react';
+import App from "../../utils/App";
 
 class SideBar extends React.Component {
     constructor(props) {
@@ -6,7 +7,6 @@ class SideBar extends React.Component {
         this.settings = props.settings ;
         App.hookSessionStateForComponentChildren(this.props.children,this.settings);
         App.addForceUpdateToCallbacks(this);
-        this.propsManager = new PropsManager();
         if(App.debug)console.log("Sidebar - constructor");
     }
 
@@ -29,14 +29,14 @@ class SideBar extends React.Component {
 
 
     renderChildren(){
-        return  App.renderChildren(this,this.propsManager);
+        return  App.renderChildren(this);
     }
 
 
     render() {
         if(App.debug)console.log("Sidebar - render");
         var styleObject =  this.settings.style.getStyleFor();
-        var childrenUI = this.renderChildren();
+        var childrenUI = this.settings.open.state?this.renderChildren():[];
 
         return ( <div style={styleObject}>
                        {childrenUI}

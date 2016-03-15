@@ -1,6 +1,7 @@
 
 import NodeConfig from "./NodeConfig";
 import InlineStyle from "../../configs/InlineStyle";
+import Props from "../../configs/Props";
 
 (function (module) {
 
@@ -57,6 +58,9 @@ import InlineStyle from "../../configs/InlineStyle";
             },
             allowMultipleSelection:{
                 value: Weave.linkableChild(this,  new weavejs.core.LinkableBoolean(false))
+            },
+            "props":{
+                value: new Props()
             }
         });
 
