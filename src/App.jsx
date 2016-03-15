@@ -8,6 +8,9 @@ import {TreeConfig} from "../../lib/index.js";
 import {Accordion} from "../../lib/index.js";
 import {AccordionConfig} from "../../lib/index.js";
 
+import {SideBarContainer} from "../../lib/index.js";
+import {sideBarContainerConfig} from "../../lib/index.js";
+
 import {SimpleTree} from "../../lib/index.js";
 import {SimpleTreeConfig} from "../../lib/index.js";
 
@@ -30,11 +33,12 @@ class App extends React.Component {
         var titleConfig = brandConfig.children.requestObject('',navbarConfig.Title);
         titleConfig.title.state = "Brand";
 
+        this.sideBarContainerConfig  = window.dbweave.root.requestObject('sideBarContainer',sideBarContainerConfig.Container);
 
-        this.simpleTreeConfig = window.dbweave.root.requestObject('simpleTree',SimpleTreeConfig);
+        var sideBar = this.sideBarContainerConfig.leftSideBar;
+        sideBar.open.state = true;
 
-        this.treeConfig = window.dbweave.root.requestObject('tree',TreeConfig);
-
+        this.treeConfig = sideBar.children.requestObject('tree',TreeConfig);
         this.treeConfig.nodePadding.value ="16px";
         this.treeConfig.align.value = "right";
         this.treeConfig.nodeIcon.value = "fa fa-caret-right";
@@ -97,6 +101,12 @@ class App extends React.Component {
           ]
         };
 
+        this.treeConfig.props.addNewProps("data",this.tree);
+        this.treeConfig.props.addNewProps("settings",this.treeConfig);
+        this.treeConfig.props.addNewProps("label","label");
+        this.treeConfig.props.addNewProps("icon","icon");
+        this.treeConfig.props.addNewProps("nodes","children");
+
         this.accordionConfig = window.dbweave.root.requestObject('accordion',AccordionConfig);
     }
 
@@ -153,13 +163,7 @@ class App extends React.Component {
                             <div style={{color:"red"}}>Hi I am Sanjay</div>
                         </Navbar.Form>
                     </Navbar>
-
-                    <div style={{display:"flex",flexDirection:"row"}}>
-                        <div style={{flexBasis:"15%", border:"1px solid #d0cdcd", padding:"4px" ,background:"linear-gradient(to right, #f8f8f8 , #f8f8f8)"}}>
-                            <Tree data={this.tree} settings={this.treeConfig} label="label" nodes="children" icon="icon"/>
-                            <SimpleTree data={this.tree} settings={this.simpleTreeConfig} label="label" children="children" click={this.treeClick}/>
-
-                        </div>
+                    <SideBarContainer settings={this.sideBarContainerConfig}>
                         <div style={{padding:"16px"}}>
                             <Accordion settings={this.accordionConfig}>
                                 <div>
@@ -175,8 +179,7 @@ class App extends React.Component {
                                 <div>Child 4</div>
                             </Accordion>
                         </div>
-                    </div>
-
+                    </SideBarContainer>
                 </div>
         );
 
