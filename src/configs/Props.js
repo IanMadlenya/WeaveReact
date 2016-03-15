@@ -1,6 +1,9 @@
 class Props {
     constructor() {
          Object.defineProperties(this, {
+            "childEvents":{
+                value:{}
+            },
             "events":{
                 value:{}
             }
@@ -38,7 +41,7 @@ class Props {
     }
 
 
-    getPropsForChild(configName ,index){
+    getPropsForChild(thisArg,config,configName ,index){
         var oddChildIndex = this.oddChildren.indexOf(configName);
         if (oddChildIndex == -1) oddChildIndex = this.oddChildren.indexOf(index);
 
@@ -58,17 +61,58 @@ class Props {
              }
 
         }
+
+        var eventNames = Object.keys(this.childEvents);
+        if (eventNames.length > 0) {
+            eventNames.map(function (eventName, i) {
+                var evtObj = this.childEvents[eventName];
+                var context = evtObj.context ? evtObj.context : thisArg;
+                if(!evtObj.bind)obj[eventName] = evtObj.callback.bind(context, config, index)
+                else obj[eventName] = evtObj.callback.bind(context, config, index , ...evtObj.bind);
+            },this)
+        }
+
         return obj;
     }
+
+
+
+
+    //to-do not sure, does we need to wrap parent Events here?
+    getProps(thisArg,config,configName ,index){
+        var obj = {};
+
+        var keys = Object.keys(this.newProps);
+        for(var i = 0; i < keys.length; i++){
+            var key = keys[i];
+            obj[key] = this.newProps[key];
+        }
+
+        var eventNames = Object.keys(this.events);
+        if (eventNames.length > 0) {
+            eventNames.map(function (eventName, i) {
+                var evtObj = this.events[eventName];
+                var context = evtObj.context ? evtObj.context : thisArg;
+                if(!evtObj.bind){
+                    obj[eventName] = evtObj.callback.bind(context, config, index)
+                }
+                else {
+                    obj[eventName] =  evtObj.callback.bind(thisArg, config, index , ...evtObj.bind);
+                }
+            },this)
+        }
+        return obj;
+
+    }
+
+
 
     addNewProps(propName , value ){
         this.newProps[propName] = value;
     }
 
 
-    getNewProps(){
-        return this.newProps;
-    }
+
 
 
     hasOddChildren(){
@@ -82,27 +126,23 @@ class Props {
     }
 
 
-    addEvent(eventName,callbackFn,bindValues){
+    addEvent(eventName,callbackFn,bindValues,context){
         this.events[eventName] = {
             callback:callbackFn,
-            bind:bindValues
+            bind:bindValues,
+            context: context
         }
     }
 
-    getEventProps(thisArg,config,index){
-        var eventObj = {};
-
-        var eventNames = Object.keys(this.events);
-        if (eventNames.length > 0) {
-            eventNames.map(function (eventName, i) {
-                var evtObj = this.events[eventName];
-                if(!evtObj.bind)eventObj[eventName] = evtObj.callback.bind(thisArg, config, index)
-                else evtObj.callback.bind(thisArg, config, index , ...evtObj.bind);
-            },this)
+    addChildEvent(eventName,callbackFn,bindValues,context){
+        this.childEvents[eventName] = {
+            callback:callbackFn,
+            bind:bindValues,
+            context: context
         }
-        return eventObj;
-
     }
+
+
 
 
 

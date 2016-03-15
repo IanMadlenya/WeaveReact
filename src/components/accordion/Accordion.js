@@ -24,11 +24,15 @@ class Accordion extends React.Component {
          App.removeForceUpdateFromCallbacks(this);
     }
 
-    // called only when React Parent render is called
+    // allowe render only when React Parent render is called with new iconMode value
     shouldComponentUpdate(nextProps){
         if(App.debug)console.log("Accordion - shouldComponentUpdate");
-        return false;
+        if(this.props.iconMode !== nextProps.iconMode)
+            return true
+        else
+            return false;
     }
+
 
     onClickCallback(childConfig,index){
         this.settings.activeChild.state = index;
@@ -38,9 +42,10 @@ class Accordion extends React.Component {
         var activeChildStyle = this.settings.activeChildStyle.getStyleFor();
         var childStyle = this.settings.childStyle.getStyleFor();
 
-        this.settings.props.addEvent("onClick",this.onClickCallback);
+        this.settings.props.addChildEvent("onClick",this.onClickCallback);
         this.settings.props.addChildProps("open",false,true);
         this.settings.props.addChildProps("style",childStyle,activeChildStyle);
+        this.settings.props.addChildProps("iconMode",this.props.iconMode);
         this.settings.props.keyProp = "index";
        this.settings.props.addOddChildren([this.settings.activeChild.state]);
 

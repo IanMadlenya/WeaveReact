@@ -36,7 +36,9 @@ class App extends React.Component {
         this.sideBarContainerConfig  = window.dbweave.root.requestObject('sideBarContainer',sideBarContainerConfig.Container);
 
         var sideBar = this.sideBarContainerConfig.leftSideBar;
+        sideBar.enable.state = true;
         sideBar.open.state = true;
+        sideBar.static.state = true;
 
         this.treeConfig = sideBar.children.requestObject('tree',TreeConfig);
         this.treeConfig.nodePadding.value ="16px";

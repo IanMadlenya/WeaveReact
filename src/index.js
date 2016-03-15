@@ -4,7 +4,6 @@ import TreeConfig from "./components/tree/TreeConfig";
 import SimpleTreeConfig from "./components/simpleTree/SimpleTreeConfig";
 import SimpleTree from "./components/simpleTree/SimpleTree";
 
-
 import Modal from "./components/modal/Modal";
 import ModalConfig from "./components/modal/ModalConfig";
 
@@ -22,6 +21,9 @@ import sideBarContainerConfig from "./components/sideBarContainer/Config";
 
 import SessionEditor from "./debugger/sessionStateEditor/SessionEditor";
 import SessionEditorConfig from "./debugger/sessionStateEditor/SessionEditorConfig";
+
+import Button from "./components/button/Button";
+import ButtonConfig from "./components/button/Config";
 
 import InlineStyle from "./configs/InlineStyle";
 import CSS from "./configs/CSS";
@@ -56,13 +58,14 @@ exports.sideBarContainerConfig = sideBarContainerConfig;
 exports.SessionEditor = SessionEditor;
 exports.SessionEditorConfig = SessionEditorConfig;
 
+exports.Button = Button;
+exports.ButtonConfig = ButtonConfig;
+
 exports.InlineStyle = InlineStyle;
 exports.CSS = CSS;
 exports.Props = Props;
 
 exports.Style = Style;
-
-
 
 exports.registerToolImplementation = function (asClassName, jsClass) {
     App.registerToolImplementation(asClassName, jsClass);

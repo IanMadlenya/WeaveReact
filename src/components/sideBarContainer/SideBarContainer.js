@@ -39,16 +39,20 @@ class SideBarContainer extends React.Component {
          if(App.debug)console.log("SidebarContainer - render");
 
         var childrenUI = this.renderChildren();
+        var leftSideBarUI = this.settings.leftSideBar.enable.state?<SideBar settings={this.settings.leftSideBar}/>:"";
+        var rightSideBarUI = this.settings.rightSideBar.enable.state?<SideBar settings={this.settings.rightSideBar}/>:"";
+        var topSideBarUI = this.settings.topSideBar.enable.state?<SideBar settings={this.settings.topSideBar}/>:"";
+        var bottomSideBarUI = this.settings.bottomSideBar.enable.state?<SideBar settings={this.settings.bottomSideBar}/>:"";
 
         var styleObject = this.settings.style.getStyleFor();
         return ( <div style = {styleObject}>
-                    <SideBar settings={this.settings.leftSideBar}/>
+                    {leftSideBarUI}
                     <div>
-                        <SideBar settings={this.settings.topSideBar}/>
+                        {topSideBarUI}
                         {childrenUI}
-                        <SideBar settings={this.settings.bottomSideBar}/>
+                        {bottomSideBarUI}
                     </div>
-                    <SideBar settings={this.settings.rightSideBar}/>
+                    {rightSideBarUI}
                 </div>
                 );
     }

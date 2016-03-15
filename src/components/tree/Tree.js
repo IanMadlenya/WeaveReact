@@ -62,15 +62,35 @@ class Tree extends React.Component {
 
     }
 
+    // allowe render only when React Parent render is called with new iconMode value
+    shouldComponentUpdate(nextProps){
+        if(this.props.iconMode !== nextProps.iconMode)
+            return true
+        else
+            return false;
+    }
 
 
     render() {
+        if(this.props.iconMode){
+            var iconName = this.settings.rootNode.iconName.state;
+            var iconUI = <span/>
+            if(iconName && iconName.length > 0){
+                var iconStyleObj = this.settings.nodeIconStyle.getStyleFor();
+                if(iconName.indexOf("/") == -1){ // fontAwesome Icon Name
+                    iconUI = <i style = {iconStyleObj} className={iconName} ></i>
+                }else {
+                    iconUI = <img style = {iconStyleObj} src={iconName}/>
+                }
+            }
+            return iconUI;
+        }
         var rootNodeStyle = this.settings.rootStyle.getStyleFor(null,true);
-return ( <Node style={rootNodeStyle} data={this.props.data} label={this.props.label} nodes={this.props.nodes} icon={this.props.icon}
-            settings={this.settings.rootNode}
-            treeConfig={this.settings}
-            clickCallback={this.props.clickCallback} />
-       );
+        return ( <Node style={rootNodeStyle} data={this.props.data} label={this.props.label} nodes={this.props.nodes} icon={this.props.icon}
+                    settings={this.settings.rootNode}
+                    treeConfig={this.settings}
+                    clickCallback={this.props.clickCallback} />
+               );
     }
 
 }

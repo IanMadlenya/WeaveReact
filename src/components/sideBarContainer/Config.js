@@ -1,5 +1,7 @@
 import InlineStyle from "../../configs/InlineStyle";
 import CSS from "../../configs/CSS";
+import Props from "../../configs/Props";
+import ButtonConfig from "../button/Config";
 
 class ContainerConfig {
     constructor() {
@@ -126,6 +128,9 @@ class SideBarConfig {
              "CSS":{
                 value: Weave.linkableChild(this, new CSS())
             },
+             "props":{
+                value: new Props()
+            },
             "children": {
                 value: Weave.linkableChild(this, new weavejs.core.LinkableHashMap())
             },
@@ -133,12 +138,15 @@ class SideBarConfig {
                 value: Weave.linkableChild(this, new weavejs.core.LinkableBoolean(false))
             },
              static:{
-                value: Weave.linkableChild(this, new weavejs.core.LinkableBoolean(false))
+                value: Weave.linkableChild(this, new weavejs.core.LinkableBoolean(true))
             },
              iconsOnly:{
                 value: Weave.linkableChild(this, new weavejs.core.LinkableBoolean(false))
             },
              open:{
+                value: Weave.linkableChild(this, new weavejs.core.LinkableBoolean(false))
+            },
+             enable:{
                 value: Weave.linkableChild(this, new weavejs.core.LinkableBoolean(false))
             }
         });
@@ -149,6 +157,7 @@ class SideBarConfig {
         this.direction = "";
 
         this.open.addImmediateCallback(this,this.updateStyle);
+        this.static.addImmediateCallback(this,this.updateSideBarController);
 
     }
 
@@ -159,9 +168,9 @@ class SideBarConfig {
         }
 
         if(this.open.state){
-            styleObject["flexBasis"] = "12%"
+            styleObject["flexBasis"] = "12%";
         }else{
-            styleObject["flexBasis"] = "0%"
+            styleObject["flexBasis"] = this.static.state?"3%":"0%";
         }
 
         if(this.direction === "right" || this.direction === "left"){
@@ -171,6 +180,33 @@ class SideBarConfig {
             styleObject["flexDirection"] = "row";
             this.style.other.state = styleObject
         }
+    }
+
+    toggleSideBarState(){
+        var buttonConfig = this.children.getObject("switchButton");
+        this.open.state = !buttonConfig.clicked.state;
+    }
+
+    updateSideBarController(){
+
+        if(this.static.state){
+            var buttonConfig = this.children.requestObject("switchButton", ButtonConfig);
+            buttonConfig.icon.state = {"clicked": "fa fa-align-justify" ,"default":"fa fa-times"};
+            var iconStyle = buttonConfig.iconStyle.other.state;
+            iconStyle = iconStyle?iconStyle:{};
+            iconStyle["fontSize"] = 24;
+            buttonConfig.iconStyle.other.state = iconStyle;
+            buttonConfig.iconOnly.state = true;
+            var btnStyle = buttonConfig.style.other.state;
+            btnStyle["justifyContent"] =  "flex-end";
+            buttonConfig.style.other.state = btnStyle;
+            buttonConfig.props.addEvent("onClick",this.toggleSideBarState,null,this);
+            var buttonStyle = buttonConfig.style.other.state ;
+            buttonStyle["order"] = "-1";
+        }else{
+            this.children.removeObject("switchButton");
+        }
+        this.updateStyle();
     }
 
 

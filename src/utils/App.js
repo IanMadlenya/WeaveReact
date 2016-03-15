@@ -171,13 +171,19 @@ class App {
 
 
 
-    static renderChildren(reactComp) {
+    static renderChildren(reactComp,childList) {
         var childConfigs = reactComp.settings.children.getObjects();
         var propsConfig = reactComp.settings.props;
 
         var clonedChildren = childConfigs.map(function (childConfig, index) {
             var child = reactComp.settings.configChildMap.get(childConfig);
             var configName = reactComp.settings.children.getName(childConfig);
+
+            if(childList){
+                 if(childList.indexOf(configName) == -1){
+                    return null; //
+                }
+            }
             var props = {}
 
             props["settings"] = childConfig;
@@ -187,10 +193,8 @@ class App {
                 App.mergeInto(props, child.props);
             }
             if(propsConfig && propsConfig.hasChildProps()){
-                var obj = propsConfig.getPropsForChild(configName,index);
+                var obj = propsConfig.getPropsForChild(reactComp, childConfig,configName,index);
                 App.mergeInto(props, obj);
-                var eventObj = propsConfig.getEventProps(reactComp, childConfig, index);
-                App.mergeInto(props, eventObj);
                 var key = propsConfig.keyProp;
                 if(key && key.length > 0){
                     if(key === "index") props["key"] = index;
@@ -208,7 +212,8 @@ class App {
             }
 
             if(childConfig.props){
-                App.mergeInto(props, childConfig.props.getNewProps());
+                var thisArg = child ? child : childConfig;
+                App.mergeInto(props, childConfig.props.getProps(thisArg,childConfig,configName, index));
             }
 
             if (child) {
@@ -244,7 +249,16 @@ class App {
 
         }.bind(this));
 
-        return clonedChildren;
+        if(childList && childList.length > 0){
+            var filteredChildren = clonedChildren.filter(function(child,index){
+                if(child === null)
+                    return false;
+                else
+                    return true;
+            },this);
+            return filteredChildren;
+        }else
+            return clonedChildren;
     }
 
     static mergeInto(into, obj, ignoreProps) {
