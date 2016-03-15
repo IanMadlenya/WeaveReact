@@ -155,8 +155,8 @@ class App {
                         childConfig = config.children.requestObject('', configClass);
                     }
                 }else{
-                    var settings = child.settings?child.settings:child.props.settings;
-                    config.children.setObject('', settings);
+                    childConfig = child.settings?child.settings:child.props.settings;
+                    config.children.setObject('', childConfig);
                 }
 
             }
