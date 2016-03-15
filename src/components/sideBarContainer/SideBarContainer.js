@@ -1,66 +1,72 @@
 import React from 'react';
-import Styles from '../../utils/Styles';
-import weavereact from 'weavereact';
+import App from '../../utils/App';
 import Overlay from './Overlay';
-import ContentWrap from './ContentWrap';
 import SideBar from "./SideBar";
+import sideBarContainerConfig from "./Config";
 
 
 class SideBarContainer extends React.Component {
     constructor(props) {
         super(props)
         this.settings = props.settings;
-
+        App.hookSessionStateForComponentChildren(this.props.children,this.settings);
+        App.addForceUpdateToCallbacks(this);
+        this.propsManager = new PropsManager();
+        if(App.debug)console.log("SidebarContainer - constructor");
     }
 
-    componentDidMount() {
-       this.settings.height.addImmediateCallback(this, this.forceUpdate);
-       this.settings.showSideBars.addImmediateCallback(this, this.forceUpdate);
-       this.settings.sideBars.childListCallbacks.addImmediateCallback(this, this.forceUpdate);
-    }
-
-
-    componentWillUnmount() {
-        this.settings.height.removeCallback(this, this.forceUpdate);
-        this.settings.showSideBars.removeCallback(this, this.forceUpdate);
-        this.settings.sideBars.childListCallbacks.removeCallback(this, this.forceUpdate);
-        //this.settings.sideBars.dispose();//to-do: double check this to make sure this is required, i m doing this as in render i m adding callback
+    componentWillReceiveProps(nextProps){
+        if(App.debug)console.log("SidebarContainer - componentWillReceiveProps");
+        App.componentWillReceiveProps(this,nextProps);
     }
 
 
+    componentWillUnmount(){
+        if(App.debug)console.log("SidebarContainer - componentWillUnmount");
+        App.removeForceUpdateFromCallbacks(this);
+    }
+
+    // called only when React Parent render is called
+    shouldComponentUpdate(nextProps){
+        if(App.debug)console.log("SidebarContainer - shouldComponentUpdate");
+        return false;
+    }
+
+    renderChildren(){
+        return  App.renderChildren(this,this.propsManager);
+    }
 
     render() {
+         if(App.debug)console.log("SidebarContainer - render");
 
-        var isOpen = this.settings.showSideBars.value;
-        var sideBarsUI  = [];
-        var staticBar = "";
-        sideBarsUI = this.settings.sideBars.getNames().map(function(barName,index){
-            var obj = this.settings.sideBars.getObject(barName);
-            if(obj.static.value)staticBar = obj.direction.value;
-            var configClass = Weave.getPath(obj).getType();
-            var ToolClass = weavereact.getToolImplementation(configClass);
-            var keyIndex = barName + index;
-            return <ToolClass key={keyIndex} isOpen={isOpen} settings={obj}/>
-        }.bind(this));
+        var childrenUI = this.renderChildren();
 
-        var styleObject =  this.settings.getState(this.props.isOpen,staticBar);
-
-        var overLayUi = "";
-        if(this.settings.overlay.enable.true){
-            overLayUi = <Overlay isOpen={isOpen} open={this.settings.showSideBars} settings = {this.settings.overlay}/>
-        }
-
-        var contentUI = <ContentWrap isOpen={isOpen}  contianerSettings={this.settings}>
-                            {this.props.children}
-                        </ContentWrap>
-
-        return ( <div style = {Styles.appendVendorPrefix(styleObject)}>
-                    {sideBarsUI}
-                    {overLayUi}
-                    {contentUI}
+        var styleObject = this.settings.style.getStyleFor();
+        return ( <div style = {styleObject}>
+                    <SideBar settings={this.settings.leftSideBar}/>
+                    <div>
+                        <SideBar settings={this.settings.topSideBar}/>
+                        {childrenUI}
+                        <SideBar settings={this.settings.bottomSideBar}/>
+                    </div>
+                    <SideBar settings={this.settings.rightSideBar}/>
                 </div>
                 );
     }
 }
+
+SideBarContainer.Overlay = Overlay;
+SideBarContainer.SideBar = SideBar;
+
+
+App.registerToolConfig(SideBarContainer,sideBarContainerConfig.Container);
+App.registerToolConfig(SideBarContainer.Overlay,sideBarContainerConfig.Overlay);
+App.registerToolConfig(SideBarContainer.SideBar,sideBarContainerConfig.SideBar);
+
+App.registerToolImplementation("weavereact.sideBarContainerConfig.Container",SideBarContainer);
+App.registerToolImplementation("weavereact.sideBarContainerConfig.Overlay",SideBarContainer.Overlay);
+App.registerToolImplementation("weavereact.sideBarContainerConfig.SideBar",SideBarContainer.SideBar);
+
+Weave.registerClass("weavereact.SideBarContainer", SideBarContainer,[weavejs.api.core.ILinkableObject]);
 
 module.exports = SideBarContainer;

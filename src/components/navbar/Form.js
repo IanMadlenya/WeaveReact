@@ -1,61 +1,43 @@
 import React from "react";
 import Style from "../../utils/Style";
 import App from "../../utils/App";
-import PropsManager from "../PropsManager";
 
 class Form extends React.Component {
 
     constructor(props) {
         super(props);
-        this.settings = this.props.settings; App.hookSessionStateForComponentChildren(this.props.children,this.settings);
-        this.addCallbacks = this.addCallbacks.bind(this);
-        this.removeCallbacks = this.removeCallbacks.bind(this);
-        this.propsManager =  new PropsManager()
-
+        this.settings = this.props.settings;
+       App.hookSessionStateForComponentChildren(this.props.children,this.settings);
+        App.addForceUpdateToCallbacks(this);
+        if(App.debug)console.log("Form - constructor");
     }
 
     componentWillReceiveProps(nextProps){
-        if(this.props.settings !== nextProps.settings){
-            if(nextProps.settings){
-                this.removeCallbacks();
-                this.settings = nextProps.settings;
-                this.addCallbacks();
-            }
+        if(App.debug)console.log("Form - componentWillReceiveProps");
+        App.componentWillReceiveProps(this,nextProps);
+    }
+
+
+    componentWillUnmount(){
+        if(App.debug)console.log("Form - componentWillUnmount");
+         App.removeForceUpdateFromCallbacks(this);
+    }
+
+    // called only when React Parent render is called
+    shouldComponentUpdate(nextProps){
+        if(App.debug)console.log("Form - shouldComponentUpdate");
+        if(this.props.dock !== nextProps.dock){
+            if(App.debug)console.log("props.dock changed");
+            return true
+        }else if(this.props.position !== nextProps.position){
+            if(App.debug)console.log("props.position changed");
+            return true
+        }else if(this.props.useCSS !== nextProps.useCSS){
+            if(App.debug)console.log("props.useCSS changed");
+            return true
+        }else{
+            return false
         }
-        if(this.props.style !== nextProps.style){// user style added through UI is Sessioned
-            if(nextProps.style)this.settings.style.domDefined.state = nextProps.style;
-        }
-        if(this.props.children !== nextProps.children){
-            App.hookSessionStateForComponentChildren(nextProps.children,this.settings);
-        }
-
-    }
-
-    componentDidMount(){
-        this.addCallbacks();
-    }
-
-    addCallbacks() {
-        this.settings.enable.addImmediateCallback(this, this.forceUpdate);
-        Weave.getCallbacks(this.settings.style).addImmediateCallback(this, this.forceUpdate);
-        this.settings.rightAlign.addImmediateCallback(this, this.forceUpdate);
-        this.settings.space.addImmediateCallback(this, this.forceUpdate);
-        this.settings.addGapAt.addImmediateCallback(this, this.forceUpdate);
-        this.settings.children.childListCallbacks.addImmediateCallback(this, this.forceUpdate);
-    }
-
-    removeCallbacks() {
-        this.settings.enable.removeCallback(this, this.forceUpdate);
-        Weave.getCallbacks(this.settings.style).removeCallback(this, this.forceUpdate);
-        this.settings.rightAlign.removeCallback(this, this.forceUpdate);
-        this.settings.space.removeCallback(this, this.forceUpdate);
-        this.settings.addGapAt.removeCallback(this, this.forceUpdate);
-        this.settings.children.childListCallbacks.removeCallback(this, this.forceUpdate);
-    }
-
-
-    componentWillUnmount() {
-        this.removeCallbacks();
     }
 
     renderChildren(){
@@ -68,29 +50,15 @@ class Form extends React.Component {
             childStyleObject["marginRight"] = space;
         }
 
-        this.propsManager.updateStyle(childStyleObject);
-        this.propsManager.addKeyProps("pageName");
-         return App.renderChildren(this,this.propsManager);
+        this.settings.props.addChildProps("style",childStyleObject);
+        return App.renderChildren(this);
     }
-
-    shouldComponentUpdate(nextProps){
-        if(this.props.dock !== nextProps.dock){
-            return true
-        }else if(this.props.position !== nextProps.position){
-            return true
-        }else if(this.props.useCSS !== nextProps.useCSS){
-            return true
-        }else{
-            return false;
-        }
-    }
-
-
 
 
 
 
     render() {
+        if(App.debug)console.log("Form - render");
         var navFormUI = <div/>;
         if(this.settings.enable.value){
             var styleObject = this.settings.style.getStyleFor(null);

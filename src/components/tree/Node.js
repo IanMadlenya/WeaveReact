@@ -2,7 +2,8 @@ import React from 'react';
 import App from "../../utils/App";
 import Style from "../../utils/Style";
 import NodeConfig from "./NodeConfig";
-import PropsManager from "../PropsManager"
+
+
 
 class Node extends React.Component {
 
@@ -17,7 +18,6 @@ class Node extends React.Component {
         this.showChildren = this.showChildren.bind(this);
         this.childrenCallback = this.childrenCallback.bind(this);
         this.renderChildren = this.renderChildren.bind(this);
-        this.propsManager = new PropsManager();
         this.isSessionStateCreatedForTreeData = false;
     }
 
@@ -164,13 +164,14 @@ class Node extends React.Component {
 
 
     renderChildren(){
-        this.propsManager.addNewProps("treeConfig",this.props.treeConfig);
-        this.propsManager.addNewProps("label",this.props.label);
-        this.propsManager.addNewProps("nodes",this.props.nodes);
-        this.propsManager.addNewProps("icon",this.props.icon);
-        this.propsManager.addNewProps("clickCallback",this.props.clickCallback);
+        this.settings.props.addChildProps("treeConfig",this.props.treeConfig);
+        this.settings.props.addChildProps("label",this.props.label);
+        this.settings.props.addChildProps("nodes",this.props.nodes);
+        this.settings.props.addChildProps("icon",this.props.icon);
+        this.settings.props.addChildProps("clickCallback",this.props.clickCallback);
+
         var treeNodes = this.getTreeNodes();
-        this.propsManager.addKeyProps("data",treeNodes);
+       this.settings.props.addChildProps("data",null, null,treeNodes );
         return App.renderChildren(this, this.propsManager);
     }
 

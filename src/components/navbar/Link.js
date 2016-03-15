@@ -7,6 +7,7 @@ class Link extends React.Component {
         this.settings = this.props.settings;
         this.addCallbacks = this.addCallbacks.bind(this);
         this.removeCallbacks = this.removeCallbacks.bind(this);
+        if(this.props.children)this.settings.title.value = this.props.children;
     }
 
     componentDidMount() {
@@ -42,6 +43,8 @@ class Link extends React.Component {
         if(this.props.style !== nextProps.style){// user style added through UI is Sessioned
             if(nextProps.style)this.settings.style.domDefined.state = nextProps.style;
         }
+        if(this.props.children !== nextProps.children)
+            this.settings.title.value = nextProps.children;
     }
 
 
@@ -49,6 +52,7 @@ class Link extends React.Component {
 
     render() {
         var title = this.settings.title.value;
+        var hrefLink = title.toLowerCase();
         if(this.props.iconOnly){
             title = "";
         }
@@ -56,7 +60,7 @@ class Link extends React.Component {
         if (this.props.isActive) {
 
             return ( <li style={this.props.style}>
-                        <a style={styleObject} href = {'#' + title.toLowerCase()}>
+                        <a style={styleObject} href = {'#' + hrefLink}>
                             <i className = {this.settings.iconName.value}> </i>
                             {title}
                         </a>
@@ -64,7 +68,7 @@ class Link extends React.Component {
             );
         } else {
             return (<li style={this.props.style}>
-                        <a style={styleObject} href = {'#' + title.toLowerCase()}>
+                        <a style={styleObject} href = {'#' + hrefLink}>
                             <i className = {this.settings.iconName.value}> </i>
                             {title}
                         </a>

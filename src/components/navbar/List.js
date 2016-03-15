@@ -2,7 +2,6 @@ import React from 'react';
 import Style from "../../utils/Style";
 import App from "../../utils/App";
 import Link from "./Link";
-import PropsManager from "../PropsManager";
 
 
 class List extends React.Component {
@@ -12,7 +11,6 @@ class List extends React.Component {
         this.settings = this.props.settings;
         App.hookSessionStateForComponentChildren(this.props.children,this.settings);
         App.addForceUpdateToCallbacks(this);
-        this.propsManager = new PropsManager();
         if(App.debug)console.log("List - constructor");
     }
 
@@ -62,11 +60,12 @@ class List extends React.Component {
             linkStyleObject["marginRight"] = space;
         }
 
-        this.propsManager.addNewProps("iconOnly",iconOnly);
-        this.propsManager.updateStyle(linkStyleObject);
-        this.propsManager.addKeyProps("pageName");
-        this.propsManager.addOddChild(this.settings.activePage.value,{isActive:"true"});
-        return  App.renderChildren(this,this.propsManager)
+        this.settings.props.addChildProps("iconOnly",iconOnly);
+        this.settings.props.addChildProps("style",linkStyleObject);
+        this.settings.props.addChildProps("isActive",false,true);
+        this.settings.props.keyProp = "objectName";
+        this.settings.props.addOddChildren([this.settings.activePage.value]);
+        return  App.renderChildren(this,this.propsManager);
     }
 
 

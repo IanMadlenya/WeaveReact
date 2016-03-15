@@ -1,5 +1,6 @@
 import InlineStyle from "../../configs/InlineStyle";
 import CSS from "../../configs/CSS";
+import Props from "../../configs/Props";
 
 class AccordionConfig {
     constructor() {
@@ -28,6 +29,9 @@ class AccordionConfig {
             },
             "mode":{
                 value: Weave.linkableChild(this, new weavejs.core.LinkableString("parentHeight"))
+            },
+            "props":{
+                value:  new Props()
             }
         });
 

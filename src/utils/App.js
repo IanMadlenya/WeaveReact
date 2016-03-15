@@ -1,14 +1,11 @@
-
 import Styles from "./Style";
-import HTMLWrapperConfig  from "../configs/HTMLWrapperConfig";
+import HTMLWrapperConfig from "../configs/HTMLWrapperConfig";
 import React from "react";
 
 class App {
     constructor() {
 
     }
-
-
 
     static registerToolImplementation(asClassName, jsClass) {
         if (!App.toolRegistry[asClassName])
@@ -19,9 +16,9 @@ class App {
         return App.toolRegistry[asClassName];
     }
 
-    static registerToolConfig (tool, config) {
+    static registerToolConfig(tool, config) {
         if (!App.toolConfigMap.has(tool))
-            App.toolConfigMap.set(tool,config);
+            App.toolConfigMap.set(tool, config);
     }
 
     static getToolConfig(tool) {
@@ -30,54 +27,54 @@ class App {
 
 
 
-    static componentWillReceiveProps(reactComp,nextProps){
-        if(reactComp.props.settings !== nextProps.settings){
-            if(nextProps.settings){
+    static componentWillReceiveProps(reactComp, nextProps) {
+        if (reactComp.props.settings !== nextProps.settings) {
+            if (nextProps.settings) {
                 App.removeForceUpdateFromCallbacks(reactComp);
                 reactComp.settings = nextProps.settings;
                 App.addForceUpdateToCallbacks(reactComp);
             }
         }
-        if(reactComp.props.style !== nextProps.style){// user style added through UI is Sessioned
-            if(nextProps.style)reactComp.settings.style.domDefined.state = nextProps.style;
+        if (reactComp.props.style !== nextProps.style) { // user style added through UI is Sessioned
+            if (nextProps.style) reactComp.settings.style.domDefined.state = nextProps.style;
         }
-        if(reactComp.props.children !== nextProps.children){
-            var WrapperConfigClass = reactComp["WrapperConfigClass"]? reactComp["WrapperConfigClass"]:null;
-            App.hookSessionStateForComponentChildren(nextProps.children,reactComp.settings,WrapperConfigClass);
+        if (reactComp.props.children !== nextProps.children) {
+            var WrapperConfigClass = reactComp["WrapperConfigClass"] ? reactComp["WrapperConfigClass"] : null;
+            App.hookSessionStateForComponentChildren(nextProps.children, reactComp.settings, WrapperConfigClass);
         }
 
     }
 
-    static addForceUpdateToCallbacks(reactComp){
+    static addForceUpdateToCallbacks(reactComp) {
         var config = reactComp.settings;
-        if(!Weave.isLinkable(config))
+        if (!Weave.isLinkable(config))
             console.error(config, " is not a LinkableObject");
         var propertyNames = Object.getOwnPropertyNames(config);
-        for(var i = 0 ; i < propertyNames.length ; i++){
+        for (var i = 0; i < propertyNames.length; i++) {
             var pn = propertyNames[i];
             var obj = config[pn];
-            if(Weave.isLinkable(obj)){
-                if(obj instanceof weavejs.core.LinkableHashMap)
+            if (Weave.isLinkable(obj)) {
+                if (obj instanceof weavejs.core.LinkableHashMap)
                     obj = obj.childListCallbacks;
-                Weave.getCallbacks(obj).addGroupedCallback(reactComp,reactComp.forceUpdate);
+                Weave.getCallbacks(obj).addGroupedCallback(reactComp, reactComp.forceUpdate);
             }
         }
 
 
     }
 
-    static removeForceUpdateFromCallbacks(reactComp){
+    static removeForceUpdateFromCallbacks(reactComp) {
         var config = reactComp.settings;
-        if(!Weave.isLinkable(config))
+        if (!Weave.isLinkable(config))
             console.error(config, " is not a LinkableObject");
         var propertyNames = Object.getOwnPropertyNames(config);
-        for(var i = 0 ; i < propertyNames.length ; i++){
+        for (var i = 0; i < propertyNames.length; i++) {
             var pn = propertyNames[i];
             var obj = config[pn];
-            if(Weave.isLinkable(obj)){
-                if(obj instanceof weavejs.core.LinkableHashMap)
+            if (Weave.isLinkable(obj)) {
+                if (obj instanceof weavejs.core.LinkableHashMap)
                     obj = obj.childListCallbacks;
-                Weave.getCallbacks(obj).removeCallback(reactComp,reactComp.forceUpdate);
+                Weave.getCallbacks(obj).removeCallback(reactComp, reactComp.forceUpdate);
             }
         }
 
@@ -86,46 +83,45 @@ class App {
 
 
     //For testing  and debug
-    static isSessionChangedFor(config){
-        if(!Weave.isLinkable(config))
+    static isSessionChangedFor(config) {
+        if (!Weave.isLinkable(config))
             console.error(config, " is not a LinkableObject");
         var propertyNames = Object.getOwnPropertyNames(config);
         var linkbleObject = null;
         var moreLinkableObjects = [];
-        for(var i = 0 ; i < propertyNames.length ; i++){
+        for (var i = 0; i < propertyNames.length; i++) {
             var pn = propertyNames[i];
             var obj = config[pn];
-            if(Weave.isLinkable(obj)){
-                var lo = (obj instanceof weavejs.core.LinkableHashMap)? obj.childListCallbacks : obj
-                if(!linkbleObject) linkbleObject = lo;
+            if (Weave.isLinkable(obj)) {
+                var lo = (obj instanceof weavejs.core.LinkableHashMap) ? obj.childListCallbacks : obj
+                if (!linkbleObject) linkbleObject = lo;
                 else moreLinkableObjects.push(lo);
             }
         }
 
-        if(App.debug){
+        if (App.debug) {
             var isChanged = false;
-            if(moreLinkableObjects.length > 0){
+            if (moreLinkableObjects.length > 0) {
 
-                for(var i = 0 ; i < moreLinkableObjects.length ; i++){
+                for (var i = 0; i < moreLinkableObjects.length; i++) {
                     isChanged = Weave.detectChange(config, moreLinkableObjects[i])
-                    if(isChanged){
-                        console.log( moreLinkableObjects[i] , " changed");
+                    if (isChanged) {
+                        console.log(moreLinkableObjects[i], " changed");
                     }
                 }
-            }
-            else if(linkbleObject){
-                isChanged =  Weave.detectChange(config, linkbleObject);
-                if(isChanged){
-                    console.log( linkbleObject , " changed");
+            } else if (linkbleObject) {
+                isChanged = Weave.detectChange(config, linkbleObject);
+                if (isChanged) {
+                    console.log(linkbleObject, " changed");
                 }
-            }else{
-                console.log( config , " no session Children");
+            } else {
+                console.log(config, " no session Children");
             }
         }
 
-        if(moreLinkableObjects.length > 0)
-            return Weave.detectChange(config, linkbleObject , moreLinkableObjects)
-        else if(linkbleObject)
+        if (moreLinkableObjects.length > 0)
+            return Weave.detectChange(config, linkbleObject, moreLinkableObjects)
+        else if (linkbleObject)
             return Weave.detectChange(config, linkbleObject);
         else
             return false;
@@ -133,147 +129,123 @@ class App {
 
 
 
-    static hookSessionStateForComponentChildren(children,config,WrapperConfigClass){
+    static hookSessionStateForComponentChildren(children, config, WrapperConfigClass) {
         config.children.delayCallbacks();
 
         config.childConfigMap = new Map();
-        config.configChildMap.forEach(function(value, key){
+        config.configChildMap.forEach(function (value, key) {
             var configName = config.children.getName(key);
             config.children.removeObject(configName);
         });
         config.configChildMap = new Map();
 
-        React.Children.forEach(children,function(child,index){
+        React.Children.forEach(children, function (child, index) {
             var childName = "";
             var childConfig = config.childConfigMap.get(child);
             var childConfigName = "";
-            if(typeof(child.type) === "string"){ // for HTML Elements
-                if(!childConfig){
-                    var configClass = WrapperConfigClass ? WrapperConfigClass:HTMLWrapperConfig
-                    childConfig = config.children.requestObject('',configClass);
+            if (typeof (child.type) === "string") { // for HTML Elements
+                if (!childConfig) {
+                    var configClass = WrapperConfigClass ? WrapperConfigClass : HTMLWrapperConfig
+                    childConfig = config.children.requestObject('', configClass);
                 }
-            }else{ // for React Composite Elements
+            } else { // for React Composite Elements
                 var configClass = App.getToolConfig(child.type);
-                if(!childConfig && configClass){
-                    childConfig = config.children.requestObject('',configClass);
+                if (!childConfig && configClass) {
+                    childConfig = config.children.requestObject('', configClass);
                 }
             }
-            if(child.props.style)childConfig.style.domDefined.state = child.props.style;
-            if(child.props.className)childConfig.CSS.className.state = child.props.className;
-            config.childConfigMap.set(child,childConfig);
-            config.configChildMap.set(childConfig,child);
+            var {className, style, ...other} = child.props;
+            if(child.props.enable && childConfig.enable)childConfig.enable.state = child.props.enable;
+            if (style) childConfig.style.domDefined.state = style;
+            if (className) childConfig.CSS.className.state = className;
+            if (other && childConfig.props) childConfig.props.merge(other);
+            config.childConfigMap.set(child, childConfig);
+            config.configChildMap.set(childConfig, child);
         });
 
-        if(config["addGapAt"]){
-            config.children.requestObject('gapDiv',HTMLWrapperConfig);
+        if (config["addGapAt"]) {
+            config.children.requestObject('gapDiv', HTMLWrapperConfig);
         }
         config.children.resumeCallbacks();
     }
 
 
 
-    static renderChildren(reactComp,propsManager){
+    static renderChildren(reactComp) {
         var childConfigs = reactComp.settings.children.getObjects();
+        var propsConfig = reactComp.settings.props;
 
-        var clonedChildren = childConfigs.map(function(childConfig,index){
+        var clonedChildren = childConfigs.map(function (childConfig, index) {
             var child = reactComp.settings.configChildMap.get(childConfig);
-            var configName =  reactComp.settings.children.getName(childConfig);
-            var props ={}
+            var configName = reactComp.settings.children.getName(childConfig);
+            var props = {}
 
             props["settings"] = childConfig;
-            if(child){
+            if (child) {
                 //if(child.props && !child.props.settings)
 
-                App.mergeInto(props,child.props);
+                App.mergeInto(props, child.props);
             }
-
-            if(propsManager){
-                if(propsManager.all.properties.length > 0){
-                    propsManager.all.properties.map(function(propName,i){
-                        if(propName === "index"){
-                            props[propName] = index;
-                        }else{
-                            var value = propsManager.all.values[i];
-                            props[propName] = value ? value[index]:configName
-                        }
-
-                    });
-                }
-
-                if(propsManager.new){
-                    App.mergeInto(props,propsManager.new);
-                }
-
-                if( propsManager.style){
-                    props.style = props.style || {};
-                    App.mergeInto(props.style,propsManager.style);
-                }
-
-                if(propsManager.events){
-                    var eventNames =  Object.keys(propsManager.events);
-                    if(eventNames.length > 0){
-                        eventNames.map(function(eventName , i){
-                            var eventObj = propsManager.events[eventName];
-                            props[eventName] = eventObj.callback.bind(reactComp,childConfig,index)
-                        })
+            if(propsConfig.hasChildProps()){
+                var obj = propsConfig.getPropsForChild(configName,index);
+                App.mergeInto(props, obj);
+                var eventObj = propsConfig.getEventProps(reactComp, childConfig, index);
+                App.mergeInto(props, eventObj);
+                var key = propsConfig.keyProp;
+                if(key && key.length > 0){
+                    if(key === "index") props["key"] = index;
+                    else if(key === "objectName") props["key"] = configName;
+                    else if(childConfig[key]){
+                        if(childConfig[key] instanceof weavejs.core.LinkableVariable)props["key"] = childConfig[key].state;
+                        else props["key"] = childConfig[key];
                     }
-                }
-                // important to odd child to do last to override the base child values
-                var odd = propsManager.odd;
-                if(odd.children.length > 0){
-                    var oddChildrenIndex = odd.children.indexOf(configName);
-                    if(oddChildrenIndex == -1){
-                        oddChildrenIndex = odd.children.indexOf(String(index));
-                    }
-                    if(oddChildrenIndex > -1) {
-                        App.mergeInto(props,odd.values[oddChildrenIndex])
-                    }else if(propsManager["default"]){
-                        App.mergeInto(props,propsManager["default"])
-                    }
-                }
-
-            }
-
-            if(child){
-                if(typeof(child.type) === "string"){
-                     props["key"] = configName;
-                    var configClass = childConfig.FLEXJS_CLASS_INFO.names[0].qName;
-                    var ToolClass =  App.getToolImplementation(configClass);
-                    return <ToolClass {...props}>{child}</ToolClass>;
                 }else{
-                    props = App.mergeInto(props,propsManager.new);
-                    if(reactComp.settings.childConfigMap.has(child))
+                    props["key"] = index;
+                }
+
+            }
+
+            if(childConfig.props){
+                App.mergeInto(props, childConfig.props.getNewProps());
+            }
+
+            if (child) {
+                if (typeof (child.type) === "string") {
+                    var configClass = childConfig.FLEXJS_CLASS_INFO.names[0].qName;
+                    var ToolClass = App.getToolImplementation(configClass);
+                    return <ToolClass {...props} > {child} < /ToolClass>;
+                } else {
+                    if (reactComp.settings.childConfigMap.has(child))
                         reactComp.settings.childConfigMap.delete(child);
-                    var clonedChild = React.cloneElement(child,props);
-                    reactComp.settings.configChildMap.set(childConfig,clonedChild);
-                    reactComp.settings.childConfigMap.set(clonedChild,childConfig);
+                    var clonedChild = React.cloneElement(child, props);
+                    reactComp.settings.configChildMap.set(childConfig, clonedChild);
+                    reactComp.settings.childConfigMap.set(clonedChild, childConfig);
                     return clonedChild;
                 }
-             }else{
-                props["key"] = configName;
-                if(configName === "gapDiv"){
+            } else {
+                if (configName === "gapDiv") {
                     var orderValue = String(reactComp.settings.addGapAt.state);
-                    if(!isNaN(orderValue)){
+                    if (!isNaN(orderValue)) {
                         props["style"] = {
-                            flex:"1",
-                            order:orderValue
+                            flex: "1",
+                            order: orderValue
                         }
                     }
                 }
                 //to-do need to replace with flexinfo file or tiher mean, create a utility function
                 //this solution will fail when config not part of session tree
                 var configClass = childConfig.FLEXJS_CLASS_INFO.names[0].qName;
-                var ToolClass =  App.getToolImplementation(configClass);
-                var newChild = <ToolClass {...props}/>;
+                var ToolClass = App.getToolImplementation(configClass);
+                var newChild = < ToolClass {...props}/>;
                 return newChild;
-             }
+            }
 
         }.bind(this));
 
         return clonedChildren;
     }
 
-    static mergeInto(into, obj,ignoreProps) {
+    static mergeInto(into, obj, ignoreProps) {
         for (let attr in obj) {
             into[attr] = obj[attr];
         }
@@ -282,9 +254,7 @@ class App {
 }
 
 App.toolRegistry = {};
-App.toolConfigMap =  new Map();
+App.toolConfigMap = new Map();
 App.debug = false;
 
 export default App;
-
-

@@ -1,6 +1,5 @@
 import React from 'react';
 import App from "../../utils/App";
-import PropsManager from "../PropsManager";
 import AccordionConfig from "./Config";
 
 
@@ -11,7 +10,6 @@ class Accordion extends React.Component {
         this.settings = this.props.settings;
         App.hookSessionStateForComponentChildren(this.props.children,this.settings);
         App.addForceUpdateToCallbacks(this);
-        this.propsManager = new PropsManager();
         if(App.debug)console.log("Accordion - constructor");
     }
 
@@ -40,12 +38,13 @@ class Accordion extends React.Component {
         var activeChildStyle = this.settings.activeChildStyle.getStyleFor();
         var childStyle = this.settings.childStyle.getStyleFor();
 
-        this.propsManager.addKeyProps("index");
-        this.propsManager.addNewProps("open",false);
-        this.propsManager.updateStyle(childStyle);
-        this.propsManager.addOddChild(this.settings.activeChild.state,{style:activeChildStyle,open:true},true);
-        this.propsManager.addEvent("onClick",this.onClickCallback);
-        return  App.renderChildren(this,this.propsManager);
+        this.settings.props.addEvent("onClick",this.onClickCallback);
+        this.settings.props.addChildProps("open",false,true);
+        this.settings.props.addChildProps("style",childStyle,activeChildStyle);
+        this.settings.props.keyProp = "index";
+       this.settings.props.addOddChildren([this.settings.activeChild.state]);
+
+        return  App.renderChildren(this);
     }
 
 

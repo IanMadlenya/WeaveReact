@@ -17,6 +17,9 @@ import navbarConfig from "./components/navbar/Config";
 import Accordion from "./components/accordion/Accordion";
 import AccordionConfig from "./components/accordion/Config";
 
+import SideBarContainer from "./components/sideBarContainer/SideBarContainer";
+import sideBarContainerConfig from "./components/sideBarContainer/Config";
+
 import InlineStyle from "./configs/InlineStyle";
 import CSS from "./configs/CSS";
 
@@ -44,6 +47,9 @@ exports.navbarConfig = navbarConfig;
 exports.Accordion = Accordion;
 exports.AccordionConfig = AccordionConfig;
 
+exports.SideBarContainer = SideBarContainer;
+exports.sideBarContainerConfig = sideBarContainerConfig;
+
 exports.InlineStyle = InlineStyle;
 exports.CSS = CSS;
 
@@ -70,6 +76,7 @@ exports.setDebug = function(val){
 exports.registerToolConfig = function (toolClass, configClass) {
     App.registerToolConfig(toolClass, configClass);
 }
+
 
 exports.getToolConfig = function (toolClass) {
     return App.getToolConfig(toolClass);

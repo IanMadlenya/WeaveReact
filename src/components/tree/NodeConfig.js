@@ -1,5 +1,5 @@
-/*import Weave from 'Weave';
-import weavejs from 'weavejs';*/
+import Props from "../../configs/Props";
+
 (function (module) {
 
     function NodeConfig() {
@@ -19,6 +19,9 @@ import weavejs from 'weavejs';*/
             },
             "active": {
                 value: Weave.linkableChild(this, new weavejs.core.LinkableBoolean())
+            },
+            "props":{
+                value: new Props()
             }
         });
 

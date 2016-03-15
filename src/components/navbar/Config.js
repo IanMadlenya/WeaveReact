@@ -1,9 +1,11 @@
 import Brand from "./Brand";
 import List from "./List";
 import Form from "./Form";
+
 import InlineStyle from "../../configs/InlineStyle";
 import CSS from "../../configs/CSS";
 import Style from "../../utils/Style";
+import Props from "../../configs/Props";
 
 class NavConfig {
     constructor() {
@@ -26,6 +28,9 @@ class NavConfig {
             },
             "dock":{
                 value: Weave.linkableChild(this, new weavejs.core.LinkableString("top"))
+            },
+             "props":{
+                value: new Props()
             }
         });
 
@@ -36,11 +41,11 @@ class NavConfig {
         //initial default values
         this.CSS.className.state = "navbar navbar-default";
 
+
         this.style.display.value = "flex";
         this.style.border.state = {border:"1px solid transparent"};
         this.style.other.state = {
             flexDirection:"row",
-            flex:"1",
             height:"7%",
             minHeight:"50px",
             zIndex: "1000",
@@ -49,6 +54,45 @@ class NavConfig {
         };
         this.style.padding.state = {padding:"4px"};
         this.style.background.state = "#F8F8F8";
+
+        this.dock.addImmediateCallback(this,this.updateStyle)
+    }
+
+    updateStyle(){
+        var styleObject = this.style.other.state;
+        styleObject["top"] = "";
+        styleObject["bottom"] = "";
+        styleObject["right"] = "";
+        styleObject["left"] = "";
+
+        if(this.dock.value === "top"){
+            this.style.position.state = "static";
+            styleObject["top"] = "0";
+            styleObject["flexDirection"] = "row";
+            styleObject["width"] = "100%";
+            styleObject["height"] = "5%";
+         }else if(this.dock.value === "bottom"){
+            this.style.position.state = "fixed";
+            styleObject["bottom"] = "0";
+            styleObject["flexDirection"] = "row";
+            styleObject["width"] = "100%";
+            styleObject["height"] = "5%";
+         }else if(this.dock.value === "right"){
+             this.style.position.state = "fixed";
+            styleObject["right"] = "0";
+            styleObject["flexDirection"] = "column";
+            styleObject["width"] = "5%";
+            styleObject["height"] = "100%";
+         }else if(this.dock.value === "left"){
+             this.style.position.state = "fixed";
+            styleObject["left"] = "0";
+            styleObject["flexDirection"] = "column";
+            styleObject["width"] = "5%";
+            styleObject["height"] = "100%";
+         }
+
+        this.style.other.state = styleObject;
+
     }
 
 
@@ -73,6 +117,9 @@ class BrandConfig {
             },
             "children":{
                 value: Weave.linkableChild(this, new weavejs.core.LinkableHashMap())
+            },
+             "props":{
+                value: new Props()
             }
         });
 
@@ -181,6 +228,9 @@ class ListConfig {
             },
             "space":{
                  value: Weave.linkableChild(this, new weavejs.core.LinkableNumber(8))
+            },
+             "props":{
+                value: new Props()
             }
         });
 
@@ -217,7 +267,7 @@ class LinkConfig {
 
         Object.defineProperties(this, {
             "title": {
-                value: Weave.linkableChild(this, new weavejs.core.LinkableString("Link"))
+                value: Weave.linkableChild(this, new weavejs.core.LinkableString(""))
             },
             "iconName": {
                 value: Weave.linkableChild(this, new weavejs.core.LinkableString("fa fa-home"))
@@ -270,6 +320,9 @@ class FormConfig {
             },
              "CSS":{
                 value: Weave.linkableChild(this, new CSS())
+            },
+             "props":{
+                value: new Props()
             }
         });
 

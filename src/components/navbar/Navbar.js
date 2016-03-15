@@ -19,36 +19,11 @@ class Navbar extends React.Component {
          if(App.debug)console.log("Navbar constructor");
         super(props);
         this.settings = this.props.settings ? this.props.settings : new navbarConfig.Navbar();
-        this.getStyle = this.getStyle.bind(this);
 
         this.renderChildren = this.renderChildren.bind(this);
         App.hookSessionStateForComponentChildren(this.props.children,this.settings);
         App.addForceUpdateToCallbacks(this);
-        this.propsManager =  new PropsManager();
     }
-
-     getStyle() {
-        var styleObject = this.settings.style.getStyleFor(null);
-         if(styleObject["position"] === "fixed"){
-             if(this.settings.dock.value === "top"){
-                styleObject["top"] = "0";
-             }else if(this.settings.dock.value === "bottom"){
-                styleObject["bottom"] = "0";
-             }else if(this.settings.dock.value === "right"){
-                styleObject["right"] = "0";
-                styleObject["flexDirection"] = "column";
-                styleObject["width"] = "5%";
-                styleObject["height"] = "100%";
-             }else if(this.settings.dock.value === "left"){
-                styleObject["left"] = "0";
-                styleObject["flexDirection"] = "column";
-                styleObject["width"] = "5%";
-                styleObject["height"] = "100%";
-             }
-         }
-        return Style.appendVendorPrefix(styleObject);
-    }
-
 
 
     componentWillUnmount(){
@@ -71,15 +46,15 @@ class Navbar extends React.Component {
 
 
     renderChildren(){
-         this.propsManager.addNewProps("dock",this.settings.dock.value);
-         this.propsManager.addNewProps("useCSS",this.settings.useCSS.value);
-         return App.renderChildren(this,this.propsManager);
+        this.settings.props.addChildProps("dock",this.settings.dock.value);
+        this.settings.props.addChildProps("useCSS",this.settings.useCSS.value);
+        return App.renderChildren(this,this.propsManager);
     }
 
 
     render() {
         if(App.debug)console.log("Navbar ---Render---");
-        var styleObj = this.getStyle();
+        var styleObj = this.settings.style.getStyleFor(null);
         var cssName = this.settings.CSS.getCSSFor();
         var childrenUI = this.renderChildren();
 
