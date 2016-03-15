@@ -20,13 +20,16 @@ import AccordionConfig from "./components/accordion/Config";
 import SideBarContainer from "./components/sideBarContainer/SideBarContainer";
 import sideBarContainerConfig from "./components/sideBarContainer/Config";
 
+import SessionEditor from "./debugger/sessionStateEditor/SessionEditor";
+import SessionEditorConfig from "./debugger/sessionStateEditor/SessionEditorConfig";
+
 import InlineStyle from "./configs/InlineStyle";
 import CSS from "./configs/CSS";
+import Props from "./configs/Props";
 
 
 import App from "./utils/App";
 import Style from "./utils/App";
-import PropsManager from "./components/PropsManager";
 
 
 exports.Tree = Tree;
@@ -50,10 +53,12 @@ exports.AccordionConfig = AccordionConfig;
 exports.SideBarContainer = SideBarContainer;
 exports.sideBarContainerConfig = sideBarContainerConfig;
 
+exports.SessionEditor = SessionEditor;
+exports.SessionEditorConfig = SessionEditorConfig;
+
 exports.InlineStyle = InlineStyle;
 exports.CSS = CSS;
-
-exports.PropsManager = PropsManager;
+exports.Props = Props;
 
 exports.Style = Style;
 

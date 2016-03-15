@@ -1,6 +1,6 @@
 
 import React from "react";
-import {Tree} from "../../../lib/index.js";
+import Tree from "../../components/tree/Tree";
 
 
 class TreeSection extends React.Component {

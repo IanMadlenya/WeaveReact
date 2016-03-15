@@ -6,7 +6,6 @@ class NodeView extends React.Component {
   constructor(props) {
     super(props);
 
-
     this.textAreaChange = this.textAreaChange.bind(this);
 
   }

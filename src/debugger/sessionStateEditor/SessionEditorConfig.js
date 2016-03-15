@@ -1,5 +1,6 @@
-import {TreeConfig} from "../../../lib/index.js";
-import {ModalConfig} from "../../../lib/index.js";
+
+import ModalConfig from "../../components/modal/ModalConfig";
+import TreeConfig from "../../components/tree/TreeConfig";
 (function (module) {
 
 
