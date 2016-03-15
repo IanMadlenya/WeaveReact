@@ -149,13 +149,14 @@ class App {
                     childConfig = config.children.requestObject('', configClass);
                 }
             } else { // for React Composite Elements
-                if(!child.settings){
+                if(!child.settings && !child.props.settings){
                     var configClass = App.getToolConfig(child.type);
                     if (!childConfig && configClass) {
                         childConfig = config.children.requestObject('', configClass);
                     }
                 }else{
-                    config.children.setObject('', child.settings);
+                    var settings = child.settings?child.settings:child.props.settings;
+                    config.children.setObject('', settings);
                 }
 
             }
