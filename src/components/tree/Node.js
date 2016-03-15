@@ -15,10 +15,10 @@ class Node extends React.Component {
         this.getTreeLabel = this.getTreeLabel.bind(this);
         this.getIconName = this.getIconName.bind(this);
         this.createSessionStateForTree = this.createSessionStateForTree.bind(this);
-        this.showChildren = this.showChildren.bind(this);
         this.renderChildren = this.renderChildren.bind(this);
         this.isSessionStateCreatedForTreeData = false;
         App.addForceUpdateToCallbacks(this);
+        this.settings.open.addImmediateCallback(this,this.showChildren);
     }
 
 
@@ -27,7 +27,8 @@ class Node extends React.Component {
     }
 
     componentWillUnmount () {
-       App.removeForceUpdateFromCallbacks(this);
+        App.removeForceUpdateFromCallbacks(this);
+        this.settings.open.removeCallback(this,this.showChildren);
     }
 
     toggle(){
@@ -84,7 +85,6 @@ class Node extends React.Component {
             }
 
         }
-        this.forceUpdate();
     }
 
     getTreeNodes(data,nodes){
