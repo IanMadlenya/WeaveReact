@@ -49,6 +49,12 @@ import InlineStyle from "../../configs/InlineStyle";
             branchStyle:{
                 value: Weave.linkableChild(this, new InlineStyle())
             },
+            nodeIconStyle:{
+                value: Weave.linkableChild(this, new InlineStyle())
+            },
+            leafIconStyle:{
+                value: Weave.linkableChild(this, new InlineStyle())
+            },
             allowMultipleSelection:{
                 value: Weave.linkableChild(this,  new weavejs.core.LinkableBoolean(false))
             }
@@ -62,6 +68,14 @@ import InlineStyle from "../../configs/InlineStyle";
         this.nodeStyle.other.state = {
             "flexDirection": "row"
         }
+
+        this.nodeIconStyle.other.state = {
+            width: "20px",
+            height : "20px",
+            paddingRight:"2px"
+        }
+
+
 
         this.leafStyle.display.state = "flex";
         this.leafStyle.other.state = {

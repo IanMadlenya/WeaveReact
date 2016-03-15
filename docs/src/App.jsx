@@ -26,7 +26,7 @@ class App extends React.Component {
         this.navConfig = window.dbweave.root.requestObject('navbar',navbarConfig.Navbar);
         var brandConfig = this.navConfig.children.requestObject('',navbarConfig.Brand);
         var logoConfig = brandConfig.children.requestObject('',navbarConfig.Logo);
-        logoConfig.src.state = "logo.png";
+        logoConfig.src.state = "./images/logo.png";
         var titleConfig = brandConfig.children.requestObject('',navbarConfig.Title);
         titleConfig.title.state = "Brand";
 
@@ -63,6 +63,7 @@ class App extends React.Component {
 
         this.tree={
             "label": "Components",
+            "icon":"./images/Components.png",
             "children": [
               {
                 "label": "Navbar",

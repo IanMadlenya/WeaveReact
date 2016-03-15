@@ -16,34 +16,18 @@ class Node extends React.Component {
         this.getIconName = this.getIconName.bind(this);
         this.createSessionStateForTree = this.createSessionStateForTree.bind(this);
         this.showChildren = this.showChildren.bind(this);
-        this.childrenCallback = this.childrenCallback.bind(this);
         this.renderChildren = this.renderChildren.bind(this);
         this.isSessionStateCreatedForTreeData = false;
+        App.addForceUpdateToCallbacks(this);
     }
-
-    addCallbacks(){
-        this.settings.open.addImmediateCallback(this, this.showChildren);
-        this.settings.children.childListCallbacks.addGroupedCallback(this, this.childrenCallback);
-        this.settings.label.addImmediateCallback(this, this.forceUpdate);
-        this.settings.active.addImmediateCallback(this, this.forceUpdate);
-    }
-
-    removeCallbacks(){
-        this.settings.open.removeCallback(this, this.showChildren);
-        this.settings.children.childListCallbacks.removeCallback(this, this.childrenCallback);
-        this.settings.label.removeCallback(this, this.forceUpdate);
-        this.settings.active.removeCallback(this, this.forceUpdate);
-    }
-
 
 
     componentDidMount(){
-        this.addCallbacks();
         this.createSessionStateForTree();
     }
 
     componentWillUnmount () {
-       this.removeCallbacks();
+       App.removeForceUpdateFromCallbacks(this);
     }
 
     toggle(){
@@ -51,10 +35,6 @@ class Node extends React.Component {
         if(this.props.clickCallback)
             this.props.clickCallback.call(this,this.props.data,this.settings);
         this.props.treeConfig.changeActiveNode(this.settings);
-    }
-
-    childrenCallback(){
-        this.forceUpdate();
     }
 
 
@@ -169,10 +149,8 @@ class Node extends React.Component {
         this.settings.props.addChildProps("nodes",this.props.nodes);
         this.settings.props.addChildProps("icon",this.props.icon);
         this.settings.props.addChildProps("clickCallback",this.props.clickCallback);
-
-        var treeNodes = this.getTreeNodes();
-       this.settings.props.addChildProps("data",null, null,treeNodes );
-        return App.renderChildren(this, this.propsManager);
+        this.settings.props.addChildProps("data",null, null,this.getTreeNodes() );
+        return App.renderChildren(this);
     }
 
     render() {
@@ -189,14 +167,26 @@ class Node extends React.Component {
             var iconName = this.settings.iconName.value;
             var label = this.settings.label.value;
 
+            var iconUI = "";
+
+
+
             if(nodes.length > 0){ //folder
                 var branchStyle = this.props.treeConfig.branchStyle.getStyleFor();
                 var nodeStyle = this.props.treeConfig.nodeStyle.getStyleFor();
                 if(domeDefinedStyle)Style.mergeStyleObjects(nodeStyle,domeDefinedStyle,true);//this happens for rootNode
                 var controlName = this.props.treeConfig.getFolderIcon(isOpen);
+                if(iconName && iconName.length > 0){
+                    var iconStyleObj = this.props.treeConfig.nodeIconStyle.getStyleFor();
+                    if(iconName.indexOf("/") == -1){ // fontAwesome Icon Name
+                        iconUI = <i style = {iconStyleObj} className={iconName} ></i>
+                    }else {
+                        iconUI = <img style = {iconStyleObj} src={iconName}/>
+                    }
+                }
 
                 var folderUI = <span style={nodeStyle} onClick={this.toggle}>
-                                    <i className={iconName} ></i>
+                                    {iconUI}
                                     &nbsp;{label}
                                     <span style={{flex:"1"}}/>
                                     <i className={controlName} ></i>
@@ -214,9 +204,17 @@ class Node extends React.Component {
                 var fileIcon = this.props.treeConfig.getFileIcon(this.props.data,this.settings.open.value);
                 // this will return either normal/Active/Slected Style based on state of the leaf
                 var leafStyle = this.props.treeConfig.getLeafStyle(isOpen,this.settings.active.value);
+                if(iconName && iconName.length > 0){
+                    var iconStyleObj = this.props.treeConfig.leafIconStyle.getStyleFor();
+                    if(iconName.indexOf("/") == -1){ // fontAwesome Icon Name
+                        iconUI = <i style = {iconStyleObj} className={iconName} ></i>
+                    }else {
+                        iconUI = <img style = {iconStyleObj} src={iconName}/>
+                    }
+                }
 
                 nodeUI = <li style={leafStyle} onClick={this.toggle}>
-                            <i className={iconName} ></i>
+                            {iconUI}
                             &nbsp;{label}
                             <span style={{flex:"1"}}/>
                             <i className={fileIcon}></i>

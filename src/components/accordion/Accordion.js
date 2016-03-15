@@ -60,8 +60,6 @@ class Accordion extends React.Component {
             ui = <div className={cssName} style={styleObject}>{childrenUI}</div>;
         }
 
-
-
         return (ui);
     }
 
