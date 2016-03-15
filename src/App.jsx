@@ -144,15 +144,13 @@ class App extends React.Component {
         return (<div style={styleObject}>
                     <div id="popUp"/>
                     <Navbar settings={this.navConfig}>
-                        <Navbar.List key="list">
-                            <Navbar.Link key="link1"/>
-                            <Navbar.Link key="link2"/>
+                        <Navbar.List>
+                            <Navbar.Link>Home</Navbar.Link>
+                            <Navbar.Link>Components</Navbar.Link>
                         </Navbar.List>
-                        <Navbar.Form key="form">
-                            <div key="form1">Form1</div>
-                            <div key="di">Form2</div>
-                        </Navbar.Form >
-                        <div style={{color:"red"}}>Hi I am Sanjay</div>
+                        <Navbar.Form  enable="true">
+                            <div style={{color:"red"}}>Hi I am Sanjay</div>
+                        </Navbar.Form>
                     </Navbar>
 
                     <div style={{display:"flex",flexDirection:"row"}}>
