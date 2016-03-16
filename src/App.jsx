@@ -142,7 +142,7 @@ class App extends React.Component {
         this.treeConfig.rootNode.open.state = true;
 
         this.tree={
-            "label": "Components 2",
+            "label": "Big",
             "icon":"./images/Components.png",
             "children": [
               {
@@ -153,6 +153,55 @@ class App extends React.Component {
                         "children": []
                     }
               ]
+            },
+            {
+              "label": "Tab",
+              "children": [],
+            }
+          ]
+        };
+
+        this.treeConfig.props.addNewProps("data",this.tree);
+        this.treeConfig.props.addNewProps("settings",this.treeConfig);
+        this.treeConfig.props.addNewProps("label","label");
+        this.treeConfig.props.addNewProps("icon","icon");
+        this.treeConfig.props.addNewProps("nodes","children");
+
+
+        this.treeConfig = accordionConfig.children.requestObject('tree3',TreeConfig);
+        this.treeConfig.nodePadding.value ="16px";
+        this.treeConfig.align.value = "right";
+        this.treeConfig.nodeIcon.value = "fa fa-caret-right";
+        this.treeConfig.nodeOpenIcon.value = "fa fa-caret-down";
+        this.treeConfig.leafIcon.value = "fa fa-square-o";
+        this.treeConfig.leafOpenIcon.value = "fa fa-check-square-o";
+        this.treeConfig.enableDataTypeIcon.value = false;
+        this.treeConfig.allowMultipleSelection.value = true;
+        this.treeConfig.leafStyle.other.state = {
+            paddingTop: "8px",
+            paddingBottom:"8px"
+        }
+
+
+        this.treeConfig.rootStyle.other.state = {
+            textTransform: "uppercase",
+            color:"#5d5d5d"
+        }
+
+        this.treeConfig.nodeStyle.other.state = {
+            paddingTop: "8px",
+            paddingBottom:"8px"
+        }
+
+        this.treeConfig.rootNode.open.state = true;
+
+        this.tree={
+            "label": "small",
+            "icon":"./images/Components.png",
+            "children": [
+              {
+                "label": "accord",
+                "children": []
             },
             {
               "label": "Tab",
