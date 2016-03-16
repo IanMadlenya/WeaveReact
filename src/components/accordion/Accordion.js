@@ -11,11 +11,13 @@ class Accordion extends React.Component {
         App.hookSessionStateForComponentChildren(this.props.children,this.settings);
         App.addForceUpdateToCallbacks(this);
         if(App.debug)console.log("Accordion - constructor");
+        this.settings.setIconModeLayout(this.props.iconMode);
     }
 
     componentWillReceiveProps(nextProps){
         if(App.debug)console.log("Accordion - componentWillReceiveProps");
         App.componentWillReceiveProps(this,nextProps);
+        this.settings.setIconModeLayout(nextProps.iconMode);
     }
 
 

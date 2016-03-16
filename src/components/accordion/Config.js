@@ -61,6 +61,12 @@ class AccordionConfig {
         };
     }
 
+    setIconModeLayout(isIcon){
+        var styleObject = this.style.other.state ? this.style.other.state: {};
+        if(isIcon)styleObject["alignItems"] = "center";
+        else styleObject["alignItems"] = "stretch";
+    }
+
     changeActiveChildStyle(){
         if(this.mode.state == "parentHeight"){
             this.activeChildStyle.other.state = {
