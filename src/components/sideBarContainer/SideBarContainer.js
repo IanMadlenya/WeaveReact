@@ -47,7 +47,7 @@ class SideBarContainer extends React.Component {
         var styleObject = this.settings.style.getStyleFor();
         return ( <div style = {styleObject}>
                     {leftSideBarUI}
-                    <div>
+                    <div style={{width:"100%",height:"100%"}}>
                         {topSideBarUI}
                         {childrenUI}
                         {bottomSideBarUI}
