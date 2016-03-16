@@ -163,9 +163,9 @@ class SideBarConfig {
 
     updateStyle(){
         this.style.display.state = "flex";
-        var styleObject = {
-            justifyContent:"flex-start"
-        }
+
+        var styleObject = this.style.other.state ? this.style.other.state: {};
+         styleObject["justifyContent"]="flex-start";
 
         if(this.open.state){
             styleObject["flexBasis"] = "12%";
@@ -180,6 +180,7 @@ class SideBarConfig {
             styleObject["flexDirection"] = "row";
             this.style.other.state = styleObject
         }
+        this.style.other.state = styleObject;
     }
 
     toggleSideBarState(){
