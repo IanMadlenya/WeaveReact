@@ -157,7 +157,7 @@ class SideBarConfig {
         this.direction = "";
 
         this.open.addImmediateCallback(this,this.updateStyle,true);
-        this.static.addImmediateCallback(this,this.updateSideBarController);
+        this.static.addImmediateCallback(this,this.updateSideBarController,true);
 
     }
 
