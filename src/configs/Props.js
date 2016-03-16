@@ -53,7 +53,15 @@ class Props {
 
             var key = keys[i];
             if(this.childProps[key][0] !== null){// defaultValue || oddValue
-                if(isOdd)obj[key] = this.childProps[key][1];
+                if(isOdd){
+                    if(this.childProps[key][1] !== undefined){ // checking whether prop needs to behave differently for odd child
+                        obj[key] = this.childProps[key][1];
+                    }
+                    else{
+                        obj[key] = this.childProps[key][0]
+                    }
+
+                }
                 else obj[key] = this.childProps[key][0];
              }else{ // unique Values
                  var values = this.childProps[key][2];

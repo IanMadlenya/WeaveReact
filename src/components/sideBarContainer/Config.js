@@ -204,6 +204,7 @@ class SideBarConfig {
             buttonConfig.props.addEvent("onClick",this.toggleSideBarState,null,this);
             var buttonStyle = buttonConfig.style.other.state ;
             buttonStyle["order"] = "-1";
+            buttonConfig.clicked.state = !this.open.state;
         }else{
             this.children.removeObject("switchButton");
         }

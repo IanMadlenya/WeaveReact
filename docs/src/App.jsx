@@ -37,10 +37,13 @@ class App extends React.Component {
 
         var sideBar = this.sideBarContainerConfig.leftSideBar;
         sideBar.enable.state = true;
-        sideBar.open.state = true;
+        sideBar.open.state = false;
         sideBar.static.state = true;
 
-        this.treeConfig = sideBar.children.requestObject('tree',TreeConfig);
+        //this.accordionConfig = window.dbweave.root.requestObject('accordion',AccordionConfig);
+        var  accordionConfig = sideBar.children.requestObject('accordion',AccordionConfig);
+
+        this.treeConfig = accordionConfig.children.requestObject('tree',TreeConfig);
         this.treeConfig.nodePadding.value ="16px";
         this.treeConfig.align.value = "right";
         this.treeConfig.nodeIcon.value = "fa fa-caret-right";
@@ -109,7 +112,62 @@ class App extends React.Component {
         this.treeConfig.props.addNewProps("icon","icon");
         this.treeConfig.props.addNewProps("nodes","children");
 
-        this.accordionConfig = window.dbweave.root.requestObject('accordion',AccordionConfig);
+
+
+        this.treeConfig = accordionConfig.children.requestObject('tree2',TreeConfig);
+        this.treeConfig.nodePadding.value ="16px";
+        this.treeConfig.align.value = "right";
+        this.treeConfig.nodeIcon.value = "fa fa-caret-right";
+        this.treeConfig.nodeOpenIcon.value = "fa fa-caret-down";
+        this.treeConfig.leafIcon.value = "fa fa-square-o";
+        this.treeConfig.leafOpenIcon.value = "fa fa-check-square-o";
+        this.treeConfig.enableDataTypeIcon.value = false;
+        this.treeConfig.allowMultipleSelection.value = true;
+        this.treeConfig.leafStyle.other.state = {
+            paddingTop: "8px",
+            paddingBottom:"8px"
+        }
+
+
+        this.treeConfig.rootStyle.other.state = {
+            textTransform: "uppercase",
+            color:"#5d5d5d"
+        }
+
+        this.treeConfig.nodeStyle.other.state = {
+            paddingTop: "8px",
+            paddingBottom:"8px"
+        }
+
+        this.treeConfig.rootNode.open.state = true;
+
+        this.tree={
+            "label": "Components 2",
+            "icon":"./images/Components.png",
+            "children": [
+              {
+                "label": "Navbar",
+                "children": [
+                    {
+                        "label": "Brand",
+                        "children": []
+                    }
+              ]
+            },
+            {
+              "label": "Tab",
+              "children": [],
+            }
+          ]
+        };
+
+        this.treeConfig.props.addNewProps("data",this.tree);
+        this.treeConfig.props.addNewProps("settings",this.treeConfig);
+        this.treeConfig.props.addNewProps("label","label");
+        this.treeConfig.props.addNewProps("icon","icon");
+        this.treeConfig.props.addNewProps("nodes","children");
+
+
     }
 
 
@@ -167,19 +225,7 @@ class App extends React.Component {
                     </Navbar>
                     <SideBarContainer settings={this.sideBarContainerConfig}>
                         <div style={{padding:"16px"}}>
-                            <Accordion settings={this.accordionConfig}>
-                                <div>
-                                    Child 1
-                                    <div>Hi 1 </div>
-                                </div>
-                                <div>Child 2</div>
-                                <div>
-                                    Child 3
-                                    <div>Hi 3 </div>
-                                    <div>Hi 32 </div>
-                                </div>
-                                <div>Child 4</div>
-                            </Accordion>
+
                         </div>
                     </SideBarContainer>
                 </div>
@@ -191,4 +237,19 @@ class App extends React.Component {
 export default App;
 
 
-/**/
+
+
+
+/*<Accordion settings={this.accordionConfig}>
+                                <div>
+                                    Child 1
+                                    <div>Hi 1 </div>
+                                </div>
+                                <div>Child 2</div>
+                                <div>
+                                    Child 3
+                                    <div>Hi 3 </div>
+                                    <div>Hi 32 </div>
+                                </div>
+                                <div>Child 4</div>
+                            </Accordion>*/
