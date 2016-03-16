@@ -156,7 +156,7 @@ class SideBarConfig {
         this.configChildMap = new Map();
         this.direction = "";
 
-        this.open.addImmediateCallback(this,this.updateStyle);
+        this.open.addImmediateCallback(this,this.updateStyle,true);
         this.static.addImmediateCallback(this,this.updateSideBarController);
 
     }
