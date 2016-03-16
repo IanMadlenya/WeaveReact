@@ -165,12 +165,17 @@ class SideBarConfig {
         this.style.display.state = "flex";
 
         var styleObject = this.style.other.state ? this.style.other.state: {};
-         styleObject["justifyContent"]="flex-start";
+        styleObject["justifyContent"]="flex-start";
+
 
         if(this.open.state){
             styleObject["flexBasis"] = "12%";
+            styleObject["alignItems"] =  "flex-start";
         }else{
-            styleObject["flexBasis"] = this.static.state?"3%":"0%";
+            // for static state the switch button with will be taken
+            //styleObject["flexBasis"] = this.static.state?"3%":"0%";
+            styleObject["flexBasis"] = "0%";
+            styleObject["alignItems"] =  "center";
         }
 
         if(this.direction === "right" || this.direction === "left"){
@@ -200,15 +205,17 @@ class SideBarConfig {
             buttonConfig.iconOnly.state = true;
             var btnStyle = buttonConfig.style.other.state;
             btnStyle["justifyContent"] =  "flex-end";
+            btnStyle["alignSelf"] =  "flex-end";
             buttonConfig.style.other.state = btnStyle;
             buttonConfig.props.addEvent("onClick",this.toggleSideBarState,null,this);
             var buttonStyle = buttonConfig.style.other.state ;
             buttonStyle["order"] = "-1";
+            buttonStyle["margin"] = "4px";
             buttonConfig.clicked.state = !this.open.state;
         }else{
             this.children.removeObject("switchButton");
         }
-        this.updateStyle();
+        //this.updateStyle();
     }
 
 

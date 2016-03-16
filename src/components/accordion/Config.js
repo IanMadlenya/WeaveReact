@@ -46,6 +46,7 @@ class AccordionConfig {
         this.style.other.state = {
             flexDirection:"column",
             justifyContent:"flex-start",
+            alignItems:"inherit",
             height:"100%",
             width:"100%"
         };
