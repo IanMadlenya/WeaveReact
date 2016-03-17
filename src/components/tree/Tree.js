@@ -64,10 +64,11 @@ class Tree extends React.Component {
 
     // allowe render only when React Parent render is called with new iconMode value
     shouldComponentUpdate(nextProps){
+        if(this.props.data !== nextProps.data)
+            return true;
         if(this.props.iconMode !== nextProps.iconMode)
-            return true
-        else
-            return false;
+            return true;
+        return false;
     }
 
 
