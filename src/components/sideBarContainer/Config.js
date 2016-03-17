@@ -131,6 +131,9 @@ class SideBarConfig {
              "props":{
                 value: new Props()
             },
+             "size":{
+                value:  Weave.linkableChild(this, new weavejs.core.LinkableString("16%"))
+            },
             "children": {
                 value: Weave.linkableChild(this, new weavejs.core.LinkableHashMap())
             },
@@ -169,7 +172,7 @@ class SideBarConfig {
 
 
         if(this.open.state){
-            styleObject["flexBasis"] = "12%";
+            styleObject["flexBasis"] = this.size.value;
             styleObject["alignItems"] =  "flex-start";
         }else{
             // for static state the switch button with will be taken
