@@ -27,18 +27,21 @@ class App extends React.Component {
         this.sessionConfigWeave = new SessionEditorConfig();
 
         this.navConfig = window.dbweave.root.requestObject('navbar',navbarConfig.Navbar);
+
         var brandConfig = this.navConfig.children.requestObject('',navbarConfig.Brand);
+
         var logoConfig = brandConfig.children.requestObject('',navbarConfig.Logo);
         logoConfig.src.state = "./images/logo.png";
+
         var titleConfig = brandConfig.children.requestObject('',navbarConfig.Title);
         titleConfig.title.state = "Brand";
 
         this.sideBarContainerConfig  = window.dbweave.root.requestObject('sideBarContainer',sideBarContainerConfig.Container);
-
+        this.sideBarContainerConfig.rightSideBar.visible.state = false;
+        this.sideBarContainerConfig.topSideBar.visible.state = false;
+        this.sideBarContainerConfig.bottomSideBar.visible.state = false;
         var sideBar = this.sideBarContainerConfig.leftSideBar;
-        sideBar.enable.state = true;
-        sideBar.open.state = false;
-        sideBar.static.state = true;
+
 
         //this.accordionConfig = window.dbweave.root.requestObject('accordion',AccordionConfig);
         var  accordionConfig = sideBar.children.requestObject('accordion',AccordionConfig);
@@ -217,6 +220,10 @@ class App extends React.Component {
         this.treeConfig.props.addNewProps("nodes","children");
 
 
+        sideBar.visible.state = true;
+        sideBar.open.state = false;
+        sideBar.static.state = true;
+
     }
 
 
@@ -268,7 +275,7 @@ class App extends React.Component {
                             <Navbar.Link>Home</Navbar.Link>
                             <Navbar.Link>Components</Navbar.Link>
                         </Navbar.List>
-                        <Navbar.Form  enable="true">
+                        <Navbar.Form  visible="true">
                             <div style={{color:"red"}}>Hi I am Sanjay</div>
                         </Navbar.Form>
                     </Navbar>
