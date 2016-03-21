@@ -1,7 +1,5 @@
 import React from "react";
-import Style from "../../utils/Style";
-import App from "../../utils/App";
-import PropsManager from "../PropsManager";
+import ComponentManager from "../../ComponentManager";
 import tabsConfig from "./Config";
 import Tab from "./Tab";
 
@@ -10,27 +8,17 @@ import Tab from "./Tab";
 class Tabs extends React.Component {
 
     constructor(props) {
-        if(App.debug)console.log("Tabs constructor");
         super(props);
-        this.settings = this.props.settings ? this.props.settings:new tabsConfig.Tabs();
         this.WrapperConfigClass = Tab;
-        App.hookSessionStateForComponentChildren(this.props.children,this.settings,this.WrapperConfigClass);
-        App.addForceUpdateToCallbacks(this);
-        this.propsManager =  new PropsManager();
-
-        this.renderChildren = this.renderChildren.bind(this);
+        ComponentManager.initialize(this,"container");
     }
 
     componentWillReceiveProps(nextProps){
-        if(App.debug)console.log("Tabs componentWillReceiveProps");
-        App.componentWillReceiveProps(this,nextProps);
+        ComponentManager.componentWillReceiveProps(this,nextProps);
     }
 
-
-
     componentWillUnmount(){
-        if(App.debug)console.log("Tabs componentWillUnmount");
-        App.removeForceUpdateFromCallbacks(this);
+        ComponentManager.componentWillUnmount(this);
     }
 
     // weavestate change directly calls forceUpdate, so no need to use Weave.detectChange
@@ -44,7 +32,7 @@ class Tabs extends React.Component {
     renderChildren(){
         this.propsManager.addKeyProps("tabName");
         this.propsManager.addOddChild(this.settings.activeTab.state,{isActive:"true"});
-        return App.renderChildren(this,this.propsManager);
+        return componentWillUnmount.renderChildren(this);
     }
 
     switchTab(tabName,index){

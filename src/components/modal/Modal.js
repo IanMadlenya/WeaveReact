@@ -1,5 +1,5 @@
 import React from 'react';
-import Style from "../../utils/Style";
+import ComponentManager from "../../ComponentManager";
 import ModalConfig from "./ModalConfig";
 import ModalPanel from "./ModalPanel";
 
@@ -9,21 +9,13 @@ class Modal extends React.Component {
 
     constructor(props) {
         super(props);
-        this.settings = this.props.settings ? this.props.settings:new ModalConfig();
+        ComponentManager.initialize(this);
         this.openModal = this.openModal.bind(this);
 
     }
 
-    componentDidMount(){
-        this.settings.open.addGroupedCallback(this, this.forceUpdate);
-        this.settings.buttonIcon.addGroupedCallback(this, this.forceUpdate);
-    }
-
-
-
-    componentWillUnmount () {
-        this.settings.open.removeCallback(this, this.forceUpdate);
-        this.settings.buttonIcon.removeCallback(this, this.forceUpdate);
+    componentWillUnmount(){
+        ComponentManager.componentWillUnmount(this);
     }
 
 
@@ -32,47 +24,45 @@ class Modal extends React.Component {
     }
 
     componentWillReceiveProps(nextProps){
-        if(this.props.settings !== nextProps.settings){
-            this.settings.open.removeCallback(this, this.forceUpdate);
-            this.settings.buttonIcon.removeCallback(this, this.forceUpdate);
-            this.settings = nextProps.settings;
-            this.settings.open.addGroupedCallback(this, this.forceUpdate);
-            this.settings.buttonIcon.addGroupedCallback(this, this.forceUpdate);
-        }
+         ComponentManager.componentWillReceiveProps(this,nextProps);
     }
 
 
     render() {
-    var isOpen = this.settings.open.value;
-    var overlay = Style.overlayContainer(isOpen);
-    var modal = Style.modal(isOpen);
-    var modalButtonUI = "";
-    var modalPanelUI = "";
-    if(isOpen){
-        modalPanelUI = <ModalPanel title={this.props.title}  sessionOpen={this.settings.open} settings={this.settings.panelConfig}>
-                            {this.props.children}
-                        </ModalPanel>
-    }
-
-    if (!this.props.keyPress){
-        if(this.settings.buttonIcon.value){
-            modalButtonUI = <span style={{cursor:"pointer"}} onClick={this.openModal}><i className={this.settings.buttonIcon.value}></i></span>;
-        }
-        else{
-            modalButtonUI = <span type="button" className="btn btn-primary" onClick={this.openModal}>Open</span>;
+        var isOpen = this.settings.open.value;
+        var overlay = Style.overlayContainer(isOpen);
+        var modal = Style.modal(isOpen);
+        var modalButtonUI = "";
+        var modalPanelUI = "";
+        if(isOpen){
+            modalPanelUI = <ModalPanel title={this.props.title}  sessionOpen={this.settings.open} settings={this.settings.panelConfig}>
+                                {this.props.children}
+                            </ModalPanel>
         }
 
-    }
-    return (<span >
-                    {modalButtonUI}
+        if (!this.props.keyPress){
+            if(this.settings.buttonIcon.value){
+                modalButtonUI = <span style={{cursor:"pointer"}} onClick={this.openModal}><i className={this.settings.buttonIcon.value}></i></span>;
+            }
+            else{
+                modalButtonUI = <span type="button" className="btn btn-primary" onClick={this.openModal}>Open</span>;
+            }
 
-                    <div style={overlay}/>
-                    <div style={modal}>
-                        {modalPanelUI}
-                    </div>
-            </span>
-    );
+        }
+        return (<span >
+                        {modalButtonUI}
+
+                        <div style={overlay}/>
+                        <div style={modal}>
+                            {modalPanelUI}
+                        </div>
+                </span>
+        );
   }
 }
+
+Weave.registerClass("weavereact.Modal", Modal,[weavejs.api.core.ILinkableObject]);
+ComponentManager.registerToolConfig(Modal,ModalConfig);
+ComponentManager.registerToolImplementation("weavereact.ModalConfig",Modal);
 
 export default Modal;

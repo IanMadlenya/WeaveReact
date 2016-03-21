@@ -1,15 +1,11 @@
 import React from "react";
-
+import ComponentManager from "../../ComponentManager";
 
 class Tab extends React.Component {
 
     constructor(props) {
         super(props);
-        this.settings = this.props.settings;
-        App.hookSessionStateForComponentChildren(this.props.children,this.settings);
-        App.addForceUpdateToCallbacks(this);
-        this.propsManager = new PropsManager();
-        if(App.debug)console.log("Nav - constructor");
+        ComponentManager.initialize(this);
 
         this.setTabsSessionState = this.setTabsSessionState.bind(this);
         this.setTabsSessionState();// add the same for propsUpdate
@@ -33,11 +29,12 @@ class Tab extends React.Component {
     }
 
     componentDidMount(){
-        this.settings.activeTab.addImmediateCallback(this, this.forceUpdate);
-        this.settings.tabs.childListCallbacks.addImmediateCallback(this, this.forceUpdate);
+        this.settings.activeTab.addGroupedCallback(this, this.forceUpdate);
+        this.settings.tabs.childListCallbacks.addGroupedCallback(this, this.forceUpdate);
     }
 
     componentWillUnmount () {
+        ComponentManager.componentWillUnmount(this);
         this.settings.activeTab.removeCallback(this, this.forceUpdate)
         this.settings.tabs.childListCallbacks.removeCallback(this, this.forceUpdate);
     }

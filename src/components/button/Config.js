@@ -1,26 +1,10 @@
-import InlineStyle from "../../configs/InlineStyle";
-import CSS from "../../configs/CSS";
-import Props from "../../configs/Props";
+import ComponentManager from "../../ComponentManager";
 
 class ButtonConfig {
     constructor() {
+        ComponentManager.createDefaultSessionProperties(this);
 
          Object.defineProperties(this, {
-            "style":{
-                value: Weave.linkableChild(this, new InlineStyle())
-            },
-             "CSS":{
-                value: Weave.linkableChild(this, new CSS())
-            },
-             "props":{
-                 value: new Props()
-             },
-            "iconStyle":{
-                value: Weave.linkableChild(this, new InlineStyle())
-            },
-            "useCSS":{
-                value: Weave.linkableChild(this, new weavejs.core.LinkableBoolean(false))
-            },
             "icon":{//{default: "" , clicked: "" , mouseOver: ""}
                 value: Weave.linkableChild(this, new weavejs.core.LinkableVariable())
             },

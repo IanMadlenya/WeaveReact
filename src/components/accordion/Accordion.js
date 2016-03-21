@@ -1,5 +1,5 @@
 import React from 'react';
-import App from "../../utils/App";
+import ComponentManager from "../../ComponentManager";
 import AccordionConfig from "./Config";
 
 
@@ -7,34 +7,23 @@ class Accordion extends React.Component {
 
     constructor(props){
         super(props);
-        this.settings = this.props.settings;
-        App.hookSessionStateForComponentChildren(this.props.children,this.settings);
-        App.addForceUpdateToCallbacks(this);
-        if(App.debug)console.log("Accordion - constructor");
+        ComponentManager.initialize(this,"container");
         this.settings.setIconModeLayout(this.props.iconMode);
     }
 
     componentWillReceiveProps(nextProps){
-        if(App.debug)console.log("Accordion - componentWillReceiveProps");
-        App.componentWillReceiveProps(this,nextProps);
+        ComponentManager.componentWillReceiveProps(this,nextProps);
         this.settings.setIconModeLayout(nextProps.iconMode);
     }
 
 
     componentWillUnmount(){
-        if(App.debug)console.log("Accordion - componentWillUnmount");
-         App.removeForceUpdateFromCallbacks(this);
+        ComponentManager.componentWillUnmount(this);
     }
 
-    // allowe render only when React Parent render is called with new iconMode value
     shouldComponentUpdate(nextProps){
-        if(App.debug)console.log("Accordion - shouldComponentUpdate");
-        if(this.props.iconMode !== nextProps.iconMode)
-            return true
-        else
-            return false;
+        return ComponentManager.shouldComponentUpdate(this,nextProps);
     }
-
 
     onClickCallback(childConfig,index){
         this.settings.activeChild.state = index;
@@ -47,16 +36,16 @@ class Accordion extends React.Component {
         this.settings.props.addChildEvent("onClick",this.onClickCallback);
         this.settings.props.addChildProps("open",false,true);
         this.settings.props.addChildProps("style",childStyle,activeChildStyle);
-        this.settings.props.addChildProps("iconMode",this.props.iconMode);
+        this.settings.props.addChildProps("iconMode",this.settings.iconMode.state);
         this.settings.props.keyProp = "index";
-       this.settings.props.addOddChildren([this.settings.activeChild.state]);
+        this.settings.props.addOddChildren([this.settings.activeChild.state]);
 
-        return  App.renderChildren(this);
+        return  ComponentManager.renderChildren(this);
     }
 
 
     render() {
-        if(App.debug)console.log("Accordion - render");
+        if(ComponentManager.debug)console.log("Accordion - render");
 
         var styleObject = this.settings.style.getStyleFor(null,true);
         var childrenUI = this.renderChildren();
@@ -73,7 +62,7 @@ class Accordion extends React.Component {
 }
 Weave.registerClass("weavereact.Accordion", Accordion,[weavejs.api.core.ILinkableObject]);
 
-App.registerToolConfig(Accordion,AccordionConfig);
-App.registerToolImplementation("weavereact.AccordionConfig",Accordion);
+ComponentManager.registerToolConfig(Accordion,AccordionConfig);
+ComponentManager.registerToolImplementation("weavereact.AccordionConfig",Accordion);
 
 export default Accordion;

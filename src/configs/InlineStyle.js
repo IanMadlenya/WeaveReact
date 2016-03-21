@@ -6,6 +6,31 @@ class InlineStyle{
 
     constructor(){//to-do need to add verifier for each Session property to restrict to respective property
 
+        Object.defineProperties(this, {
+            "default": {
+                value: Weave.linkableChild(this, new weavejs.core.LinkableVariable())
+            },
+            "domDefined":{
+                value: Weave.linkableChild(this, new weavejs.core.LinkableVariable())
+            }
+        });
+
+        Object.defineProperties(this, {
+            "state": {
+                get: function(){
+                    var stateObj = Style.mergeStyleObjects(this.default.state,this.domDefined.state)
+                    return stateObj;
+                },
+                set: function(obj){
+                    var stateObj = this.default.state;
+                    this.default.state = Style.mergeStyleObjects(stateObj,obj);
+                }
+            },
+            "domDefined":{
+                value: Weave.linkableChild(this, new weavejs.core.LinkableVariable())
+            }
+        });
+
          Object.defineProperties(this, {
             "border": {
                 value: Weave.linkableChild(this, new weavejs.core.LinkableVariable())
@@ -44,6 +69,16 @@ class InlineStyle{
         });
 
 
+    }
+
+
+
+    merge(into, obj) {
+        for (let attr in obj) {
+            into[attr] = obj[attr];
+        }
+
+        return into;
     }
 
     getStyleFor(properties,appendVendorPrefix){

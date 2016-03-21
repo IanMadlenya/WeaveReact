@@ -1,5 +1,5 @@
 import React from 'react';
-import App from "../../utils/App";
+import ComponentManager from "../../ComponentManager";
 import ButtonConfig from "./Config";
 
 
@@ -7,26 +7,22 @@ class Button extends React.Component {
 
     constructor(props){
         super(props);
-        this.settings = this.props.settings?this.props.settings : new ButtonConfig();
-        App.addForceUpdateToCallbacks(this);
-        this.onClickListener = this.onClickListener.bind(this)
-        if(App.debug)console.log("Button - constructor");
+        ComponentManager.initialize(this);
+        this.onClickListener = this.onClickListener.bind(this);
     }
 
     componentWillReceiveProps(nextProps){
-        if(App.debug)console.log("Button - componentWillReceiveProps");
-        App.componentWillReceiveProps(this,nextProps);
+        ComponentManager.componentWillReceiveProps(this,nextProps);
     }
 
 
     componentWillUnmount(){
-        if(App.debug)console.log("Button - componentWillUnmount");
-         App.removeForceUpdateFromCallbacks(this);
+        ComponentManager.componentWillUnmount(this);
     }
 
     // allowe render only when React Parent render is called with new iconMode value
     shouldComponentUpdate(nextProps){
-        if(App.debug)console.log("Button - shouldComponentUpdate");
+        if(ComponentManager.debug)console.log("Button - shouldComponentUpdate");
         if(this.props.iconMode !== nextProps.iconMode)
             return true
         else
@@ -40,13 +36,13 @@ class Button extends React.Component {
 
 
     render() {
-        if(App.debug)console.log("Button - render");
+        if(ComponentManager.debug)console.log("Button - render");
         var iconUI = "";
         var label = this.settings.iconOnly.state?"":this.settings.label.state;
 
         var iconName = this.settings.getIcon();
         if(iconName && iconName.length>0){
-            var iconStyleObject = this.settings.iconStyle.getStyleFor(null,true);
+            var iconStyleObject = this.settings.iconModeStyle.getStyleFor(null,true);
             iconUI =  <i style={iconStyleObject} className = {iconName}> </i>
         }
 
@@ -63,7 +59,7 @@ class Button extends React.Component {
 }
 Weave.registerClass("weavereact.Button", Button,[weavejs.api.core.ILinkableObject]);
 
-App.registerToolConfig(Button,ButtonConfig);
-App.registerToolImplementation("weavereact.ButtonConfig",Button);
+ComponentManager.registerToolConfig(Button,ButtonConfig);
+ComponentManager.registerToolImplementation("weavereact.ButtonConfig",Button);
 
 export default Button;

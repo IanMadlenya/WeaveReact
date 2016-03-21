@@ -1,15 +1,13 @@
-import Props from "../../configs/Props";
+import ComponentManager from "../../ComponentManager";
 
 (function (module) {
 
     function NodeConfig() {
+        ComponentManager.createDefaultSessionProperties(this,"container");
 
         Object.defineProperties(this, {
             "label": {
                 value: Weave.linkableChild(this, new weavejs.core.LinkableString(""))
-            },
-            "children": {
-                value: Weave.linkableChild(this, new weavejs.core.LinkableHashMap()) // important to be prototype as type restriction is compared with prototype
             },
             "iconName": {
                 value: Weave.linkableChild(this, new weavejs.core.LinkableString())
@@ -19,17 +17,14 @@ import Props from "../../configs/Props";
             },
             "active": {
                 value: Weave.linkableChild(this, new weavejs.core.LinkableBoolean())
-            },
-            "props":{
-                value: new Props()
             }
         });
 
         this.open.state = false;
         this.active.state = false;
 
-        this.childConfigMap = new Map();
-        this.configChildMap = new Map();
+        this.data = null;
+
     }
 
 
@@ -37,6 +32,22 @@ import Props from "../../configs/Props";
 
     p.getNodes = function () {
         return this.children.getNames();
+    }
+
+    p.getNodeValueFor = function(property,data){
+        data = data? data:this.data;
+
+        if(data){
+            if(data[property] instanceof Function){
+                return data[property]();
+            }else if(property instanceof Function){
+                return property(data);
+            }else{
+                return data[property];
+            }
+        }else{
+            return "";
+        }
     }
 
     p.reset = function () {

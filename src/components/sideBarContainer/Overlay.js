@@ -1,21 +1,19 @@
 import React from 'react';
+import ComponentManager from "../../ComponentManager";
 
 class Overlay extends React.Component {
     constructor(props) {
         super(props)
-        this.settings = this.props.settings;
-        App.addForceUpdateToCallbacks(this);
-
+        ComponentManager.initialize(this);
     }
 
     componentWillUnmount() {
-         App.removeForceUpdateFromCallbacks(this);
+         ComponentManager.componentWillUnmount(this);
     }
 
     render() {
         var styleObject =  this.settings.style.getStyleFor();
-        return ( <div  style = {styleObject} />
-        );
+        return  <div  style={styleObject} />;
     }
 }
 

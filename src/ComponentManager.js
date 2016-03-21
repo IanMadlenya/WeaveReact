@@ -1,5 +1,5 @@
-import Styles from "./Style";
-import HTMLWrapperConfig from "../configs/HTMLWrapperConfig";
+import Styles from "./utils/Style";
+import HTMLWrapperConfig from "./configs/HTMLWrapperConfig";
 import React from "react";
 import InlineStyle from "./configs/InlineStyle";
 import CSS from "./configs/CSS";
@@ -19,20 +19,23 @@ class ComponentManager {
         return ComponentManager.toolRegistry[asClassName];
     }
 
-    static registerToolConfig(tool, config) {
-        if (!ComponentManager.toolConfigMap.has(tool))
-            ComponentManager.toolConfigMap.set(tool, config);
+    static registerToolConfig(toolClass, config) {
+        if (!ComponentManager.toolConfigMap.has(toolClass))
+            ComponentManager.toolConfigMap.set(toolClass, config);
     }
 
-    static getToolConfig(tool) {
-        return ComponentManager.toolConfigMap.get(tool);
+    static getToolConfig(toolClass) {
+        return ComponentManager.toolConfigMap.get(toolClass);
     }
 
 
-    static initialize(reactComp) {
+    static initialize(reactComp,type) {
         if(ComponentManager.debug)console.log(reactComp.constructor.name + " -- constructor");
         if (reactComp.props.settings) {
             reactComp.settings = reactComp.props.settings;
+        }else{
+            var newConfig = ComponentManager.getToolConfig(reactComp.constructor)
+            reactComp.settings = newConfig;
         }
         if (reactComp.props.style) { // user style added through UI is Sessioned
             reactComp.settings.style.domDefined.state = reactComp.props.style;
@@ -43,6 +46,9 @@ class ComponentManager {
         if (reactComp.props.enable) {
             if (reactComp.settings.enable) reactComp.settings.enable.state = reactComp.props.enable;
         }
+        if (reactComp.props.useCSS) {
+            if (reactComp.settings.useCSS) reactComp.settings.useCSS.state = reactComp.props.useCSS;
+        }
         if (reactComp.props.visible) {
             if (reactComp.settings.visible) reactComp.settings.visible.state = reactComp.props.visible;
         }
@@ -52,10 +58,10 @@ class ComponentManager {
         if (reactComp.props.iconMode) {
             if (reactComp.settings.iconMode) reactComp.settings.iconMode.state = reactComp.props.iconMode;
         }
-        if (reactComp.props.children) {
-            //to-do - (WrapperConfigClass)is  required?
+        if (type == "container" && reactComp.props.children && reactComp.constructor.name != "HTMLWrapper") {
             var WrapperConfigClass = reactComp["WrapperConfigClass"] ? reactComp["WrapperConfigClass"] : null;
             ComponentManager.hookSessionStateForComponentChildren(reactComp.props.children, reactComp.settings, WrapperConfigClass);
+            reactComp.renderChildren = reactComp.renderChildren.bind(reactComp);
         }
 
         ComponentManager.addForceUpdateToCallbacks(reactComp);
@@ -63,11 +69,17 @@ class ComponentManager {
 
     }
 
-    static createDefaultSessionProperties(config){
+    static createDefaultSessionProperties(config,type){
         if(ComponentManager.debug)console.log(config.constructor.name + " -- constructor");
         Object.defineProperties(config, {
             "style":{
                 value: Weave.linkableChild(config, new InlineStyle())
+            },
+            "iconModeStyle":{
+                value: Weave.linkableChild(config, new InlineStyle())
+            },
+            "iconModeName":{
+                value: Weave.linkableChild(config, new weavejs.core.LinkableString(""))
             },
              "CSS":{
                 value: Weave.linkableChild(config, new CSS())
@@ -79,7 +91,7 @@ class ComponentManager {
                 value: Weave.linkableChild(config, new weavejs.core.LinkableBoolean(false))
             },
             "visible":{
-                value: Weave.linkableChild(config, new weavejs.core.LinkableBoolean(false))
+                value: Weave.linkableChild(config, new weavejs.core.LinkableBoolean(true))
             },
             "iconMode":{
                 value: Weave.linkableChild(config, new weavejs.core.LinkableBoolean(false))
@@ -91,37 +103,76 @@ class ComponentManager {
                 value:  new Props()
             }
         });
+
+        if(type === "container"){
+            Object.defineProperties(config, {
+                "children":{
+                    value: Weave.linkableChild(config, new weavejs.core.LinkableHashMap())
+                }
+            });
+
+            config.childConfigMap = new Map();
+            config.configChildMap = new Map();
+
+        }
     }
 
 
     static componentWillReceiveProps(reactComp, nextProps) {
-        if(ComponentManager.debug)console.log(reactComp.constructor.name + " -- componentWillReceiveProps");
+        if(ComponentManager.debug)console.log(reactComp.constructor.name + " -- componentWillReceiveProps ---");
         if (reactComp.props.settings !== nextProps.settings) {
+            if(ComponentManager.debug)console.log(reactComp.constructor.name + " ** props Settings changed");
             if (nextProps.settings) {
+                if(ComponentManager.debug)console.log(reactComp.constructor.name + " ** Settings");
                 ComponentManager.removeForceUpdateFromCallbacks(reactComp);
                 reactComp.settings = nextProps.settings;
                 ComponentManager.addForceUpdateToCallbacks(reactComp);
             }
         }
         if (reactComp.props.style !== nextProps.style) { // user style added through UI is Sessioned
-            if (nextProps.style) reactComp.settings.style.domDefined.state = nextProps.style;
+            if(ComponentManager.debug)console.log(reactComp.constructor.name + " ** props style changed from " + reactComp.props.style + " to " + nextProps.style);
+            if (nextProps.style) {
+                 if(ComponentManager.debug)console.log(reactComp.constructor.name + " ** style");
+                reactComp.settings.style.domDefined.state = nextProps.style;
+            }
         }
         if (reactComp.props.className !== nextProps.className) { // user className added through UI is Sessioned
-            if (nextProps.className) reactComp.settings.CSS.className.state = nextProps.className;
+            if(ComponentManager.debug)console.log(reactComp.constructor.name + " ** props className changed from " + reactComp.props.className + " to " + nextProps.className);
+            if (nextProps.className) {
+                 if(ComponentManager.debug)console.log(reactComp.constructor.name + " ** className");
+                reactComp.settings.CSS.className.state = nextProps.className;
+            }
         }
         if (reactComp.props.enable !== nextProps.enable) {
-            if (nextProps.enable && reactComp.settings.enable) reactComp.settings.enable.state = nextProps.enable;
+            if(ComponentManager.debug)console.log(reactComp.constructor.name + " ** props enable changed  from " + reactComp.props.enable + " to " + nextProps.enable);
+            if (nextProps.enable !== undefined && reactComp.settings.enable) {
+                if(ComponentManager.debug)console.log(reactComp.constructor.name + " ** enable");
+                reactComp.settings.enable.state = nextProps.enable;
+            }
         }
         if (reactComp.props.visible !== nextProps.visible) {
-            if (nextProps.visible && reactComp.settings.visible) reactComp.settings.visible.state = nextProps.visible;
+            if(ComponentManager.debug)console.log(reactComp.constructor.name + " ** props visible changed from " + reactComp.props.visible + " to " + nextProps.visible);
+            if (nextProps.visible !== undefined && reactComp.settings.visible) {
+                if(ComponentManager.debug)console.log(reactComp.constructor.name + " ** visible");
+                reactComp.settings.visible.state = nextProps.visible;
+            }
         }
         if (reactComp.props.deviceMode !== nextProps.deviceMode) {
-            if (nextProps.deviceMode && reactComp.settings.deviceMode) reactComp.settings.deviceMode.state = nextProps.deviceMode;
+            if(ComponentManager.debug)console.log(reactComp.constructor.name + " ** props deviceMode changed from " + reactComp.props.deviceMode + " to " + nextProps.deviceMode);
+            if (nextProps.deviceMode !== undefined && reactComp.settings.deviceMode) {
+                if(ComponentManager.debug)console.log(reactComp.constructor.name + " ** deviceMode");
+                reactComp.settings.deviceMode.state = nextProps.deviceMode;
+            }
         }
         if (reactComp.props.iconMode !== nextProps.iconMode) {
-            if (nextProps.deviceMode && reactComp.settings.deviceMode) reactComp.settings.deviceMode.state = nextProps.deviceMode;
+            if(ComponentManager.debug)console.log(reactComp.constructor.name + " ** props iconMode changed from " + reactComp.props.iconMode + " to " + nextProps.iconMode);
+            if (nextProps.iconMode !== undefined  && reactComp.settings.iconMode){
+                if(ComponentManager.debug)console.log(reactComp.constructor.name + " ** iconMode");
+                reactComp.settings.iconMode.state = nextProps.iconMode;
+            }
         }
         if (reactComp.props.children !== nextProps.children) {
+            if(ComponentManager.debug)console.log(reactComp.constructor.name + "children");
             var WrapperConfigClass = reactComp["WrapperConfigClass"] ? reactComp["WrapperConfigClass"] : null;
             ComponentManager.hookSessionStateForComponentChildren(nextProps.children, reactComp.settings, WrapperConfigClass);
         }
@@ -133,10 +184,30 @@ class ComponentManager {
          ComponentManager.removeForceUpdateFromCallbacks(reactComp);
     }
 
-    /*static shouldComponentUpdate(reactComp, nextProps) {
+    static shouldComponentUpdate(reactComp, nextProps) {
+        if(ComponentManager.debug)console.log(reactComp.constructor.name + " - shouldComponentUpdate");
+        /*if (reactComp.props.style !== nextProps.style) { // user style added through UI is Sessioned
+           return true;
+        }
+        if (reactComp.props.className !== nextProps.className) { // user className added through UI is Sessioned
+            return true;
+        }
+        if (reactComp.props.enable !== nextProps.enable) {
+            return true;
+        }
+        if (reactComp.props.visible !== nextProps.visible) {
+            return true;
+        }
+        if (reactComp.props.deviceMode !== nextProps.deviceMode) {
+            return true;
+        }
+        if (reactComp.props.iconMode !== nextProps.iconMode) {
+            return true;
+        }
+        else*/
+            return false;
 
-
-    }*/
+    }
 
     static addForceUpdateToCallbacks(reactComp) {
         var config = reactComp.settings;
@@ -147,9 +218,12 @@ class ComponentManager {
             var pn = propertyNames[i];
             var obj = config[pn];
             if (Weave.isLinkable(obj)) {
-                if (obj instanceof weavejs.core.LinkableHashMap)
+                if (obj instanceof weavejs.core.LinkableHashMap){
                     obj = obj.childListCallbacks;
-                Weave.getCallbacks(obj).addGroupedCallback(reactComp, reactComp.forceUpdate);
+                    Weave.getCallbacks(obj).addGroupedCallback(reactComp, reactComp.forceUpdate);
+                }else if(obj instanceof weavejs.core.LinkableVariable){
+                     Weave.getCallbacks(obj).addGroupedCallback(reactComp, reactComp.forceUpdate);
+                }
             }
         }
 
@@ -165,9 +239,12 @@ class ComponentManager {
             var pn = propertyNames[i];
             var obj = config[pn];
             if (Weave.isLinkable(obj)) {
-                if (obj instanceof weavejs.core.LinkableHashMap)
+                if (obj instanceof weavejs.core.LinkableHashMap){
                     obj = obj.childListCallbacks;
-                Weave.getCallbacks(obj).removeCallback(reactComp, reactComp.forceUpdate);
+                    Weave.getCallbacks(obj).removeCallback(reactComp, reactComp.forceUpdate);
+                }else if(obj instanceof weavejs.core.LinkableVariable){
+                     Weave.getCallbacks(obj).removeCallback(reactComp, reactComp.forceUpdate);
+                }
             }
         }
 

@@ -1,11 +1,12 @@
-/*import Weave from 'Weave';
-import weavejs from 'weavejs';*/
+import ComponentManager from "../../ComponentManager";
 
 import ModalPanelConfig from "./ModalPanelConfig";
 
 (function (module) {
 
     function ModalConfig() {
+
+        ComponentManager.createDefaultSessionProperties(this);
 
         Object.defineProperties(this, {
             "panelConfig": {
@@ -23,7 +24,7 @@ import ModalPanelConfig from "./ModalPanelConfig";
 
 
     //This Function makes this class as SessionClass
-    Weave.registerClass('weavereact.ModalConfig', ModalConfig);
+    Weave.registerClass('weavereact.ModalConfig', ModalConfig,[weavejs.api.core.ILinkableObject]);
 
     module.exports = ModalConfig;
 

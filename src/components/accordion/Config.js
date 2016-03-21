@@ -1,20 +1,13 @@
+import ComponentManager from "../../ComponentManager";
 import InlineStyle from "../../configs/InlineStyle";
-import CSS from "../../configs/CSS";
-import Props from "../../configs/Props";
 
 class AccordionConfig {
     constructor() {
 
+        ComponentManager.createDefaultSessionProperties(this,"container");
+
          Object.defineProperties(this, {
-            "style":{
-                value: Weave.linkableChild(this, new InlineStyle())
-            },
-             "CSS":{
-                value: Weave.linkableChild(this, new CSS())
-            },
-            "children": {
-                value: Weave.linkableChild(this, new weavejs.core.LinkableHashMap())
-            },
+
             "activeChild": {// can be index || string
                 value: Weave.linkableChild(this, new weavejs.core.LinkableVariable())
             },
@@ -24,14 +17,8 @@ class AccordionConfig {
             "activeChildStyle":{
                 value: Weave.linkableChild(this, new InlineStyle())
             },
-            "useCSS":{
-                value: Weave.linkableChild(this, new weavejs.core.LinkableBoolean(false))
-            },
             "mode":{
                 value: Weave.linkableChild(this, new weavejs.core.LinkableString("parentHeight"))
-            },
-            "props":{
-                value:  new Props()
             }
         });
 
@@ -39,8 +26,7 @@ class AccordionConfig {
 
         this.activeChild.state = 0;
 
-        this.childConfigMap = new Map();
-        this.configChildMap = new Map();
+
 
         this.style.display.value = "flex";
         this.style.other.state = {

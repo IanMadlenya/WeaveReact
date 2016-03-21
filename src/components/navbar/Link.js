@@ -1,59 +1,29 @@
 import React from "react";
+import ComponentManager from "../../ComponentManager";
 
 class Link extends React.Component {
 
     constructor(props) {
         super(props);
-        this.settings = this.props.settings;
-        this.addCallbacks = this.addCallbacks.bind(this);
-        this.removeCallbacks = this.removeCallbacks.bind(this);
-        if(this.props.children)this.settings.title.value = this.props.children;
-    }
-
-    componentDidMount() {
-        this.addCallbacks();
-    }
-
-    addCallbacks() {
-        this.settings.title.addImmediateCallback(this, this.forceUpdate);
-        this.settings.iconName.addImmediateCallback(this, this.forceUpdate);
-        Weave.getCallbacks(this.settings.style).addImmediateCallback(this, this.forceUpdate);
-    }
-
-
-    removeCallbacks() {
-        this.settings.title.removeCallback(this, this.forceUpdate);
-        this.settings.iconName.removeCallback(this, this.forceUpdate);
-        Weave.getCallbacks(this.settings.style).removeCallback(this, this.forceUpdate);
+        ComponentManager.initialize(this);
+        if(this.props.children)
+            this.settings.title.value = this.props.children;
     }
 
     componentWillUnmount() {
-        this.removeCallbacks();
+        ComponentManager.componentWillUnmount(this);
     }
 
-
     componentWillReceiveProps(nextProps){
-        if(this.props.settings !== nextProps.settings){
-            if(nextProps.settings){
-                this.removeCallbacks();
-                this.settings = nextProps.settings;
-                this.addCallbacks();
-            }
-        }
-        if(this.props.style !== nextProps.style){// user style added through UI is Sessioned
-            if(nextProps.style)this.settings.style.domDefined.state = nextProps.style;
-        }
+        ComponentManager.componentWillReceiveProps(this,nextProps);
         if(this.props.children !== nextProps.children)
             this.settings.title.value = nextProps.children;
     }
 
-
-
-
     render() {
         var title = this.settings.title.value;
         var hrefLink = title.toLowerCase();
-        if(this.props.iconOnly){
+        if(this.settings.iconMode.state){
             title = "";
         }
         var styleObject = this.settings.style.getStyleFor(null,true)

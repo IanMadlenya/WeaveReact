@@ -1,6 +1,5 @@
 import React from 'react';
-import Style from "../../utils/Style";
-import App from "../../utils/App";
+import ComponentManager from "../../ComponentManager";
 import Brand from "./Brand";
 import Logo from "./Logo";
 import Title from "./Title";
@@ -9,32 +8,22 @@ import Form from "./Form";
 import Link from "./Link";
 import HTMLWrapper from "../HTMLWrapper";
 import navbarConfig from "./Config";
-import InlineStyle from "../../configs/InlineStyle";
-import PropsManager from "../PropsManager";
 
 
 class Navbar extends React.Component {
 
     constructor(props){
-         if(App.debug)console.log("Navbar constructor");
         super(props);
-        this.settings = this.props.settings ? this.props.settings : new navbarConfig.Navbar();
-
-        this.renderChildren = this.renderChildren.bind(this);
-        App.hookSessionStateForComponentChildren(this.props.children,this.settings);
-        App.addForceUpdateToCallbacks(this);
+        ComponentManager.initialize(this,"container");
     }
 
-
     componentWillUnmount(){
-        if(App.debug)console.log("Navbar componentWillUnmount");
-        App.removeForceUpdateFromCallbacks(this);
+        ComponentManager.componentWillUnmount(this);
     }
 
 
     componentWillReceiveProps(nextProps){
-        if(App.debug)console.log("Navbar componentWillReceiveProps");
-        App.componentWillReceiveProps(this,nextProps);
+        ComponentManager.componentWillReceiveProps(this,nextProps);
     }
 
     // weavestate change directly calls forceUpdate, so no need to use Weave.detectChange
@@ -48,12 +37,12 @@ class Navbar extends React.Component {
     renderChildren(){
         this.settings.props.addChildProps("dock",this.settings.dock.value);
         this.settings.props.addChildProps("useCSS",this.settings.useCSS.value);
-        return App.renderChildren(this,this.propsManager);
+        return ComponentManager.renderChildren(this,this.propsManager);
     }
 
 
     render() {
-        if(App.debug)console.log("Navbar ---Render---");
+        if(ComponentManager.debug)console.log("Navbar ---Render---");
         var styleObj = this.settings.style.getStyleFor(null);
         var cssName = this.settings.CSS.getCSSFor();
         var childrenUI = this.renderChildren();
@@ -83,21 +72,21 @@ Navbar.Link = Link;
 Navbar.Form = Form;
 
 
-App.registerToolConfig(Navbar,navbarConfig.Navbar);
-App.registerToolConfig(Navbar.Brand,navbarConfig.Brand);
-App.registerToolConfig(Navbar.Logo,navbarConfig.Logo);
-App.registerToolConfig(Navbar.Title,navbarConfig.Title);
-App.registerToolConfig(Navbar.List,navbarConfig.List);
-App.registerToolConfig(Navbar.Link,navbarConfig.Link);
-App.registerToolConfig(Navbar.Form,navbarConfig.Form);
+ComponentManager.registerToolConfig(Navbar,navbarConfig.Navbar);
+ComponentManager.registerToolConfig(Navbar.Brand,navbarConfig.Brand);
+ComponentManager.registerToolConfig(Navbar.Logo,navbarConfig.Logo);
+ComponentManager.registerToolConfig(Navbar.Title,navbarConfig.Title);
+ComponentManager.registerToolConfig(Navbar.List,navbarConfig.List);
+ComponentManager.registerToolConfig(Navbar.Link,navbarConfig.Link);
+ComponentManager.registerToolConfig(Navbar.Form,navbarConfig.Form);
 
-App.registerToolImplementation("weavereact.navbarConfig.Navbar",Navbar);
-App.registerToolImplementation("weavereact.navbarConfig.Brand",Navbar.Brand);
-App.registerToolImplementation("weavereact.navbarConfig.Logo",Navbar.Logo);
-App.registerToolImplementation("weavereact.navbarConfig.Title",Navbar.Title);
-App.registerToolImplementation("weavereact.navbarConfig.List",Navbar.List);
-App.registerToolImplementation("weavereact.navbarConfig.Link",Navbar.Link);
-App.registerToolImplementation("weavereact.navbarConfig.Form",Navbar.Form);
+ComponentManager.registerToolImplementation("weavereact.navbarConfig.Navbar",Navbar);
+ComponentManager.registerToolImplementation("weavereact.navbarConfig.Brand",Navbar.Brand);
+ComponentManager.registerToolImplementation("weavereact.navbarConfig.Logo",Navbar.Logo);
+ComponentManager.registerToolImplementation("weavereact.navbarConfig.Title",Navbar.Title);
+ComponentManager.registerToolImplementation("weavereact.navbarConfig.List",Navbar.List);
+ComponentManager.registerToolImplementation("weavereact.navbarConfig.Link",Navbar.Link);
+ComponentManager.registerToolImplementation("weavereact.navbarConfig.Form",Navbar.Form);
 
 Weave.registerClass("weavereact.Navbar", Navbar,[weavejs.api.core.ILinkableObject]);
 

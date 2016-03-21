@@ -30,8 +30,8 @@ import CSS from "./configs/CSS";
 import Props from "./configs/Props";
 
 
-import App from "./utils/App";
-import Style from "./utils/App";
+import ComponentManager from "./ComponentManager";
+import Style from "./utils/Style";
 
 
 exports.Tree = Tree;
@@ -68,46 +68,57 @@ exports.Props = Props;
 exports.Style = Style;
 
 exports.registerToolImplementation = function (asClassName, jsClass) {
-    App.registerToolImplementation(asClassName, jsClass);
+    ComponentManager.registerToolImplementation(asClassName, jsClass);
 }
 
 exports.getToolImplementation = function (name) {
-    if (App.getToolImplementation(name)) {
-        return App.getToolImplementation(name);
+    if (ComponentManager.getToolImplementation(name)) {
+        return ComponentManager.getToolImplementation(name);
     }
 }
 
 exports.setDebug = function(val){
-    App.debug = val;
+    ComponentManager.debug = val;
 }
 
 exports.registerToolConfig = function (toolClass, configClass) {
-    App.registerToolConfig(toolClass, configClass);
+    ComponentManager.registerToolConfig(toolClass, configClass);
 }
 
 
 exports.getToolConfig = function (toolClass) {
-    return App.getToolConfig(toolClass);
+    return ComponentManager.getToolConfig(toolClass);
 }
 
 
+exports.initialize = function(reactComp){
+    ComponentManager.initialize(reactComp,nextProps);
+}
 
 exports.hookSessionStateForComponentChildren = function (ReactChildren,ownerConfig)  {
-    return App.hookSessionStateForComponentChildren(ReactChildren,ownerConfig);
+    return ComponentManager.hookSessionStateForComponentChildren(ReactChildren,ownerConfig);
 }
 
 exports.componentWillReceiveProps = function(reactComp,nextProps){
-    App.componentWillReceiveProps(reactComp,nextProps);
+    ComponentManager.componentWillReceiveProps(reactComp,nextProps);
+}
+
+exports.componentWillUnmount = function(reactComp){
+    ComponentManager.componentWillUnmount(reactComp);
 }
 
 exports.addForceUpdateToCallbacks = function (reactComp)  {
-    return App.addForceUpdateToCallbacks(reactComp);
+    return ComponentManager.addForceUpdateToCallbacks(reactComp);
 }
 
 exports.removeForceUpdateFromCallbacks = function (reactComp)  {
-    return App.removeForceUpdateFromCallbacks(reactComp);
+    return ComponentManager.removeForceUpdateFromCallbacks(reactComp);
+}
+
+exports.shouldComponentUpdate = function(reactComp,nextProps){
+    return ComponentManager.shouldComponentUpdate(reactComp,nextProps);
 }
 
 exports.renderChildren = function (reactComp,propsManager)  {
-    return App.renderChildren(reactComp,propsManager);
+    return ComponentManager.renderChildren(reactComp,propsManager);
 }

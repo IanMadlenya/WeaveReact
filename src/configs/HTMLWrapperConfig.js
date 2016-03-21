@@ -1,23 +1,13 @@
 
-import InlineStyle from "./InlineStyle";
+import ComponentManager from "../ComponentManager";
+
 
 class HTMLWrapperConfig{
 
+
     constructor(){//to-do need to add verifier for each Session property to restrict to respective property
-
-         Object.defineProperties(this, {
-            "style":{
-                value: Weave.linkableChild(this, new InlineStyle())
-            },
-            "CSS":{
-                value: Weave.linkableChild(this, new weavejs.core.LinkableVariable())
-            },
-            "useCSS":{
-                value: Weave.linkableChild(this, new weavejs.core.LinkableBoolean(false))
-            }
-        });
+         ComponentManager.createDefaultSessionProperties(this);
     }
-
 }
 
 Weave.registerClass('weavereact.HTMLWrapperConfig', HTMLWrapperConfig,[weavejs.api.core.ILinkableObject]);

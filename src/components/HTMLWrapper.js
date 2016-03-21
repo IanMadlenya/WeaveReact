@@ -1,21 +1,17 @@
 import React from 'react';
 import Styles from "../utils/Style";
-import App from "../utils/App";
+import ComponentManager from "../ComponentManager";
 import HTMLWrapperConfig from "../configs/HTMLWrapperConfig";
 
 class HTMLWrapper extends React.Component {
 
     constructor(props) {
         super(props);
-        this.settings = this.props.settings ? this.props.settings:new HTMLWrapperConfig();
-    }
-
-    componentDidMount(){
-        Weave.getCallbacks(this.settings).addGroupedCallback(this,this.forceUpdate);
+        ComponentManager.initialize(this);
     }
 
     componentWillUnmount () {
-         Weave.getCallbacks(this.settings).removeCallback(this,this.forceUpdate);
+         ComponentManager.componentWillUnmount(this);
     }
 
 
@@ -28,8 +24,8 @@ class HTMLWrapper extends React.Component {
   }
 }
 
-App.registerToolConfig(HTMLWrapper,HTMLWrapperConfig);
-App.registerToolImplementation("weavereact.HTMLWrapperConfig",HTMLWrapper);
+ComponentManager.registerToolConfig(HTMLWrapper,HTMLWrapperConfig);
+ComponentManager.registerToolImplementation("weavereact.HTMLWrapperConfig",HTMLWrapper);
 
 Weave.registerClass("weavereact.HTMLWrapper", HTMLWrapper,[weavejs.api.core.ILinkableObject]);
 

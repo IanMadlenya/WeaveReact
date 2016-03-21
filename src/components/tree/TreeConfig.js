@@ -1,13 +1,17 @@
 
 import NodeConfig from "./NodeConfig";
 import InlineStyle from "../../configs/InlineStyle";
-import Props from "../../configs/Props";
+import ComponentManager from "../../ComponentManager";
 
 (function (module) {
 
     function TreeConfig() {
+        ComponentManager.createDefaultSessionProperties(this);
 
         Object.defineProperties(this, {
+            "treeIconState":{
+                 value: Weave.linkableChild(this, new weavejs.core.LinkableVariable("fa fa-folder"))
+            },
             "nodeIcon": {
                 value: Weave.linkableChild(this, new weavejs.core.LinkableString("fa fa-folder"))
             },
@@ -58,9 +62,6 @@ import Props from "../../configs/Props";
             },
             allowMultipleSelection:{
                 value: Weave.linkableChild(this,  new weavejs.core.LinkableBoolean(false))
-            },
-            "props":{
-                value: new Props()
             }
         });
 
@@ -71,6 +72,13 @@ import Props from "../../configs/Props";
         this.nodeStyle.display.state = "flex";
         this.nodeStyle.other.state = {
             "flexDirection": "row"
+        }
+
+        this.treeIconState.state = {
+            "nodeDefault" : "fa fa-folder",
+            "nodeOpen" : "fa fa-folder-open",
+            "leafDefault" : "fa fa-file-text",
+            "leafOpen" : "fa fa-file-text-o"
         }
 
         this.nodeIconStyle.other.state = {

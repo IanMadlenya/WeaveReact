@@ -1,6 +1,5 @@
 import React from 'react';
-import Style from "../../utils/Style";
-import App from "../../utils/App";
+import ComponentManager from "../../ComponentManager";
 import Link from "./Link";
 
 
@@ -8,42 +7,31 @@ class List extends React.Component {
 
     constructor(props){
         super(props);
-        this.settings = this.props.settings;
-        App.hookSessionStateForComponentChildren(this.props.children,this.settings);
-        App.addForceUpdateToCallbacks(this);
-        if(App.debug)console.log("List - constructor");
+        ComponentManager.initialize(this,"container");
     }
 
     componentWillReceiveProps(nextProps){
-        if(App.debug)console.log("List - componentWillReceiveProps");
-        App.componentWillReceiveProps(this,nextProps);
+        ComponentManager.componentWillReceiveProps(this,nextProps);
     }
 
 
     componentWillUnmount(){
-        if(App.debug)console.log("List - componentWillUnmount");
-         App.removeForceUpdateFromCallbacks(this);
+         ComponentManager.componentWillUnmount(this);
     }
 
     // called only when React Parent render is called
     shouldComponentUpdate(nextProps){
-        if(App.debug)console.log("List - shouldComponentUpdate");
+        if(ComponentManager.debug)console.log("List - shouldComponentUpdate");
         if(this.props.dock !== nextProps.dock){
-            if(App.debug)console.log("props.dock changed");
+            if(ComponentManager.debug)console.log("props.dock changed");
             return true
         }else if(this.props.position !== nextProps.position){
-            if(App.debug)console.log("props.position changed");
-            return true
-        }else if(this.props.useCSS !== nextProps.useCSS){
-            if(App.debug)console.log("props.useCSS changed");
+            if(ComponentManager.debug)console.log("props.position changed");
             return true
         }else{
             return false
         }
     }
-
-
-
 
 
     renderChildren(){
@@ -65,25 +53,25 @@ class List extends React.Component {
         this.settings.props.addChildProps("isActive",false,true);
         this.settings.props.keyProp = "objectName";
         this.settings.props.addOddChildren([this.settings.activePage.value]);
-        return  App.renderChildren(this,this.propsManager);
+        return  ComponentManager.renderChildren(this);
     }
 
 
     render() {
-        if(App.debug)console.log("List - render");
-        var navLinks = <div/>;
-        if(this.settings.enable.value){
-            var styleObject = this.settings.style.getStyleFor(null,true);
-            var cssName = this.settings.CSS.getCSSFor();
-            var childrenUI = this.renderChildren();
-            if(this.props.useCSS){
-                navLinks = <ul className={cssName}>{childrenUI}</ul>;
-            }
-            else{
-                navLinks = <ul  style={styleObject}>{childrenUI}</ul>;
-            }
+        if(ComponentManager.debug)console.log("List - render");
+        if(!this.settings.visible.value)
+            return <div/>;
+
+        var styleObject = this.settings.style.getStyleFor(null,true);
+        var cssName = this.settings.CSS.getCSSFor();
+        var childrenUI = this.renderChildren();
+
+        if(this.settings.useCSS.state){
+            return <ul className={cssName}>{childrenUI}</ul>;
         }
-        return (navLinks);
+        else{
+            return <ul  style={styleObject}>{childrenUI}</ul>;
+        }
     }
 
 }

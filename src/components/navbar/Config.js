@@ -1,42 +1,22 @@
 import Brand from "./Brand";
 import List from "./List";
 import Form from "./Form";
-
 import InlineStyle from "../../configs/InlineStyle";
-import CSS from "../../configs/CSS";
 import Style from "../../utils/Style";
-import Props from "../../configs/Props";
+import ComponentManager from "../../ComponentManager";
 
 class NavConfig {
     constructor() {
+        ComponentManager.createDefaultSessionProperties(this,"container");
 
         Object.defineProperties(this, {
-            "style":{
-                value: Weave.linkableChild(this, new InlineStyle())
-            },
-            "CSS":{
-                value: Weave.linkableChild(this, new CSS())
-            },
-            children:{
-                value: Weave.linkableChild(this, new weavejs.core.LinkableHashMap())
-            },
             "addGapAt":{
                 value: Weave.linkableChild(this, new weavejs.core.LinkableNumber())
             },
-            "useCSS":{
-                value: Weave.linkableChild(this, new weavejs.core.LinkableBoolean(false))
-            },
             "dock":{
                 value: Weave.linkableChild(this, new weavejs.core.LinkableString("top"))
-            },
-             "props":{
-                value: new Props()
             }
         });
-
-        this.childConfigMap = new Map();
-        this.configChildMap = new Map();
-
 
         //initial default values
         this.CSS.className.state = "navbar navbar-default";
@@ -102,31 +82,15 @@ class NavConfig {
 class BrandConfig {
     constructor() {
 
+        ComponentManager.createDefaultSessionProperties(this,"container");
+
         Object.defineProperties(this, {
             "title": {
                 value: Weave.linkableChild(this, new weavejs.core.LinkableString(""))
-            },
-            "enable": {
-                value: Weave.linkableChild(this, new weavejs.core.LinkableBoolean(true))
-            },
-            "style":{
-                value: Weave.linkableChild(this, new InlineStyle())
-            },
-            "CSS":{
-                value: Weave.linkableChild(this, new CSS())
-            },
-            "children":{
-                value: Weave.linkableChild(this, new weavejs.core.LinkableHashMap())
-            },
-             "props":{
-                value: new Props()
             }
         });
 
         this.CSS.className.state = "navbar-header";
-
-        this.childConfigMap = new Map();
-        this.configChildMap = new Map();
 
         this.style.padding.state = {
             padding:"15px 15px"
@@ -147,19 +111,11 @@ class BrandConfig {
 
 class LogoConfig {
     constructor() {
+        ComponentManager.createDefaultSessionProperties(this);
 
         Object.defineProperties(this, {
-            "enable": {
-                value: Weave.linkableChild(this, new weavejs.core.LinkableBoolean(true))
-            },
             src:{
                 value: Weave.linkableChild(this, new weavejs.core.LinkableString(""))
-            },
-            "style":{
-                value: Weave.linkableChild(this, new InlineStyle())
-            },
-            "CSS":{
-                value: Weave.linkableChild(this, new CSS())
             }
         });
 
@@ -177,24 +133,17 @@ class LogoConfig {
 class TitleConfig {
     constructor() {
 
+        ComponentManager.createDefaultSessionProperties(this);
+
         Object.defineProperties(this, {
-            "enable": {
-                value: Weave.linkableChild(this, new weavejs.core.LinkableBoolean(true))
-            },
             title:{
                 value: Weave.linkableChild(this, new weavejs.core.LinkableString(""))
-            },
-            "style":{
-                value: Weave.linkableChild(this, new InlineStyle())
-            },
-            "CSS":{
-                value: Weave.linkableChild(this, new CSS())
             }
         });
 
         this.CSS.className.state = "navbar-brand";
 
-       this.style.font.state = {
+        this.style.font.state = {
             lineHeight: "20px",
             fontSize:"18px"
         };
@@ -207,37 +156,21 @@ class TitleConfig {
 class ListConfig {
     constructor() {
 
+        ComponentManager.createDefaultSessionProperties(this,"container");
+
          Object.defineProperties(this, {
-            "style":{
-                value: Weave.linkableChild(this, new InlineStyle())
-            },
-             "CSS":{
-                value: Weave.linkableChild(this, new CSS())
-            },
-            "enable": {
-                value: Weave.linkableChild(this, new weavejs.core.LinkableBoolean(true))
-            },
             "align": {
                 value: Weave.linkableChild(this, new weavejs.core.LinkableString("left"))
             },
             "activePage": {
                 value: Weave.linkableChild(this, new weavejs.core.LinkableString(""))
             },
-            "children":{
-                 value: Weave.linkableChild(this, new weavejs.core.LinkableHashMap())
-            },
             "space":{
                  value: Weave.linkableChild(this, new weavejs.core.LinkableNumber(8))
-            },
-             "props":{
-                value: new Props()
             }
         });
 
         this.CSS.className.state = "nav navbar-nav";
-
-        this.childConfigMap = new Map();
-        this.configChildMap = new Map();
 
         this.style.display.value = "flex";
         this.style.other.state = {
@@ -265,6 +198,8 @@ class ListConfig {
 class LinkConfig {
     constructor() {
 
+        ComponentManager.createDefaultSessionProperties(this);
+
         Object.defineProperties(this, {
             "title": {
                 value: Weave.linkableChild(this, new weavejs.core.LinkableString(""))
@@ -272,14 +207,8 @@ class LinkConfig {
             "iconName": {
                 value: Weave.linkableChild(this, new weavejs.core.LinkableString("fa fa-home"))
             },
-            "style":{
-                value: Weave.linkableChild(this, new InlineStyle())
-            },
             "activeLinkStyle":{
                 value: Weave.linkableChild(this, new InlineStyle())
-            },
-            "CSS":{
-                value: Weave.linkableChild(this, new CSS())
             }
         });
 
@@ -299,38 +228,23 @@ class LinkConfig {
 class FormConfig {
     constructor() {
 
+        ComponentManager.createDefaultSessionProperties(this,"container");
+
          Object.defineProperties(this, {
-            "style":{
-                value: Weave.linkableChild(this, new InlineStyle())
-            },
-            "enable": {
-                value: Weave.linkableChild(this, new weavejs.core.LinkableBoolean(false))
-            },
             "rightAlign": {
                 value: Weave.linkableChild(this, new weavejs.core.LinkableBoolean(true))
-            },
-            "children": {
-                value: Weave.linkableChild(this, new weavejs.core.LinkableHashMap())
             },
             "addGapAt":{
                 value: Weave.linkableChild(this, new weavejs.core.LinkableNumber())
             },
             "space": {
                 value: Weave.linkableChild(this, new weavejs.core.LinkableString("2px"))
-            },
-             "CSS":{
-                value: Weave.linkableChild(this, new CSS())
-            },
-             "props":{
-                value: new Props()
             }
         });
 
         this.CSS.className.state = "navbar-form navbar-right";
 
-        this.childConfigMap = new Map();
-        this.configChildMap = new Map();
-        //this.addGapAt.state = 0;
+
         this.style.display.value = "flex";
         this.style.other.state = {
             flexDirection:"inherit",

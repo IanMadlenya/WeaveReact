@@ -1,39 +1,30 @@
 import React from "react";
-import Style from "../../utils/Style";
-import App from "../../utils/App";
+import ComponentManager from "../../ComponentManager";
 
 class Form extends React.Component {
 
     constructor(props) {
         super(props);
-        this.settings = this.props.settings;
-       App.hookSessionStateForComponentChildren(this.props.children,this.settings);
-        App.addForceUpdateToCallbacks(this);
-        if(App.debug)console.log("Form - constructor");
+        ComponentManager.initialize(this,"container");
     }
 
     componentWillReceiveProps(nextProps){
-        if(App.debug)console.log("Form - componentWillReceiveProps");
-        App.componentWillReceiveProps(this,nextProps);
+        ComponentManager.componentWillReceiveProps(this,nextProps);
     }
 
 
     componentWillUnmount(){
-        if(App.debug)console.log("Form - componentWillUnmount");
-         App.removeForceUpdateFromCallbacks(this);
+         ComponentManager.componentWillUnmount(this);
     }
 
     // called only when React Parent render is called
     shouldComponentUpdate(nextProps){
-        if(App.debug)console.log("Form - shouldComponentUpdate");
+        if(ComponentManager.debug)console.log("Form - shouldComponentUpdate");
         if(this.props.dock !== nextProps.dock){
-            if(App.debug)console.log("props.dock changed");
+            if(ComponentManager.debug)console.log("props.dock changed");
             return true
         }else if(this.props.position !== nextProps.position){
-            if(App.debug)console.log("props.position changed");
-            return true
-        }else if(this.props.useCSS !== nextProps.useCSS){
-            if(App.debug)console.log("props.useCSS changed");
+            if(ComponentManager.debug)console.log("props.position changed");
             return true
         }else{
             return false
@@ -51,34 +42,31 @@ class Form extends React.Component {
         }
 
         this.settings.props.addChildProps("style",childStyleObject);
-        return App.renderChildren(this);
+        return ComponentManager.renderChildren(this);
     }
 
 
 
 
     render() {
-        if(App.debug)console.log("Form - render");
-        var navFormUI = <div/>;
-        if(this.settings.enable.value){
-            var styleObject = this.settings.style.getStyleFor(null);
-            var cssName = this.settings.CSS.getCSSFor();
-            var childrenUI = this.renderChildren();
+        if(ComponentManager.debug)console.log("Form - render");
+        if(!this.settings.visible.value)
+            return <div/>;
 
-            if(this.props.useCSS){
-                navFormUI = <div  className={cssName} >
-                                {childrenUI}
-                            </div>
-            }else{
-                navFormUI = <div  style={styleObject} >
-                                {childrenUI}
-                            </div>
-            }
+        var styleObject = this.settings.style.getStyleFor(null);
+        var cssName = this.settings.CSS.getCSSFor();
+        var childrenUI = this.renderChildren();
 
-
+        if(this.settings.useCSS.state){
+            return <div  className={cssName} >
+                            {childrenUI}
+                    </div>;
+        }else{
+            return <div  style={styleObject} >
+                            {childrenUI}
+                    </div>;
         }
 
-        return (navFormUI);
     }
 
 }
