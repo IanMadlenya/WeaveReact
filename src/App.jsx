@@ -47,26 +47,27 @@ class App extends React.Component {
         var  accordionConfig = sideBar.children.requestObject('accordion',AccordionConfig);
 
         this.treeConfig = accordionConfig.children.requestObject('tree',TreeConfig);
+
         this.treeConfig.nodePadding.value ="16px";
         this.treeConfig.align.value = "right";
-        this.treeConfig.nodeIcon.value = "fa fa-caret-right";
-        this.treeConfig.nodeOpenIcon.value = "fa fa-caret-down";
-        this.treeConfig.leafIcon.value = "fa fa-square-o";
-        this.treeConfig.leafOpenIcon.value = "fa fa-check-square-o";
+        this.treeConfig.treeIconState.state = {
+            "nodeDefault" : "fa fa-caret-right",
+            "nodeOpen" : "fa fa-caret-down",
+            "leafDefault" : "fa fa-square-o",
+            "leafOpen" : "fa fa-check-square-o"
+        }
         this.treeConfig.enableDataTypeIcon.value = false;
         this.treeConfig.allowMultipleSelection.value = true;
-        this.treeConfig.leafStyle.other.state = {
+
+        this.treeConfig.leafStyle.state = {
             paddingTop: "8px",
             paddingBottom:"8px"
         }
-
-
-        this.treeConfig.rootStyle.other.state = {
+        this.treeConfig.rootStyle.state = {
             textTransform: "uppercase",
             color:"#5d5d5d"
         }
-
-        this.treeConfig.nodeStyle.other.state = {
+        this.treeConfig.nodeStyle.state = {
             paddingTop: "8px",
             paddingBottom:"8px"
         }
@@ -120,24 +121,26 @@ class App extends React.Component {
         this.treeConfig = accordionConfig.children.requestObject('tree2',TreeConfig);
         this.treeConfig.nodePadding.value ="16px";
         this.treeConfig.align.value = "right";
-        this.treeConfig.nodeIcon.value = "fa fa-caret-right";
-        this.treeConfig.nodeOpenIcon.value = "fa fa-caret-down";
-        this.treeConfig.leafIcon.value = "fa fa-square-o";
-        this.treeConfig.leafOpenIcon.value = "fa fa-check-square-o";
+        this.treeConfig.treeIconState.state = {
+            "nodeDefault" : "fa fa-caret-right",
+            "nodeOpen" : "fa fa-caret-down",
+            "leafDefault" : "fa fa-square-o",
+            "leafOpen" : "fa fa-check-square-o"
+        }
         this.treeConfig.enableDataTypeIcon.value = false;
         this.treeConfig.allowMultipleSelection.value = true;
-        this.treeConfig.leafStyle.other.state = {
+
+        this.treeConfig.leafStyle.state = {
             paddingTop: "8px",
             paddingBottom:"8px"
         }
 
-
-        this.treeConfig.rootStyle.other.state = {
+        this.treeConfig.rootStyle.state = {
             textTransform: "uppercase",
             color:"#5d5d5d"
         }
 
-        this.treeConfig.nodeStyle.other.state = {
+        this.treeConfig.nodeStyle.state = {
             paddingTop: "8px",
             paddingBottom:"8px"
         }
@@ -174,24 +177,24 @@ class App extends React.Component {
         this.treeConfig = accordionConfig.children.requestObject('tree3',TreeConfig);
         this.treeConfig.nodePadding.value ="16px";
         this.treeConfig.align.value = "right";
-        this.treeConfig.nodeIcon.value = "fa fa-caret-right";
-        this.treeConfig.nodeOpenIcon.value = "fa fa-caret-down";
-        this.treeConfig.leafIcon.value = "fa fa-square-o";
-        this.treeConfig.leafOpenIcon.value = "fa fa-check-square-o";
+        this.treeConfig.treeIconState.state = {
+            "nodeDefault" : "fa fa-caret-right",
+            "nodeOpen" : "fa fa-caret-down",
+            "leafDefault" : "fa fa-square-o",
+            "leafOpen" : "fa fa-check-square-o"
+        }
         this.treeConfig.enableDataTypeIcon.value = false;
         this.treeConfig.allowMultipleSelection.value = true;
-        this.treeConfig.leafStyle.other.state = {
+
+        this.treeConfig.leafStyle.state = {
             paddingTop: "8px",
             paddingBottom:"8px"
         }
-
-
-        this.treeConfig.rootStyle.other.state = {
+        this.treeConfig.rootStyle.state = {
             textTransform: "uppercase",
             color:"#5d5d5d"
         }
-
-        this.treeConfig.nodeStyle.other.state = {
+        this.treeConfig.nodeStyle.state = {
             paddingTop: "8px",
             paddingBottom:"8px"
         }
@@ -293,19 +296,3 @@ class App extends React.Component {
 export default App;
 
 
-
-
-
-/*<Accordion settings={this.accordionConfig}>
-                                <div>
-                                    Child 1
-                                    <div>Hi 1 </div>
-                                </div>
-                                <div>Child 2</div>
-                                <div>
-                                    Child 3
-                                    <div>Hi 3 </div>
-                                    <div>Hi 32 </div>
-                                </div>
-                                <div>Child 4</div>
-                            </Accordion>*/
