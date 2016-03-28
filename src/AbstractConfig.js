@@ -1,8 +1,8 @@
-import ComponentManager from "../../ComponentManager";
+import ComponentManager from "./ComponentManager";
 
 class AbstractConfig {
-    constructor() {
-        ComponentManager.createDefaultSessionProperties(this);
+    constructor(type) {
+        ComponentManager.createDefaultSessionProperties(this,type);
     }
 }
 

@@ -1,15 +1,13 @@
-import React from 'react';
 import ComponentManager from "../../ComponentManager";
+import AbstractComponent from "../../AbstractComponent";
 import Style from "../../utils/Style";
 import NodeConfig from "./NodeConfig";
 
 
-
-class Node extends React.Component {
+class Node extends AbstractComponent {
 
     constructor(props) {
         super(props);
-        ComponentManager.initialize(this);
 
         this.toggle = this.toggle.bind(this);
 
@@ -23,11 +21,24 @@ class Node extends React.Component {
     }
 
 
+    componentWillReceiveProps(nextProps){
+        super.componentWillReceiveProps(nextProps);
+        if(this.props.data !== nextProps.data){
+            this.settings.data = this.props.data;
+            this.createSessionStateForTree(nextProps.data,nextProps.label,nextProps.nodes,nextProps.icon);
+        }
+        if(this.props.open !== nextProps.open){
+            this.settings.open.value = nextProps.open;
+        }
+    }
+
 
     componentWillUnmount () {
-        ComponentManager.componentWillUnmount(this);
+        super.componentWillUnmount();
         this.settings.open.removeCallback(this,this.setChildrenSessionValues);
     }
+
+
 
     toggle(){
         this.settings.open.value = !this.settings.open.value;
@@ -90,20 +101,6 @@ class Node extends React.Component {
 
 
 
-
-
-    componentWillReceiveProps(nextProps){
-        ComponentManager.componentWillReceiveProps(this,nextProps);
-        if(this.props.data !== nextProps.data){
-            this.settings.data = this.props.data;
-            this.createSessionStateForTree(nextProps.data,nextProps.label,nextProps.nodes,nextProps.icon);
-        }
-        if(this.props.open !== nextProps.open){
-            this.settings.open.value = nextProps.open;
-        }
-    }
-
-
     renderChildren(){
         this.settings.props.addChildProps("treeConfig",this.props.treeConfig);
         this.settings.props.addChildProps("label",this.props.label);
@@ -133,12 +130,12 @@ class Node extends React.Component {
                     nodesUI = this.renderChildren();
                 }
 
-                var branchStyle = this.props.treeConfig.branchStyle.getStyleFor();
-                var nodeStyle = this.props.treeConfig.nodeStyle.getStyleFor();
+                var branchStyle = this.props.treeConfig.branchStyle.state;
+                var nodeStyle = this.props.treeConfig.nodeStyle.state;
                 if(domDefinedStyle)Style.mergeStyleObjects(nodeStyle,domDefinedStyle,true);//this happens for rootNode
                 var controlName = this.props.treeConfig.getFolderIcon(isOpen);
                 if(iconName && iconName.length > 0){
-                    var iconStyleObj = this.props.treeConfig.nodeIconStyle.getStyleFor();
+                    var iconStyleObj = this.props.treeConfig.nodeIconStyle.state;
                     if(iconName.indexOf("/") == -1){ // fontAwesome Icon Name
                         iconUI = <i style = {iconStyleObj} className={iconName} ></i>
                     }else {
@@ -166,7 +163,7 @@ class Node extends React.Component {
                 // this will return either normal/Active/Slected Style based on state of the leaf
                 var leafStyle = this.props.treeConfig.getLeafStyle(isOpen,this.settings.active.value);
                 if(iconName && iconName.length > 0){
-                    var iconStyleObj = this.props.treeConfig.leafIconStyle.getStyleFor();
+                    var iconStyleObj = this.props.treeConfig.leafIconStyle.state;
                     if(iconName.indexOf("/") == -1){ // fontAwesome Icon Name
                         iconUI = <i style = {iconStyleObj} className={iconName} ></i>
                     }else {

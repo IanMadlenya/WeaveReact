@@ -1,32 +1,29 @@
-import React from "react";
 import ComponentManager from "../../ComponentManager";
+import AbstractComponent from "../../AbstractComponent";
 
-class Link extends React.Component {
+class Link extends AbstractComponent {
 
     constructor(props) {
         super(props);
-        ComponentManager.initialize(this);
         if(this.props.children)
             this.settings.title.value = this.props.children;
     }
 
-    componentWillUnmount() {
-        ComponentManager.componentWillUnmount(this);
-    }
 
     componentWillReceiveProps(nextProps){
-        ComponentManager.componentWillReceiveProps(this,nextProps);
+        super.componentWillReceiveProps(nextProps);
         if(this.props.children !== nextProps.children)
             this.settings.title.value = nextProps.children;
     }
 
     render() {
+        if(ComponentManager.debug)console.log("Link - render");
         var title = this.settings.title.value;
         var hrefLink = title.toLowerCase();
         if(this.settings.iconMode.state){
             title = "";
         }
-        var styleObject = this.settings.style.getStyleFor(null,true)
+        var styleObject = this.settings.style.state
         if (this.props.isActive) {
 
             return ( <li style={this.props.style}>

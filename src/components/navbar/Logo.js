@@ -1,28 +1,25 @@
-import React from "react";
 import ComponentManager from "../../ComponentManager";
+import AbstractComponent from "../../AbstractComponent";
 
-class Logo extends React.Component {
+class Logo extends AbstractComponent {
 
     constructor(props) {
         super(props);
-        ComponentManager.initialize(this);
         if(this.props.src)//to-do in component manager check the settings prop is there if there set the state
             this.settings.src.state =  this.props.src;
     }
 
 
     componentWillReceiveProps(nextProps){
-        ComponentManager.componentWillReceiveProps(this,nextProps);
+        super.componentWillReceiveProps(nextProps);
         if(this.props.src !== nextProps.src){// user style added through UI is Sessioned
             this.settings.src.state = nextProps.src;
         }
     }
 
-    componentWillUnmount () {
-        ComponentManager.componentWillUnmount(this);
-    }
 
     shouldComponentUpdate(nextProps){
+        super.shouldComponentUpdate(nextProps);
         if(this.props.dock !== nextProps.dock){
             return true
         }else if(this.props.position !== nextProps.position){
@@ -34,11 +31,12 @@ class Logo extends React.Component {
 
 
     render() {
+        if(ComponentManager.debug)console.log("Logo - render");
         if(!this.settings.visible.value)
             return <div/>;
 
         if(this.settings.src.state){
-            var styleObj = this.settings.style.getStyleFor();
+            var styleObj = this.settings.style.state;
             return <img style={styleObj} src={this.settings.src.value}/>
         }
         else

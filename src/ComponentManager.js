@@ -186,26 +186,8 @@ class ComponentManager {
 
     static shouldComponentUpdate(reactComp, nextProps) {
         if(ComponentManager.debug)console.log(reactComp.constructor.name + " - shouldComponentUpdate");
-        /*if (reactComp.props.style !== nextProps.style) { // user style added through UI is Sessioned
-           return true;
-        }
-        if (reactComp.props.className !== nextProps.className) { // user className added through UI is Sessioned
-            return true;
-        }
-        if (reactComp.props.enable !== nextProps.enable) {
-            return true;
-        }
-        if (reactComp.props.visible !== nextProps.visible) {
-            return true;
-        }
-        if (reactComp.props.deviceMode !== nextProps.deviceMode) {
-            return true;
-        }
-        if (reactComp.props.iconMode !== nextProps.iconMode) {
-            return true;
-        }
-        else*/
-            return false;
+        //to-do sync between props class and weavestate
+        return false;
 
     }
 

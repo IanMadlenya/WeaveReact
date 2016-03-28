@@ -1,37 +1,30 @@
 import React from 'react';
 import ComponentManager from "../../ComponentManager";
 import AccordionConfig from "./Config";
+import AbstractComponent from "../../AbstractComponent";
 
 
-class Accordion extends React.Component {
+class Accordion extends AbstractComponent {
 
     constructor(props){
         super(props);
-        ComponentManager.initialize(this,"container");
         this.settings.setIconModeLayout(this.props.iconMode);
     }
 
     componentWillReceiveProps(nextProps){
-        ComponentManager.componentWillReceiveProps(this,nextProps);
+         super.componentWillReceiveProps(nextProps);
         this.settings.setIconModeLayout(nextProps.iconMode);
     }
 
 
-    componentWillUnmount(){
-        ComponentManager.componentWillUnmount(this);
-    }
-
-    shouldComponentUpdate(nextProps){
-        return ComponentManager.shouldComponentUpdate(this,nextProps);
-    }
 
     onClickCallback(childConfig,index){
         this.settings.activeChild.state = index;
     }
 
     renderChildren(){
-        var activeChildStyle = this.settings.activeChildStyle.getStyleFor();
-        var childStyle = this.settings.childStyle.getStyleFor();
+        var activeChildStyle = this.settings.activeChildStyle.state;
+        var childStyle = this.settings.childStyle.state;
 
         this.settings.props.addChildEvent("onClick",this.onClickCallback);
         this.settings.props.addChildProps("open",false,true);
@@ -47,7 +40,7 @@ class Accordion extends React.Component {
     render() {
         if(ComponentManager.debug)console.log("Accordion - render");
 
-        var styleObject = this.settings.style.getStyleFor(null,true);
+        var styleObject = this.settings.style.state;
         var childrenUI = this.renderChildren();
 
         var ui = <div style={styleObject}>{childrenUI}</div>;

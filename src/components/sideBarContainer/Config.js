@@ -36,9 +36,8 @@ class ContainerConfig {
         this.bottomSideBar.direction = "bottom";
         this.topSideBar.direction = "top";
 
-
-        this.style.display.state = "flex"
-        this.style.other.state = {
+        this.style.state = {
+            display:"flex",
             flexDirection:"row",
             width:"100%",
             height:"100%"
@@ -60,7 +59,9 @@ class OverlayConfig {
                  value: Weave.linkableChild(this, new weavejs.core.LinkableBoolean(false))
              }
         });
-        this.style.position.state = "fixed";
+        this.style.state = {
+            position: "fixed"
+        };
 
         this.open.addImmediateCallback(this, this.updateStyle);
 
@@ -68,7 +69,7 @@ class OverlayConfig {
 
    updateStyle(){
      if(this.open.state){
-         this.style.other.state ={
+         this.style.state = {
             zIndex: "1",
             width: "100%",
             height: "100%",
@@ -78,7 +79,7 @@ class OverlayConfig {
         }
 
      }else{
-         this.style.other.state ={
+         this.style.state ={
             zIndex: "1",
             width: "100%",
             height: "100%",
@@ -125,11 +126,11 @@ class SideBarConfig {
     }
 
     updateStyle(){
-        this.style.display.state = "flex";
 
-        var styleObject = this.style.other.state ? this.style.other.state: {};
-        styleObject["justifyContent"]="flex-start";
-
+        var styleObject =  {
+            display : "flex",
+            justifyContent:"flex-start"
+        };
 
         if(this.open.state){
             styleObject["flexBasis"] = this.size.value;
@@ -143,12 +144,12 @@ class SideBarConfig {
 
         if(this.direction === "right" || this.direction === "left"){
             styleObject["flexDirection"] = "column";
-            this.style.other.state = styleObject
+            this.style.state = styleObject
         }else if(this.direction === "top" || this.direction === "bottom"){
             styleObject["flexDirection"] = "row";
-            this.style.other.state = styleObject
+            this.style.state = styleObject
         }
-        this.style.other.state = styleObject;
+        this.style.state = styleObject;
     }
 
     toggleSideBarState(){
@@ -161,19 +162,17 @@ class SideBarConfig {
         if(this.static.state){
             var buttonConfig = this.children.requestObject("switchButton", ButtonConfig);
             buttonConfig.icon.state = {"clicked": "fa fa-align-justify" ,"default":"fa fa-times"};
-            var iconStyle = buttonConfig.iconModeStyle.other.state;
-            iconStyle = iconStyle?iconStyle:{};
-            iconStyle["fontSize"] = 24;
-            buttonConfig.iconModeStyle.other.state = iconStyle;
+            buttonConfig.iconModeStyle.state = {
+                fontSize: "24"
+            };
             buttonConfig.iconOnly.state = true;
-            var btnStyle = buttonConfig.style.other.state;
-            btnStyle["justifyContent"] =  "flex-end";
-            btnStyle["alignSelf"] =  "flex-end";
-            buttonConfig.style.other.state = btnStyle;
+            buttonConfig.style.state = {
+                justifyContent: "flex-end",
+                alignSelf:"flex-end",
+                order:"-1",
+                margin: "4px"
+            };
             buttonConfig.props.addEvent("onClick",this.toggleSideBarState,null,this);
-            var buttonStyle = buttonConfig.style.other.state ;
-            buttonStyle["order"] = "-1";
-            buttonStyle["margin"] = "4px";
             buttonConfig.clicked.state = !this.open.state;
         }else{
             this.children.removeObject("switchButton");

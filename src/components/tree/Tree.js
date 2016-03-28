@@ -1,23 +1,18 @@
-
-import React from 'react';
 import ComponentManager from "../../ComponentManager";
+import AbstractComponent from "../../AbstractComponent";
 import Node from "./Node";
 
-class Tree extends React.Component {
+class Tree extends AbstractComponent {
 
     constructor(props) {
         super(props);
-        ComponentManager.initialize(this);
         this.settings.dataTypesMap = this.props.dataTypesMap;
         this.settings.getDataType = this.props.getDataType;
     }
 
-    componentWillUnmount () {
-        ComponentManager.componentWillUnmount(this)
-    }
 
     componentWillReceiveProps(nextProps){
-        ComponentManager.componentWillReceiveProps(this,nextProps);
+        super.componentWillReceiveProps(nextProps);
         if(this.props.settings !== nextProps.settings){
             this.settings.dataTypesMap = nextProps.dataTypesMap;
             this.settings.getDataType = nextProps.getDataType;
@@ -27,6 +22,7 @@ class Tree extends React.Component {
 
     // allowe render only when React Parent render is called with new iconMode value
     shouldComponentUpdate(nextProps){
+        super.shouldComponentUpdate(nextProps);
         if(this.props.data !== nextProps.data)
             return true;
         return false;
@@ -34,6 +30,7 @@ class Tree extends React.Component {
 
 
     render() {
+        if(ComponentManager.debug)console.log("Tree - render");
         if(this.settings.iconMode.state){
             var iconName = this.settings.rootNode.iconName.state;
             var iconUI = <span/>

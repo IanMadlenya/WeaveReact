@@ -10,19 +10,7 @@ import ComponentManager from "../../ComponentManager";
 
         Object.defineProperties(this, {
             "treeIconState":{
-                 value: Weave.linkableChild(this, new weavejs.core.LinkableVariable("fa fa-folder"))
-            },
-            "nodeIcon": {
-                value: Weave.linkableChild(this, new weavejs.core.LinkableString("fa fa-folder"))
-            },
-            "nodeOpenIcon": {
-                value: Weave.linkableChild(this, new weavejs.core.LinkableString("fa fa-folder-open"))
-            },
-            "leafIcon": {
-                value: Weave.linkableChild(this, new weavejs.core.LinkableString("fa fa-file-text"))
-            },
-            "leafOpenIcon": {
-                value: Weave.linkableChild(this, new weavejs.core.LinkableString("fa fa-file-text-o"))
+                 value: Weave.linkableChild(this, new weavejs.core.LinkableVariable())
             },
             "enableDataTypeIcon": {
                 value: Weave.linkableChild(this, new weavejs.core.LinkableBoolean(true))
@@ -69,8 +57,8 @@ import ComponentManager from "../../ComponentManager";
         this.dataTypesMap = null;
         this.getDataType = null;
 
-        this.nodeStyle.display.state = "flex";
-        this.nodeStyle.other.state = {
+        this.nodeStyle.state = {
+            "display": "flex",
             "flexDirection": "row"
         }
 
@@ -81,21 +69,20 @@ import ComponentManager from "../../ComponentManager";
             "leafOpen" : "fa fa-file-text-o"
         }
 
-        this.nodeIconStyle.other.state = {
+        this.nodeIconStyle.state = {
             width: "20px",
             height : "20px",
             paddingRight:"2px"
         }
 
 
-
-        this.leafStyle.display.state = "flex";
-        this.leafStyle.other.state = {
+        this.leafStyle.state = {
+            "display": "flex",
             "flexDirection": "row"
         }
 
 
-        this.activeLeafStyle.other.state = {
+        this.activeLeafStyle.state = {
             "background" : "orange"
         }
 
@@ -113,11 +100,11 @@ import ComponentManager from "../../ComponentManager";
     }
 
     p.getLeafStyle = function(open, active){
-        var style = this.leafStyle.getStyleFor();
+        var style = this.leafStyle.state;
         if(open){
-            mergeInto(style,this.selectedLeafStyle.getStyleFor())
+            mergeInto(style,this.selectedLeafStyle.state)
             if(active)
-                return mergeInto(style,this.activeLeafStyle.getStyleFor());
+                return mergeInto(style,this.activeLeafStyle.state);
         }
         return style;
 
@@ -184,14 +171,14 @@ import ComponentManager from "../../ComponentManager";
                 if (this.dataTypesMap && this.dataTypesMap[datType])
                     return this.dataTypesMap[datType];
             }else{
-                return isOpen ? this.leafOpenIcon.value : this.leafIcon.value;
+                return isOpen ? this.treeIconState.state.leafOpen  : this.treeIconState.state.leafDefault ;
             }
         }else
             return "";
     }
 
     p.getFolderIcon = function ( isOpen) {
-        return isOpen ? this.nodeOpenIcon.value : this.nodeIcon.value;
+        return isOpen ? this.treeIconState.state.nodeOpen : this.treeIconState.state.nodeDefault;
     }
 
 

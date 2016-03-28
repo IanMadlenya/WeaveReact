@@ -21,57 +21,56 @@ class NavConfig {
         //initial default values
         this.CSS.className.state = "navbar navbar-default";
 
-
-        this.style.display.value = "flex";
-        this.style.border.state = {border:"1px solid transparent"};
-        this.style.other.state = {
+        this.style.state = {
+            display:"flex",
             flexDirection:"row",
             height:"7%",
             minHeight:"50px",
             zIndex: "1000",
             alignItems:"center",
-            justifyContent:"space-between"
+            justifyContent:"space-between",
+            border:"1px solid transparent",
+            padding:"4px",
+            background: "#F8F8F8"
         };
-        this.style.padding.state = {padding:"4px"};
-        this.style.background.state = "#F8F8F8";
 
         this.dock.addImmediateCallback(this,this.updateStyle)
     }
 
     updateStyle(){
-        var styleObject = this.style.other.state;
+        var styleObject = {};
         styleObject["top"] = "";
         styleObject["bottom"] = "";
         styleObject["right"] = "";
         styleObject["left"] = "";
 
         if(this.dock.value === "top"){
-            this.style.position.state = "static";
+            styleObject["position"] = "static";
             styleObject["top"] = "0";
             styleObject["flexDirection"] = "row";
             styleObject["width"] = "100%";
             styleObject["height"] = "5%";
          }else if(this.dock.value === "bottom"){
-            this.style.position.state = "fixed";
+            styleObject["position"] = "fixed";
             styleObject["bottom"] = "0";
             styleObject["flexDirection"] = "row";
             styleObject["width"] = "100%";
             styleObject["height"] = "5%";
          }else if(this.dock.value === "right"){
-             this.style.position.state = "fixed";
+            styleObject["position"] = "fixed";
             styleObject["right"] = "0";
             styleObject["flexDirection"] = "column";
             styleObject["width"] = "5%";
             styleObject["height"] = "100%";
          }else if(this.dock.value === "left"){
-             this.style.position.state = "fixed";
+            styleObject["position"] = "fixed";
             styleObject["left"] = "0";
             styleObject["flexDirection"] = "column";
             styleObject["width"] = "5%";
             styleObject["height"] = "100%";
          }
 
-        this.style.other.state = styleObject;
+        this.style.state = styleObject;
 
     }
 
@@ -92,18 +91,13 @@ class BrandConfig {
 
         this.CSS.className.state = "navbar-header";
 
-        this.style.padding.state = {
-            padding:"15px 15px"
-        };
-        this.style.font.state = {
+        this.style.state = {
+            display:"flex",
+            flexDirection:"inherit",
+            alignItems:"inherit",
+            padding:"15px 15px",
             fontSize: "18px",
             lineHeight: "20px"
-        };
-
-        this.style.display.value = "flex";
-        this.style.other.state = {
-            flexDirection:"inherit",
-            alignItems:"inherit"
         };
     }
 }
@@ -119,13 +113,11 @@ class LogoConfig {
             }
         });
 
-        this.style.border.state = {
+        this.style.state = {
+            width:"50",
+            height:"50",
             border:"2px solid #ebebeb",
             borderRadius:"50%"
-        };
-        this.style.other.state = {
-            width:"50",
-            height:"50"
         };
     }
 }
@@ -143,7 +135,7 @@ class TitleConfig {
 
         this.CSS.className.state = "navbar-brand";
 
-        this.style.font.state = {
+        this.style.state = {
             lineHeight: "20px",
             fontSize:"18px"
         };
@@ -172,15 +164,12 @@ class ListConfig {
 
         this.CSS.className.state = "nav navbar-nav";
 
-        this.style.display.value = "flex";
-        this.style.other.state = {
+        this.style.state = {
+            display:"flex",
             flexDirection:"inherit",
             listStyleType:"none",
             paddingLeft:"0",
-            alignItems:"inherit"
-        };
-
-        this.style.margin.state = {
+            alignItems:"inherit",
             margin:"7.5px"
         };
 
@@ -212,13 +201,11 @@ class LinkConfig {
             }
         });
 
-        this.style.font.state = {
+        this.style.state = {
+            paddingTop: "10px",
+            paddingBottom: "10px",
             lineHeight: "20px",
             color:"#777"
-        };
-        this.style.padding.state = {
-            paddingTop: "10px",
-            paddingBottom: "10px"
         };
     }
 }
@@ -245,15 +232,14 @@ class FormConfig {
         this.CSS.className.state = "navbar-form navbar-right";
 
 
-        this.style.display.value = "flex";
-        this.style.other.state = {
+        this.style.state = {
+            display:"flex",
             flexDirection:"inherit",
-            alignItems:"inherit"
+            alignItems:"inherit",
+            margin:"4px"
         };
 
-        this.style.margin.state = {
-            margin:"4px",
-        };
+
     }
 }
 

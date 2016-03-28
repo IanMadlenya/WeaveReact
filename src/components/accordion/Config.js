@@ -1,7 +1,7 @@
 import ComponentManager from "../../ComponentManager";
 import InlineStyle from "../../configs/InlineStyle";
 
-class AccordionConfig {
+class AccordionConfig  {
     constructor() {
 
         ComponentManager.createDefaultSessionProperties(this,"container");
@@ -27,9 +27,8 @@ class AccordionConfig {
         this.activeChild.state = 0;
 
 
-
-        this.style.display.value = "flex";
-        this.style.other.state = {
+        this.style.state = {
+            display:"flex",
             flexDirection:"column",
             justifyContent:"flex-start",
             alignItems:"inherit",
@@ -38,28 +37,30 @@ class AccordionConfig {
         };
 
 
-        this.childStyle.other.state = {
+        this.childStyle.state = {
             flexBasis:"0%"
         };
 
-        this.activeChildStyle.other.state = {
+        this.activeChildStyle.state = {
             flexBasis:"inherit"
         };
     }
 
     setIconModeLayout(isIcon){
-        var styleObject = this.style.other.state ? this.style.other.state: {};
+        var styleObject = {};
         if(isIcon)styleObject["alignItems"] = "center";
         else styleObject["alignItems"] = "stretch";
+        this.style.state = styleObject;
+
     }
 
     changeActiveChildStyle(){
         if(this.mode.state == "parentHeight"){
-            this.activeChildStyle.other.state = {
+            this.activeChildStyle.state = {
                 flexBasis:"100%"
             };
         }else if(this.mode.state == "childHeight"){
-            this.activeChildStyle.other.state = {
+            this.activeChildStyle.state = {
                 flexBasis:"inherit"
             };
         }

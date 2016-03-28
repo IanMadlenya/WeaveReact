@@ -18,73 +18,28 @@ class InlineStyle{
         Object.defineProperties(this, {
             "state": {
                 get: function(){
-                    var stateObj = Style.mergeStyleObjects(this.default.state,this.domDefined.state)
+                    var stateObj = this.default.state;
+                    if(this.domDefined.state){
+                         stateObj = stateObj ? Styles.mergeStyleObjects(this.default.state,this.domDefined.state) :this.domDefined.state
+                    }
                     return stateObj;
+
                 },
                 set: function(obj){
                     var stateObj = this.default.state;
-                    this.default.state = Style.mergeStyleObjects(stateObj,obj);
+                    this.default.state = stateObj?Styles.mergeStyleObjects(stateObj,obj,true):obj;
                 }
-            },
-            "domDefined":{
-                value: Weave.linkableChild(this, new weavejs.core.LinkableVariable())
             }
         });
 
-         Object.defineProperties(this, {
-            "border": {
-                value: Weave.linkableChild(this, new weavejs.core.LinkableVariable())
-            },
-            "margin": {
-                value: Weave.linkableChild(this, new weavejs.core.LinkableVariable())
-            },
-            "padding": {
-                value: Weave.linkableChild(this, new weavejs.core.LinkableVariable())
-            },
-            "font": {
-                value: Weave.linkableChild(this, new weavejs.core.LinkableVariable())
-            },
-            "other": {
-                value: Weave.linkableChild(this, new weavejs.core.LinkableVariable())
-            },
-            "domDefined": { // for props.style
-                value: Weave.linkableChild(this, new weavejs.core.LinkableVariable())
-            }
-        });
+    }
 
-
-         Object.defineProperties(this, {
-            "color": {
-                value: Weave.linkableChild(this, new weavejs.core.LinkableString())
-            },
-            "background": {
-                value: Weave.linkableChild(this, new weavejs.core.LinkableString())
-            },
-            "display": {
-                value: Weave.linkableChild(this, new weavejs.core.LinkableString())
-            },
-            "position": {
-                value: Weave.linkableChild(this, new weavejs.core.LinkableString())
-            }
-        });
-
-
+    getStyleFor(type){
+        //to-do : type: mobile mode | Tablet mode | laptop Mode  | iconMode
+        return this.state
     }
 
 
-
-    merge(into, obj) {
-        for (let attr in obj) {
-            into[attr] = obj[attr];
-        }
-
-        return into;
-    }
-
-    getStyleFor(properties,appendVendorPrefix){
-        properties = properties?properties:['border','margin','padding','font','other','color','background','display','position','domDefined']
-        return Styles.getStyleStateFor(this,properties,appendVendorPrefix);
-    }
 }
 
 Weave.registerClass('weavereact.InlineStyle', InlineStyle,[weavejs.api.core.ILinkableObject]);

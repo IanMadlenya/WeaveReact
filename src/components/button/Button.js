@@ -1,28 +1,18 @@
-import React from 'react';
 import ComponentManager from "../../ComponentManager";
+import AbstractComponent from "../../AbstractComponent";
 import ButtonConfig from "./Config";
 
 
-class Button extends React.Component {
+class Button extends AbstractComponent {
 
     constructor(props){
         super(props);
-        ComponentManager.initialize(this);
         this.onClickListener = this.onClickListener.bind(this);
-    }
-
-    componentWillReceiveProps(nextProps){
-        ComponentManager.componentWillReceiveProps(this,nextProps);
-    }
-
-
-    componentWillUnmount(){
-        ComponentManager.componentWillUnmount(this);
     }
 
     // allowe render only when React Parent render is called with new iconMode value
     shouldComponentUpdate(nextProps){
-        if(ComponentManager.debug)console.log("Button - shouldComponentUpdate");
+        super.shouldComponentUpdate(nextProps);
         if(this.props.iconMode !== nextProps.iconMode)
             return true
         else
@@ -42,11 +32,11 @@ class Button extends React.Component {
 
         var iconName = this.settings.getIcon();
         if(iconName && iconName.length>0){
-            var iconStyleObject = this.settings.iconModeStyle.getStyleFor(null,true);
+            var iconStyleObject = this.settings.iconModeStyle.getStyleFor();
             iconUI =  <i style={iconStyleObject} className = {iconName}> </i>
         }
 
-        var styleObject = this.settings.style.getStyleFor(null,true);
+        var styleObject = this.settings.style.getStyleFor();
 
         var buttonUI = <span onClick={this.onClickListener} style={styleObject}>{iconUI}{label}</span>;
         if(this.settings.useCSS.state){

@@ -1,18 +1,13 @@
-import React from 'react';
 import ComponentManager from "../../ComponentManager";
+import AbstractComponent from "../../AbstractComponent";
 
-class Overlay extends React.Component {
+class Overlay extends AbstractComponent {
     constructor(props) {
         super(props)
-        ComponentManager.initialize(this);
-    }
-
-    componentWillUnmount() {
-         ComponentManager.componentWillUnmount(this);
     }
 
     render() {
-        var styleObject =  this.settings.style.getStyleFor();
+        var styleObject =  this.settings.style.state;
         return  <div  style={styleObject} />;
     }
 }

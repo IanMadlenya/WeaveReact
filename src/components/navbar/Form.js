@@ -1,25 +1,17 @@
-import React from "react";
 import ComponentManager from "../../ComponentManager";
+import AbstractComponent from "../../AbstractComponent";
 
-class Form extends React.Component {
+class Form extends AbstractComponent {
 
     constructor(props) {
-        super(props);
-        ComponentManager.initialize(this,"container");
-    }
-
-    componentWillReceiveProps(nextProps){
-        ComponentManager.componentWillReceiveProps(this,nextProps);
+        super(props,"container");
     }
 
 
-    componentWillUnmount(){
-         ComponentManager.componentWillUnmount(this);
-    }
 
     // called only when React Parent render is called
     shouldComponentUpdate(nextProps){
-        if(ComponentManager.debug)console.log("Form - shouldComponentUpdate");
+        super.shouldComponentUpdate(nextProps)
         if(this.props.dock !== nextProps.dock){
             if(ComponentManager.debug)console.log("props.dock changed");
             return true
@@ -53,7 +45,7 @@ class Form extends React.Component {
         if(!this.settings.visible.value)
             return <div/>;
 
-        var styleObject = this.settings.style.getStyleFor(null);
+        var styleObject = this.settings.style.state;
         var cssName = this.settings.CSS.getCSSFor();
         var childrenUI = this.renderChildren();
 

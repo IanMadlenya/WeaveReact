@@ -1,25 +1,9 @@
-import React from 'react';
+import AbstractComponent from '../../AbstractComponent';
 import ComponentManager from "../../ComponentManager";
 
-class SideBar extends React.Component {
+class SideBar extends AbstractComponent {
     constructor(props) {
-        super(props)
-        ComponentManager.initialize(this,"container");
-    }
-
-    componentWillReceiveProps(nextProps){
-        ComponentManager.componentWillReceiveProps(this,nextProps);
-    }
-
-
-    componentWillUnmount(){
-         ComponentManager.componentWillUnmount(this);
-    }
-
-    // allowe render only when React Parent render is called with new iconMode value
-    shouldComponentUpdate(nextProps){
-        if(ComponentManager.debug)console.log("Sidebar - shouldComponentUpdate");
-        return false;
+        super(props,"container")
     }
 
 
@@ -37,7 +21,7 @@ class SideBar extends React.Component {
         if(!this.settings.visible.state)
             return <div/>;
 
-        var styleObject =  this.settings.style.getStyleFor();
+        var styleObject =  this.settings.style.state;
         var childrenUI = this.renderChildren();
         return <div style={styleObject}>
                    {childrenUI}

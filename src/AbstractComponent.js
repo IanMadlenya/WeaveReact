@@ -1,12 +1,12 @@
 import React from 'react';
-import ComponentManager from "../ComponentManager";
+import ComponentManager from "./ComponentManager";
 
 
 class AbstractComponent extends React.Component {
 
-    constructor(props){
+    constructor(props,type){
         super(props);
-        ComponentManager.initialize(this);
+        ComponentManager.initialize(this,type);
     }
 
     componentWillUnmount(){
@@ -17,13 +17,11 @@ class AbstractComponent extends React.Component {
         ComponentManager.componentWillReceiveProps(this,nextProps);
     }
 
+    // allowe render only when React Parent render is called with new iconMode value
     shouldComponentUpdate(nextProps){
-        ComponentManager.shouldComponentUpdate(this,nextProps);
+        return ComponentManager.shouldComponentUpdate(nextProps);
     }
 
-    render() {
-        return (<div/>);
-    }
 
 }
 

@@ -1,18 +1,13 @@
-import React from 'react';
-import Styles from "../utils/Style";
 import ComponentManager from "../ComponentManager";
+import AbstractComponent from "../AbstractComponent";
 import HTMLWrapperConfig from "../configs/HTMLWrapperConfig";
 
 class HTMLWrapper extends React.Component {
 
     constructor(props) {
         super(props);
-        ComponentManager.initialize(this);
     }
 
-    componentWillUnmount () {
-         ComponentManager.componentWillUnmount(this);
-    }
 
 
     render() {

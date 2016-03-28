@@ -57,14 +57,14 @@ import appendVendorPrefix from './appendVendorPrefix';
     }
 
     Style.alignChildren = function(style,align){
-        var otherState = style.other.state;
-        if(style.display.state === "flex"){
-            if(align === "left") otherState["justifyContent"] = "flex-start";
-            else if(align === "center")otherState["justifyContent"] = "center";
-            else if(align === "right")otherState["justifyContent"] = "flex-end";
-            else if(align === "justify")otherState["justifyContent"] = "space-around";
+        var stateObj = style.state;
+        if(stateObj.display === "flex"){
+            if(align === "left") stateObj["justifyContent"] = "flex-start";
+            else if(align === "center")stateObj["justifyContent"] = "center";
+            else if(align === "right")stateObj["justifyContent"] = "flex-end";
+            else if(align === "justify")stateObj["justifyContent"] = "space-around";
         }
-        style.other.state = otherState;
+        style.state = stateObj;
         // to-do for CSS with float values
 
     }

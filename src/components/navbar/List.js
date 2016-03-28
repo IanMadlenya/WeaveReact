@@ -1,27 +1,18 @@
-import React from 'react';
 import ComponentManager from "../../ComponentManager";
+import AbstractComponent from "../../AbstractComponent";
 import Link from "./Link";
 
 
-class List extends React.Component {
+class List extends AbstractComponent {
 
     constructor(props){
-        super(props);
-        ComponentManager.initialize(this,"container");
+        super(props,"container");
     }
 
-    componentWillReceiveProps(nextProps){
-        ComponentManager.componentWillReceiveProps(this,nextProps);
-    }
-
-
-    componentWillUnmount(){
-         ComponentManager.componentWillUnmount(this);
-    }
 
     // called only when React Parent render is called
     shouldComponentUpdate(nextProps){
-        if(ComponentManager.debug)console.log("List - shouldComponentUpdate");
+        super.shouldComponentUpdate(nextProps);
         if(this.props.dock !== nextProps.dock){
             if(ComponentManager.debug)console.log("props.dock changed");
             return true
@@ -62,7 +53,7 @@ class List extends React.Component {
         if(!this.settings.visible.value)
             return <div/>;
 
-        var styleObject = this.settings.style.getStyleFor(null,true);
+        var styleObject = this.settings.style.state;
         var cssName = this.settings.CSS.getCSSFor();
         var childrenUI = this.renderChildren();
 

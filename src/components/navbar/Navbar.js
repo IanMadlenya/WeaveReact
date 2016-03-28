@@ -1,5 +1,5 @@
-import React from 'react';
 import ComponentManager from "../../ComponentManager";
+import AbstractComponent from "../../AbstractComponent";
 import Brand from "./Brand";
 import Logo from "./Logo";
 import Title from "./Title";
@@ -10,27 +10,10 @@ import HTMLWrapper from "../HTMLWrapper";
 import navbarConfig from "./Config";
 
 
-class Navbar extends React.Component {
+class Navbar extends AbstractComponent {
 
     constructor(props){
-        super(props);
-        ComponentManager.initialize(this,"container");
-    }
-
-    componentWillUnmount(){
-        ComponentManager.componentWillUnmount(this);
-    }
-
-
-    componentWillReceiveProps(nextProps){
-        ComponentManager.componentWillReceiveProps(this,nextProps);
-    }
-
-    // weavestate change directly calls forceUpdate, so no need to use Weave.detectChange
-    shouldComponentUpdate(){
-        if(App.debug)console.log("Navbar shouldComponentUpdate");
-        // default return true
-        return false; // this ensures parent render wont render the navbar
+        super(props,"container");
     }
 
 
@@ -43,7 +26,7 @@ class Navbar extends React.Component {
 
     render() {
         if(ComponentManager.debug)console.log("Navbar ---Render---");
-        var styleObj = this.settings.style.getStyleFor(null);
+        var styleObj = this.settings.style.state;
         var cssName = this.settings.CSS.getCSSFor();
         var childrenUI = this.renderChildren();
 

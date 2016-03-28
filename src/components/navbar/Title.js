@@ -1,29 +1,26 @@
-import React from "react";
 import ComponentManager from "../../ComponentManager";
+import AbstractComponent from "../../AbstractComponent";
 
-class Title extends React.Component {
+class Title extends AbstractComponent {
 
     constructor(props) {
         super(props);
-        ComponentManager.initialize(this);
         if(this.props.title)
             this.settings.title.state =  this.props.title;
     }
 
 
     componentWillReceiveProps(nextProps){
-        ComponentManager.componentWillReceiveProps(this,nextProps);
+        super.componentWillReceiveProps(nextProps);
         if(this.props.title !== nextProps.title){// user style added through UI is Sessioned
             if(nextProps.title)this.settings.title.state = nextProps.title;
         }
     }
 
 
-    componentWillUnmount () {
-        ComponentManager.componentWillUnmount(this);
-    }
 
     shouldComponentUpdate(nextProps){
+        super.shouldComponentUpdate(nextProps)
         if(this.props.dock !== nextProps.dock){
             return true
         }else if(this.props.position !== nextProps.position){
@@ -37,10 +34,11 @@ class Title extends React.Component {
 
 
     render() {
+        if(ComponentManager.debug)console.log("Title ---Render---");
         if(!this.settings.visible.value)
              return <div/>;
 
-        var styleObj = this.settings.style.getStyleFor();
+        var styleObj = this.settings.style.state;
 
         return <span style={styleObj}>{this.settings.title.value}</span>
     }

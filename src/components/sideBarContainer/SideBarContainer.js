@@ -1,30 +1,17 @@
-import React from 'react';
 import ComponentManager from '../../ComponentManager';
+import AbstractComponent from '../../AbstractComponent';
 import Overlay from './Overlay';
 import SideBar from "./SideBar";
 import sideBarContainerConfig from "./Config";
 
 
-class SideBarContainer extends React.Component {
+class SideBarContainer extends AbstractComponent {
     constructor(props) {
-        super(props)
-        ComponentManager.initialize(this,"container");
-    }
-
-    componentWillReceiveProps(nextProps){
-        ComponentManager.componentWillReceiveProps(this,nextProps);
+        super(props,"container")
     }
 
 
-    componentWillUnmount(){
-        ComponentManager.componentWillUnmount(this);
-    }
 
-    // called only when React Parent render is called
-    shouldComponentUpdate(nextProps){
-        if(ComponentManager.debug)console.log("SidebarContainer - shouldComponentUpdate");
-        return false;
-    }
 
     renderChildren(){
         return  ComponentManager.renderChildren(this);
@@ -39,7 +26,7 @@ class SideBarContainer extends React.Component {
         var topSideBarUI = this.settings.topSideBar.visible.state?<SideBar settings={this.settings.topSideBar}/>:"";
         var bottomSideBarUI = this.settings.bottomSideBar.visible.state?<SideBar settings={this.settings.bottomSideBar}/>:"";
 
-        var styleObject = this.settings.style.getStyleFor();
+        var styleObject = this.settings.style.state;
         return ( <div style = {styleObject}>
                     {leftSideBarUI}
                     <div style={{width:"100%",height:"100%"}}>

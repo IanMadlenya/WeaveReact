@@ -1,25 +1,16 @@
-import React from "react";
 import ComponentManager from "../../ComponentManager";
+import AbstractComponent from "../../AbstractComponent";
 import HTMLWrapper from "../HTMLWrapper";
 
-class Brand extends React.Component {
+class Brand extends AbstractComponent {
 
     constructor(props) {
-        super(props);
-        ComponentManager.initialize(this,"container");
-    }
-
-    componentWillReceiveProps(nextProps){
-        ComponentManager.componentWillReceiveProps(this,nextProps);
-    }
-
-
-    componentWillUnmount () {
-        ComponentManager.componentWillUnmount(this);
+        super(props,"container");
     }
 
 
     shouldComponentUpdate(nextProps){
+        super.shouldComponentUpdate(nextProps);
         if(this.props.dock !== nextProps.dock){
             return true
         }else if(this.props.position !== nextProps.position){
@@ -39,13 +30,14 @@ class Brand extends React.Component {
 
 
     render() {
+         if(ComponentManager.debug)console.log("Brand - render");
         var BrandUI = <div/>;
 
         if(!this.settings.visible.value)
             return BrandUI;
 
         var cssName = this.settings.CSS.getCSSFor();
-        var styleObject = this.settings.style.getStyleFor(null,true);
+        var styleObject = this.settings.style.state;
         var childrenUI = this.renderChildren();
 
         if(this.settings.useCSS.value){

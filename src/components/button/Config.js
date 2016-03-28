@@ -16,7 +16,7 @@ class ButtonConfig {
             }
         });
 
-        this.style.other.state = {
+        this.style.state = {
             display:"flex",
             flexDirection:"row",
             fontFamily: "inherit",
