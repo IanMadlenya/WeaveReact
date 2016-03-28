@@ -20,9 +20,9 @@ class InlineStyle{
                 get: function(){
                     var stateObj = this.default.state;
                     if(this.domDefined.state){
-                         stateObj = stateObj ? Styles.mergeStyleObjects(this.default.state,this.domDefined.state) :this.domDefined.state
+                         stateObj = stateObj ? Styles.mergeStyleObjects(stateObj,this.domDefined.state) :this.domDefined.state
                     }
-                    return stateObj;
+                    return Styles.mergeStyleObjects({},stateObj);// need to send new copy to avoid react warniing
 
                 },
                 set: function(obj){

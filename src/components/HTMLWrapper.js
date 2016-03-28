@@ -1,5 +1,5 @@
 import ComponentManager from "../ComponentManager";
-import AbstractComponent from "../AbstractComponent";
+import React from "react";
 import HTMLWrapperConfig from "../configs/HTMLWrapperConfig";
 
 class HTMLWrapper extends React.Component {
