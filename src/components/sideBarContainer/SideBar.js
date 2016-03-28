@@ -1,3 +1,4 @@
+import React from 'react';
 import AbstractComponent from '../../AbstractComponent';
 import ComponentManager from "../../ComponentManager";
 

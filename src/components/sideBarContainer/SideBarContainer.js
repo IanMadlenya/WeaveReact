@@ -1,3 +1,4 @@
+import React from 'react';
 import ComponentManager from '../../ComponentManager';
 import AbstractComponent from '../../AbstractComponent';
 import Overlay from './Overlay';
