@@ -13,6 +13,9 @@ class ButtonConfig {
             },
             "clicked":{
                 value: Weave.linkableChild(this, new weavejs.core.LinkableBoolean(false))
+            },
+            "label":{
+                value: Weave.linkableChild(this, new weavejs.core.LinkableString())
             }
         });
 
