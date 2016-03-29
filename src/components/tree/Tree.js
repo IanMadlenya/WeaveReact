@@ -45,8 +45,14 @@ class Tree extends AbstractComponent {
             }
             return iconUI;
         }
+
         var rootNodeStyle = this.settings.rootStyle.getStyleFor(null,true);
-        return ( <Node style={rootNodeStyle} data={this.props.data} label={this.props.label} nodes={this.props.nodes} icon={this.props.icon}
+        return ( <Node style={rootNodeStyle}
+                    data={this.props.data}
+                    label={this.props.label}
+                    nodes={this.props.nodes}
+                    icon={this.props.icon}
+                    reverseLayout={this.props.reverseLayout}
                     settings={this.settings.rootNode}
                     treeConfig={this.settings}
                     clickCallback={this.props.clickCallback} />

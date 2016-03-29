@@ -30,6 +30,7 @@ class Accordion extends AbstractComponent {
         this.settings.props.addChildProps("open",false,true);
         this.settings.props.addChildProps("style",childStyle,activeChildStyle);
         this.settings.props.addChildProps("iconMode",this.settings.iconMode.state);
+        this.settings.props.addChildProps("reverseLayout",this.settings.reverseLayout.state);
         this.settings.props.keyProp = "index";
         this.settings.props.addOddChildren([this.settings.activeChild.state]);
 

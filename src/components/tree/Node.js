@@ -107,6 +107,7 @@ class Node extends AbstractComponent {
         this.settings.props.addChildProps("label",this.props.label);
         this.settings.props.addChildProps("nodes",this.props.nodes);
         this.settings.props.addChildProps("icon",this.props.icon);
+        this.settings.props.addChildProps("reverseLayout",this.settings.reverseLayout.state);
         this.settings.props.addChildProps("clickCallback",this.props.clickCallback);
         this.settings.props.addChildProps("data",null, null,this.settings.getNodeValueFor(this.props.nodes) );
         return ComponentManager.renderChildren(this);

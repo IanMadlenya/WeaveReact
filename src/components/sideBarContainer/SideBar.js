@@ -13,6 +13,7 @@ class SideBar extends AbstractComponent {
         if(!this.settings.open.state && this.settings.static.state)
              iconMode = true;
         this.settings.props.addChildProps("iconMode",iconMode);
+        this.settings.props.addChildProps("reverseLayout",this.settings.reverseLayout.state);
         return  ComponentManager.renderChildren(this);
     }
 

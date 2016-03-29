@@ -25,10 +25,16 @@ import ComponentManager from "../../ComponentManager";
 
         this.data = null;
 
+
+
     }
 
 
+
+
     var p = NodeConfig.prototype;
+
+
 
     p.getNodes = function () {
         return this.children.getNames();

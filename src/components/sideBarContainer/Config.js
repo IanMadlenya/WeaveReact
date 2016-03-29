@@ -43,6 +43,17 @@ class ContainerConfig {
             height:"100%"
         }
 
+        //todo move this to componentManager defaultCallbacks
+        this.reverseLayout.addGroupedCallback(this, this.updateSideBarLyout);
+
+    }
+
+    updateSideBarLyout(){
+        var revLayout = this.reverseLayout.state;
+        if(this.leftSideBar.visible.state)this.leftSideBar.reverseLayout.state =  revLayout;
+        if(this.rightSideBar.visible.state)this.rightSideBar.reverseLayout.state =  revLayout;
+        if(this.bottomSideBar.visible.state)this.bottomSideBar.reverseLayout.state =  revLayout;
+        if(this.topSideBar.visible.state)this.topSideBar.reverseLayout.state =  revLayout;
     }
 
 

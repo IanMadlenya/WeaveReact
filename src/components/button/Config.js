@@ -32,7 +32,14 @@ class ButtonConfig {
             alignItems:"center"
         };
 
+        this.reverseLayout.addImmediateCallback(this,this.updateStyle)
 
+
+    }
+
+    updateStyle(){
+        var flexDir = this.reverseLayout.state?"row-reverse":"row";
+        this.style.state = {flexDirection:flexDir};
     }
 
     getIcon(){

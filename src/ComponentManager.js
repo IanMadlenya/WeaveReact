@@ -58,6 +58,9 @@ class ComponentManager {
         if (reactComp.props.iconMode) {
             if (reactComp.settings.iconMode) reactComp.settings.iconMode.state = reactComp.props.iconMode;
         }
+        if (reactComp.props.reverseLayout) {
+            if (reactComp.settings.reverseLayout) reactComp.settings.reverseLayout.state = reactComp.props.reverseLayout;
+        }
         if (type == "container"  && reactComp.constructor.name != "HTMLWrapper") {
             var WrapperConfigClass = reactComp["WrapperConfigClass"] ? reactComp["WrapperConfigClass"] : null;
             ComponentManager.hookSessionStateForComponentChildren(reactComp.props.children, reactComp.settings, WrapperConfigClass);
@@ -98,6 +101,9 @@ class ComponentManager {
             },
             "deviceMode":{
                 value: Weave.linkableChild(config, new weavejs.core.LinkableString("large"))
+            },
+            "reverseLayout":{
+                value: Weave.linkableChild(config, new weavejs.core.LinkableBoolean(false))
             },
             "props":{
                 value:  new Props()
@@ -165,6 +171,13 @@ class ComponentManager {
             if (nextProps.deviceMode !== undefined && reactComp.settings.deviceMode) {
                 if(ComponentManager.debug)console.log(reactComp.constructor.name + " ** deviceMode");
                 reactComp.settings.deviceMode.state = nextProps.deviceMode;
+            }
+        }
+        if (reactComp.props.reverseLayout !== nextProps.reverseLayout) {
+            if(ComponentManager.debug)console.log(reactComp.constructor.name + " ** props reverseLayout changed from " + reactComp.props.reverseLayout + " to " + nextProps.reverseLayout);
+            if (nextProps.reverseLayout !== undefined && reactComp.settings.reverseLayout) {
+                if(ComponentManager.debug)console.log(reactComp.constructor.name + " ** reverseLayout");
+                reactComp.settings.reverseLayout.state = nextProps.reverseLayout;
             }
         }
         if (reactComp.props.iconMode !== nextProps.iconMode) {

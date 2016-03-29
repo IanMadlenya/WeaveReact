@@ -57,9 +57,15 @@ import ComponentManager from "../../ComponentManager";
         this.dataTypesMap = null;
         this.getDataType = null;
 
+        this.branchStyle.state = {
+            "display": "flex",
+            "flexDirection": "column"
+        }
+
         this.nodeStyle.state = {
             "display": "flex",
-            "flexDirection": "row"
+            "flexDirection": "row",
+            "alignItems":"center"
         }
 
         this.treeIconState.state = {
@@ -78,7 +84,8 @@ import ComponentManager from "../../ComponentManager";
 
         this.leafStyle.state = {
             "display": "flex",
-            "flexDirection": "row"
+            "flexDirection": "row",
+            "alignItems":"center"
         }
 
 
@@ -87,10 +94,20 @@ import ComponentManager from "../../ComponentManager";
         }
 
         this.defaultSelectedNodes = [];
+
+        //todo move this to componentManager defaultCallbacks
+        this.reverseLayout.addImmediateCallback(this, this.updateStyle);
     }
 
 
     var p = TreeConfig.prototype;
+
+    p.updateStyle = function(){
+        var flexDir = this.reverseLayout.state?"row-reverse":"row";
+        this.nodeStyle.state = {flexDirection:flexDir};
+        this.leafStyle.state = {flexDirection:flexDir};
+    }
+
 
     function mergeInto (into, obj) {
         for (let attr in obj) {
