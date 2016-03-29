@@ -30,7 +30,7 @@ class Link extends AbstractComponent {
             return ( <li style={this.props.style}>
                         <a style={styleObject} href = {'#' + hrefLink}>
                             <i className = {this.settings.iconName.value}> </i>
-                            {title}
+                            {Weave.lang(title)}
                         </a>
                     </li>
             );
@@ -38,7 +38,7 @@ class Link extends AbstractComponent {
             return (<li style={this.props.style}>
                         <a style={styleObject} href = {'#' + hrefLink}>
                             <i className = {this.settings.iconName.value}> </i>
-                            {title}
+                            {Weave.lang(title)}
                         </a>
                     </li>
             );

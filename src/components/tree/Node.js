@@ -146,7 +146,7 @@ class Node extends AbstractComponent {
 
                 var folderUI = <span style={nodeStyle} onClick={this.toggle}>
                                     {iconUI}
-                                    &nbsp;{label}
+                                    &nbsp;{Weave.lang(label)}
                                     <span style={{flex:"1"}}/>
                                     <i className={controlName} ></i>
                                 </span>;
@@ -174,7 +174,7 @@ class Node extends AbstractComponent {
 
                 nodeUI = <li style={leafStyle} onClick={this.toggle}>
                             {iconUI}
-                            &nbsp;{label}
+                            &nbsp;{Weave.lang(label)}
                             <span style={{flex:"1"}}/>
                             <i className={fileIcon}></i>
                          </li>

@@ -39,7 +39,7 @@ class Button extends AbstractComponent {
 
         var styleObject = this.settings.style.getStyleFor();
 
-        var buttonUI = <span onClick={this.onClickListener} style={styleObject}>{iconUI}{label}</span>;
+        var buttonUI = <span onClick={this.onClickListener} style={styleObject}>{iconUI}{Weave.lang(label)}</span>;
         if(this.settings.useCSS.state){
             var cssName = this.settings.CSS.getCSSFor();
             buttonUI = <span onClick={this.onClickListener} className={cssName} style={styleObject}>{iconUI}&nbsp;{label}</span>;

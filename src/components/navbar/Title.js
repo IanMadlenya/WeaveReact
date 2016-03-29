@@ -41,7 +41,7 @@ class Title extends AbstractComponent {
 
         var styleObj = this.settings.style.state;
 
-        return <span style={styleObj}>{this.settings.title.value}</span>
+        return <span style={styleObj}>{Weave.lang(this.settings.title.value)}</span>
     }
 }
 Weave.registerClass("weavereact.navbar.Title", Title,[weavejs.api.core.ILinkableObject]);
