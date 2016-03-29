@@ -31,6 +31,8 @@ import Props from "./configs/Props";
 
 
 import ComponentManager from "./ComponentManager";
+import AbstractComponent from "./AbstractComponent";
+import AbstractConfig from "./AbstractConfig";
 import Style from "./utils/Style";
 
 
@@ -61,6 +63,8 @@ exports.SessionEditorConfig = SessionEditorConfig;
 exports.Button = Button;
 exports.ButtonConfig = ButtonConfig;
 
+exports.Component = AbstractComponent;
+exports.Config = AbstractConfig;
 exports.InlineStyle = InlineStyle;
 exports.CSS = CSS;
 exports.Props = Props;
