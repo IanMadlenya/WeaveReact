@@ -205,6 +205,10 @@ class ComponentManager {
                     Weave.getCallbacks(obj).addGroupedCallback(reactComp, reactComp.forceUpdate);
                 }else if(obj instanceof weavejs.core.LinkableVariable){
                      Weave.getCallbacks(obj).addGroupedCallback(reactComp, reactComp.forceUpdate);
+                }else if(obj instanceof InlineStyle){
+                     Weave.getCallbacks(obj).addGroupedCallback(reactComp, reactComp.forceUpdate);
+                }else if(obj instanceof CSS){
+                     Weave.getCallbacks(obj).addGroupedCallback(reactComp, reactComp.forceUpdate);
                 }
             }
         }
@@ -225,6 +229,10 @@ class ComponentManager {
                     obj = obj.childListCallbacks;
                     Weave.getCallbacks(obj).removeCallback(reactComp, reactComp.forceUpdate);
                 }else if(obj instanceof weavejs.core.LinkableVariable){
+                     Weave.getCallbacks(obj).removeCallback(reactComp, reactComp.forceUpdate);
+                }else if(obj instanceof InlineStyle){
+                     Weave.getCallbacks(obj).removeCallback(reactComp, reactComp.forceUpdate);
+                }else if(obj instanceof CSS){
                      Weave.getCallbacks(obj).removeCallback(reactComp, reactComp.forceUpdate);
                 }
             }
