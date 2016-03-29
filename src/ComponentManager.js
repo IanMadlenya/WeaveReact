@@ -58,7 +58,7 @@ class ComponentManager {
         if (reactComp.props.iconMode) {
             if (reactComp.settings.iconMode) reactComp.settings.iconMode.state = reactComp.props.iconMode;
         }
-        if (type == "container" && reactComp.props.children && reactComp.constructor.name != "HTMLWrapper") {
+        if (type == "container"  && reactComp.constructor.name != "HTMLWrapper") {
             var WrapperConfigClass = reactComp["WrapperConfigClass"] ? reactComp["WrapperConfigClass"] : null;
             ComponentManager.hookSessionStateForComponentChildren(reactComp.props.children, reactComp.settings, WrapperConfigClass);
             reactComp.renderChildren = reactComp.renderChildren.bind(reactComp);
