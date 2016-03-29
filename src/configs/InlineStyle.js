@@ -34,7 +34,7 @@ class InlineStyle{
 
     }
 
-    getStyleFor(type){
+    getStyleFor(){
         //to-do : type: mobile mode | Tablet mode | laptop Mode  | iconMode
         return this.state
     }

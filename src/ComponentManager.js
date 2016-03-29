@@ -108,6 +108,9 @@ class ComponentManager {
             Object.defineProperties(config, {
                 "children":{
                     value: Weave.linkableChild(config, new weavejs.core.LinkableHashMap())
+                },
+                "addGapAt":{
+                    value: Weave.linkableChild(config, new weavejs.core.LinkableNumber())
                 }
             });
 

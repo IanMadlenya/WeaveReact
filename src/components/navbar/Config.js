@@ -10,9 +10,6 @@ class NavConfig {
         ComponentManager.createDefaultSessionProperties(this,"container");
 
         Object.defineProperties(this, {
-            "addGapAt":{
-                value: Weave.linkableChild(this, new weavejs.core.LinkableNumber())
-            },
             "dock":{
                 value: Weave.linkableChild(this, new weavejs.core.LinkableString("top"))
             }
@@ -220,9 +217,6 @@ class FormConfig {
          Object.defineProperties(this, {
             "rightAlign": {
                 value: Weave.linkableChild(this, new weavejs.core.LinkableBoolean(true))
-            },
-            "addGapAt":{
-                value: Weave.linkableChild(this, new weavejs.core.LinkableNumber())
             },
             "space": {
                 value: Weave.linkableChild(this, new weavejs.core.LinkableString("2px"))
