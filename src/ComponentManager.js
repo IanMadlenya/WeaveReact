@@ -385,6 +385,15 @@ class ComponentManager {
                 var thisArg = child ? child : childConfig;
                 ComponentManager.mergeInto(props, childConfig.props.getProps(thisArg,childConfig,configName, index));
             }
+            if (configName === "gapDiv") {
+                var orderValue = String(reactComp.settings.addGapAt.state);
+                if (!isNaN(orderValue)) {
+                    props["style"] = {
+                        flex: "1",
+                        order: orderValue
+                    }
+                }
+            }
 
             if (child) {
                 if (typeof (child.type) === "string") {
@@ -400,15 +409,6 @@ class ComponentManager {
                     return clonedChild;
                 }
             } else {
-                if (configName === "gapDiv") {
-                    var orderValue = String(reactComp.settings.addGapAt.state);
-                    if (!isNaN(orderValue)) {
-                        props["style"] = {
-                            flex: "1",
-                            order: orderValue
-                        }
-                    }
-                }
                 //to-do need to replace with flexinfo file or tiher mean, create a utility function
                 //this solution will fail when config not part of session tree
                 var configClass = childConfig.FLEXJS_CLASS_INFO.names[0].qName;
