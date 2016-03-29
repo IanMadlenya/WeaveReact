@@ -52,7 +52,7 @@ class Tree extends AbstractComponent {
                     label={this.props.label}
                     nodes={this.props.nodes}
                     icon={this.props.icon}
-                    reverseLayout={this.props.reverseLayout}
+                    reverseLayout={this.settings.reverseLayout.state}
                     settings={this.settings.rootNode}
                     treeConfig={this.settings}
                     clickCallback={this.props.clickCallback} />
