@@ -41,6 +41,7 @@ class App extends React.Component {
         this.sideBarContainerConfig.topSideBar.visible.state = false;
         this.sideBarContainerConfig.bottomSideBar.visible.state = false;
         var sideBar = this.sideBarContainerConfig.leftSideBar;
+        this.sideBarContainerConfig.reverseLayout.state = true;
 
 
         //this.accordionConfig = window.dbweave.root.requestObject('accordion',AccordionConfig);
