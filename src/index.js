@@ -92,7 +92,11 @@ exports.getToolConfig = function (toolClass) {
 
 
 exports.initialize = function(reactComp){
-    ComponentManager.initialize(reactComp,nextProps);
+    ComponentManager.initialize(reactComp);
+}
+
+exports.createDefaultSessionProperties = function(reactComp){
+    ComponentManager.createDefaultSessionProperties(reactComp);
 }
 
 exports.hookSessionStateForComponentChildren = function (ReactChildren,ownerConfig)  {

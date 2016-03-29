@@ -21,7 +21,6 @@ class Tree extends AbstractComponent {
 
     }
 
-    // allowe render only when React Parent render is called with new iconMode value
     shouldComponentUpdate(nextProps){
         super.shouldComponentUpdate(nextProps);
         if(this.props.data !== nextProps.data)
