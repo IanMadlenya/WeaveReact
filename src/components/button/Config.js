@@ -28,7 +28,8 @@ class ButtonConfig {
             margin: "0",
             color: "inherit",
             textTransform: "none",
-            cursor: "pointer"
+            cursor: "pointer",
+            alignItems:"center"
         };
 
 

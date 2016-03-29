@@ -29,7 +29,7 @@ class Button extends AbstractComponent {
     render() {
         if(ComponentManager.debug)console.log("Button - render");
         var iconUI = "";
-        var label = this.settings.iconOnly.state?"":this.settings.label.state;
+        var label = this.settings.iconOnly.state || this.settings.iconMode.state?"":this.settings.label.state;
 
         var iconName = this.settings.getIcon();
         if(iconName && iconName.length>0){
