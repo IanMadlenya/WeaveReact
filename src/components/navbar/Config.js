@@ -31,7 +31,8 @@ class NavConfig {
             background: "#F8F8F8"
         };
 
-        this.dock.addImmediateCallback(this,this.updateStyle)
+        this.dock.addImmediateCallback(this,this.updateStyle);
+        this.reverseLayout.addImmediateCallback(this,this.updateStyle);
     }
 
     updateStyle(){
@@ -44,13 +45,13 @@ class NavConfig {
         if(this.dock.value === "top"){
             styleObject["position"] = "static";
             styleObject["top"] = "0";
-            styleObject["flexDirection"] = "row";
+            styleObject["flexDirection"] =  this.reverseLayout.state? "row-reverse" :"row";
             styleObject["width"] = "100%";
             styleObject["height"] = "5%";
          }else if(this.dock.value === "bottom"){
             styleObject["position"] = "fixed";
             styleObject["bottom"] = "0";
-            styleObject["flexDirection"] = "row";
+            styleObject["flexDirection"] = this.reverseLayout.state? "row-reverse" :"row";
             styleObject["width"] = "100%";
             styleObject["height"] = "5%";
          }else if(this.dock.value === "right"){
