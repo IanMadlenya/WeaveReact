@@ -50,6 +50,9 @@ class ContainerConfig {
 
     updateSideBarLyout(){
         var revLayout = this.reverseLayout.state;
+        this.style.state = {
+            flexDirection: revLayout?"row-reverse":"row"
+        }
         if(this.leftSideBar.visible.state)this.leftSideBar.reverseLayout.state =  revLayout;
         if(this.rightSideBar.visible.state)this.rightSideBar.reverseLayout.state =  revLayout;
         if(this.bottomSideBar.visible.state)this.bottomSideBar.reverseLayout.state =  revLayout;
