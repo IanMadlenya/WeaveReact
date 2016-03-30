@@ -106,11 +106,13 @@ import ComponentManager from "../../ComponentManager";
         var flexDir = this.reverseLayout.state?"row-reverse":"row";
         this.nodeStyle.state = {flexDirection:flexDir};
         this.leafStyle.state = {flexDirection:flexDir};
+
+        var icons = this.treeIconState.state;
         this.treeIconState.state = {
-            "nodeDefault" : this.reverseLayout.state?"fa fa-folder fa-flip-horizontal":"fa fa-folder",
-            "nodeOpen" : this.reverseLayout.state?"fa fa-folder-open fa-flip-horizontal":"fa fa-folder-open",
-            "leafDefault" : this.reverseLayout.state?"fa fa-file-text fa-flip-horizontal":"fa fa-file-text",
-            "leafOpen" : this.reverseLayout.state?"fa fa-file-text-o fa-flip-horizontal":"fa-file-text-o"
+            "nodeDefault" : this.reverseLayout.state?icons.nodeDefault + " fa-flip-horizontal":icons.nodeDefault,
+            "nodeOpen" : this.reverseLayout.state?icons.nodeOpen +" fa-flip-horizontal":icons.nodeOpen,
+            "leafDefault" : this.reverseLayout.state?icons.leafDefault +" fa-flip-horizontal":icons.leafDefault,
+            "leafOpen" : this.reverseLayout.state?icons.leafOpen +" fa-flip-horizontal":icons.leafOpen
         }
     }
 
