@@ -70,7 +70,63 @@ class ComponentManager {
         ComponentManager.addForceUpdateToCallbacks(reactComp);
 
 
+
     }
+
+    //todo organize better
+    static flipIcons(config,iconStateNames){
+        if(!config.reverseLayout){
+            console.warn("no reverseLayout Session Object");
+            return;
+        }
+
+        for(var i = 0 ; i < iconStateNames.length ; i++){
+            var iconObj = config[iconStateNames[i]].state;
+
+            if(iconObj){
+                if(typeof iconObj != "string"){ //linkableVraible Obj
+                    var keys = Object.keys(iconObj);
+                    if(config.reverseLayout.state){
+                        keys.map(function(key,index){
+                            if(iconObj[key].indexOf("/") == -1){//fontawesome icons
+                                if(iconObj[key].indexOf(" fa-flip-horizontal") == -1){//not flipped
+                                    iconObj[key] = iconObj[key] + " fa-flip-horizontal";
+                                }
+                            }
+
+                        });
+                    }else{
+                        keys.map(function(key,index){
+                            if(iconObj[key].indexOf(" fa-flip-horizontal") != -1){// flipped
+                                var index = iconObj[key].indexOf(" fa-flip-horizontal");
+                                iconObj[key] = iconObj[key].substring(0,index);
+                            }
+                        });
+
+                    }
+                }else{ //LinkableString
+                    if(config.reverseLayout.state){
+                        if(iconObj.indexOf("/") == -1){//fontawesome icons
+                            if(iconObj.indexOf(" fa-flip-horizontal") == -1){//not flipped
+                                iconObj = iconObj + " fa-flip-horizontal";
+                            }
+                        }
+                    }else{
+                        if(iconObj.indexOf(" fa-flip-horizontal") != -1){// flipped
+                            var index = iconObj.indexOf(" fa-flip-horizontal");
+                            iconObj = iconObj.substring(0,index);
+                        }
+                    }
+
+                }
+
+                config[iconStateNames[i]].state = iconObj;
+            }
+
+        }
+
+    }
+
 
     static createDefaultSessionProperties(config,type){
         if(ComponentManager.debug)console.log(config.constructor.name + " -- constructor");
@@ -450,6 +506,8 @@ class ComponentManager {
         }
         return into;
     }
+
+
 }
 
 ComponentManager.toolRegistry = {};

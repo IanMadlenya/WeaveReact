@@ -130,3 +130,7 @@ exports.shouldComponentUpdate = function(reactComp,nextProps){
 exports.renderChildren = function (reactComp,propsManager)  {
     return ComponentManager.renderChildren(reactComp,propsManager);
 }
+
+exports.flipIcons = function (config,iconStateNames)  {
+    return ComponentManager.flipIcons(config,iconStateNames);
+}

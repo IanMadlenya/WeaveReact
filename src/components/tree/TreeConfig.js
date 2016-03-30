@@ -106,36 +106,7 @@ import ComponentManager from "../../ComponentManager";
         var flexDir = this.reverseLayout.state?"row-reverse":"row";
         this.nodeStyle.state = {flexDirection:flexDir};
         this.leafStyle.state = {flexDirection:flexDir};
-
-        var icons = this.treeIconState.state;
-
-        var keys = Object.keys(icons);
-        if(this.reverseLayout.state){
-            keys.map(function(key,index){
-                if(icons[key].indexOf(" fa-flip-horizontal") == -1){//not flipped
-                    icons[key] = icons[key] + " fa-flip-horizontal";
-                }
-            },this);
-        }else{
-            keys.map(function(key,index){
-                if(icons[key].indexOf(" fa-flip-horizontal") != -1){// flipped
-                    var index = icons[key].indexOf(" fa-flip-horizontal");
-                    icons[key] = icons[key].substring(0,index);
-                }
-            },this);
-
-        }
-        this.treeIconState.state = icons;
-
-
-
-        this.nodeIconStyle.state = {
-            transform: this.reverseLayout.state?"scaleX(-1)":""
-        }
-
-        this.leafIconStyle.state = {
-            transform: this.reverseLayout.state?"scaleX(-1)":""
-        }
+        ComponentManager.flipIcons(this,["treeIconState"]);
 
     }
 

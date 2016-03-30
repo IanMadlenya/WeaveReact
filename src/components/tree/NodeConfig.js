@@ -25,7 +25,7 @@ import ComponentManager from "../../ComponentManager";
 
         this.data = null;
 
-        this.reverseLayout.addImmediateCallback(this, this.flipIcon)
+        this.reverseLayout.addImmediateCallback(this, this.flipIcon);
 
 
     }
@@ -37,24 +37,7 @@ import ComponentManager from "../../ComponentManager";
 
 
     p.flipIcon = function(){
-        var iconName = this.iconName.state;
-        if(iconName  && iconName.length > 0 ){
-            if(iconName.indexOf("/") == -1){ // fontaweosme icons
-                if(this.reverseLayout.state){
-                    if(iconName.indexOf(" fa-flip-horizontal") == -1){//notflipped
-                        this.iconName.state = iconName + " fa-flip-horizontal";
-                    }
-                }else{
-                    if(iconName.indexOf(" fa-flip-horizontal") != -1){//flipped
-                        var index = iconName.indexOf(" fa-flip-horizontal");
-                        this.iconName.state = iconName.substring(0,index);
-                    }
-                }
-            }else{//todo for image
-
-            }
-        }
-
+        ComponentManager.flipIcons(this,["iconName"]);
     }
 
     p.getNodes = function () {

@@ -40,25 +40,7 @@ class ButtonConfig {
     updateStyle(){
         var flexDir = this.reverseLayout.state?"row-reverse":"row";
         this.style.state = {flexDirection:flexDir};
-        //to-do move to manager calss as fliPicons
-        var icons = this.icon.state;
-        var keys = Object.keys(icons);
-        if(this.reverseLayout.state){
-            keys.map(function(key,index){
-                if(icons[key].indexOf(" fa-flip-horizontal") == -1){//not flipped
-                    icons[key] = icons[key] + " fa-flip-horizontal";
-                }
-            },this);
-        }else{
-            keys.map(function(key,index){
-                if(icons[key].indexOf(" fa-flip-horizontal") != -1){// flipped
-                    var index = icons[key].indexOf(" fa-flip-horizontal");
-                    icons[key] = icons[key].substring(0,index);
-                }
-            },this);
-
-        }
-        this.icon.state = icons;
+        ComponentManager.flipIcons(this,["icon"]);
     }
 
     getIcon(){
