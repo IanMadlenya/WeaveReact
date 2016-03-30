@@ -25,7 +25,7 @@ class Node extends AbstractComponent {
     componentWillReceiveProps(nextProps){
         super.componentWillReceiveProps(nextProps);
         if(this.props.data !== nextProps.data){
-            this.settings.data = this.props.data;
+            this.settings.data = nextProps.data;
             this.createSessionStateForTree(nextProps.data,nextProps.label,nextProps.nodes,nextProps.icon);
         }
         if(this.props.open !== nextProps.open){

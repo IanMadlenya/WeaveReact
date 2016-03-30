@@ -234,7 +234,6 @@ class FormConfig {
             margin:"4px"
         };
 
-
     }
 }
 
