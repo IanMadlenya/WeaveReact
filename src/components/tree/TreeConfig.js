@@ -64,15 +64,15 @@ import ComponentManager from "../../ComponentManager";
 
         this.nodeStyle.state = {
             "display": "flex",
-            "flexDirection": "row",
+            "flexDirection": this.reverseLayout.state?"row-reverse" : "row",
             "alignItems":"center"
         }
 
         this.treeIconState.state = {
-            "nodeDefault" : "fa fa-folder",
-            "nodeOpen" : "fa fa-folder-open",
-            "leafDefault" : "fa fa-file-text",
-            "leafOpen" : "fa fa-file-text-o"
+            "nodeDefault" : this.reverseLayout.state?"fa fa-folder fa-flip-horizontal":"fa fa-folder",
+            "nodeOpen" : this.reverseLayout.state?"fa fa-folder-open fa-flip-horizontal":"fa fa-folder-open",
+            "leafDefault" : this.reverseLayout.state?"fa fa-file-text fa-flip-horizontal":"fa fa-file-text",
+            "leafOpen" : this.reverseLayout.state?"fa fa-file-text-o fa-flip-horizontal":"fa-file-text-o"
         }
 
         this.nodeIconStyle.state = {
@@ -84,7 +84,7 @@ import ComponentManager from "../../ComponentManager";
 
         this.leafStyle.state = {
             "display": "flex",
-            "flexDirection": "row",
+            "flexDirection": this.reverseLayout.state?"row-reverse" : "row",
             "alignItems":"center"
         }
 
@@ -106,6 +106,12 @@ import ComponentManager from "../../ComponentManager";
         var flexDir = this.reverseLayout.state?"row-reverse":"row";
         this.nodeStyle.state = {flexDirection:flexDir};
         this.leafStyle.state = {flexDirection:flexDir};
+        this.treeIconState.state = {
+            "nodeDefault" : this.reverseLayout.state?"fa fa-folder fa-flip-horizontal":"fa fa-folder",
+            "nodeOpen" : this.reverseLayout.state?"fa fa-folder-open fa-flip-horizontal":"fa fa-folder-open",
+            "leafDefault" : this.reverseLayout.state?"fa fa-file-text fa-flip-horizontal":"fa fa-file-text",
+            "leafOpen" : this.reverseLayout.state?"fa fa-file-text-o fa-flip-horizontal":"fa-file-text-o"
+        }
     }
 
 

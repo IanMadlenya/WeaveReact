@@ -132,6 +132,7 @@ class SideBarConfig {
         this.direction = "";
 
         this.open.addImmediateCallback(this,this.updateStyle,true);
+        this.reverseLayout.addImmediateCallback(this,this.updateStyle,true);
         this.static.addImmediateCallback(this,this.updateSideBarController,true);
 
     }
@@ -145,7 +146,7 @@ class SideBarConfig {
 
         if(this.open.state){
             styleObject["flexBasis"] = this.size.value;
-            styleObject["alignItems"] =  "flex-start";
+            styleObject["alignItems"] =  this.reverseLayout.state?"flex-end":"flex-start";
         }else{
             // for static state the switch button with will be taken
             //styleObject["flexBasis"] = this.static.state?"3%":"0%";
