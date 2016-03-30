@@ -40,7 +40,16 @@ import ComponentManager from "../../ComponentManager";
         var iconName = this.iconName.state;
         if(iconName  && iconName.length > 0 ){
             if(iconName.indexOf("/") == -1){ // fontaweosme icons
-                this.iconName.state = this.reverseLayout.state?iconName + " fa-flip-horizontal":iconName;
+                if(this.reverseLayout.state){
+                    if(iconName.indexOf(" fa-flip-horizontal") == -1){//notflipped
+                        this.iconName.state = iconName + " fa-flip-horizontal";
+                    }
+                }else{
+                    if(iconName.indexOf(" fa-flip-horizontal") != -1){//flipped
+                        var index = iconName.indexOf(" fa-flip-horizontal");
+                        this.iconName.state = iconName.substring(0,index);
+                    }
+                }
             }else{//todo for image
 
             }
