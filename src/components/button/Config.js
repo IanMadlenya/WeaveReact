@@ -40,6 +40,11 @@ class ButtonConfig {
     updateStyle(){
         var flexDir = this.reverseLayout.state?"row-reverse":"row";
         this.style.state = {flexDirection:flexDir};
+        var icons = this.icon.state;
+        this.icon.state = {
+            "clicked" : this.reverseLayout.state?icons.clicked + " fa-flip-horizontal":icons.clicked,
+            "default" : this.reverseLayout.state?icons.default +" fa-flip-horizontal":icons.default
+        }
     }
 
     getIcon(){

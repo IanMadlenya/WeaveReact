@@ -25,6 +25,7 @@ import ComponentManager from "../../ComponentManager";
 
         this.data = null;
 
+        this.reverseLayout.addImmediateCallback(this, this.flipIcon)
 
 
     }
@@ -35,6 +36,17 @@ import ComponentManager from "../../ComponentManager";
     var p = NodeConfig.prototype;
 
 
+    p.flipIcon = function(){
+        var iconName = this.iconName.state;
+        if(iconName  && iconName.length > 0 ){
+            if(iconName.indexOf("/") == -1){ // fontaweosme icons
+                this.iconName.state = this.reverseLayout.state?iconName + " fa-flip-horizontal":iconName;
+            }else{//todo for image
+
+            }
+        }
+
+    }
 
     p.getNodes = function () {
         return this.children.getNames();

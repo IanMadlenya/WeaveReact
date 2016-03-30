@@ -33,13 +33,13 @@ class Button extends AbstractComponent {
 
         var iconName = this.settings.getIcon();
         if(iconName && iconName.length>0){
-            var iconStyleObject = this.settings.iconModeStyle.getStyleFor();
+            var iconStyleObject = this.settings.iconModeStyle.state;
             iconUI =  <i style={iconStyleObject} className = {iconName}> </i>
         }
 
-        var styleObject = this.settings.style.getStyleFor();
+        var styleObject = this.settings.style.state;
 
-        var buttonUI = <span onClick={this.onClickListener} style={styleObject}>{iconUI}{Weave.lang(label)}</span>;
+        var buttonUI = <span onClick={this.onClickListener} style={styleObject}>{iconUI}&nbsp;{Weave.lang(label)}</span>;
         if(this.settings.useCSS.state){
             var cssName = this.settings.CSS.getCSSFor();
             buttonUI = <span onClick={this.onClickListener} className={cssName} style={styleObject}>{iconUI}&nbsp;{label}</span>;

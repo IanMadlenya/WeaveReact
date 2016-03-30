@@ -22,7 +22,7 @@ class InlineStyle{
                     if(this.domDefined.state){
                          stateObj = stateObj ? Styles.mergeStyleObjects(stateObj,this.domDefined.state) :this.domDefined.state
                     }
-                    return Styles.mergeStyleObjects({},stateObj);// need to send new copy to avoid react warniing
+                    return Styles.mergeStyleObjects({},stateObj,true);// need to send new copy to avoid react warniing
 
                 },
                 set: function(obj){

@@ -114,6 +114,15 @@ import ComponentManager from "../../ComponentManager";
             "leafDefault" : this.reverseLayout.state?icons.leafDefault +" fa-flip-horizontal":icons.leafDefault,
             "leafOpen" : this.reverseLayout.state?icons.leafOpen +" fa-flip-horizontal":icons.leafOpen
         }
+
+        this.nodeIconStyle.state = {
+            transform: this.reverseLayout.state?"scaleX(-1)":""
+        }
+
+        this.leafIconStyle.state = {
+            transform: this.reverseLayout.state?"scaleX(-1)":""
+        }
+
     }
 
 
