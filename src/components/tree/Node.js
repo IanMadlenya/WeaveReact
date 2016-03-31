@@ -101,8 +101,6 @@ class Node extends AbstractComponent {
                     if(this.props.treeConfig.defaultSelectedNodes.indexOf(nodeLabel) !== -1){
                         nodeConfig.open.value = true;
                     }
-                    nodeConfig.open.value = this.selectAll.state;
-
                 }.bind(this));
             //}
             /*else{
@@ -183,7 +181,7 @@ class Node extends AbstractComponent {
                 var folderUI = <span style={nodeStyle}>
                                     {iconUI}
                                     <span  onClick={this.toggle}>&nbsp;{Weave.lang(label)}</span>
-                                    <span style={{flex:"1"}}/>
+                                    <span style={{flex:"1"}} onClick={this.toggle}>&nbsp;</span>
                                     {selectAllIconUI}
                                     <i className={controlName} ></i>
                                 </span>;
