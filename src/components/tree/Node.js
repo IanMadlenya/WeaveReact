@@ -19,10 +19,10 @@ class Node extends AbstractComponent {
             this.settings.data = this.props.data;
             this.createSessionStateForTree();
         }
-        this.settings.open.addImmediateCallback(this,this.setChildrenSessionValues);
+        this.settings.open.addGroupedCallback(this,this.setChildrenSessionValues);
 
         this.selectAll =  this.props.treeConfig.selectAll;
-        this.selectAll.addGroupedCallback(this,this.setChildrenSessionValues);
+        this.selectAll.addGroupedCallback(this,this.setChildrenSelectAllValues);
         this.selectAll.addGroupedCallback(this,this.forceUpdate);
     }
 
@@ -42,7 +42,7 @@ class Node extends AbstractComponent {
     componentWillUnmount () {
         super.componentWillUnmount();
         this.settings.open.removeCallback(this,this.setChildrenSessionValues);
-        this.selectAll.removeCallback(this,this.setChildrenSessionValues);
+        this.selectAll.removeCallback(this,this.setChildrenSelectAllValues);
         this.selectAll.removeCallback(this,this.forceUpdate);
     }
 
@@ -112,15 +112,17 @@ class Node extends AbstractComponent {
                 }.bind(this));
             }*/
 
-        }else{
-            var nodeConfigs = this.settings.children.getObjects();
-                nodeConfigs.map(function(nodeConfig,index){
-
-                    nodeConfig.open.value = this.selectAll.state;
-
-                }.bind(this));
-
         }
+    }
+
+    setChildrenSelectAllValues(){
+
+        var nodeConfigs = this.settings.children.getObjects();
+        nodeConfigs.map(function(nodeConfig,index){
+
+            nodeConfig.open.value = this.selectAll.state;
+
+        }.bind(this));
     }
 
      toggleSelectAll(){
