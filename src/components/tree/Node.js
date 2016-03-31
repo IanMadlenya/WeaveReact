@@ -211,10 +211,14 @@ class Node extends AbstractComponent {
                 var treeIconState = this.props.treeConfig.treeIconState.state;
 
                  var selectAllIcon = ""
+                 var onClick =  this.toggleOpen;
                 if(this.selectIdentifier == "select"){
                     selectAllIcon = (this.settings.select.state )? treeIconState["select"] :treeIconState["unSelect"];
                 }else{
                     selectAllIcon = (this.selectAll.state )? treeIconState["select"] :treeIconState["unSelect"];
+                }
+                if(selectAllIcon && selectAllIcon.length>0 ){
+                    onClick = this.toggleSelect;
                 }
 
                 if(selectAllIcon && selectAllIcon.length > 0)
@@ -223,8 +227,8 @@ class Node extends AbstractComponent {
 
                 nodeUI = <li style={leafStyle} >
                             {iconUI}
-                            <span onClick={this.toggleOpen}>&nbsp;{Weave.lang(label)}</span>
-                            <span style={{flex:"1"}} onClick={this.toggleOpen}>&nbsp;</span>
+                            <span onClick={onClick}>&nbsp;{Weave.lang(label)}</span>
+                            <span style={{flex:"1"}} onClick={onClick}>&nbsp;</span>
                             {selectAllIconUI}
                             <i className={fileIcon}></i>
                          </li>
