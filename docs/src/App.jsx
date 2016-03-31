@@ -55,10 +55,10 @@ class App extends React.Component {
         this.treeConfig.treeIconState.state = {
             "nodeDefault" : "fa fa-caret-right",
             "nodeOpen" : "fa fa-caret-down",
-            "leafDefault" : "fa fa-square-o",
-            "leafOpen" : "fa fa-check-square-o",
-            "selectAll":"fa fa-check-square-o",
-            "unSelectAll":"fa fa-square-o"
+            "leafDefault" : "",
+            "leafOpen" : "",
+            "select":"fa fa-check-square-o",
+            "unSelect":"fa fa-square-o"
         }
         this.treeConfig.enableDataTypeIcon.value = false;
         this.treeConfig.allowMultipleSelection.value = true;
@@ -128,10 +128,10 @@ class App extends React.Component {
         this.treeConfig.treeIconState.state = {
             "nodeDefault" : "fa fa-caret-right",
             "nodeOpen" : "fa fa-caret-down",
-            "leafDefault" : "fa fa-square-o",
-            "leafOpen" : "fa fa-check-square-o",
-            "selectAll":"fa fa-check-square-o",
-            "unSelectAll":"fa fa-square-o"
+            "leafDefault" : "",
+            "leafOpen" : "",
+            "select":"fa fa-check-square-o",
+            "unSelect":"fa fa-square-o"
         }
         this.treeConfig.enableDataTypeIcon.value = false;
         this.treeConfig.allowMultipleSelection.value = true;
@@ -186,10 +186,10 @@ class App extends React.Component {
         this.treeConfig.treeIconState.state = {
             "nodeDefault" : "fa fa-caret-right",
             "nodeOpen" : "fa fa-caret-down",
-            "leafDefault" : "fa fa-square-o",
-            "leafOpen" : "fa fa-check-square-o",
-            "selectAll":"fa fa-check-square-o",
-            "unSelectAll":"fa fa-square-o"
+            "leafDefault" : "",
+            "leafOpen" : "",
+            "select":"fa fa-check-square-o",
+            "unSelect":"fa fa-square-o"
         }
         this.treeConfig.enableDataTypeIcon.value = false;
         this.treeConfig.allowMultipleSelection.value = true;

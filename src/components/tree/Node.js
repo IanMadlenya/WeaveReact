@@ -10,7 +10,8 @@ class Node extends AbstractComponent {
     constructor(props) {
         super(props);
 
-        this.toggle = this.toggle.bind(this);
+        this.toggleOpen = this.toggleOpen.bind(this);
+        this.toggleSelect = this.toggleSelect.bind(this);
         this.toggleSelectAll = this.toggleSelectAll.bind(this);
 
         this.createSessionStateForTree = this.createSessionStateForTree.bind(this);
@@ -23,7 +24,8 @@ class Node extends AbstractComponent {
 
         this.selectAll =  this.props.treeConfig.selectAll;
         this.selectAll.addGroupedCallback(this,this.setChildrenSelectAllValues);
-        this.selectAll.addGroupedCallback(this,this.forceUpdate);
+
+        this.selectIdentifier = "";
     }
 
 
@@ -33,9 +35,6 @@ class Node extends AbstractComponent {
             this.settings.data = nextProps.data;
             this.createSessionStateForTree(nextProps.data,nextProps.label,nextProps.nodes,nextProps.icon);
         }
-        if(this.props.open !== nextProps.open){
-            this.settings.open.value = nextProps.open;
-        }
     }
 
 
@@ -43,20 +42,31 @@ class Node extends AbstractComponent {
         super.componentWillUnmount();
         this.settings.open.removeCallback(this,this.setChildrenSessionValues);
         this.selectAll.removeCallback(this,this.setChildrenSelectAllValues);
-        this.selectAll.removeCallback(this,this.forceUpdate);
     }
 
 
+    toggleSelect(){
+        this.selectIdentifier = "select";
+        this.settings.select.value = !this.settings.select.value;
+        if(this.props.clickCallback)
+            this.props.clickCallback.call(this,this.props.data,this.settings);
+        this.props.treeConfig.changeActiveNode(this.settings);
+    }
 
-
-
-    toggle(){
+    toggleOpen(){
         this.settings.open.value = !this.settings.open.value;
         if(this.props.clickCallback)
             this.props.clickCallback.call(this,this.props.data,this.settings);
         this.props.treeConfig.changeActiveNode(this.settings);
     }
 
+
+    toggleSelectAll(){
+        this.selectIdentifier = "selectAll";
+         // this trigger entire tree
+
+         this.selectAll.state = !this.selectAll.state;
+     }
 
     createSessionStateForTree(data,label,nodes,icon) {
         var label = label?label:this.props.label;
@@ -74,14 +84,15 @@ class Node extends AbstractComponent {
         var treeNodes = this.settings.getNodeValueFor(nodes);
         if(treeNodes && treeNodes.length){
             this.settings.children.delayCallbacks();
-            for(var i = 0; i < treeNodes.length; i++){
+            for(var i = 0; i < treeNodes.length; i++)
+            {
                 var nodeConfig = this.settings.children.requestObject("node" + i, NodeConfig);
                 nodeConfig.label.state = this.settings.getNodeValueFor(label,treeNodes[i]);
                 nodeConfig.iconName.state = this.settings.getNodeValueFor(icon,treeNodes[i]);
                 if(this.props.treeConfig.selectAll.state){
-                    nodeConfig.open.state = true;
+                    nodeConfig.select.state = true;
                 }else{
-                    nodeConfig.open.state = false;
+                    nodeConfig.select.state = false;
                 }
             }
             this.settings.children.resumeCallbacks();
@@ -94,24 +105,13 @@ class Node extends AbstractComponent {
             this.createSessionStateForTree()
         }
         if(this.props.treeConfig.defaultSelectedNodes && this.props.treeConfig.defaultSelectedNodes.length>0 ){
-           // if(this.props.treeConfig.defaultSelectedNodes.length>0){
-                var nodeConfigs = this.settings.children.getObjects();
-                nodeConfigs.map(function(nodeConfig,index){
-                    var nodeLabel = nodeConfig.label.state;
-                    if(this.props.treeConfig.defaultSelectedNodes.indexOf(nodeLabel) !== -1){
-                        nodeConfig.open.value = true;
-                    }
-                }.bind(this));
-            //}
-            /*else{
-                var nodeConfigs = this.settings.children.getObjects();
-                nodeConfigs.map(function(nodeConfig,index){
-                    var nodeLabel = nodeConfig.label.state;
-                    nodeConfig.open.value = true;
-                    this.props.treeConfig.defaultSelectedNodes.push(nodeLabel);
-                }.bind(this));
-            }*/
-
+            var nodeConfigs = this.settings.children.getObjects();
+            nodeConfigs.map(function(nodeConfig,index){
+                var nodeLabel = nodeConfig.label.state;
+                if(this.props.treeConfig.defaultSelectedNodes.indexOf(nodeLabel) !== -1){
+                    nodeConfig.select.value = true;
+                }
+            }.bind(this));
         }
     }
 
@@ -119,16 +119,13 @@ class Node extends AbstractComponent {
 
         var nodeConfigs = this.settings.children.getObjects();
         nodeConfigs.map(function(nodeConfig,index){
-
-            nodeConfig.open.value = this.selectAll.state;
-
+            nodeConfig.select.value = this.selectAll.state;
         }.bind(this));
+        this.forceUpdate();
     }
 
-     toggleSelectAll(){
-         // this trigger entire tree
-         this.selectAll.state = !this.selectAll.state;
-     }
+
+
 
     renderChildren(){
         this.settings.props.addChildProps("treeConfig",this.props.treeConfig);
@@ -154,6 +151,8 @@ class Node extends AbstractComponent {
             var label = this.settings.label.value;
 
             var iconUI = "";
+            var selectAllIconUI = "";
+
 
             if(nodes.length > 0){ //folder
                 if(isOpen){
@@ -164,6 +163,7 @@ class Node extends AbstractComponent {
                 var nodeStyle = this.props.treeConfig.nodeStyle.state;
                 if(domDefinedStyle)Style.mergeStyleObjects(nodeStyle,domDefinedStyle,true);//this happens for rootNode
                 var controlName = this.props.treeConfig.getFolderIcon(isOpen);
+
                 if(iconName && iconName.length > 0){
                     var iconStyleObj = this.props.treeConfig.nodeIconStyle.state;
                     if(iconName.indexOf("/") == -1){ // fontAwesome Icon Name
@@ -173,17 +173,16 @@ class Node extends AbstractComponent {
                     }
                 }
 
-                var selectAllIconUI = "";
                 if(this.props.enableSelectAll){
                     var treeIconState = this.props.treeConfig.treeIconState.state;
-                    var selectAllIcon = (this.selectAll.state)? treeIconState["selectAll"] :treeIconState["unSelectAll"];
-                    selectAllIconUI = <span onClick={this.toggleSelectAll}>&nbsp;<i className={selectAllIcon}  ></i></span>
+                    var selectAllIcon = (this.selectAll.state)? treeIconState["select"]:treeIconState["unSelect"];
+                    selectAllIconUI = <span onClick={this.toggleSelectAll}>&nbsp;<i className={selectAllIcon}/>&nbsp;</span>
                 }
 
                 var folderUI = <span style={nodeStyle}>
                                     {iconUI}
-                                    <span  onClick={this.toggle}>&nbsp;{Weave.lang(label)}</span>
-                                    <span style={{flex:"1"}} onClick={this.toggle}>&nbsp;</span>
+                                    <span  onClick={this.toggleOpen}>&nbsp;{Weave.lang(label)}</span>
+                                    <span style={{flex:"1"}} onClick={this.toggleOpen}>&nbsp;</span>
                                     {selectAllIconUI}
                                     <i className={controlName} ></i>
                                 </span>;
@@ -200,6 +199,7 @@ class Node extends AbstractComponent {
                 var fileIcon = this.props.treeConfig.getFileIcon(this.props.data,this.settings.open.value);
                 // this will return either normal/Active/Slected Style based on state of the leaf
                 var leafStyle = this.props.treeConfig.getLeafStyle(isOpen,this.settings.active.value);
+
                 if(iconName && iconName.length > 0){
                     var iconStyleObj = this.props.treeConfig.leafIconStyle.state;
                     if(iconName.indexOf("/") == -1){ // fontAwesome Icon Name
@@ -209,10 +209,25 @@ class Node extends AbstractComponent {
                     }
                 }
 
-                nodeUI = <li style={leafStyle} onClick={this.toggle}>
+                //if(this.props.enableSelectAll){
+                var treeIconState = this.props.treeConfig.treeIconState.state;
+
+                 var selectAllIcon = ""
+                if(this.selectIdentifier == "select"){
+                    selectAllIcon = (this.settings.select.state )? treeIconState["select"] :treeIconState["unSelect"];
+                }else{
+                    selectAllIcon = (this.selectAll.state )? treeIconState["select"] :treeIconState["unSelect"];
+                }
+
+                if(selectAllIcon && selectAllIcon.length > 0)
+                    selectAllIconUI = <span onClick={this.toggleSelect}>&nbsp;<i className={selectAllIcon}/>&nbsp;</span>
+                //}
+
+                nodeUI = <li style={leafStyle} >
                             {iconUI}
-                            &nbsp;{Weave.lang(label)}
-                            <span style={{flex:"1"}}/>
+                            <span onClick={this.toggleOpen}>&nbsp;{Weave.lang(label)}</span>
+                            <span style={{flex:"1"}} onClick={this.toggleOpen}>&nbsp;</span>
+                            {selectAllIconUI}
                             <i className={fileIcon}></i>
                          </li>
             }

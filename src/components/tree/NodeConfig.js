@@ -15,12 +15,16 @@ import ComponentManager from "../../ComponentManager";
             "open": {
                 value: Weave.linkableChild(this, new weavejs.core.LinkableBoolean())
             },
+            "select": {
+                value: Weave.linkableChild(this, new weavejs.core.LinkableBoolean())
+            },
             "active": {
                 value: Weave.linkableChild(this, new weavejs.core.LinkableBoolean())
             }
         });
 
-        this.open.state = false;
+        this.open.state = false; // this one for folder
+        this.select.state = false; // this one for leaf
         this.active.state = false;
 
         this.data = null;

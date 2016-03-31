@@ -10,7 +10,7 @@ import ComponentManager from "../../ComponentManager";
 
         Object.defineProperties(this, {
             "treeIconState":{
-                 value: Weave.linkableChild(this, new weavejs.core.LinkableVariable())
+                value: Weave.linkableChild(this, new weavejs.core.LinkableVariable())
             },
             "enableDataTypeIcon": {
                 value: Weave.linkableChild(this, new weavejs.core.LinkableBoolean(true))
