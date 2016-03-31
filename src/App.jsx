@@ -48,6 +48,7 @@ class App extends React.Component {
         var  accordionConfig = sideBar.children.requestObject('accordion',AccordionConfig);
 
         this.treeConfig = accordionConfig.children.requestObject('tree',TreeConfig);
+        this.treeConfig.enableSelectAll.state = true;
 
         this.treeConfig.nodePadding.value ="16px";
         this.treeConfig.align.value = "right";
@@ -55,7 +56,9 @@ class App extends React.Component {
             "nodeDefault" : "fa fa-caret-right",
             "nodeOpen" : "fa fa-caret-down",
             "leafDefault" : "fa fa-square-o",
-            "leafOpen" : "fa fa-check-square-o"
+            "leafOpen" : "fa fa-check-square-o",
+            "selectAll":"fa fa-check-square-o",
+            "unSelectAll":"fa fa-square-o"
         }
         this.treeConfig.enableDataTypeIcon.value = false;
         this.treeConfig.allowMultipleSelection.value = true;
@@ -126,7 +129,9 @@ class App extends React.Component {
             "nodeDefault" : "fa fa-caret-right",
             "nodeOpen" : "fa fa-caret-down",
             "leafDefault" : "fa fa-square-o",
-            "leafOpen" : "fa fa-check-square-o"
+            "leafOpen" : "fa fa-check-square-o",
+            "selectAll":"fa fa-check-square-o",
+            "unSelectAll":"fa fa-square-o"
         }
         this.treeConfig.enableDataTypeIcon.value = false;
         this.treeConfig.allowMultipleSelection.value = true;
@@ -182,7 +187,9 @@ class App extends React.Component {
             "nodeDefault" : "fa fa-caret-right",
             "nodeOpen" : "fa fa-caret-down",
             "leafDefault" : "fa fa-square-o",
-            "leafOpen" : "fa fa-check-square-o"
+            "leafOpen" : "fa fa-check-square-o",
+            "selectAll":"fa fa-check-square-o",
+            "unSelectAll":"fa fa-square-o"
         }
         this.treeConfig.enableDataTypeIcon.value = false;
         this.treeConfig.allowMultipleSelection.value = true;
