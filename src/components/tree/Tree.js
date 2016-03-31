@@ -35,7 +35,7 @@ class Tree extends AbstractComponent {
             var iconName = this.settings.rootNode.iconName.state;
             var iconUI = <span/>
             if(iconName && iconName.length > 0){
-                var iconStyleObj = this.settings.nodeIconStyle.getStyleFor();
+                var iconStyleObj = this.settings.nodeIconStyle.state;
                 if(iconName.indexOf("/") == -1){ // fontAwesome Icon Name
                     iconUI = <i style = {iconStyleObj} className={iconName} ></i>
                 }else {
@@ -54,7 +54,8 @@ class Tree extends AbstractComponent {
                     reverseLayout={this.settings.reverseLayout.state}
                     settings={this.settings.rootNode}
                     treeConfig={this.settings}
-                    clickCallback={this.props.clickCallback} />
+                    clickCallback={this.props.clickCallback}
+                    enableSelectAll={this.props.enableSelectAll || this.settings.enableSelectAll.state}/>
                );
     }
 

@@ -50,6 +50,12 @@ import ComponentManager from "../../ComponentManager";
             },
             allowMultipleSelection:{
                 value: Weave.linkableChild(this,  new weavejs.core.LinkableBoolean(false))
+            },
+            selectAll:{
+                value: Weave.linkableChild(this,  new weavejs.core.LinkableBoolean(false))
+            },
+            enableSelectAll:{
+                value: Weave.linkableChild(this,  new weavejs.core.LinkableBoolean(false))
             }
         });
 
@@ -68,11 +74,15 @@ import ComponentManager from "../../ComponentManager";
             "alignItems":"center"
         }
 
+        //todo - add getter setter to facilitate settings only one state
+        // or create like InlineStyle
         this.treeIconState.state = {
             "nodeDefault" : this.reverseLayout.state?"fa fa-folder fa-flip-horizontal":"fa fa-folder",
             "nodeOpen" : this.reverseLayout.state?"fa fa-folder-open fa-flip-horizontal":"fa fa-folder-open",
             "leafDefault" : this.reverseLayout.state?"fa fa-file-text fa-flip-horizontal":"fa fa-file-text",
-            "leafOpen" : this.reverseLayout.state?"fa fa-file-text-o fa-flip-horizontal":"fa-file-text-o"
+            "leafOpen" : this.reverseLayout.state?"fa fa-file-text-o fa-flip-horizontal":"fa-file-text-o",
+            "selectAll":this.reverseLayout.state?"fa fa-check-square-o fa-flip-horizontal":"fa fa-check-square-o",
+            "unSelectAll":this.reverseLayout.state?"fa fa-square-o fa-flip-horizontal":"fa fa-square-o",
         }
 
         this.nodeIconStyle.state = {
@@ -129,32 +139,15 @@ import ComponentManager from "../../ComponentManager";
 
     }
 
-    function setChildrenStateToOpen(parentNode,openNodes){
-        var nodes = parentNode.children.getObjects();
-        if(nodes && nodes.length > 0){
-            nodes.map(function(node){
-                var nodeIndex = openNodes.indexOf(node.label.state);
-                if(nodeIndex > -1){
-                    node.open.value = true;
-                    openNodes.splice(nodeIndex,1);
-                    setChildrenStateToOpen(node,openNodes);
-                }
-                else{
-                    node.open.value = false;
-                    node.active.value = false;
-                }
-            }.bind(this))
-        }
-    }
+
 
     //to-do do this for entire tree rather only for the first child
     p.setDefaultNodeSelection = function(nodesLabel){
         this.defaultSelectedNodes = nodesLabel
-        //setChildrenStateToOpen(this.rootNode,nodesLabel)
     }
 
     //to-do do this for entire tree rather only for the first child
-    p.setOpenNodes = function(nodesLabel){
+    /*p.setOpenNodes = function(nodesLabel){
         var rootNodes = this.rootNode.children.getObjects();
         rootNodes.map(function(node){
             if(nodesLabel.indexOf(node.label.state) > -1){
@@ -166,7 +159,7 @@ import ComponentManager from "../../ComponentManager";
             }
         }.bind(this))
 
-    }
+    }*/
 
     p.changeActiveNode = function (nodeConfig) {
         if (this.activeNode) {

@@ -18,8 +18,8 @@ class AbstractComponent extends React.Component {
     }
 
     // allowe render only when React Parent render is called with new iconMode value
-    shouldComponentUpdate(nextProps){
-        return ComponentManager.shouldComponentUpdate(nextProps);
+    shouldComponentUpdate(nextProps, nextState){
+        return ComponentManager.shouldComponentUpdate(this, nextProps, nextState);
     }
 
 
