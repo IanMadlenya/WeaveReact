@@ -25,7 +25,7 @@ class Node extends AbstractComponent {
         this.selectAll =  this.props.treeConfig.selectAll;
         this.selectAll.addGroupedCallback(this,this.setChildrenSelectAllValues);
 
-        this.selectIdentifier = "";
+        this.selectIdentifier = this.settings.select.state? "select":this.selectAll.state?"selectAll":"";
     }
 
 
@@ -91,8 +91,6 @@ class Node extends AbstractComponent {
                 nodeConfig.iconName.state = this.settings.getNodeValueFor(icon,treeNodes[i]);
                 if(this.props.treeConfig.selectAll.state){
                     nodeConfig.select.state = true;
-                }else{
-                    nodeConfig.select.state = false;
                 }
             }
             this.settings.children.resumeCallbacks();
