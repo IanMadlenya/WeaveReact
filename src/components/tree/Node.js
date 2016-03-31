@@ -49,7 +49,7 @@ class Node extends AbstractComponent {
         this.selectIdentifier = "select";
         this.settings.select.value = !this.settings.select.value;
         if(this.props.clickCallback)
-            this.props.clickCallback.call(this,this.props.data,this.settings);
+            this.props.clickCallback.call(this,this.props.data,this.settings,this.selectAll);
         this.props.treeConfig.changeActiveNode(this.settings);
     }
 
@@ -65,7 +65,10 @@ class Node extends AbstractComponent {
         this.selectIdentifier = "selectAll";
          // this trigger entire tree
 
-         this.selectAll.state = !this.selectAll.state;
+        this.selectAll.state = !this.selectAll.state;
+        if(this.props.clickCallback)
+            this.props.clickCallback.call(this,this.props.data,this.settings,this.selectAll);
+        this.props.treeConfig.changeActiveNode(this.settings);
      }
 
     createSessionStateForTree(data,label,nodes,icon) {
