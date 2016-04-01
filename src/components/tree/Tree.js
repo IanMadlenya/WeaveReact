@@ -54,7 +54,9 @@ class Tree extends AbstractComponent {
                     reverseLayout={this.settings.reverseLayout.state}
                     settings={this.settings.rootNode}
                     treeConfig={this.settings}
-                    clickCallback={this.props.clickCallback}
+                    onOpenClick={this.props.onOpenClick}
+                    onSelectClick={this.props.onSelectClick}
+                    onSelectAllClick={this.props.onSelectAllClick}
                     enableSelectAll={this.props.enableSelectAll || this.settings.enableSelectAll.state}/>
                );
     }

@@ -48,15 +48,15 @@ class Node extends AbstractComponent {
     toggleSelect(){
         this.selectIdentifier = "select";
         this.settings.select.value = !this.settings.select.value;
-        if(this.props.clickCallback)
-            this.props.clickCallback.call(this,this.props.data,this.settings,this.selectAll);
+        if(this.props.onSelectClick)
+            this.props.onSelectClick.call(this,this.props.data,this.settings,this.selectAll);
         this.props.treeConfig.changeActiveNode(this.settings);
     }
 
     toggleOpen(){
         this.settings.open.value = !this.settings.open.value;
-        if(this.props.clickCallback)
-            this.props.clickCallback.call(this,this.props.data,this.settings);
+        if(this.props.onOpenClick)
+            this.props.onOpenClick.call(this,this.props.data,this.settings);
         this.props.treeConfig.changeActiveNode(this.settings);
     }
 
@@ -66,9 +66,9 @@ class Node extends AbstractComponent {
          // this trigger entire tree
 
         this.selectAll.state = !this.selectAll.state;
-        if(this.props.clickCallback)
-            this.props.clickCallback.call(this,this.props.data,this.settings,this.selectAll);
-        this.props.treeConfig.changeActiveNode(this.settings);
+        if(this.props.onSelectAllClick)
+            this.props.onSelectAllClick.call(this,this.props.data,this.settings,this.selectAll);
+        //this.props.treeConfig.changeActiveNode(this.settings);
      }
 
     createSessionStateForTree(data,label,nodes,icon) {
@@ -134,7 +134,8 @@ class Node extends AbstractComponent {
         this.settings.props.addChildProps("nodes",this.props.nodes);
         this.settings.props.addChildProps("icon",this.props.icon);
         this.settings.props.addChildProps("reverseLayout",this.settings.reverseLayout.state);
-        this.settings.props.addChildProps("clickCallback",this.props.clickCallback);
+        this.settings.props.addChildProps("onOpenClick",this.props.onOpenClick);
+        this.settings.props.addChildProps("onSelectClick",this.props.onSelectClick);
         this.settings.props.addChildProps("data",null, null,this.settings.getNodeValueFor(this.props.nodes) );
         return ComponentManager.renderChildren(this);
     }
