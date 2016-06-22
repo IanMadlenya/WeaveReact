@@ -83,6 +83,6 @@ config.Parent = ParentConfig;
 config.Child = ChildConfig;
 
 //This Function makes this class as SessionClass
-Weave.registerClass('weavereact.config.Parent', config.Parent,[weavejs.api.core.ILinkableObject]);
-Weave.registerClass('weavereact.config.Child', config.Child,[weavejs.api.core.ILinkableObject]);
+Weave.registerClass( config.Parent,['weavereact.config.Parent'],[weavejs.api.core.ILinkableObject],"Parent Config");
+Weave.registerClass( config.Child,['weavereact.config.Child'],[weavejs.api.core.ILinkableObject],"Child Config");
 

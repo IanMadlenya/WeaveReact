@@ -92,7 +92,7 @@ weavereact.registerToolConfig(Parent.Child,config.Child);
 weavereact.registerToolImplementation("weavereact.config.Parent",Parent);
 weavereact.registerToolImplementation("weavereact.config.Child",Parent.Child);
 
-Weave.registerClass("weavereact.Parent", Parent,[weavejs.api.core.ILinkableObject]);
+Weave.registerClass( Parent,["weavereact.Parent"],[weavejs.api.core.ILinkableObject],"Parent");
 
 export default Parent;
 
