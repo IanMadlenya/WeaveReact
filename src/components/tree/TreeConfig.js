@@ -195,7 +195,7 @@ import ComponentManager from "../../ComponentManager";
 
 
     //This Function makes this class as SessionClass
-    Weave.registerClass('weavereact.TreeConfig', TreeConfig);
+    Weave.registerClass( TreeConfig,['weavereact.TreeConfig'],[weavejs.api.core.ILinkableObject],"Tree Config");
 
     module.exports = TreeConfig;
 

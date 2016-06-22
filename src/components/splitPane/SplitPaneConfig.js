@@ -42,7 +42,7 @@ import PaneConfig from "./PaneConfig";
 
 
     //This Function makes this class as SessionClass
-    Weave.registerClass('weavereact.SplitPaneConfig', SplitPaneConfig);
+    Weave.registerClass( SplitPaneConfig,['weavereact.SplitPaneConfig'],[weavejs.api.core.ILinkableObject],"Split Pane Config");
 
     module.exports = SplitPaneConfig;
 

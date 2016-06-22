@@ -72,5 +72,5 @@ export default AccordionConfig
 
 
 //This Function makes this class as SessionClass
-Weave.registerClass('weavereact.AccordionConfig', AccordionConfig,[weavejs.api.core.ILinkableObject]);
+Weave.registerClass( AccordionConfig,['weavereact.AccordionConfig'],[weavejs.api.core.ILinkableObject],"Accordion Config");
 

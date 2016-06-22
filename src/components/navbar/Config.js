@@ -250,11 +250,11 @@ navbarConfig.Link = LinkConfig;
 navbarConfig.Form = FormConfig;
 
 //This Function makes this class as SessionClass
-Weave.registerClass('weavereact.navbarConfig.Navbar', navbarConfig.Navbar,[weavejs.api.core.ILinkableObject]);
-Weave.registerClass('weavereact.navbarConfig.Brand', navbarConfig.Brand,[weavejs.api.core.ILinkableObject]);
-Weave.registerClass('weavereact.navbarConfig.Logo', navbarConfig.Logo,[weavejs.api.core.ILinkableObject]);
-Weave.registerClass('weavereact.navbarConfig.Title', navbarConfig.Title,[weavejs.api.core.ILinkableObject]);
-Weave.registerClass('weavereact.navbarConfig.List', navbarConfig.List,[weavejs.api.core.ILinkableObject]);
-Weave.registerClass('weavereact.navbarConfig.Link', navbarConfig.Link,[weavejs.api.core.ILinkableObject]);
-Weave.registerClass('weavereact.navbarConfig.Form', navbarConfig.Form,[weavejs.api.core.ILinkableObject]);
+Weave.registerClass( navbarConfig.Navbar,['weavereact.navbarConfig.Navbar'],[weavejs.api.core.ILinkableObject],"Navbar");
+Weave.registerClass( navbarConfig.Brand,['weavereact.navbarConfig.Brand'],[weavejs.api.core.ILinkableObject],"Navbar Brand");
+Weave.registerClass( navbarConfig.Logo,['weavereact.navbarConfig.Logo'],[weavejs.api.core.ILinkableObject],"Navbar Logo");
+Weave.registerClass( navbarConfig.Title,['weavereact.navbarConfig.Title'],[weavejs.api.core.ILinkableObject],"Navbar Title");
+Weave.registerClass( navbarConfig.List,['weavereact.navbarConfig.List'],[weavejs.api.core.ILinkableObject],"Navbar List");
+Weave.registerClass( navbarConfig.Link,['weavereact.navbarConfig.Link'],[weavejs.api.core.ILinkableObject],"Navbar Link");
+Weave.registerClass( navbarConfig.Form,['weavereact.navbarConfig.Form'],[weavejs.api.core.ILinkableObject],"Navbar Form");
 

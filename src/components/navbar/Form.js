@@ -64,6 +64,6 @@ class Form extends AbstractComponent {
 
 }
 
-Weave.registerClass('weavereact.navbar.Form', Form,[weavejs.api.core.ILinkableObject]);
+Weave.registerClass( Form,['weavereact.navbar.Form'],[weavejs.api.core.ILinkableObject],'Navbar Form');
 
 export default Form;

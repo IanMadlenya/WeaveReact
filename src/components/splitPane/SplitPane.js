@@ -99,7 +99,7 @@ class SplitPane extends React.Component {
 
     componentWillReceiveProps(nextProps){
         if(this.props.settings !== nextProps.settings){
-             this.settings.active.removeCallback(this, this.forceUpdate);
+            this.settings.active.removeCallback(this, this.forceUpdate);
             this.settings.resized.removeCallback(this, this.forceUpdate);
             this.settings.position.removeCallback(this, this.forceUpdate);
             this.settings.unFocusCount.removeCallback(this, this.unFocus);
@@ -149,40 +149,15 @@ class SplitPane extends React.Component {
 
         const classes = ['SplitPane', split];
 
-        return ( < div className = {
-                classes.join(' ')
-            }
-            style = {
-                styleObj
-            }
-            ref = "splitPane" >
-            < Pane ref = "pane1"
-            key = "pane1"
-            split = {
-                split
-            }
-            settings = {
-                this.settings.pane1
-            } > {
-                children[0]
-            } < /Pane> < Resizer ref = "resizer"
-            key = "resizer"
-            onMouseDown = {
-                this.onMouseDown
-            }
-            split = {
-                split
-            }
-            /> < Pane ref = "pane2"
-            key = "pane2"
-            split = {
-                split
-            }
-            settings = {
-                this.settings.pane2
-            } > {
-                children[1]
-            } < /Pane> < /div>
+        return ( <div className = {classes.join(' ')} style = { styleObj } ref = "splitPane">
+                    <Pane ref = "pane1" key = "pane1" split = {split} settings = { this.settings.pane1 } > 
+                        {children[0]} 
+                    </Pane> 
+                    <Resizer ref = "resizer" key = "resizer" onMouseDown = { this.onMouseDown } split = { split } /> 
+                    <Pane ref = "pane2" key = "pane2" split = { split } settings = { this.settings.pane2 } > 
+                        {children[1]} 
+                    </Pane> 
+                </div>
         );
     }
 }

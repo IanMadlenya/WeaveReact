@@ -23,6 +23,6 @@ class CSS{
     }
 }
 
-Weave.registerClass('weavereact.CSS', CSS,[weavejs.api.core.ILinkableObject]);
+Weave.registerClass( CSS,['weavereact.CSS'],[weavejs.api.core.ILinkableObject],"CSS");
 
 export default CSS;

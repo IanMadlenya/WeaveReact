@@ -18,7 +18,7 @@ import weavejs from 'weavejs';*/
 
 
     //This Function makes this class as SessionClass
-    Weave.registerClass('weavereact.PaneConfig', PaneConfig);
+    Weave.registerClass( PaneConfig,['weavereact.PaneConfig'],[weavejs.api.core.ILinkableObject],"Pane Config");
 
     module.exports = PaneConfig;
 

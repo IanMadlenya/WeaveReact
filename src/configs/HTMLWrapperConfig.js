@@ -10,6 +10,6 @@ class HTMLWrapperConfig{
     }
 }
 
-Weave.registerClass('weavereact.HTMLWrapperConfig', HTMLWrapperConfig,[weavejs.api.core.ILinkableObject]);
+Weave.registerClass( HTMLWrapperConfig,['weavereact.HTMLWrapperConfig'],[weavejs.api.core.ILinkableObject],"HTML Wrapper Config");
 
 export default HTMLWrapperConfig;

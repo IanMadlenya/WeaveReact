@@ -61,7 +61,7 @@ class Modal extends React.Component {
   }
 }
 
-Weave.registerClass("weavereact.Modal", Modal,[weavejs.api.core.ILinkableObject]);
+Weave.registerClass( Modal,["weavereact.Modal"],[weavejs.api.core.ILinkableObject],"Modal");
 ComponentManager.registerToolConfig(Modal,ModalConfig);
 ComponentManager.registerToolImplementation("weavereact.ModalConfig",Modal);
 

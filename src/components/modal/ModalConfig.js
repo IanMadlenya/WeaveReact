@@ -24,7 +24,7 @@ import ModalPanelConfig from "./ModalPanelConfig";
 
 
     //This Function makes this class as SessionClass
-    Weave.registerClass('weavereact.ModalConfig', ModalConfig,[weavejs.api.core.ILinkableObject]);
+    Weave.registerClass( ModalConfig,['weavereact.ModalConfig'],[weavejs.api.core.ILinkableObject],"Modal Config");
 
     module.exports = ModalConfig;
 

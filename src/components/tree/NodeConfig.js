@@ -73,7 +73,7 @@ import ComponentManager from "../../ComponentManager";
     }
 
     //This Function makes this class as SessionClass
-    Weave.registerClass('weavereact.NodeConfig', NodeConfig);
+    Weave.registerClass( NodeConfig,['weavereact.NodeConfig'],[weavejs.api.core.ILinkableObject],"Node Config");
 
     module.exports = NodeConfig;
 

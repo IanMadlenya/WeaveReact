@@ -67,5 +67,5 @@ class List extends AbstractComponent {
     }
 
 }
-Weave.registerClass("weavereact.navbar.List", List,[weavejs.api.core.ILinkableObject]);
+Weave.registerClass( List,["weavereact.navbar.List"],[weavejs.api.core.ILinkableObject],'Navbar List');
 export default List;

@@ -72,7 +72,7 @@ ComponentManager.registerToolImplementation("weavereact.navbarConfig.List",Navba
 ComponentManager.registerToolImplementation("weavereact.navbarConfig.Link",Navbar.Link);
 ComponentManager.registerToolImplementation("weavereact.navbarConfig.Form",Navbar.Form);
 
-Weave.registerClass("weavereact.Navbar", Navbar,[weavejs.api.core.ILinkableObject]);
+Weave.registerClass( Navbar,["weavereact.Navbar"],[weavejs.api.core.ILinkableObject],"Navbar");
 
 export default Navbar;
 

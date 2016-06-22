@@ -32,7 +32,7 @@ class SideBar extends AbstractComponent {
     }
 }
 
-Weave.registerClass("weavereact.sideBarContainer.SideBar", SideBar,[weavejs.api.core.ILinkableObject]);
+Weave.registerClass( SideBar,["weavereact.sideBarContainer.SideBar"],[weavejs.api.core.ILinkableObject],"Sidebar Container - Sidebar");
 
 export default SideBar;
 

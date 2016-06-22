@@ -49,5 +49,5 @@ tabsConfig.Tabs = TabsConfig;
 tabsConfig.Tab = TabConfig;
 
 //This Function makes this class as SessionClass
-Weave.registerClass('weavereact.tabsConfig.Tabs', tabsConfig.Tabs,[weavejs.api.core.ILinkableObject]);
-Weave.registerClass('weavereact.tabsConfig.Tab', tabsConfig.Tab,[weavejs.api.core.ILinkableObject]);
+Weave.registerClass( tabsConfig.Tabs,['weavereact.tabsConfig.Tabs'],[weavejs.api.core.ILinkableObject],"Tabs Config");
+Weave.registerClass( tabsConfig.Tab,['weavereact.tabsConfig.Tab'],[weavejs.api.core.ILinkableObject],"Tab Config");

@@ -22,6 +22,6 @@ class HTMLWrapper extends React.Component {
 ComponentManager.registerToolConfig(HTMLWrapper,HTMLWrapperConfig);
 ComponentManager.registerToolImplementation("weavereact.HTMLWrapperConfig",HTMLWrapper);
 
-Weave.registerClass("weavereact.HTMLWrapper", HTMLWrapper,[weavejs.api.core.ILinkableObject]);
+Weave.registerClass( HTMLWrapper,["weavereact.HTMLWrapper"],[weavejs.api.core.ILinkableObject],"HTML Wrapper");
 
 export default HTMLWrapper;

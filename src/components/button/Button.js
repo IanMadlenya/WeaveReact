@@ -48,7 +48,7 @@ class Button extends AbstractComponent {
     }
 
 }
-Weave.registerClass("weavereact.Button", Button,[weavejs.api.core.ILinkableObject]);
+Weave.registerClass( Button,["weavereact.Button"],[weavejs.api.core.ILinkableObject], "Button");
 
 ComponentManager.registerToolConfig(Button,ButtonConfig);
 ComponentManager.registerToolImplementation("weavereact.ButtonConfig",Button);

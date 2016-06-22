@@ -54,7 +54,7 @@ class Accordion extends AbstractComponent {
     }
 
 }
-Weave.registerClass("weavereact.Accordion", Accordion,[weavejs.api.core.ILinkableObject]);
+Weave.registerClass( Accordion,["weavereact.Accordion"],[weavejs.api.core.ILinkableObject], "Accordion");
 
 ComponentManager.registerToolConfig(Accordion,AccordionConfig);
 ComponentManager.registerToolImplementation("weavereact.AccordionConfig",Accordion);

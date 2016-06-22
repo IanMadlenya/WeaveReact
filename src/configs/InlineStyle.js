@@ -42,6 +42,6 @@ class InlineStyle{
 
 }
 
-Weave.registerClass('weavereact.InlineStyle', InlineStyle,[weavejs.api.core.ILinkableObject]);
+Weave.registerClass( InlineStyle,['weavereact.InlineStyle'],[weavejs.api.core.ILinkableObject],'Inline Style');
 
 export default InlineStyle;

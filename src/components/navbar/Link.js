@@ -45,5 +45,5 @@ class Link extends AbstractComponent {
         }
     }
 }
-Weave.registerClass("weavereact.navbar.Link", Link,[weavejs.api.core.ILinkableObject]);
+Weave.registerClass( Link,["weavereact.navbar.Link"],[weavejs.api.core.ILinkableObject],"Navbar Link");
 export default Link;

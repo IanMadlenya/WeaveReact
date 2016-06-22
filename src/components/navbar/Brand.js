@@ -55,5 +55,5 @@ class Brand extends AbstractComponent {
         return (BrandUI);
     }
 }
-Weave.registerClass("weavereact.navbar.Brand", Brand,[weavejs.api.core.ILinkableObject]);
+Weave.registerClass( Brand,["weavereact.navbar.Brand"],[weavejs.api.core.ILinkableObject],'Navbar Brand');
 export default Brand;

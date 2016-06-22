@@ -58,6 +58,6 @@ class Tabs extends React.Component {
     }
 }
 //required when we change this to use LinkablePlaceHolder Object
-Weave.registerClass("weavereact.Tabs", Tabs,[weavejs.api.core.ILinkableObject]);
+Weave.registerClass("weavereact.Tabs", Tabs,[weavejs.api.core.ILinkableObject],"Tabs");
 
 export default Tabs;

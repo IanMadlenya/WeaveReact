@@ -208,9 +208,9 @@ sideBarContainerConfig.Overlay = OverlayConfig;
 sideBarContainerConfig.SideBar = SideBarConfig;
 
 //This Function makes this class as SessionClass
-Weave.registerClass('weavereact.sideBarContainerConfig.Container', sideBarContainerConfig.Container,[weavejs.api.core.ILinkableObject]);
-Weave.registerClass('weavereact.sideBarContainerConfig.Overlay', sideBarContainerConfig.Overlay,[weavejs.api.core.ILinkableObject]);
-Weave.registerClass('weavereact.sideBarContainerConfig.SideBar', sideBarContainerConfig.SideBar,[weavejs.api.core.ILinkableObject]);
+Weave.registerClass( sideBarContainerConfig.Container,['weavereact.sideBarContainerConfig.Container'],[weavejs.api.core.ILinkableObject],"Sidebar container config");
+Weave.registerClass( sideBarContainerConfig.Overlay,['weavereact.sideBarContainerConfig.Overlay'],[weavejs.api.core.ILinkableObject],"SideBar Container Config - Overlay");
+Weave.registerClass( sideBarContainerConfig.SideBar,['weavereact.sideBarContainerConfig.SideBar'],[weavejs.api.core.ILinkableObject],"SideBar Container Config - Sidebar");
 
 
 

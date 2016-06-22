@@ -51,7 +51,7 @@
     }
 
     //This Function makes this class as SessionClass
-    Weave.registerClass('weavereact.ModalPanelConfig', ModalPanelConfig);
+    Weave.registerClass( ModalPanelConfig,['weavereact.ModalPanelConfig'],[weavejs.api.core.ILinkableObject],"Modal Panel Config");
 
     module.exports = ModalPanelConfig;
 

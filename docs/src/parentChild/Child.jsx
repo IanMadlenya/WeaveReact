@@ -83,7 +83,7 @@ class Child extends React.Component {
 
 }
 
-Weave.registerClass("weavereact.Child", Child,[weavejs.api.core.ILinkableObject]);
+Weave.registerClass( Child,["weavereact.Child"],[weavejs.api.core.ILinkableObject],"Child");
 
 export default Child;
 

@@ -10,5 +10,5 @@ export default AbstractConfig
 
 
 //This Function makes this class as SessionClass
-Weave.registerClass('weavereact.AbstractConfig', AbstractConfig,[weavejs.api.core.ILinkableObject]);
+Weave.registerClass( AbstractConfig,['weavereact.AbstractConfig'],[weavejs.api.core.ILinkableObject],"Abstract Config");
 

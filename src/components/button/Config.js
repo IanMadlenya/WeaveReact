@@ -61,5 +61,5 @@ export default ButtonConfig
 
 
 //This Function makes this class as SessionClass
-Weave.registerClass('weavereact.ButtonConfig', ButtonConfig,[weavejs.api.core.ILinkableObject]);
+Weave.registerClass( ButtonConfig,['weavereact.ButtonConfig'],[weavejs.api.core.ILinkableObject],"Button Config");
 

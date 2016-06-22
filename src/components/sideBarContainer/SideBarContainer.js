@@ -53,6 +53,6 @@ ComponentManager.registerToolImplementation("weavereact.sideBarContainerConfig.C
 ComponentManager.registerToolImplementation("weavereact.sideBarContainerConfig.Overlay",SideBarContainer.Overlay);
 ComponentManager.registerToolImplementation("weavereact.sideBarContainerConfig.SideBar",SideBarContainer.SideBar);
 
-Weave.registerClass("weavereact.SideBarContainer", SideBarContainer,[weavejs.api.core.ILinkableObject]);
+Weave.registerClass( SideBarContainer,["weavereact.SideBarContainer"],[weavejs.api.core.ILinkableObject],"Sidebar Container");
 
 module.exports = SideBarContainer;

@@ -44,5 +44,5 @@ class Logo extends AbstractComponent {
             return <div/>
     }
 }
-Weave.registerClass("weavereact.navbar.Logo", Logo,[weavejs.api.core.ILinkableObject]);
+Weave.registerClass( Logo,["weavereact.navbar.Logo"],[weavejs.api.core.ILinkableObject],'Navbar Logo');
 export default Logo;
