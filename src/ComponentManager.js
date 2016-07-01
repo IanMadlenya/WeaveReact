@@ -409,8 +409,11 @@ class ComponentManager {
 
 
 
-    static renderChildren(reactComp,childList) {
-        if(ComponentManager.debug)console.log(reactComp.constructor.name + " -- renderChildren");
+    static renderChildren(reactComp,childList)
+    {
+        if(ComponentManager.debug)
+	        console.log(reactComp.constructor.name + " -- renderChildren");
+
         var childConfigs = reactComp.settings.children.getObjects();
         var propsConfig = reactComp.settings.props;
 
@@ -418,39 +421,49 @@ class ComponentManager {
             var child = reactComp.settings.configChildMap.get(childConfig);
             var configName = reactComp.settings.children.getName(childConfig);
 
-            if(childList){
-                 if(childList.indexOf(configName) == -1){
+            if(childList)
+            {
+                 if(childList.indexOf(configName) == -1)
+                 {
                     return null; //
                 }
             }
             var props = {}
 
             props["settings"] = childConfig;
-            if (child) {
-                //if(child.props && !child.props.settings)
-
+            if (child)
+            {
                 ComponentManager.mergeInto(props, child.props);
             }
-            if(propsConfig && propsConfig.hasChildProps()){
+
+            if(propsConfig && propsConfig.hasChildProps())
+            {
                 var obj = propsConfig.getPropsForChild(reactComp, childConfig,configName,index);
                 ComponentManager.mergeInto(props, obj);
                 var key = propsConfig.keyProp;
-                if(key && key.length > 0){
+                if(key && key.length > 0)
+                {
                     if(key === "index") props["key"] = index;
                     else if(key === "objectName") props["key"] = configName;
-                    else if(childConfig[key]){
+                    else if(childConfig[key])
+                    {
                         if(childConfig[key] instanceof weavejs.core.LinkableVariable)props["key"] = childConfig[key].state;
                         else props["key"] = childConfig[key];
                     }
-                }else{
+                }
+                else
+                {
                     props["key"] = index;
                 }
 
-            }else{
+            }
+            else
+            {
                     props["key"] = index;
             }
 
-            if(childConfig.props){
+            if(childConfig.props)
+            {
                 var thisArg = child ? child : childConfig;
                 ComponentManager.mergeInto(props, childConfig.props.getProps(thisArg,childConfig,configName, index));
             }
@@ -464,12 +477,17 @@ class ComponentManager {
                 }
             }
 
-            if (child) {
-                if (typeof (child.type) === "string") {
+            if (child)
+            {
+                if (typeof (child.type) === "string") 
+                {
                     var configClass = childConfig.FLEXJS_CLASS_INFO.names[0].qName;
                     var ToolClass = ComponentManager.getToolImplementation(configClass);
-                    return <ToolClass {...props} > {child} < /ToolClass>;
-                } else {
+	                if(!ToolClass) console.error("Tool Not found for config: ",configClass)
+                    return <ToolClass {...props} > {child} </ToolClass>;
+                }
+                else
+                {
                     if (reactComp.settings.childConfigMap.has(child))
                         reactComp.settings.childConfigMap.delete(child);
                     var clonedChild = React.cloneElement(child, props);
@@ -477,11 +495,14 @@ class ComponentManager {
                     reactComp.settings.childConfigMap.set(clonedChild, childConfig);
                     return clonedChild;
                 }
-            } else {
+            }
+            else
+            {
                 //to-do need to replace with flexinfo file or tiher mean, create a utility function
                 //this solution will fail when config not part of session tree
                 var configClass = childConfig.FLEXJS_CLASS_INFO.names[0].qName;
                 var ToolClass = ComponentManager.getToolImplementation(configClass);
+	            if(!ToolClass) console.error("Tool Not found for config: ",configClass)
                 var newChild = < ToolClass {...props}/>;
                 return newChild;
             }
