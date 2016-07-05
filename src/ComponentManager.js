@@ -275,7 +275,7 @@ class ComponentManager {
                 if (obj instanceof weavejs.core.LinkableHashMap){
                     obj = obj.childListCallbacks;
                     Weave.getCallbacks(obj).addGroupedCallback(reactComp, reactComp.forceUpdate);
-                }else if(obj instanceof weavejs.core.LinkableVariable){
+                }else if(obj instanceof weavejs.core.LinkableVariable || obj instanceof weavejs.core.LinkableDynamicObject){
                      Weave.getCallbacks(obj).addGroupedCallback(reactComp, reactComp.forceUpdate);
                 }else if(obj instanceof InlineStyle){
                      Weave.getCallbacks(obj).addGroupedCallback(reactComp, reactComp.forceUpdate);
