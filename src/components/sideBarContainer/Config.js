@@ -133,6 +133,8 @@ class SideBarConfig {
 
 
         this.direction = "";
+        
+        this.visible.state = false;
 
         this.open.addImmediateCallback(this,this.updateStyle,true);
         this.reverseLayout.addImmediateCallback(this,this.updateStyle,true);
