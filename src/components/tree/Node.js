@@ -181,9 +181,10 @@ class Node extends AbstractComponent {
                     selectAllIconUI = <span onClick={this.toggleSelectAll}>&nbsp;<i className={selectAllIcon}/>&nbsp;</span>
                 }
 
+	            var labelLang = this.settings.reverseLayout.state ? Weave.lang(label) : label;
                 var folderUI = <span style={nodeStyle}>
                                     {iconUI}
-                                    <span  onClick={this.toggleOpen}>&nbsp;{Weave.lang(label)}</span>
+                                    <span  onClick={this.toggleOpen}>&nbsp;{labelLang}</span>
                                     <span style={{flex:"1"}} onClick={this.toggleOpen}>&nbsp;</span>
                                     {selectAllIconUI}
                                     <i className={controlName} ></i>
@@ -226,12 +227,12 @@ class Node extends AbstractComponent {
                 }
 
                 if(selectAllIcon && selectAllIcon.length > 0)
-                    selectAllIconUI = <span onClick={this.toggleSelect}>&nbsp;<i className={selectAllIcon}/>&nbsp;</span>
-                //}
+                    selectAllIconUI = <span onClick={this.toggleSelect}>&nbsp;<i className={selectAllIcon}/>&nbsp;</span>;
 
+                var labelLang = this.settings.reverseLayout.state ? Weave.lang(label) : label;
                 nodeUI = <li style={leafStyle} >
                             {iconUI}
-                            <span onClick={onClick}>&nbsp;{Weave.lang(label)}</span>
+                            <span onClick={onClick}>&nbsp;{labelLang}</span>
                             <span style={{flex:"1"}} onClick={onClick}>&nbsp;</span>
                             {selectAllIconUI}
                             <i className={fileIcon}></i>
