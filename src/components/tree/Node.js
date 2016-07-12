@@ -117,11 +117,12 @@ class Node extends AbstractComponent {
         if(!this.isSessionStateCreatedForTreeData){
             this.createSessionStateForTree()
         }
-        if(this.props.treeConfig.defaultSelectedNodes && this.props.treeConfig.defaultSelectedNodes.length>0 ){
+        var defaultNodes = this.props.treeConfig.defaultSelectedNodes.state;
+        if(defaultNodes && defaultNodes.length>0 ){
             var nodeConfigs = this.settings.children.getObjects();
             nodeConfigs.map(function(nodeConfig,index){
                 var nodeLabel = nodeConfig.label.state;
-                if(this.props.treeConfig.defaultSelectedNodes.indexOf(nodeLabel) !== -1){
+                if(defaultNodes.indexOf(nodeLabel) !== -1){
                     nodeConfig.select.value = true;
                 }
             }.bind(this));

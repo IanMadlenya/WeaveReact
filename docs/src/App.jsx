@@ -210,17 +210,25 @@ class App extends React.Component {
         this.treeConfig.rootNode.open.state = true;
 
         this.tree={
-            "label": "small",
+            "label": "Single Selection Test",
             "icon":"./images/Components.png",
             "children": [
-              {
-                "label": "accord",
-                "children": []
-            },
-            {
-              "label": "Tab",
-              "children": [],
-            }
+                {
+                    "label": "accord",
+                    "children": []
+                },
+                {
+                    "label": "Tab",
+                    "children": [],
+                },
+                {
+                    "label": "test",
+                    "children": [],
+                },
+                {
+                    "label": "test2",
+                    "children": [],
+                }
           ]
         };
 

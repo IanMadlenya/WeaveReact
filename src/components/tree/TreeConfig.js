@@ -56,12 +56,17 @@ import ComponentManager from "../../ComponentManager";
             },
             enableSelectAll:{
                 value: Weave.linkableChild(this,  new weavejs.core.LinkableBoolean(false))
+            },
+            defaultSelectedNodes:{
+                value: Weave.linkableChild(this,  new weavejs.core.LinkableVariable())
             }
         });
 
         this.activeNode = null;
         this.dataTypesMap = null;
         this.getDataType = null;
+
+        this.defaultSelectedNodes.state = [];
 
         this.branchStyle.state = {
             "display": "flex",
@@ -103,7 +108,6 @@ import ComponentManager from "../../ComponentManager";
             "background" : "orange"
         }
 
-        this.defaultSelectedNodes = [];
 
         //todo move this to componentManager defaultCallbacks
         this.reverseLayout.addImmediateCallback(this, this.updateStyle);
@@ -143,7 +147,7 @@ import ComponentManager from "../../ComponentManager";
 
     //to-do do this for entire tree rather only for the first child
     p.setDefaultNodeSelection = function(nodesLabel){
-        this.defaultSelectedNodes = nodesLabel
+        this.defaultSelectedNodes.state = nodesLabel
     }
 
     //to-do do this for entire tree rather only for the first child

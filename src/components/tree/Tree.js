@@ -9,6 +9,7 @@ class Tree extends AbstractComponent {
         super(props);
         this.settings.dataTypesMap = this.props.dataTypesMap;
         this.settings.getDataType = this.props.getDataType;
+        
     }
 
 
