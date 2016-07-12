@@ -48,16 +48,6 @@ class Node extends AbstractComponent {
         this.selectAll.removeCallback(this,this.setChildrenSelectAllValues);
     }
 
-	shouldComponentUpdate(nextProps, nextState){
-		if(super.shouldComponentUpdate(nextProps,nextState))
-		{
-			return true
-		}
-		else // render if any global property changes
-		{
-			return Weave.detectChange(this,this.props.treeConfig);
-		}
-	}
 
 
     toggleSelect()
@@ -143,10 +133,12 @@ class Node extends AbstractComponent {
                 if(defaultNodes.indexOf(nodeLabel) != -1)
                 {
                     nodeConfig.select.value = true;
+                    nodeConfig.active.value = true;
                 }
                 else
                 {
 	                nodeConfig.select.value = false;
+	                nodeConfig.active.value = false;
                 }
             }.bind(this));
         }
