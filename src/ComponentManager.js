@@ -257,7 +257,8 @@ class ComponentManager {
     }
 
     static shouldComponentUpdate(reactComp, nextProps) {
-        if(ComponentManager.debug)console.log(reactComp.constructor.name + " - shouldComponentUpdate");
+        if(ComponentManager.debug)
+            console.log(reactComp.constructor.name + " - shouldComponentUpdate");
         //to-do sync between props class and weavestate
         return false;
 

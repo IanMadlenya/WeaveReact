@@ -16,8 +16,7 @@ class AbstractComponent extends React.Component {
     componentWillReceiveProps(nextProps){
         ComponentManager.componentWillReceiveProps(this,nextProps);
     }
-
-    // allowe render only when React Parent render is called with new iconMode value
+    
     shouldComponentUpdate(nextProps, nextState){
         return ComponentManager.shouldComponentUpdate(this, nextProps, nextState);
     }
