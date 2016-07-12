@@ -133,10 +133,12 @@ class Node extends AbstractComponent {
                 if(defaultNodes.indexOf(nodeLabel) != -1)
                 {
                     nodeConfig.select.value = true;
+                    nodeConfig.open.value = true;
                     nodeConfig.active.value = true;
                 }
                 else
                 {
+	                nodeConfig.open.value = false;
 	                nodeConfig.select.value = false;
 	                nodeConfig.active.value = false;
                 }
