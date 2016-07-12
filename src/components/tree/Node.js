@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 import ComponentManager from "../../ComponentManager";
 import AbstractComponent from "../../AbstractComponent";
 import Style from "../../utils/Style";
@@ -13,6 +14,7 @@ class Node extends AbstractComponent {
         this.toggleOpen = this.toggleOpen.bind(this);
         this.toggleSelect = this.toggleSelect.bind(this);
         this.toggleSelectAll = this.toggleSelectAll.bind(this);
+        this.nodeListRefCallback = this.nodeListRefCallback.bind(this);
 
         this.createSessionStateForTree = this.createSessionStateForTree.bind(this);
         this.isSessionStateCreatedForTreeData = false;
@@ -27,6 +29,10 @@ class Node extends AbstractComponent {
         this.selectAll.addGroupedCallback(this,this.setChildrenSelectAllValues);
 
         this.selectIdentifier = this.settings.select.state? "select":this.selectAll.state?"selectAll":"";
+
+	    this.state = {
+		    left:null
+	    }
     }
 
 
@@ -144,8 +150,8 @@ class Node extends AbstractComponent {
         }
     }
 
-    setChildrenSelectAllValues(){
-
+    setChildrenSelectAllValues()
+    {
         var nodeConfigs = this.settings.children.getObjects();
         nodeConfigs.map(function(nodeConfig,index){
             nodeConfig.select.value = this.selectAll.state;
@@ -169,6 +175,38 @@ class Node extends AbstractComponent {
         return ComponentManager.renderChildren(this);
     }
 
+
+
+	nodeListRefCallback(ele)
+	{
+		if(ele)
+		{
+			var domEle = ReactDOM.findDOMNode(ele);
+			this.nodeListRect = domEle.getBoundingClientRect();
+			this.setState({
+				left: this.settings.reverseLayout.state? -this.nodeListRect.width : this.nodeListRect.width
+			})
+		}
+		else
+		{
+			this.nodeListRect = null
+			this.setState({
+				left: null
+			})
+		}
+	}
+
+	/*componentDidUpdate()
+	{
+		if(this.nodeListRect && this.state.left != this.nodeListRect.left)
+		{
+			console.log("componentDidUpdate",this.settings.label.state,this.state.left);
+			this.setState({
+				left:this.nodeListRect.left + this.nodeListRect.width
+			})
+		}
+	}*/
+
     render() {
         if(ComponentManager.debug)console.log("Node - render");
         var nodeUI = <div/>;
@@ -186,16 +224,15 @@ class Node extends AbstractComponent {
 
 
             if(nodes.length > 0){ //folder
-                if(isOpen){
-                    nodesUI = this.renderChildren();
-                }
+
 
                 var branchStyle = this.props.treeConfig.branchStyle.state;
                 var nodeStyle = this.props.treeConfig.nodeStyle.state;
                 if(domDefinedStyle)Style.mergeStyleObjects(nodeStyle,domDefinedStyle,true);//this happens for rootNode
                 var controlName = this.props.treeConfig.getFolderIcon(isOpen);
 
-                if(iconName && iconName.length > 0){
+                if(iconName && iconName.length > 0)
+                {
                     var iconStyleObj = this.props.treeConfig.nodeIconStyle.state;
                     if(iconName.indexOf("/") == -1){ // fontAwesome Icon Name
                         iconUI = <i style = {iconStyleObj} className={iconName} ></i>
@@ -204,7 +241,8 @@ class Node extends AbstractComponent {
                     }
                 }
 
-                if(this.props.enableSelectAll){
+                if(this.props.enableSelectAll)
+                {
                     var treeIconState = this.props.treeConfig.treeIconState.state;
                     var selectAllIcon = (this.selectAll.state)? treeIconState["select"]:treeIconState["unSelect"];
                     selectAllIconUI = <span onClick={this.toggleSelectAll}>&nbsp;<i className={selectAllIcon}/>&nbsp;</span>
@@ -220,12 +258,41 @@ class Node extends AbstractComponent {
                                 </span>;
 
                 var nodePadding = this.props.treeConfig.nodePadding.state;
-                nodeUI = <span style={branchStyle}>
-                            {folderUI}
-                            <ul style={{listStyleType:"none",paddingLeft:nodePadding}}>
-                                {nodesUI}
-                            </ul>
-                         </span>;
+	            var nodeUI = null;
+
+	            if(this.props.treeConfig.enableMenuMode.state )
+	            {
+		            if(isOpen && this.state.left)
+		            {
+			            nodesUI = this.renderChildren();
+		            }
+		            branchStyle.position = "relative";
+		            var listStyle = {
+			            listStyleType:"none",
+			            paddingLeft:nodePadding,
+			            position:"absolute",
+			            left: this.state.left,
+			            top:0
+		            };
+		            nodeUI = <div style={branchStyle} ref={this.nodeListRefCallback} >
+	                            {folderUI}
+	                            <ul  style={listStyle}>
+	                                {nodesUI}
+	                            </ul>
+	                         </div>;
+	            }else{
+		            if(isOpen)
+		            {
+			            nodesUI = this.renderChildren();
+		            }
+		            nodeUI = <span style={branchStyle}>
+	                            {folderUI}
+	                            <ul style={{listStyleType:"none",paddingLeft:nodePadding}}>
+	                                {nodesUI}
+	                            </ul>
+	                         </span>;
+	            }
+                
             }
             else{ //leaf
                 var fileIcon = this.props.treeConfig.getFileIcon(this.props.data,this.settings.open.value);

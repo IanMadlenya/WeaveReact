@@ -42,15 +42,14 @@ class App extends React.Component {
         this.sideBarContainerConfig.bottomSideBar.visible.state = false;
         var sideBar = this.sideBarContainerConfig.leftSideBar;
         this.sideBarContainerConfig.reverseLayout.state = true;
-
-
-        //this.accordionConfig = window.dbweave.root.requestObject('accordion',AccordionConfig);
+        
         var  accordionConfig = sideBar.children.requestObject('accordion',AccordionConfig);
 
         this.treeConfig = accordionConfig.children.requestObject('tree',TreeConfig);
         this.treeConfig.enableSelectAll.state = true;
 
         this.treeConfig.nodePadding.value ="16px";
+        this.treeConfig.enableMenuMode.value = true;
         this.treeConfig.align.value = "right";
         this.treeConfig.treeIconState.state = {
             "nodeDefault" : "fa fa-caret-right",
@@ -59,22 +58,22 @@ class App extends React.Component {
             "leafOpen" : "",
             "select":"fa fa-check-square-o",
             "unSelect":"fa fa-square-o"
-        }
+        };
         this.treeConfig.enableDataTypeIcon.value = false;
-        this.treeConfig.allowMultipleSelection.value = true;
+        this.treeConfig.allowMultipleSelection.value = false;
 
         this.treeConfig.leafStyle.state = {
             paddingTop: "8px",
             paddingBottom:"8px"
-        }
+        };
         this.treeConfig.rootStyle.state = {
             textTransform: "uppercase",
             color:"#5d5d5d"
-        }
+        };
         this.treeConfig.nodeStyle.state = {
             paddingTop: "8px",
             paddingBottom:"8px"
-        }
+        };
 
         this.treeConfig.rootNode.open.state = true;
 
