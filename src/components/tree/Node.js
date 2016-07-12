@@ -21,6 +21,7 @@ class Node extends AbstractComponent {
             this.createSessionStateForTree();
         }
         this.settings.open.addGroupedCallback(this,this.setChildrenSessionValues);
+        this.props.treeConfig.defaultSelectedNodes.addGroupedCallback(this,this.setChildrenSessionValues);
 
         this.selectAll =  this.props.treeConfig.selectAll;
         this.selectAll.addGroupedCallback(this,this.setChildrenSelectAllValues);
@@ -43,6 +44,7 @@ class Node extends AbstractComponent {
     {
         super.componentWillUnmount();
         this.settings.open.removeCallback(this,this.setChildrenSessionValues);
+	    this.props.treeConfig.defaultSelectedNodes.removeCallback(this,this.setChildrenSessionValues);
         this.selectAll.removeCallback(this,this.setChildrenSelectAllValues);
     }
 
@@ -126,6 +128,9 @@ class Node extends AbstractComponent {
 
     setChildrenSessionValues()
     {
+	    if(!this.settings.open.state){
+		    return
+	    }
         if(!this.isSessionStateCreatedForTreeData)
         {
             this.createSessionStateForTree()
