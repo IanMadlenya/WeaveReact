@@ -29,7 +29,8 @@ class Node extends AbstractComponent {
     }
 
 
-    componentWillReceiveProps(nextProps){
+    componentWillReceiveProps(nextProps)
+    {
         super.componentWillReceiveProps(nextProps);
         if(this.props.data !== nextProps.data){
             this.settings.data = nextProps.data;
@@ -38,22 +39,33 @@ class Node extends AbstractComponent {
     }
 
 
-    componentWillUnmount () {
+    componentWillUnmount () 
+    {
         super.componentWillUnmount();
         this.settings.open.removeCallback(this,this.setChildrenSessionValues);
         this.selectAll.removeCallback(this,this.setChildrenSelectAllValues);
     }
 
 
-    toggleSelect(){
+    toggleSelect()
+    {
         this.selectIdentifier = "select";
-        this.settings.select.value = !this.settings.select.value;
-        if(this.props.onSelectClick)
-            this.props.onSelectClick.call(this,this.props.data,this.settings,this.selectAll);
-        this.props.treeConfig.changeActiveNode(this.settings);
+	    // selection allowed if its not selected or if its multiple selction mode
+	    // in single selection deselection is not allowed
+	    if(this.props.treeConfig.allowMultipleSelection.value || !this.settings.select.value){
+		    this.settings.select.value = !this.settings.select.value;
+		    if(this.props.onSelectClick)
+			    this.props.onSelectClick.call(this,this.props.data,this.settings,this.selectAll);
+		    this.props.treeConfig.changeActiveNode(this.settings);
+	    }
+	    if(!this.props.treeConfig.allowMultipleSelection.value){
+		    this.props.parentConfig.changeActiveChildNode(this.settings);
+	    }
+
     }
 
-    toggleOpen(){
+    toggleOpen()
+    {
         this.settings.open.value = !this.settings.open.value;
         if(this.props.onOpenClick)
             this.props.onOpenClick.call(this,this.props.data,this.settings);
@@ -130,6 +142,7 @@ class Node extends AbstractComponent {
 
     renderChildren(){
         this.settings.props.addChildProps("treeConfig",this.props.treeConfig);
+        this.settings.props.addChildProps("parentConfig",this.settings);
         this.settings.props.addChildProps("label",this.props.label);
         this.settings.props.addChildProps("nodes",this.props.nodes);
         this.settings.props.addChildProps("icon",this.props.icon);

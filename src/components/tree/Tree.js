@@ -12,16 +12,19 @@ class Tree extends AbstractComponent {
     }
 
 
-    componentWillReceiveProps(nextProps){
+    componentWillReceiveProps(nextProps)
+    {
         super.componentWillReceiveProps(nextProps);
-        if(this.props.settings !== nextProps.settings){
+        if(this.props.settings !== nextProps.settings)
+        {
             this.settings.dataTypesMap = nextProps.dataTypesMap;
             this.settings.getDataType = nextProps.getDataType;
         }
 
     }
 
-    shouldComponentUpdate(nextProps){
+    shouldComponentUpdate(nextProps)
+    {
         super.shouldComponentUpdate(nextProps);
         if(this.props.data !== nextProps.data)
             return true;
@@ -31,10 +34,12 @@ class Tree extends AbstractComponent {
 
     render() {
         if(ComponentManager.debug)console.log("Tree - render");
-        if(this.settings.iconMode.state){
+        if(this.settings.iconMode.state)
+        {
             var iconName = this.settings.rootNode.iconName.state;
             var iconUI = <span/>
-            if(iconName && iconName.length > 0){
+            if(iconName && iconName.length > 0)
+            {
                 var iconStyleObj = this.settings.nodeIconStyle.state;
                 if(iconName.indexOf("/") == -1){ // fontAwesome Icon Name
                     iconUI = <i style = {iconStyleObj} className={iconName} ></i>

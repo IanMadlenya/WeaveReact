@@ -160,9 +160,10 @@ import ComponentManager from "../../ComponentManager";
         }.bind(this))
 
     }*/
-
+    // this function mkaes tree to behave as accordion tree, with one folder opened at time
     p.changeActiveNode = function (nodeConfig) {
-        if (this.activeNode) {
+        if (this.activeNode) 
+        {
             this.activeNode.active.value = false;
             if(!this.allowMultipleSelection.value){
                 if(this.activeNode !== nodeConfig){
@@ -174,7 +175,7 @@ import ComponentManager from "../../ComponentManager";
         }
         this.activeNode = nodeConfig;
         this.activeNode.active.value = true;
-    }
+    };
 
     p.getFileIcon = function (data,isOpen) {
         if(data){

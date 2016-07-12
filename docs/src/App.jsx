@@ -134,7 +134,7 @@ class App extends React.Component {
             "unSelect":"fa fa-square-o"
         }
         this.treeConfig.enableDataTypeIcon.value = false;
-        this.treeConfig.allowMultipleSelection.value = true;
+        this.treeConfig.allowMultipleSelection.value = false;
 
         this.treeConfig.leafStyle.state = {
             paddingTop: "8px",
@@ -192,7 +192,7 @@ class App extends React.Component {
             "unSelect":"fa fa-square-o"
         }
         this.treeConfig.enableDataTypeIcon.value = false;
-        this.treeConfig.allowMultipleSelection.value = true;
+        this.treeConfig.allowMultipleSelection.value = false;
 
         this.treeConfig.leafStyle.state = {
             paddingTop: "8px",
