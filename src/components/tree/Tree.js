@@ -56,7 +56,7 @@ class Tree extends AbstractComponent {
                     data={this.props.data}
                     label={this.props.label}
                     nodes={this.props.nodes}
-                    icon={this.props.icon}
+                    icon={this.props.icon} level={0}
                     reverseLayout={this.settings.reverseLayout.state}
                     settings={this.settings.rootNode}
                     treeConfig={this.settings}

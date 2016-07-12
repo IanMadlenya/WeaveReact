@@ -60,8 +60,8 @@ import ComponentManager from "../../ComponentManager";
             defaultSelectedNodes:{
                 value: Weave.linkableChild(this,  new weavejs.core.LinkableVariable())
             },
-            enableMenuMode:{
-                value: Weave.linkableChild(this,  new weavejs.core.LinkableBoolean(false))
+            enableMenuModeFromLevel:{
+                value: Weave.linkableChild(this,  new weavejs.core.LinkableNumber(1))
             }
         });
 

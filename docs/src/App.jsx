@@ -49,7 +49,7 @@ class App extends React.Component {
         this.treeConfig.enableSelectAll.state = true;
 
         this.treeConfig.nodePadding.value ="16px";
-        this.treeConfig.enableMenuMode.value = true;
+        this.treeConfig.enableMenuModeFromLevel.value = 1;
         this.treeConfig.align.value = "right";
         this.treeConfig.treeIconState.state = {
             "nodeDefault" : "fa fa-caret-right",
