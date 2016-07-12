@@ -45,6 +45,9 @@ import ComponentManager from "../../ComponentManager";
             nodeIconStyle:{
                 value: Weave.linkableChild(this, new InlineStyle())
             },
+            nodeListStyle:{
+                value: Weave.linkableChild(this, new InlineStyle())
+            },
             leafIconStyle:{
                 value: Weave.linkableChild(this, new InlineStyle())
             },
@@ -142,6 +145,12 @@ import ComponentManager from "../../ComponentManager";
             if(active)
                 return mergeInto(style,this.activeLeafStyle.state);
         }
+        return style;
+
+    }
+
+    p.getListStyle = function(){
+        var style = this.nodeListStyle.state;
         return style;
 
     }

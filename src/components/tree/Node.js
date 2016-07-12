@@ -262,6 +262,11 @@ class Node extends AbstractComponent {
 	            var nodeUI = null;
 
 	            var level = this.props.treeConfig.enableMenuModeFromLevel.state;
+	            
+	            var listStyle = this.props.treeConfig.getListStyle();
+	            listStyle.listStyleType = "none";
+	            listStyle.paddingLeft = nodePadding;
+	            
 	            if(!isNaN(level) && this.props.level >= level )
 	            {
 
@@ -270,13 +275,11 @@ class Node extends AbstractComponent {
 			            nodesUI = this.renderChildren();
 		            }
 		            branchStyle.position = "relative";
-		            var listStyle = {
-			            listStyleType:"none",
-			            paddingLeft:nodePadding,
-			            position:"absolute",
-			            left: this.state.left,
-			            top:0
-		            };
+		            
+		            listStyle.position ="absolute";
+		            listStyle.zIndex = 1;
+		            listStyle.left = this.state.left;
+		            listStyle.top = 0;
 		            nodeUI = <div style={branchStyle} ref={this.nodeListRefCallback} >
 	                            {folderUI}
 	                            <ul  style={listStyle}>
@@ -288,6 +291,8 @@ class Node extends AbstractComponent {
 		            {
 			            nodesUI = this.renderChildren();
 		            }
+		            
+		            
 		            nodeUI = <span style={branchStyle}>
 	                            {folderUI}
 	                            <ul style={{listStyleType:"none",paddingLeft:nodePadding}}>
