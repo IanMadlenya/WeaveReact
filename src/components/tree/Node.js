@@ -124,17 +124,24 @@ class Node extends AbstractComponent {
         this.isSessionStateCreatedForTreeData = true;
     }
 
-    setChildrenSessionValues(){
-        if(!this.isSessionStateCreatedForTreeData){
+    setChildrenSessionValues()
+    {
+        if(!this.isSessionStateCreatedForTreeData)
+        {
             this.createSessionStateForTree()
         }
         var defaultNodes = this.props.treeConfig.defaultSelectedNodes.state;
-        if(defaultNodes && defaultNodes.length>0 ){
+        if(defaultNodes && defaultNodes.length > 0 ){
             var nodeConfigs = this.settings.children.getObjects();
             nodeConfigs.map(function(nodeConfig,index){
                 var nodeLabel = nodeConfig.label.state;
-                if(defaultNodes.indexOf(nodeLabel) !== -1){
+                if(defaultNodes.indexOf(nodeLabel) != -1)
+                {
                     nodeConfig.select.value = true;
+                }
+                else
+                {
+	                nodeConfig.select.value = false;
                 }
             }.bind(this));
         }
