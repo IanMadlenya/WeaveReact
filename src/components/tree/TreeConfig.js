@@ -111,7 +111,6 @@ export default class TreeConfig{
             "background" : "orange"
         };
 
-
         //todo move this to componentManager defaultCallbacks
         this.reverseLayout.addImmediateCallback(this, this.updateStyle);
 
@@ -144,6 +143,8 @@ export default class TreeConfig{
         }
         return style;
     };
+
+
 
    getListStyle()
    {

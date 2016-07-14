@@ -33,7 +33,7 @@ class Node extends AbstractComponent {
 
 
 	    this.state = {
-		    left:null
+		    size:null
 	    }
     }
 
@@ -167,12 +167,14 @@ class Node extends AbstractComponent {
 		if(this.nodeListElement)
 		{
 			var nodeListRect = this.nodeListElement.getBoundingClientRect();
-			var newLeft = this.settings.reverseLayout.state? - nodeListRect.width : nodeListRect.width;
-			if(this.state.left != 	newLeft)
+			var newSize = nodeListRect.width;
+
+			if(this.state.size != newSize)
 			{
-				console.log(this.settings.data.label, "updated",this.state.left,newLeft);
+
+
 				this.setState({
-					left:newLeft
+					size:newSize
 				});
 			}
 		}
@@ -182,7 +184,7 @@ class Node extends AbstractComponent {
 	shouldComponentUpdate(nextProps, nextState){
 		if(ComponentManager.debug)
 			console.log("Node - shouldComponentUpdate");
-		if(nextState.left !== this.state.left){
+		if(nextState.size !== this.state.size){
 			return true
 		}
 		return false;
@@ -193,7 +195,6 @@ class Node extends AbstractComponent {
         if(ComponentManager.debug)
 	        console.log("Node - render");
 
-	    console.log(this.settings.data.label, "render",this.state.left);
 
 	    if(!this.props.data) // no data retun empty div
 	       return <div/>;
@@ -233,9 +234,9 @@ class Node extends AbstractComponent {
             var nodeStyle = this.props.treeConfig.nodeStyle.state;
             if(domDefinedStyle)
 	            Style.mergeStyleObjects(nodeStyle,domDefinedStyle,true);//this happens for rootNode
-            nodeStyle.display = "flex";
-            nodeStyle.flexDirection = "row";
-            nodeStyle.alignItems = "center";
+            if(!nodeStyle.display){
+	            nodeStyle.display = "flex";
+            }
 
             var controlName = this.props.treeConfig.getFolderIcon(isOpen);
            
@@ -243,8 +244,9 @@ class Node extends AbstractComponent {
             var nodeUI = <div style={nodeStyle}>
                                 {selectIconUI}
                                 {iconUI}
-                                <div style={ {display:"flex",flex:"1"} } onClick={this.openClickHandler}>
-	                                <span style={ {flex:"1"} }>&nbsp;{labelLang}</span>
+                                <div style={ {display:"flex",flex:"1" ,flexDirection:"inherit"} } onClick={this.openClickHandler}>
+	                                <span>&nbsp;{labelLang}&nbsp;</span>
+	                                <span style={ {flex:"1"} }>&nbsp;</span>
 	                                <i className={controlName}></i>
                                 </div>
                             </div>;
@@ -255,7 +257,13 @@ class Node extends AbstractComponent {
             let branchStyle = this.props.treeConfig.branchStyle.state;
             var listStyle = this.props.treeConfig.getListStyle();
             listStyle.listStyleType = "none";
-            listStyle.paddingLeft = this.props.treeConfig.nodePadding.state;
+	        if(this.settings.reverseLayout.state){
+		        listStyle.paddingRight = this.props.treeConfig.nodePadding.state;
+		        listStyle.paddingLeft = 0;
+	        }else{
+		        listStyle.paddingLeft = this.props.treeConfig.nodePadding.state;
+	        }
+
 
             var level = this.props.treeConfig.enableMenuModeFromLevel.state;
             var refCallback = null;
@@ -265,12 +273,17 @@ class Node extends AbstractComponent {
             if(level && !isNaN(level) && this.props.level >= level ) // menu mode style Rendering
             {
 	            if(renderNodeList) // override if isOpen is true
-	                renderNodeList = this.state.left ? true :false;
+	                renderNodeList = this.state.size ? true :false;
 	            refCallback = this.nodeListRefCallback;
 	            branchStyle.position = "relative";
 	            listStyle.position ="absolute";
 	            listStyle.zIndex = 1;
-	            listStyle.left = this.state.left;
+	            if(this.settings.reverseLayout.state){
+		            listStyle.right = this.state.size ? this.state.size : 0;
+	            }else{
+		            listStyle.left = this.state.size ? this.state.size : 0;
+	            }
+
 	            listStyle.top = 0;
             }
 
@@ -279,7 +292,7 @@ class Node extends AbstractComponent {
 
             return <div style={branchStyle} ref={refCallback} >
 			            {nodeUI}
-			            <ul  style={listStyle}>
+			            <ul  style={listStyle} >
 				            {nodeListUI}
 			            </ul>
 		            </div>;
@@ -290,17 +303,16 @@ class Node extends AbstractComponent {
             var fileIcon = this.props.treeConfig.getFileIcon(this.props.data,isOpen);
 
             var leafStyle = this.props.treeConfig.getLeafStyle(isOpen,this.settings.active.value);
-	        leafStyle.display = "flex";
-	        leafStyle.flexDirection = "row";
-	        leafStyle.alignItems = "center";
+	        if(!leafStyle.display)leafStyle.display = "flex";
 
 	        iconUI = this.props.treeConfig.getStyleForIconType("leaf",iconName);
 
             return <li style={leafStyle} >
 	                    {selectIconUI}
                         {iconUI}
-	                    <div onClick={this.openClickHandler} style={{display:"flex",flex:"1"}}>
-		                    <span style={{flex:"1"}}>&nbsp;{labelLang}</span>
+	                    <div onClick={this.openClickHandler} style={{display:"flex",flex:"1",flexDirection:"inherit"}}>
+		                    <span>&nbsp;{labelLang}&nbsp;</span>
+		                    <span style={ {flex:"1"} }>&nbsp;</span>
 		                    <i className={fileIcon}></i>
 	                    </div>
                      </li>

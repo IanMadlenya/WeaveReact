@@ -42,13 +42,13 @@ class App extends React.Component {
         this.sideBarContainerConfig.bottomSideBar.visible.state = false;
         var sideBar = this.sideBarContainerConfig.leftSideBar;
 	    sideBar.style.state = {"background" : "linear-gradient(to right, #036FBB , #013458)"};
-        //this.sideBarContainerConfig.reverseLayout.state = true;
+        this.sideBarContainerConfig.reverseLayout.state = true;
         
         var  accordionConfig = sideBar.children.requestObject('accordion',AccordionConfig);
 
         this.treeConfig = accordionConfig.children.requestObject('tree',TreeConfig);
 
-        this.treeConfig.nodePadding.value ="16px";
+        this.treeConfig.nodePadding.value ="16";
         this.treeConfig.align.value = "right";
         this.treeConfig.treeIconState.state = {
             "nodeDefault" : "fa fa-caret-right",
@@ -147,7 +147,7 @@ class App extends React.Component {
 
 
         this.treeConfig = accordionConfig.children.requestObject('tree2',TreeConfig);
-        this.treeConfig.nodePadding.value ="16px";
+        this.treeConfig.nodePadding.value ="16";
         this.treeConfig.align.value = "right";
         this.treeConfig.treeIconState.state = {
             "nodeDefault" : "fa fa-caret-right",
@@ -208,7 +208,7 @@ class App extends React.Component {
 
 
         this.treeConfig = accordionConfig.children.requestObject('tree3',TreeConfig);
-        this.treeConfig.nodePadding.value ="16px";
+        this.treeConfig.nodePadding.value ="16";
         this.treeConfig.align.value = "right";
         this.treeConfig.treeIconState.state = {
             "nodeDefault" : "fa fa-caret-right",
