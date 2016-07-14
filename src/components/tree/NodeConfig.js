@@ -28,8 +28,8 @@ import ComponentManager from "../../ComponentManager";
         this.active.state = false;
 
         this.data = null;
+        this.activeChild = null;
 
-        this.activeChildNode = null;
 
         this.reverseLayout.addImmediateCallback(this, this.flipIcon);
 
@@ -46,24 +46,7 @@ import ComponentManager from "../../ComponentManager";
         ComponentManager.flipIcons(this,["iconName"]);
     }
 
-	// this function mkaes node to behave like radio options
-	p.changeActiveChildNode = function (nodeConfig) 
-	{
-		if (this.activeChildNode)
-		{
-			if(this.activeChildNode !== nodeConfig)
-			{
-				this.activeChildNode.active.value = false;
-				this.activeChildNode.select.value = false;
-
-				nodeConfig.active.value = true;
-				nodeConfig.select.value = true;
-
-			}
-			
-		}
-		this.activeChildNode = nodeConfig;
-	};
+	
 
     p.getNodes = function () {
         return this.children.getNames();

@@ -41,45 +41,61 @@ class App extends React.Component {
         this.sideBarContainerConfig.topSideBar.visible.state = false;
         this.sideBarContainerConfig.bottomSideBar.visible.state = false;
         var sideBar = this.sideBarContainerConfig.leftSideBar;
-        this.sideBarContainerConfig.reverseLayout.state = true;
+	    sideBar.style.state = {"background" : "linear-gradient(to right, #036FBB , #013458)"};
+        //this.sideBarContainerConfig.reverseLayout.state = true;
         
         var  accordionConfig = sideBar.children.requestObject('accordion',AccordionConfig);
 
         this.treeConfig = accordionConfig.children.requestObject('tree',TreeConfig);
-        this.treeConfig.enableSelectAll.state = true;
 
         this.treeConfig.nodePadding.value ="16px";
-        this.treeConfig.enableMenuModeFromLevel.value = 1;
         this.treeConfig.align.value = "right";
         this.treeConfig.treeIconState.state = {
             "nodeDefault" : "fa fa-caret-right",
             "nodeOpen" : "fa fa-caret-down",
             "leafDefault" : "",
             "leafOpen" : "",
-            "select":"fa fa-check-square-o",
-            "unSelect":"fa fa-square-o"
+            "select":"fa fa-dot-circle-o",
+            "unSelect":"fa fa-circle-o"
         };
-        this.treeConfig.enableDataTypeIcon.value = false;
-        this.treeConfig.allowMultipleSelection.value = false;
 
         this.treeConfig.leafStyle.state = {
             paddingTop: "8px",
             paddingBottom:"8px"
         };
         this.treeConfig.rootStyle.state = {
-            textTransform: "uppercase",
-            color:"#5d5d5d"
+	        fontSize: "14px",
+	        textTransform: "uppercase",
+	        color:"#f8cb27",
+	        fontWeight: "bold",
+	        backgroundColor : "#1460a1",
+	        border: "2px solid #1f7ab8"
         };
         this.treeConfig.nodeStyle.state = {
-            paddingTop: "8px",
-            paddingBottom:"8px"
+	        fontSize: "12px",
+	        padding: "5px 2px 5px 2px",
+	        color:"white"
         };
 
+	    this.treeConfig.nodeListStyle.state = {
+		    width:"200px",
+		    background: "linear-gradient(to right, rgb(3, 111, 187), rgb(1, 52, 88))"
+	    };
+
+	    this.treeConfig.leafStyle.state = {
+		    fontSize: "12px",
+		    borderTop:"1px solid #1e5e9f ",
+		    padding: "5px 2px 5px 2px",
+		    color:"white"
+	    };
+
         this.treeConfig.rootNode.open.state = true;
+	    this.treeConfig.selectionType.value = "radio";
+	    this.treeConfig.enableAccordionMode.value = true;
+	    this.treeConfig.enableMenuModeFromLevel.value = 1;
 
         this.tree={
-            "label": "Components",
-            "icon":"./images/Components.png",
+            "label": "Menu-Accordion-radio",
             "children": [
               {
                 "label": "Navbar",
@@ -94,11 +110,20 @@ class App extends React.Component {
                     },
                     {
                         "label": "List",
-                        "children": []
-                    },
-                    {
-                        "label": "Link",
-                        "children": []
+                        "children": [
+                            {
+                                "label": "Link1",
+                                "children": []
+                            },
+                            {
+                                "label": "Link2",
+                                "children": []
+                            },
+                            {
+                                "label": "Link3",
+                                "children": []
+                            }
+                        ]
                     },
                     {
                         "label": "Form",
@@ -132,41 +157,44 @@ class App extends React.Component {
             "select":"fa fa-check-square-o",
             "unSelect":"fa fa-square-o"
         }
-        this.treeConfig.enableDataTypeIcon.value = false;
-        this.treeConfig.allowMultipleSelection.value = false;
 
         this.treeConfig.leafStyle.state = {
             paddingTop: "8px",
-            paddingBottom:"8px"
+            paddingBottom:"8px",
+	        color:"white"
         }
 
         this.treeConfig.rootStyle.state = {
             textTransform: "uppercase",
-            color:"#5d5d5d"
+            color:"#5d5d5d",
         }
 
         this.treeConfig.nodeStyle.state = {
             paddingTop: "8px",
-            paddingBottom:"8px"
+            paddingBottom:"8px",
+	        color:"white"
+
         }
 
         this.treeConfig.rootNode.open.state = true;
+	    this.treeConfig.enableDataTypeIcon.value = false;
+	    this.treeConfig.selectionType.value = "check";
 
-        this.tree={
-            "label": "Big",
-            "icon":"./images/Components.png",
+
+	    this.tree={
+            "label": "Check",
             "children": [
               {
-                "label": "Navbar",
+                "label": "Navbar1",
                 "children": [
                     {
-                        "label": "Brand",
+                        "label": "Brand1",
                         "children": []
                     }
               ]
             },
             {
-              "label": "Tab",
+              "label": "Tab1",
               "children": [],
             }
           ]
@@ -190,12 +218,12 @@ class App extends React.Component {
             "select":"fa fa-check-square-o",
             "unSelect":"fa fa-square-o"
         }
-        this.treeConfig.enableDataTypeIcon.value = false;
-        this.treeConfig.allowMultipleSelection.value = false;
 
         this.treeConfig.leafStyle.state = {
             paddingTop: "8px",
-            paddingBottom:"8px"
+            paddingBottom:"8px",
+	        color:"white"
+
         }
         this.treeConfig.rootStyle.state = {
             textTransform: "uppercase",
@@ -203,29 +231,43 @@ class App extends React.Component {
         }
         this.treeConfig.nodeStyle.state = {
             paddingTop: "8px",
-            paddingBottom:"8px"
+            paddingBottom:"8px",
+	        color:"white"
+
         }
 
         this.treeConfig.rootNode.open.state = true;
 
         this.tree={
-            "label": "Single Selection Test",
-            "icon":"./images/Components.png",
+            "label": "Default",
             "children": [
                 {
-                    "label": "accord",
+                    "label": "accord2",
                     "children": []
                 },
                 {
-                    "label": "Tab",
+                    "label": "Tab2",
                     "children": [],
                 },
                 {
-                    "label": "test",
-                    "children": [],
+                    "label": "test2.0",
+                    "children": [
+	                    {
+	                        "label": "level 2.0",
+	                        "children": [],
+                        },
+	                    {
+		                    "label": "level 2.1",
+		                    "children": [],
+	                    },
+	                    {
+		                    "label": "level 2.2",
+		                    "children": [],
+	                    }
+                    ],
                 },
                 {
-                    "label": "test2",
+                    "label": "test2.1",
                     "children": [],
                 }
           ]
