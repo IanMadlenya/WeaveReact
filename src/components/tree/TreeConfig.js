@@ -197,7 +197,7 @@ export default class TreeConfig{
     {
 
         let owner = Weave.getOwner(nodeConfig);
-        if(!owner)
+        if(!owner || (owner.constructor !== nodeConfig.constructor))
         {
             return null;
         }
