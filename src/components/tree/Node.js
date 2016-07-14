@@ -124,7 +124,7 @@ class Node extends AbstractComponent {
         {
             var nodeConfigs = this.settings.children.getObjects();
             nodeConfigs.map( (nodeConfig,index)=>{
-	            nodeConfig.select.value = defaultNodes.indexOf(odeConfig.label.state) != -1;
+	            nodeConfig.select.value = defaultNodes.indexOf(nodeConfig.label.state) != -1;
             });
         }
     }
