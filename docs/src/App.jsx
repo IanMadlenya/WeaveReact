@@ -144,8 +144,6 @@ class App extends React.Component {
         this.treeConfig.props.addNewProps("icon","icon");
         this.treeConfig.props.addNewProps("nodes","children");
 
-
-
         this.treeConfig = accordionConfig.children.requestObject('tree2',TreeConfig);
         this.treeConfig.nodePadding.value ="16";
         this.treeConfig.align.value = "right";
@@ -156,25 +154,25 @@ class App extends React.Component {
             "leafOpen" : "",
             "select":"fa fa-check-square-o",
             "unSelect":"fa fa-square-o"
-        }
+        };
 
         this.treeConfig.leafStyle.state = {
             paddingTop: "8px",
             paddingBottom:"8px",
 	        color:"white"
-        }
+        };
 
         this.treeConfig.rootStyle.state = {
             textTransform: "uppercase",
             color:"#5d5d5d",
-        }
+        };
 
         this.treeConfig.nodeStyle.state = {
             paddingTop: "8px",
             paddingBottom:"8px",
 	        color:"white"
 
-        }
+        };
 
         this.treeConfig.rootNode.open.state = true;
 	    this.treeConfig.enableDataTypeIcon.value = false;
@@ -183,6 +181,7 @@ class App extends React.Component {
 
 	    this.tree={
             "label": "Check",
+		    "icon":"images/components.png",
             "children": [
               {
                 "label": "Navbar1",
@@ -206,7 +205,6 @@ class App extends React.Component {
         this.treeConfig.props.addNewProps("icon","icon");
         this.treeConfig.props.addNewProps("nodes","children");
 
-
         this.treeConfig = accordionConfig.children.requestObject('tree3',TreeConfig);
         this.treeConfig.nodePadding.value ="16";
         this.treeConfig.align.value = "right";
@@ -217,24 +215,26 @@ class App extends React.Component {
             "leafOpen" : "",
             "select":"fa fa-check-square-o",
             "unSelect":"fa fa-square-o"
-        }
+        };
 
         this.treeConfig.leafStyle.state = {
             paddingTop: "8px",
             paddingBottom:"8px",
 	        color:"white"
 
-        }
+        };
+
         this.treeConfig.rootStyle.state = {
             textTransform: "uppercase",
             color:"#5d5d5d"
-        }
+        };
+
         this.treeConfig.nodeStyle.state = {
             paddingTop: "8px",
             paddingBottom:"8px",
 	        color:"white"
 
-        }
+        };
 
         this.treeConfig.rootNode.open.state = true;
 

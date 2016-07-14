@@ -156,20 +156,7 @@ export default class TreeConfig{
     {
         var iconStyleObj = (type == "branch") ?  this.nodeIconStyle.state : this.leafIconStyle.state;
 
-        let iconUI = null;
-        if(iconName && iconName.length > 0)
-        {
-            if(iconName.indexOf("/") == -1)
-            { // fontAwesome Icon Name
-                iconUI = <i style = {iconStyleObj} className={iconName} ></i>
-            }
-            else
-            {
-                iconUI = <img style = {iconStyleObj} src={iconName}/>
-            }
-        }
-
-        return iconUI;
+        return iconStyleObj;
     };
 
 

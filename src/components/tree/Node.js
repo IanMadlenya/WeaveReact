@@ -18,6 +18,7 @@ class Node extends AbstractComponent {
 	    this.createSessionStateForTree = this.createSessionStateForTree.bind(this);
 	    this.setChildrenSessionValues = this.setChildrenSessionValues.bind(this);
 	    this.renderChildren = this.renderChildren.bind(this);
+	    this.getIconUI = this.getIconUI.bind(this);
 
         this.isSessionStateCreatedForTreeData = false;
 	    this.nodeListElement = null;
@@ -190,6 +191,23 @@ class Node extends AbstractComponent {
 		return false;
 	}
 
+	getIconUI(type,iconName)
+	{
+		let iconStyleObj = this.props.treeConfig.getStyleForIconType(type,iconName);
+		let iconUI = null;
+		if(iconName && iconName.length > 0)
+		{
+			if(iconName.indexOf("/") == -1)
+			{ // fontAwesome Icon Name
+				iconUI = <i style = {iconStyleObj} className={iconName} ></i>
+			}
+			else
+			{
+				iconUI = <img style = {iconStyleObj} src={iconName}/>
+			}
+		}
+		return iconUI;
+	}
 
     render() {
         if(ComponentManager.debug)
@@ -226,7 +244,9 @@ class Node extends AbstractComponent {
         if(nodes.length > 0) //folder mode
         {
             /*** Node Icon ****/
-			 iconUI = this.props.treeConfig.getStyleForIconType("branch",iconName);
+
+			iconUI = this.getIconUI("branch",iconName)
+
 
 
             /*** Node UI ****/
@@ -305,7 +325,7 @@ class Node extends AbstractComponent {
             var leafStyle = this.props.treeConfig.getLeafStyle(isOpen,this.settings.active.value);
 	        if(!leafStyle.display)leafStyle.display = "flex";
 
-	        iconUI = this.props.treeConfig.getStyleForIconType("leaf",iconName);
+	        iconUI = this.getIconUI("leaf",iconName)
 
             return <li style={leafStyle} >
 	                    {selectIconUI}
