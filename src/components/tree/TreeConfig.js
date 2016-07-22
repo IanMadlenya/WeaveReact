@@ -235,16 +235,16 @@ export default class TreeConfig{
         nodeConfig.active.value = true;
 
         /*** selection Mode (Select state Update) ****/
-        if(this.selectionType.value )
+        if(this.selectionType.value && (!eventType || eventType =="select"))
         {
             if(this.selectionType.value == "radio")
             {
                 if(activeSiblingNode)
                     activeSiblingNode.select.value = false;
 
-                if(parentNode && parentNode.openedChild && (parentNode.openedChild !== nodeConfig) )
+                if(parentNode && parentNode.selectedChild && (parentNode.selectedChild !== nodeConfig) )
                 {
-                    parentNode.openedChild.select.value = false;
+                    parentNode.selectedChild.select.value = false;
                 }
 
                 nodeConfig.select.value = true;
@@ -253,27 +253,34 @@ export default class TreeConfig{
             {
                 nodeConfig.select.value = !nodeConfig.select.value;
             }
+
+	        parentNode.selectedChild = nodeConfig;
         }
 
 
-       
-            /*** Open Mode (Open State Udpate) ****/
-            if(this.enableAccordionMode.state ) // accordion Mode
-            {
-                if(activeSiblingNode)
-                    activeSiblingNode.open.value = false;
+       if(!eventType || eventType == "open")
+       {
+           /*** Open Mode (Open State Udpate) ****/
+           if(this.enableAccordionMode.state ) // accordion Mode
+           {
+               if(activeSiblingNode)
+                   activeSiblingNode.open.value = false;
 
-                if(parentNode && parentNode.openedChild && (parentNode.openedChild !== nodeConfig) )
-                {
-                    parentNode.openedChild.open.value = false;
-                }
+               if(parentNode && parentNode.openedChild && (parentNode.openedChild !== nodeConfig) )
+               {
+                   parentNode.openedChild.open.value = false;
+               }
 
-            }
-            nodeConfig.open.state = !nodeConfig.open.state; // toggle open state
+           }
+           nodeConfig.open.state = !nodeConfig.open.state; // toggle open state
+
+	       parentNode.openedChild = nodeConfig;
+       }
+        
         
 
 
-        parentNode.openedChild = nodeConfig;
+
 
 
     };

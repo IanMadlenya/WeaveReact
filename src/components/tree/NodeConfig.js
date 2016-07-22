@@ -28,7 +28,8 @@ import ComponentManager from "../../ComponentManager";
         this.active.state = false;
 
         this.data = null;
-        this.activeChild = null;
+        this.openedChild = null;
+        this.selectedChild = null;
 
 
         this.reverseLayout.addImmediateCallback(this, this.flipIcon);

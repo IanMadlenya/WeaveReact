@@ -14,6 +14,7 @@ class Node extends AbstractComponent {
 
 	    this.selectClickHandler = this.selectClickHandler.bind(this);
 	    this.openClickHandler = this.openClickHandler.bind(this);
+	    this.leafClickHandler = this.leafClickHandler.bind(this);
 	    this.nodeListRefCallback = this.nodeListRefCallback.bind(this);
 	    this.createSessionStateForTree = this.createSessionStateForTree.bind(this);
 	    this.setChildrenSessionValues = this.setChildrenSessionValues.bind(this);
@@ -61,13 +62,22 @@ class Node extends AbstractComponent {
 
     selectClickHandler()
     {
-	    this.props.treeConfig.changeActiveNode(this.settings,"select");
+	    if(this.props.treeConfig.selectionType.state)
+	        this.props.treeConfig.changeActiveNode(this.settings,"select");
+	    else
+		    this.props.treeConfig.changeActiveNode(this.settings,"open");
 	    if(this.props.onChange)
 		    this.props.onChange.call(this,this.props.data,this.settings);
     };
 
 	openClickHandler(){
 		this.props.treeConfig.changeActiveNode(this.settings,"open");
+		if(this.props.onClick)
+			this.props.onClick.call(this,this.props.data,this.settings);
+	};
+
+	leafClickHandler(){
+		this.props.treeConfig.changeActiveNode(this.settings,null);
 		if(this.props.onClick)
 			this.props.onClick.call(this,this.props.data,this.settings);
 	};
@@ -213,7 +223,6 @@ class Node extends AbstractComponent {
         if(ComponentManager.debug)
 	        console.log("Node - render");
 
-
 	    if(!this.props.data) // no data retun empty div
 	       return <div/>;
 
@@ -233,7 +242,7 @@ class Node extends AbstractComponent {
 	    if(this.props.treeConfig.selectionType.state)
 	    {
 		    var selectIcon = this.props.treeConfig.getSelectIcon(this.settings.select.value);
-		    selectIconUI = <span onClick={this.selectClickHandler}>&nbsp;<i className={selectIcon}/>&nbsp;</span>
+		    selectIconUI = <span>&nbsp;<i className={selectIcon}/>&nbsp;</span>
 	    }
 
 	    /*** Label ****/
@@ -245,30 +254,28 @@ class Node extends AbstractComponent {
         {
             /*** Node Icon ****/
 
-			iconUI = this.getIconUI("branch",iconName)
-
-
+			iconUI = this.getIconUI("branch",iconName);
 
             /*** Node UI ****/
 
             var nodeStyle = this.props.treeConfig.nodeStyle.state;
             if(domDefinedStyle)
 	            Style.mergeStyleObjects(nodeStyle,domDefinedStyle,true);//this happens for rootNode
-            if(!nodeStyle.display){
+            if(!nodeStyle.display)
+            {
 	            nodeStyle.display = "flex";
             }
 
             var controlName = this.props.treeConfig.getFolderIcon(isOpen);
-           
 
             var nodeUI = <div style={nodeStyle}>
-                                {selectIconUI}
-                                {iconUI}
-                                <div style={ {display:"flex",flex:"1" ,flexDirection:"inherit"} } onClick={this.openClickHandler}>
+                                <div style={ {display:"flex",flex:"1" ,flexDirection:"inherit"} } onClick={this.selectClickHandler}>
+	                                {selectIconUI}
+	                                {iconUI}
 	                                <span>&nbsp;{labelLang}&nbsp;</span>
 	                                <span style={ {flex:"1"} }>&nbsp;</span>
-	                                <i className={controlName}></i>
                                 </div>
+	                            <span onClick={this.openClickHandler}><i className={controlName}></i></span>
                             </div>;
 
 
@@ -327,10 +334,10 @@ class Node extends AbstractComponent {
 
 	        iconUI = this.getIconUI("leaf",iconName)
 
-            return <li style={leafStyle} >
+            return <li style={leafStyle} onClick={this.leafClickHandler}>
 	                    {selectIconUI}
                         {iconUI}
-	                    <div onClick={this.openClickHandler} style={{display:"flex",flex:"1",flexDirection:"inherit"}}>
+	                    <div  style={{display:"flex",flex:"1",flexDirection:"inherit"}}>
 		                    <span>&nbsp;{labelLang}&nbsp;</span>
 		                    <span style={ {flex:"1"} }>&nbsp;</span>
 		                    <i className={fileIcon}></i>
