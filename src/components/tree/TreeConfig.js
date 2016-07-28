@@ -218,7 +218,7 @@ export default class TreeConfig{
 
 
 
-    changeActiveNode(nodeConfig,eventType )
+    changeActiveNode(nodeConfig,nodeData,eventType )
     {
         let lhmOwner = Weave.getOwner(nodeConfig);
         let parentNode = Weave.getOwner(lhmOwner); // lHM -> NodeConfig
@@ -252,6 +252,18 @@ export default class TreeConfig{
             else if(this.selectionType.value == "check") // toggle selection
             {
                 nodeConfig.select.value = !nodeConfig.select.value;
+                if(nodeConfig.select.value)
+                {
+                    parentNode.selectedNodes.push(nodeData)
+                }
+                else
+                {
+                    var nodeIndex = parentNode.selectedNodes.indexOf(nodeData);
+                    if(nodeIndex !== -1)
+                    {
+                        parentNode.selectedNodes.splice(nodeIndex,1);
+                    }
+                }
             }
 
 	        parentNode.selectedChild = nodeConfig;

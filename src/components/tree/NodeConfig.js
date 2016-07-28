@@ -30,7 +30,7 @@ import ComponentManager from "../../ComponentManager";
         this.data = null;
         this.openedChild = null;
         this.selectedChild = null;
-
+        this.selectedNodes = [];
 
         this.reverseLayout.addImmediateCallback(this, this.flipIcon);
 

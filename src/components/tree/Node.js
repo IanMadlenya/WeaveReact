@@ -64,14 +64,27 @@ class Node extends AbstractComponent {
     selectClickHandler()
     {
 	    if(this.props.treeConfig.selectionType.state)
-	        this.props.treeConfig.changeActiveNode(this.settings,"select");
+	        this.props.treeConfig.changeActiveNode(this.settings,this.props.data,"select");
 	    else
-		    this.props.treeConfig.changeActiveNode(this.settings,"open");
+		    this.props.treeConfig.changeActiveNode(this.settings,this.props.data,"open");
 	    if(this.props.onChange)
-		    this.props.onChange.call(this,this.props.data,this.settings);
+	    {
+		    if(this.props.treeConfig.selectionType.value == "check")
+		    {
+			    let lhmOwner = Weave.getOwner(this.settings);
+			    let parentNode = Weave.getOwner(lhmOwner); // lHM -> NodeConfig
+			    this.props.onChange.call(this,parentNode.selectedNodes,this.settings);
+		    }
+		    else{
+			    this.props.onChange.call(this,this.props.data,this.settings);
+		    }
+
+	    }
+
     };
 
-	openClickHandler(){
+	openClickHandler()
+	{
 		this.props.treeConfig.changeActiveNode(this.settings,"open");
 		if(this.props.onOpen)
 			this.props.onOpen.call(this,this.props.data,this.settings);
@@ -342,10 +355,10 @@ class Node extends AbstractComponent {
 
 	        iconUI = this.getIconUI("leaf",iconName)
 
-            return <li style={leafStyle} onClick={this.leafClickHandler}>
+            return <li style={leafStyle} >
 	                    {selectIconUI}
                         {iconUI}
-	                    <div  style={{display:"flex",flex:"1",flexDirection:"inherit"}}>
+	                    <div  style={{display:"flex",flex:"1",flexDirection:"inherit"}} onClick={this.leafClickHandler}>
 		                    <span>&nbsp;{labelLang}&nbsp;</span>
 		                    <span style={ {flex:"1"} }>&nbsp;</span>
 		                    <i className={fileIcon}></i>

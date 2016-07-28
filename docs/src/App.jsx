@@ -204,6 +204,7 @@ class App extends React.Component {
         this.treeConfig.props.addNewProps("label","label");
         this.treeConfig.props.addNewProps("icon","icon");
         this.treeConfig.props.addNewProps("nodes","children");
+        this.treeConfig.props.addNewProps("onChange",function(a,b){console.log(a,b)});
 
         this.treeConfig = accordionConfig.children.requestObject('tree3',TreeConfig);
         this.treeConfig.nodePadding.value ="16";
