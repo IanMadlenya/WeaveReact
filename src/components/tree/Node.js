@@ -279,8 +279,8 @@ class Node extends AbstractComponent {
                                 <div style={ {display:"flex",flex:"1" ,flexDirection:"inherit"} } >
 	                                {selectIconUI}
 	                                {iconUI}
-	                                <span>&nbsp;{labelLang}&nbsp;</span>
-	                                <span style={ {flex:"1"} }>&nbsp;</span>
+	                                <span onClick={this.nodeClickHandler}>&nbsp;{labelLang}&nbsp;</span>
+	                                <span onClick={this.nodeClickHandler} style={ {flex:"1"} }>&nbsp;</span>
                                 </div>
 	                            <span onClick={this.openClickHandler}><i className={controlName}></i></span>
                             </div>;
