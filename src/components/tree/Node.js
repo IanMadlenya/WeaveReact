@@ -72,6 +72,12 @@ class Node extends AbstractComponent {
 
 	openClickHandler(){
 		this.props.treeConfig.changeActiveNode(this.settings,"open");
+		if(this.props.onOpen)
+			this.props.onOpen.call(this,this.props.data,this.settings);
+	};
+
+	nodeClickHandler(){
+		this.props.treeConfig.changeActiveNode(this.settings,"click");
 		if(this.props.onClick)
 			this.props.onClick.call(this,this.props.data,this.settings);
 	};
@@ -146,6 +152,7 @@ class Node extends AbstractComponent {
         this.settings.props.addChildProps("nodes",this.props.nodes);
         this.settings.props.addChildProps("icon",this.props.icon);
         this.settings.props.addChildProps("reverseLayout",this.settings.reverseLayout.state);
+        this.settings.props.addChildProps("onOpen",this.props.onOpen);
         this.settings.props.addChildProps("onClick",this.props.onClick);
 	    if(this.props.treeConfig.selectionType.state)
 	    {
@@ -242,7 +249,7 @@ class Node extends AbstractComponent {
 	    if(this.props.treeConfig.selectionType.state)
 	    {
 		    var selectIcon = this.props.treeConfig.getSelectIcon(this.settings.select.value);
-		    selectIconUI = <span>&nbsp;<i className={selectIcon}/>&nbsp;</span>
+		    selectIconUI = <span onClick={this.selectClickHandler}>&nbsp;<i className={selectIcon}/>&nbsp;</span>
 	    }
 
 	    /*** Label ****/
@@ -269,7 +276,7 @@ class Node extends AbstractComponent {
             var controlName = this.props.treeConfig.getFolderIcon(isOpen);
 
             var nodeUI = <div style={nodeStyle}>
-                                <div style={ {display:"flex",flex:"1" ,flexDirection:"inherit"} } onClick={this.selectClickHandler}>
+                                <div style={ {display:"flex",flex:"1" ,flexDirection:"inherit"} } >
 	                                {selectIconUI}
 	                                {iconUI}
 	                                <span>&nbsp;{labelLang}&nbsp;</span>
@@ -314,7 +321,6 @@ class Node extends AbstractComponent {
 	            listStyle.top = 0;
             }
 
-	        console.log(label ,renderNodeList,isOpen);
             var nodeListUI = renderNodeList ? this.renderChildren() :  null;
 
             return <div style={branchStyle} ref={refCallback} >
@@ -330,7 +336,8 @@ class Node extends AbstractComponent {
             var fileIcon = this.props.treeConfig.getFileIcon(this.props.data,isOpen);
 
             var leafStyle = this.props.treeConfig.getLeafStyle(isOpen,this.settings.active.value);
-	        if(!leafStyle.display)leafStyle.display = "flex";
+	        if(!leafStyle.display)
+		        leafStyle.display = "flex";
 
 	        iconUI = this.getIconUI("leaf",iconName)
 

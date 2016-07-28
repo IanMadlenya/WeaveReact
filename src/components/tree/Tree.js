@@ -61,6 +61,7 @@ class Tree extends AbstractComponent {
                     settings={this.settings.rootNode}
                     treeConfig={this.settings}
                     onClick={this.props.onClick}
+                    onOpen={this.props.onOpen}
                     onChange={this.props.onChange}
                     />
                );
