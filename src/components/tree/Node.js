@@ -14,6 +14,7 @@ class Node extends AbstractComponent {
 
 	    this.selectClickHandler = this.selectClickHandler.bind(this);
 	    this.openClickHandler = this.openClickHandler.bind(this);
+	    this.nodeClickHandler = this.nodeClickHandler.bind(this);
 	    this.leafClickHandler = this.leafClickHandler.bind(this);
 	    this.nodeListRefCallback = this.nodeListRefCallback.bind(this);
 	    this.createSessionStateForTree = this.createSessionStateForTree.bind(this);
